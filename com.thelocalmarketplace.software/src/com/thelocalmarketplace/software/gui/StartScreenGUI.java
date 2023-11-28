@@ -6,6 +6,8 @@ import java.awt.*;
 public class StartScreenGUI {
 	JFrame startScreenFrame;
 	JPanel startScreenPanel;
+	JPanel verticalPanel;
+	JPanel horizontalPanel;
 	JLabel welcomeLabel;
 	JLabel startLabel;
 	JButton membershipButton;
@@ -16,6 +18,8 @@ public class StartScreenGUI {
 	public StartScreenGUI() {
 		startScreenFrame = new JFrame("TheLocalMarketplace Self-Checkout Station");
 		startScreenPanel = new JPanel();
+		verticalPanel = new JPanel();
+		horizontalPanel = new JPanel();
 		
 		addWidgets();
 		
@@ -29,6 +33,8 @@ public class StartScreenGUI {
 	
 	private void addWidgets() {
 		startScreenPanel.setLayout(new BoxLayout(startScreenPanel, BoxLayout.Y_AXIS));
+		verticalPanel.setLayout(new BoxLayout(verticalPanel, BoxLayout.Y_AXIS));
+		horizontalPanel.setLayout(new BoxLayout(horizontalPanel, BoxLayout.X_AXIS));
 		
 		// Create labels
 		welcomeLabel = new JLabel("Welcome!", SwingConstants.CENTER);
@@ -39,8 +45,8 @@ public class StartScreenGUI {
 		startLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		// Set label font size
-		Font welcomeLabelFont = new Font("Arial", Font.PLAIN, 48);
-		Font startLabelFont = new Font("Arial", Font.PLAIN, 38);
+		Font welcomeLabelFont = new Font("Arial", Font.PLAIN, 70);
+		Font startLabelFont = new Font("Arial", Font.PLAIN, 45);
 		welcomeLabel.setFont(welcomeLabelFont);
 		startLabel.setFont(startLabelFont);
 		
@@ -57,30 +63,37 @@ public class StartScreenGUI {
 		selectLanguageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		// Set button font size
-		Font startSessionButtonFont = new Font("Arial", Font.PLAIN, 38);
+		Font startSessionButtonFont = new Font("Arial", Font.PLAIN, 40);
 		startSessionButton.setFont(startSessionButtonFont);
 		
 		// Set button size
-		Dimension buttonSize = new Dimension(300, 1000);
+		Dimension buttonSize = new Dimension(350, 1500);
 		startSessionButton.setMaximumSize(buttonSize);
 		
 		// Add glue to push labels to the center vertically
-		startScreenPanel.add(Box.createVerticalGlue());
+		verticalPanel.add(Box.createVerticalGlue());
 		
 		// Add labels and buttons to the panel
-		startScreenPanel.add(welcomeLabel);
-		startScreenPanel.add(Box.createVerticalStrut(20));
-		startScreenPanel.add(startLabel);
-		startScreenPanel.add(Box.createVerticalStrut(20));
-		startScreenPanel.add(startSessionButton);
+		verticalPanel.add(welcomeLabel);
+		verticalPanel.add(Box.createVerticalStrut(20));
+		verticalPanel.add(startLabel);
+		verticalPanel.add(Box.createVerticalStrut(20));
+		verticalPanel.add(startSessionButton);
+		verticalPanel.add(Box.createVerticalStrut(20));
+		verticalPanel.add(selectCheckoutStationButton);
 		
 		// Add glue to push labels to the center
-		startScreenPanel.add(Box.createVerticalGlue());
-		//startScreenPanel.add(membershipButton);
-		//startScreenPanel.add(startSessionButton);
-	//	startScreenPanel.add(selectCheckoutStationButton);
-		//startScreenPanel.add(selectLanguageButton);
+		verticalPanel.add(Box.createVerticalGlue());
 		
+		// 
+		
+		horizontalPanel.add(Box.createHorizontalGlue());
+		horizontalPanel.add(membershipButton);
+		horizontalPanel.add(selectLanguageButton);
+		horizontalPanel.add(Box.createHorizontalGlue());
+		
+		startScreenPanel.add(verticalPanel);
+		startScreenPanel.add(horizontalPanel);
 	}
 	
 	public static void main(String[] args) {
