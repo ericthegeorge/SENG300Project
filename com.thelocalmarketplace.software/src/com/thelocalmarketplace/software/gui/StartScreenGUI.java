@@ -31,17 +31,19 @@ public class StartScreenGUI {
 		startScreenPanel.setLayout(new BoxLayout(startScreenPanel, BoxLayout.Y_AXIS));
 		
 		// Create labels
-		welcomeLabel = new JLabel("Welcome!");
-		startLabel = new JLabel("Please touch 'Start Session' to begin");
+		welcomeLabel = new JLabel("Welcome!", SwingConstants.CENTER);
+		startLabel = new JLabel("Please touch 'Start Session' to begin", SwingConstants.CENTER);
 		
 		// Set label alignment
 		welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		startLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		// Set label size
+		// Set label font size
 		Font labelFont = new Font("Arial", Font.PLAIN, 34);
 		welcomeLabel.setFont(labelFont);
 		startLabel.setFont(labelFont);
+		welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
+		startLabel.setHorizontalAlignment(JLabel.CENTER);
 		// Create buttons
 		membershipButton = new JButton("Swipe membership card");
 		beginCheckoutButton = new JButton("Start Session");
@@ -57,10 +59,10 @@ public class StartScreenGUI {
 		// Add labels and buttons to the panel
 		startScreenPanel.add(welcomeLabel);
 		startScreenPanel.add(startLabel);
-		startScreenPanel.add(membershipButton);
-		startScreenPanel.add(beginCheckoutButton);
-		startScreenPanel.add(selectCheckoutStationButton);
-		startScreenPanel.add(selectLanguageButton);
+		//startScreenPanel.add(membershipButton);
+	//	startScreenPanel.add(beginCheckoutButton);
+	//	startScreenPanel.add(selectCheckoutStationButton);
+		//startScreenPanel.add(selectLanguageButton);
 		
 	}
 	
