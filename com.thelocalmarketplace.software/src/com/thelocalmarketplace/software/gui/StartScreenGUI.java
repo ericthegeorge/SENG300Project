@@ -60,6 +60,9 @@ public class StartScreenGUI {
 		Font startSessionButtonFont = new Font("Arial", Font.PLAIN, 38);
 		startSessionButton.setFont(startSessionButtonFont);
 		
+		// Set button size
+		Dimension buttonSize = new Dimension(300, 1000);
+		startSessionButton.setMaximumSize(buttonSize);
 		
 		// Add glue to push labels to the center vertically
 		startScreenPanel.add(Box.createVerticalGlue());
