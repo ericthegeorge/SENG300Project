@@ -98,9 +98,9 @@ public class StartScreenGUI {
 		membershipButton.setMaximumSize(membershipButtonSize);
 		
 		// Add glue to push labels to the center vertically
+				// Add labels and buttons to the main vertical panel
 		verticalPanel.add(Box.createVerticalGlue());
-		
-		// Add labels and buttons to the panel
+		// Add labels and buttons to the vertical panel
 		verticalPanel.add(Box.createVerticalStrut(150));
 		verticalPanel.add(welcomeLabel);
 		verticalPanel.add(Box.createVerticalStrut(20));
@@ -109,25 +109,30 @@ public class StartScreenGUI {
 		verticalPanel.add(startSessionButton);
 		verticalPanel.add(Box.createVerticalStrut(20));
 		verticalPanel.add(membershipButton);
-		
-		// Add glue to push labels to the center
 		verticalPanel.add(Box.createVerticalGlue());
 		
+		// Add glue to push labels to the center vertically
+		// Add labels and buttons to the language vertical panel
 		languageVerticalPanel.add(Box.createVerticalGlue());
 		languageVerticalPanel.add(languageLabel);
 		languageVerticalPanel.add(selectLanguageComboBox);
 		languageVerticalPanel.add(Box.createVerticalGlue());
 		
+		// Add glue to push labels to the center vertically
+		// Add labels and buttons to the station vertical panel
 		stationVerticalPanel.add(Box.createVerticalGlue());
 		stationVerticalPanel.add(stationLabel);
 		stationVerticalPanel.add(selectCheckoutStationComboBox);
 		stationVerticalPanel.add(Box.createVerticalGlue());
 		
+		// Add glue to push labels to the center horizontally
+		// Add labels and buttons to the horizontal panel
 		horizontalPanel.add(Box.createHorizontalGlue());
 		horizontalPanel.add(languageVerticalPanel);
 		horizontalPanel.add(stationVerticalPanel);
 		horizontalPanel.add(Box.createHorizontalGlue());
 		
+		// Add all sub-panels to the main panel
 		startScreenPanel.add(verticalPanel);
 		startScreenPanel.add(Box.createVerticalStrut(-100));
 		startScreenPanel.add(horizontalPanel);
