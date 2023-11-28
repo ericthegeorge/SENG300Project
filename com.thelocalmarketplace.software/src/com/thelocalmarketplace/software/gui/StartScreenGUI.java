@@ -8,6 +8,15 @@ public class StartScreenGUI {
 	JPanel startScreenPanel;
 	
 	public StartScreenGUI() {
+		startScreenFrame = new JFrame("TheLocalMarketplace Self-Checkout Station");
+		startScreenPanel = new JPanel();
 		
+		addwidgets();
+		
+		startScreenFrame.getContentPane().add(startScreenPanel, BorderLayout.CENTER);
+		
+		startScreenFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		startScreenFrame.pack();
+		startScreenFrame.setVisible(true);
 	}
 }
