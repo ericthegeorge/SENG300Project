@@ -30,6 +30,14 @@ public class StartScreenGUI {
 		selectCheckoutStationButton = new JButton("Select checkout station type");
 		selectLanguageButton = new JButton("Select language");
 		
+		startScreenPanel.add(membershipButton);
+		startScreenPanel.add(beginCheckoutButton);
+		startScreenPanel.add(selectCheckoutStationButton);
+		startScreenPanel.add(selectLanguageButton);
 		
+	}
+	
+	public static void main(String[] args) {
+		StartScreenGUI startScreen = new StartScreenGUI();
 	}
 }
