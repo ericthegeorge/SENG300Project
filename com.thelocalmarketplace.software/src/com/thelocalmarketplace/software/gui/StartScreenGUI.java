@@ -23,6 +23,7 @@ public class StartScreenGUI {
 		
 		startScreenFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		startScreenFrame.pack();
+		startScreenFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		startScreenFrame.setVisible(true);
 	}
 	
