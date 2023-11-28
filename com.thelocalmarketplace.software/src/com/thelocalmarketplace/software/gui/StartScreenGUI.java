@@ -4,20 +4,20 @@ import javax.swing.*;
 import java.awt.*;
 
 public class StartScreenGUI {
-	JFrame startScreenFrame;
-	JPanel startScreenPanel;
-	JPanel verticalPanel;
-	JPanel languageVerticalPanel;
-	JPanel stationVerticalPanel;
-	JPanel horizontalPanel;
-	JLabel welcomeLabel;
-	JLabel startLabel;
-	JLabel languageLabel;
-	JLabel stationLabel;
-	JButton membershipButton;
-	JButton startSessionButton;
-	JComboBox selectCheckoutStationComboBox;
-	JComboBox selectLanguageComboBox;
+	private JFrame startScreenFrame;
+	private JPanel startScreenPanel;
+	private JPanel verticalPanel;
+	private JPanel languageVerticalPanel;
+	private JPanel stationVerticalPanel;
+	private JPanel horizontalPanel;
+	private JLabel welcomeLabel;
+	private JLabel startLabel;
+	private JLabel languageLabel;
+	private JLabel stationLabel;
+	private JButton membershipButton;
+	private JButton startSessionButton;
+	private JComboBox selectCheckoutStationComboBox;
+	private JComboBox selectLanguageComboBox;
 	
 	public StartScreenGUI() {
 		startScreenFrame = new JFrame("TheLocalMarketplace Self-Checkout Station");
