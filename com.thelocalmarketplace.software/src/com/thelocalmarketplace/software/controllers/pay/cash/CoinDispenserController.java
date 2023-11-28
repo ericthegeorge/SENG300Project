@@ -49,7 +49,9 @@ public class CoinDispenserController extends AbstractLogicDependant implements C
 		this.available = new ArrayList<>();
 		
 		// Attach self to specific dispenser corresponding to its denomination
-		this.logic.hardware.coinDispensers.get(denomination).attach(this);
+
+		this.logic.hardware.getCoinDispensers().get(denomination).attach(this);
+		//this.logic.hardware.coinDispensers.get(denomination).attach(this);
 	}
 	
 	/**

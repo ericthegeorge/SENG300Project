@@ -36,8 +36,11 @@ public class AddBarcodedItemController extends AbstractLogicDependant implements
     	super(logic);
         
         // Register self to main and hand held barcode scanners
-        this.logic.hardware.mainScanner.register(this);
-        this.logic.hardware.handheldScanner.register(this);
+
+		this.logic.hardware.getMainScanner().register(this);
+		this.logic.hardware.getHandheldScanner().register(this);
+        //this.logic.hardware.mainScanner.register(this);
+        //this.logic.hardware.handheldScanner.register(this);
     }
     
     /**

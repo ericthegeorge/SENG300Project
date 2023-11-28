@@ -25,6 +25,15 @@ public class BlockedListener extends AbstractStateTransitionListener {
 
 	@Override
 	public void onTransition() {
+
+		this.logic.hardware.getBaggingArea().disable();
+		this.logic.hardware.getHandheldScanner().disable();
+		this.logic.hardware.getCoinSlot().disable();
+		this.logic.hardware.getCoinValidator().disable();
+		this.logic.hardware.getBanknoteInput().disable();
+		this.logic.hardware.getBanknoteValidator().disable();
+
+		/*
 		this.logic.hardware.baggingArea.disable();
 		
 		this.logic.hardware.handheldScanner.disable();
@@ -35,5 +44,6 @@ public class BlockedListener extends AbstractStateTransitionListener {
 		
 		this.logic.hardware.banknoteInput.disable();
 		this.logic.hardware.banknoteValidator.disable();
+		 */
 	}
 }

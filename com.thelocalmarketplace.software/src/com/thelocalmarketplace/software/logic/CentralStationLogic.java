@@ -182,8 +182,8 @@ public class CentralStationLogic {
 		this.addBagsLogic = new AddBagsLogic(this);
 		this.removeItemLogic = new RemoveItemLogic(this);
 		
-		this.coinCurrencyLogic = new CurrencyLogic(this.hardware.coinDenominations);
-		this.banknoteCurrencyLogic = new CurrencyLogic(this.hardware.banknoteDenominations);
+		this.coinCurrencyLogic = new CurrencyLogic(this.hardware.getCoinDenominations());
+		this.banknoteCurrencyLogic = new CurrencyLogic(this.hardware.getBanknoteDenominations());
 		
 		this.setupCoinDispenserControllers(this.coinCurrencyLogic.getDenominationsAsList());
 		this.setupBanknoteDispenserControllers(this.banknoteCurrencyLogic.getDenominationsAsList());

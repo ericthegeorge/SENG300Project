@@ -43,8 +43,9 @@ public class CoinPaymentController extends AbstractLogicDependant implements Coi
 	 */
 	public CoinPaymentController(CentralStationLogic logic) throws NullPointerException {
 		super(logic);
-	
-		this.logic.hardware.coinValidator.attach(this);
+
+		this.logic.hardware.getCoinValidator().attach(this);
+		//this.logic.hardware.coinValidator.attach(this);
 	}
 	
 	/**
@@ -81,8 +82,9 @@ public class CoinPaymentController extends AbstractLogicDependant implements Coi
 			for (int i = 0; i < c.getValue(); i++) {
 				try {
 					
-					// Attempt to emit a coin from specific coin dispenser				
-					this.logic.hardware.coinDispensers.get(denomination).emit();
+					// Attempt to emit a coin from specific coin dispenser
+					this.logic.hardware.getBanknoteDispensers().get(denomination).emit();
+					//this.logic.hardware.coinDispensers.get(denomination).emit();
 				} catch (Exception e) {
 					missed = missed.add(denomination);
 					
