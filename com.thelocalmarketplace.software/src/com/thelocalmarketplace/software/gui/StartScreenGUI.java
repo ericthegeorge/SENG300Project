@@ -28,26 +28,33 @@ public class StartScreenGUI {
 	}
 	
 	private void addWidgets() {
-		welcomeLabel = new JLabel("Welcome!");
-		welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
-		startLabel = new JLabel("Please touch 'Start Session' to begin");
-		startLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
 		startScreenPanel.setLayout(new BoxLayout(startScreenPanel, BoxLayout.Y_AXIS));
 		
+		// Create labels
+		welcomeLabel = new JLabel("Welcome!");
+		startLabel = new JLabel("Please touch 'Start Session' to begin");
+		
+		// Set label alignment
+		welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		startLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		// Set label size
+		Font labelFont = new Font("Arial", Font.PLAIN, 34);
+		welcomeLabel.setFont(labelFont);
+		startLabel.setFont(labelFont);
+		// Create buttons
 		membershipButton = new JButton("Swipe membership card");
-		membershipButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
 		beginCheckoutButton = new JButton("Start Session");
-		beginCheckoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
 		selectCheckoutStationButton = new JButton("Select checkout station type");
-		selectCheckoutStationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		
 		selectLanguageButton = new JButton("Select language");
+		
+		// Set button alignment
+		membershipButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		beginCheckoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		selectCheckoutStationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		selectLanguageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		// Add labels and buttons to the panel
 		startScreenPanel.add(welcomeLabel);
 		startScreenPanel.add(startLabel);
 		startScreenPanel.add(membershipButton);
