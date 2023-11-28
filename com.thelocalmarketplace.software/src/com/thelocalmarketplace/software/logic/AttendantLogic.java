@@ -1,5 +1,6 @@
 package com.thelocalmarketplace.software.logic;
 
+import com.jjjwelectronics.OverloadedDevice;
 import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
@@ -80,8 +81,25 @@ public class AttendantLogic {
 		logic.weightLogic.removeExpectedWeight(barcode);
 		logic.weightLogic.handleWeightDiscrepancy();
 	}
+
+	public void addInk(int amount) throws OverloadedDevice {
+		this.logic.hardware.getPrinter().addInk(amount);
+
+    }
+
+	public void addPaper(int amount) throws OverloadedDevice {
+		this.logic.hardware.getPrinter().addPaper(amount);
+	}
 	
 	public void printDuplicateReceipt() {
 		this.logic.receiptPrintingController.printDuplicateReceipt();
+	}
+
+	public void disableAttendant(){
+
+	}
+
+	public void enableAttendant(){
+
 	}
 }
