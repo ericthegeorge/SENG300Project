@@ -60,6 +60,7 @@ public class StartScreenGUI {
 		
 		// Add labels and buttons to the panel
 		startScreenPanel.add(welcomeLabel);
+		startScreenPanel.add(Box.createVerticalStrut(20));
 		startScreenPanel.add(startLabel);
 		
 		// Add glue to push labels to the center
