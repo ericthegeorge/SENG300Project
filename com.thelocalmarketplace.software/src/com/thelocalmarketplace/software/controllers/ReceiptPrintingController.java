@@ -40,7 +40,8 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
     	super(logic);
     	
     	this.duplicateReceipt = "";
-    	this.logic.hardware.printer.register(this);
+		this.logic.hardware.getPrinter().register(this);
+    	//this.logic.hardware.printer.register(this);
     }
     
     /**
@@ -108,10 +109,13 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
      */
 	private void printReceipt(String receiptText) throws EmptyDevice, OverloadedDevice {
 		for (char c : receiptText.toCharArray()) {
-	    	this.logic.hardware.printer.print(c);
+
+			this.logic.hardware.getPrinter().print(c);
+	    	//this.logic.hardware.printer.print(c);
 	    }
-	    
-	    this.logic.hardware.printer.cutPaper(); 
+
+		this.logic.hardware.getPrinter().cutPaper();
+	    //this.logic.hardware.printer.cutPaper();
 	}
 	
 	

@@ -33,7 +33,9 @@ public class WeightDiscrepancyController extends AbstractLogicDependant implemen
 		super(logic);
 		
 		// Register self to bagging area scale
-		this.logic.hardware.baggingArea.register(this);
+
+		this.logic.hardware.getBaggingArea().register(this);
+		//this.logic.hardware.baggingArea.register(this);
 	}
 	
 	/** Triggered when mass on bagging area scale is changed

@@ -34,9 +34,25 @@ public class CardReaderController extends AbstractLogicDependant implements Card
     public CardReaderController(CentralStationLogic logic) throws NullPointerException {
         super(logic);
 
-        this.logic.hardware.cardReader.register(this);
+        this.logic.hardware.getCardReader().register(this);
+       //this.logic.hardware.cardReader.register(this);
     }
 
+
+    @Override
+    public void aCardHasBeenInserted() {
+
+    }
+
+    @Override
+    public void theCardHasBeenRemoved() {
+
+    }
+
+    @Override
+    public void aCardHasBeenTapped() {
+
+    }
 
     //Ask for signature when card is swiped
     @Override

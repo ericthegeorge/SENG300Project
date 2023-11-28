@@ -35,8 +35,9 @@ public class CashPaymentController extends AbstractLogicDependant implements Ban
 
 	public CashPaymentController(CentralStationLogic logic) throws NullPointerException {
 		super(logic);
-		
-		this.logic.hardware.banknoteValidator.attach(this);
+
+		this.logic.hardware.getBanknoteValidator().attach(this);
+		//this.logic.hardware.banknoteValidator.attach(this);
 		System.out.println("NEW CASH PAYMENT CONTROLLER");
 	}
 	
@@ -66,8 +67,9 @@ public class CashPaymentController extends AbstractLogicDependant implements Ban
 
 			// Loop for each available banknote
 			for (int i = 0; i < count; i++) {
-				try {			
-					this.logic.hardware.banknoteDispensers.get(denomination).emit();
+				try {
+					this.logic.hardware.getBanknoteDispensers().get(denomination).emit();
+					//this.logic.hardware.banknoteDispensers.get(denomination).emit();
 					
 					sum = sum.add(denomination);
 				} catch (Exception e) {

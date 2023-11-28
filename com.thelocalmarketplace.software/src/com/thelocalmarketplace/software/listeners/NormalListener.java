@@ -24,7 +24,15 @@ public class NormalListener extends AbstractStateTransitionListener {
 
 	@Override
 	public void onTransition() {
-		this.logic.hardware.baggingArea.enable();
+
+		this.logic.hardware.getBaggingArea().enable();
+		this.logic.hardware.getHandheldScanner().enable();
+		this.logic.hardware.getMainScanner().enable();
+		this.logic.hardware.getCoinSlot().enable();
+		this.logic.hardware.getCoinValidator().enable();
+		this.logic.hardware.getBanknoteInput().enable();
+		this.logic.hardware.getCoinValidator().enable();
+	/*	this.logic.hardware.baggingArea.enable();
 		
 		this.logic.hardware.handheldScanner.enable();
 		this.logic.hardware.mainScanner.enable();
@@ -34,5 +42,7 @@ public class NormalListener extends AbstractStateTransitionListener {
 		
 		this.logic.hardware.banknoteInput.enable();
 		this.logic.hardware.banknoteValidator.enable();
+
+	 */
 	}
 }

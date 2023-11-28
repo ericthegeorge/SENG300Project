@@ -51,7 +51,8 @@ public class WeightLogic extends AbstractLogicDependant {
 		this.logic = logic;
 		this.expectedWeight = Mass.ZERO;
 		this.actualWeight = Mass.ZERO;
-		this.sensitivity = logic.hardware.baggingArea.getSensitivityLimit();
+		this.sensitivity=logic.hardware.getBaggingArea().getSensitivityLimit();
+		//this.sensitivity = logic.hardware.baggingArea.getSensitivityLimit();
 		this.bagMassTotal = Mass.ZERO;
 		this.scaleOperational = true;
 	}

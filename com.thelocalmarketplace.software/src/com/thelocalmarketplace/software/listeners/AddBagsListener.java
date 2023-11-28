@@ -25,7 +25,8 @@ public class AddBagsListener extends BlockedListener {
 	@Override
 	public void onTransition() {
 		super.onTransition();
-		
-		this.logic.hardware.baggingArea.enable();
+
+		this.logic.hardware.getBaggingArea().enable();
+		//this.logic.hardware.baggingArea.enable();
 	}
 }

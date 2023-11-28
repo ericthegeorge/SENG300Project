@@ -39,7 +39,8 @@ public class BanknoteDispenserController extends AbstractLogicDependant implemen
 		this.available = new ArrayList<>();
 		
 		// Attach self to specific dispenser corresponding to its denomination
-		this.logic.hardware.banknoteDispensers.get(denomination).attach(this);
+		this.logic.hardware.getBanknoteDispensers().get(denomination).attach(this);
+		//this.logic.hardware.banknoteDispensers.get(denomination).attach(this);
 	}
 	
 	public List<Banknote> getAvailableBanknotes() {
