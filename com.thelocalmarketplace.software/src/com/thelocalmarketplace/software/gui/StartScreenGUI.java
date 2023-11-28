@@ -25,10 +25,19 @@ public class StartScreenGUI {
 	}
 	
 	private void addWidgets() {
+		startScreenPanel.setLayout(new BoxLayout(startScreenPanel, BoxLayout.Y_AXIS));
+		
 		membershipButton = new JButton("Swipe membership card");
+		membershipButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		beginCheckoutButton = new JButton("Begin checkout");
+		beginCheckoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		selectCheckoutStationButton = new JButton("Select checkout station type");
+		selectCheckoutStationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		selectLanguageButton = new JButton("Select language");
+		selectLanguageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		startScreenPanel.add(membershipButton);
 		startScreenPanel.add(beginCheckoutButton);
