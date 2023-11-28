@@ -119,7 +119,7 @@ public class AddBarcodedItemTests {
 		int cnt = 0;
 		
 		while(cnt< 10000 && !session.cartLogic.getCart().containsKey(p)) {
-			station.handheldScanner.scan(b);
+			station.getHandheldScanner().scan(b);
 			cnt++;
 		}
 	}
@@ -166,7 +166,7 @@ public class AddBarcodedItemTests {
 		session = new CentralStationLogic(station);
 		session.startSession();
 		this.scanUntilAdded(product2, bitem5);
-		station.baggingArea.addAnItem(bitem5);
+		station.getBaggingArea().addAnItem(bitem5);
 		this.scanUntilAdded(product, bitem3);
 		//long s = session.cart.getLastItem().getPrice();
 		

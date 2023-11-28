@@ -70,7 +70,7 @@ public class ReceiptPrintingTests {
     	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
         BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
         session.cartLogic.addProductToCart(product1);      	
-        station.printer.addPaper(1000);
+        station.getPrinter().addPaper(1000);
         controller.handlePrintReceipt(new BigDecimal(0));
         assertTrue(this.session.stateLogic.inState(States.SUSPENDED));
     }
@@ -80,7 +80,7 @@ public class ReceiptPrintingTests {
     	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
         BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
         session.cartLogic.addProductToCart(product1);  
-        station.printer.addInk(1000);
+        station.getPrinter().addInk(1000);
         controller.handlePrintReceipt(new BigDecimal(0));
         
         assertTrue(this.session.stateLogic.inState(States.SUSPENDED));
@@ -91,8 +91,8 @@ public class ReceiptPrintingTests {
     	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
         BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
         session.cartLogic.addProductToCart(product1);  
-        station.printer.addInk(1000);
-        station.printer.addPaper(1000);
+        station.getPrinter().addInk(1000);
+        station.getPrinter().addPaper(1000);
         controller.handlePrintReceipt(new BigDecimal(0));
         
         assertNotEquals(this.session.stateLogic.getState(), States.SUSPENDED);
@@ -103,8 +103,8 @@ public class ReceiptPrintingTests {
     	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
         BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
         session.cartLogic.addProductToCart(product1);  
-        station.printer.addInk(5);
-        station.printer.addPaper(5);
+        station.getPrinter().addInk(5);
+        station.getPrinter().addPaper(5);
         controller.handlePrintReceipt(new BigDecimal(0));
         
         assertEquals(this.session.stateLogic.getState(), States.SUSPENDED);
@@ -115,8 +115,8 @@ public class ReceiptPrintingTests {
     	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
         BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
         session.cartLogic.addProductToCart(product1);  
-        station.printer.addInk(1000);
-        station.printer.addPaper(1);
+        station.getPrinter().addInk(1000);
+        station.getPrinter().addPaper(1);
         controller.handlePrintReceipt(new BigDecimal(0));
         
         assertEquals(this.session.stateLogic.getState(), States.SUSPENDED);
@@ -127,13 +127,13 @@ public class ReceiptPrintingTests {
     	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
         BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
         session.cartLogic.addProductToCart(product1);  
-        station.printer.addInk(1000);
-        station.printer.addPaper(1);
+        station.getPrinter().addInk(1000);
+        station.getPrinter().addPaper(1);
         controller.handlePrintReceipt(new BigDecimal(0));
         
         assertEquals(this.session.stateLogic.getState(), States.SUSPENDED);
         
-        station.printer.addPaper(100);
+        station.getPrinter().addPaper(100);
         AttendantLogic attendant = new AttendantLogic(session);
         attendant.printDuplicateReceipt();
         assertEquals(this.session.stateLogic.getState(), States.NORMAL);
