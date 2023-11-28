@@ -6,6 +6,8 @@ import java.awt.*;
 public class StartScreenGUI {
 	JFrame startScreenFrame;
 	JPanel startScreenPanel;
+	JLabel welcomeLabel;
+	JLabel startLabel;
 	JButton membershipButton;
 	JButton beginCheckoutButton;
 	JButton selectCheckoutStationButton;
@@ -25,12 +27,18 @@ public class StartScreenGUI {
 	}
 	
 	private void addWidgets() {
+		welcomeLabel = new JLabel("Welcome!");
+		welcomeLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		startLabel = new JLabel("Please touch 'Start Session' to begin");
+		startLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
 		startScreenPanel.setLayout(new BoxLayout(startScreenPanel, BoxLayout.Y_AXIS));
 		
 		membershipButton = new JButton("Swipe membership card");
 		membershipButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
-		beginCheckoutButton = new JButton("Begin checkout");
+		beginCheckoutButton = new JButton("Start Session");
 		beginCheckoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		selectCheckoutStationButton = new JButton("Select checkout station type");
@@ -39,6 +47,8 @@ public class StartScreenGUI {
 		selectLanguageButton = new JButton("Select language");
 		selectLanguageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		startScreenPanel.add(welcomeLabel);
+		startScreenPanel.add(startLabel);
 		startScreenPanel.add(membershipButton);
 		startScreenPanel.add(beginCheckoutButton);
 		startScreenPanel.add(selectCheckoutStationButton);
