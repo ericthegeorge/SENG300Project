@@ -6,3 +6,4 @@
 
 # Group Members
  - Zhenhui Ren(Jamie) (30139966)
+ - Jenny Dang (30153821)
