@@ -9,7 +9,7 @@ public class StartScreenGUI {
 	JLabel welcomeLabel;
 	JLabel startLabel;
 	JButton membershipButton;
-	JButton beginCheckoutButton;
+	JButton startSessionButton;
 	JButton selectCheckoutStationButton;
 	JButton selectLanguageButton;
 	
@@ -39,21 +39,27 @@ public class StartScreenGUI {
 		startLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		// Set label font size
-		Font labelFont = new Font("Arial", Font.PLAIN, 38);
-		welcomeLabel.setFont(labelFont);
-		startLabel.setFont(labelFont);
+		Font welcomeLabelFont = new Font("Arial", Font.PLAIN, 48);
+		Font startLabelFont = new Font("Arial", Font.PLAIN, 38);
+		welcomeLabel.setFont(welcomeLabelFont);
+		startLabel.setFont(startLabelFont);
 		
 		// Create buttons
 		membershipButton = new JButton("Swipe membership card");
-		beginCheckoutButton = new JButton("Start Session");
+		startSessionButton = new JButton("Start Session");
 		selectCheckoutStationButton = new JButton("Select checkout station type");
 		selectLanguageButton = new JButton("Select language");
 		
 		// Set button alignment
 		membershipButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-		beginCheckoutButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		startSessionButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		selectCheckoutStationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		selectLanguageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+		
+		// Set button font size
+		Font startSessionButtonFont = new Font("Arial", Font.PLAIN, 38);
+		startSessionButton.setFont(startSessionButtonFont);
+		
 		
 		// Add glue to push labels to the center vertically
 		startScreenPanel.add(Box.createVerticalGlue());
@@ -62,11 +68,13 @@ public class StartScreenGUI {
 		startScreenPanel.add(welcomeLabel);
 		startScreenPanel.add(Box.createVerticalStrut(20));
 		startScreenPanel.add(startLabel);
+		startScreenPanel.add(Box.createVerticalStrut(20));
+		startScreenPanel.add(startSessionButton);
 		
 		// Add glue to push labels to the center
 		startScreenPanel.add(Box.createVerticalGlue());
 		//startScreenPanel.add(membershipButton);
-	//	startScreenPanel.add(beginCheckoutButton);
+		//startScreenPanel.add(startSessionButton);
 	//	startScreenPanel.add(selectCheckoutStationButton);
 		//startScreenPanel.add(selectLanguageButton);
 		
