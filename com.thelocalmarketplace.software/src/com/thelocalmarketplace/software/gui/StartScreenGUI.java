@@ -39,11 +39,10 @@ public class StartScreenGUI {
 		startLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
 		// Set label font size
-		Font labelFont = new Font("Arial", Font.PLAIN, 34);
+		Font labelFont = new Font("Arial", Font.PLAIN, 38);
 		welcomeLabel.setFont(labelFont);
 		startLabel.setFont(labelFont);
-		welcomeLabel.setHorizontalAlignment(JLabel.CENTER);
-		startLabel.setHorizontalAlignment(JLabel.CENTER);
+		
 		// Create buttons
 		membershipButton = new JButton("Swipe membership card");
 		beginCheckoutButton = new JButton("Start Session");
@@ -56,9 +55,15 @@ public class StartScreenGUI {
 		selectCheckoutStationButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		selectLanguageButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 		
+		// Add glue to push labels to the center vertically
+		startScreenPanel.add(Box.createVerticalGlue());
+		
 		// Add labels and buttons to the panel
 		startScreenPanel.add(welcomeLabel);
 		startScreenPanel.add(startLabel);
+		
+		// Add glue to push labels to the center
+		startScreenPanel.add(Box.createVerticalGlue());
 		//startScreenPanel.add(membershipButton);
 	//	startScreenPanel.add(beginCheckoutButton);
 	//	startScreenPanel.add(selectCheckoutStationButton);
