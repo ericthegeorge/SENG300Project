@@ -129,6 +129,7 @@ public class StartScreenGUI {
 		// Add labels and buttons to the horizontal panel
 		horizontalPanel.add(Box.createHorizontalGlue());
 		horizontalPanel.add(languageVerticalPanel);
+		horizontalPanel.add(Box.createHorizontalStrut(10));
 		horizontalPanel.add(stationVerticalPanel);
 		horizontalPanel.add(Box.createHorizontalGlue());
 		
