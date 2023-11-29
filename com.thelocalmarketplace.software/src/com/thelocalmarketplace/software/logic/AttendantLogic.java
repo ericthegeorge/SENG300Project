@@ -134,7 +134,7 @@ public class AttendantLogic {
 	 * enables use of current station
 	 */
 
-	public void enableAttendant(){
+	public void enableStation(){
 		if(this.logic.isSessionStarted()==false || this.logic.stateLogic.inState(States.SUSPENDED)){
 			this.logic.stateLogic.gotoState(States.NORMAL);
 			this.logic.hardware.unplug();
