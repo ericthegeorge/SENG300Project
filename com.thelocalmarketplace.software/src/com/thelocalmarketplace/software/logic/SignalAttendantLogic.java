@@ -7,6 +7,32 @@ import com.thelocalmarketplace.software.logic.AttendantLogic;
 
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
 
+/**
+ * @author Camila Hernandez (30134911)
+ * --------------------------------
+ * @author Adrian Brisebois
+ * @author Alan Yong
+ * @author Ananya jain
+ * @author Andrew Matti
+ * @author Atique Muhammad
+ * @author Christopher Lo
+ * @author Danny Ly
+ * @author Eric George
+ * @author Gareth Jenkins
+ * @author Ian Beler
+ * @author Jahnissi Nwakanma
+ * @author Jenny Dang
+ * @author Maheen Nizamani
+ * @author Michael Svoboda
+ * @author Olivia Crosby
+ * @author Rico Manalastas
+ * @author Ryan Korsrud
+ * @author Shanza Raza
+ * @author Sukhnaaz Sidhu
+ * @author Tanmay Mishra
+ * @author Zhenhui Ren
+ */
+
 public class SignalAttendantLogic {
 	private AttendantStation attendantStation;
 	private AttendantLogic attendantLogic;
@@ -18,6 +44,10 @@ public class SignalAttendantLogic {
 	
 	public void clearAssistanceRequest(ISelfCheckoutStation station) {
 		helpNeeded = false;
+	}
+	
+	public boolean isHelpNeeded() { 
+		return helpNeeded;
 	}
 	
 	/** Tracks AttendantLogic and AttendantStation hardware 
