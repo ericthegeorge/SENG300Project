@@ -94,6 +94,7 @@ public class CentralStationLogicTest {
 		station.turnOn();
 
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 	}
 	
 	@Test public void startSessionStateNormalTest() {
@@ -120,9 +121,9 @@ public class CentralStationLogicTest {
 		session = new CentralStationLogic(null);
 	}@Test public void getAllCoinsInDispenserTest() throws CashOverloadException, DisabledException {
 		session.startSession();
-		session.hardware.coinDispensers.get(new BigDecimal(0.05)).receive(fiveCentCoin);
-		session.hardware.coinDispensers.get(new BigDecimal(0.05)).receive(fiveCentCoin);
-		session.hardware.coinDispensers.get(new BigDecimal(0.25)).receive(twentyFiveCentCoin);
+		session.hardware.getCoinDispensers().get(new BigDecimal(0.05)).receive(fiveCentCoin);
+		session.hardware.getCoinDispensers().get(new BigDecimal(0.05)).receive(fiveCentCoin);
+		session.hardware.getCoinDispensers().get(new BigDecimal(0.25)).receive(twentyFiveCentCoin);
 		Map<BigDecimal, Integer> result = session.getAvailableCoinsInDispensers();
 		assertTrue("did not get all coins in dispenser", result.get(new BigDecimal(0.05)) == 2 && result.get(new BigDecimal(0.25))==1);
 	}@Test public void  getAllBanknotesInDispenserTest() throws CashOverloadException, DisabledException {
@@ -132,9 +133,9 @@ public class CentralStationLogicTest {
 		Banknote[] fiveList = new Banknote[] {fiveDollarBill};
 		Banknote[] twentyList = new Banknote[] {twentyDollarBill, twentyDollarBill, twentyDollarBill};
 		
-		session.hardware.banknoteDispensers.get(new BigDecimal(10.00)).load(banknoteList);
-		session.hardware.banknoteDispensers.get(new BigDecimal(5.00)).load(fiveList);
-		session.hardware.banknoteDispensers.get(new BigDecimal(20.00)).load(twentyList);
+		session.hardware.getBanknoteDispensers().get(new BigDecimal(10.00)).load(banknoteList);
+		session.hardware.getBanknoteDispensers().get(new BigDecimal(5.00)).load(fiveList);
+		session.hardware.getBanknoteDispensers().get(new BigDecimal(20.00)).load(twentyList);
 		Map<BigDecimal, Integer> result = session.getAvailableBanknotesInDispensers();
 		assertTrue("did not get all coins in dispenser", result.get(new BigDecimal(5.0)) == 1 && result.get(new BigDecimal(10.0))==2 && result.get(new BigDecimal(20.0))==3);
 	}

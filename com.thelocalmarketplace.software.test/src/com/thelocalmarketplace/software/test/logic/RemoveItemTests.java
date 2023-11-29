@@ -116,6 +116,7 @@ public class RemoveItemTests {
 			station.turnOn();
 			
 			session = new CentralStationLogic(station);
+			session.setBypassIssuePrediction(true);
 			session.startSession();
 		}
 		@Rule
@@ -131,7 +132,7 @@ public class RemoveItemTests {
 			int cnt = 0;
 			
 			while(cnt< 10000 && !session.cartLogic.getCart().containsKey(p)) {
-				station.handheldScanner.scan(b);
+				station.getHandheldScanner().scan(b);
 				cnt++;
 			}
 		}
@@ -144,7 +145,7 @@ public class RemoveItemTests {
 			this.scanUntilAdded(product, bitem);
 			assertTrue(session.cartLogic.getCart().size() == 1);
 			
-			station.baggingArea.addAnItem(bitem);
+			station.getBaggingArea().addAnItem(bitem);
 			
 			session.removeItemLogic.removeBarcodedItem(product);
 			assertEquals(0, session.cartLogic.getCart().size());
@@ -158,12 +159,12 @@ public class RemoveItemTests {
 		@Test
 		public void testPostRemovalBlock() {
 			this.scanUntilAdded(product, bitem);
-			station.baggingArea.addAnItem(bitem);
+			station.getBaggingArea().addAnItem(bitem);
 			
 			session.removeItemLogic.removeBarcodedItem(product);
 			assertTrue(session.stateLogic.getState() == States.BLOCKED);
 			
-			station.baggingArea.removeAnItem(bitem);
+			station.getBaggingArea().removeAnItem(bitem);
 			assertTrue(session.stateLogic.getState() == States.NORMAL);
 			System.out.println("Test 2 end\n");
 		}
@@ -173,19 +174,19 @@ public class RemoveItemTests {
 		@Test
 		public void testIncorrectRemoval() {
 			this.scanUntilAdded(product, bitem);
-			station.baggingArea.addAnItem(bitem);
+			station.getBaggingArea().addAnItem(bitem);
 			
 			
 			this.scanUntilAdded(product2, bitem2);
-			station.baggingArea.addAnItem(bitem2);
+			station.getBaggingArea().addAnItem(bitem2);
 			
 			session.removeItemLogic.removeBarcodedItem(product);
 			
-			station.baggingArea.removeAnItem(bitem2);
+			station.getBaggingArea().removeAnItem(bitem2);
 			assertTrue(session.stateLogic.getState() == States.BLOCKED);
 			
-			station.baggingArea.addAnItem(bitem2);
-			station.baggingArea.removeAnItem(bitem);
+			station.getBaggingArea().addAnItem(bitem2);
+			station.getBaggingArea().removeAnItem(bitem);
 			assertTrue(session.stateLogic.getState() == States.NORMAL);	
 			
 			System.out.println("Test 3 end\n");

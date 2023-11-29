@@ -47,7 +47,7 @@ public class HandleBulkyItemTests {
 	/** Ensures failures do not occur from scanner failing to scan item, thus isolating test cases */
 	public void scanUntilAdded() {
 		do {
-			station.handheldScanner.scan(barcodedItem);
+			station.getHandheldScanner().scan(barcodedItem);
 		} while (!session.cartLogic.getCart().containsKey(product));
 	}
 	
@@ -62,6 +62,7 @@ public class HandleBulkyItemTests {
 		station.turnOn();
 		
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
 		Barcode barcode = new Barcode(new Numeral[] {Numeral.one});
@@ -105,7 +106,7 @@ public class HandleBulkyItemTests {
 	public void testSkipBaggingAddsAnyways() {
 		scanUntilAdded();
 		session.weightLogic.skipBaggingRequest(barcodedItem.getBarcode());
-		station.baggingArea.addAnItem(barcodedItem);
+		station.getBaggingArea().addAnItem(barcodedItem);
 		assertFalse(this.session.stateLogic.inState(States.BLOCKED));
 	}
 	
