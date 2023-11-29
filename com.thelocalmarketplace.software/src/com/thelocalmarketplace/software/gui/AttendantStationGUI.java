@@ -3,21 +3,55 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
+import java.util.HashMap;
+import java.util.Map;
 
 public class AttendantStationGUI {
 
     private static JComboBox<StationObject> comboBox;
 
     // Fake class to represent Station objects
+    // Updated StationObject class
     static class StationObject {
         private int stationNumber;
+        private Map<Character, Color> circleColors; // Map to store colors for circles
 
         public StationObject(int stationNumber) {
             this.stationNumber = stationNumber;
+            this.circleColors = new HashMap<>();
+            initializeCircleColors();
+        }
+
+        private void initializeCircleColors() {
+            // Initialize default colors for circles
+            circleColors.put('I', Color.YELLOW);
+            circleColors.put('P', Color.YELLOW);
+            circleColors.put('C', Color.YELLOW);
+            circleColors.put('B', Color.YELLOW);
         }
 
         public int getStationNumber() {
             return stationNumber;
+        }
+
+        public Color getCircleColor(char label) {
+            return circleColors.get(label);
+        }
+
+        public void setCircleColor(char label, Color color) {
+            circleColors.put(label, color);
+        }
+
+        public void setCircleColorYellow(char label) {
+            setCircleColor(label, Color.YELLOW);
+        }
+
+        public void setCircleColorRed(char label) {
+            setCircleColor(label, Color.RED);
+        }
+
+        public void setCircleColorGreen(char label) {
+            setCircleColor(label, Color.GREEN);
         }
 
         @Override
@@ -25,6 +59,18 @@ public class AttendantStationGUI {
             return "Station #" + stationNumber;
         }
     }
+
+    private static void updateUIForSelectedStation(StationObject selectedStation) {
+
+        // Change the colors based on any condition. Here I have them all set to red.
+        selectedStation.setCircleColorRed('I');
+        selectedStation.setCircleColorRed('P');
+        selectedStation.setCircleColorRed('C');
+        selectedStation.setCircleColorRed('B');
+
+        SwingUtilities.invokeLater(() -> comboBox.repaint());
+    }
+
 
     static void createFrame(StationObject[] stationObjects) {
 
@@ -167,7 +213,9 @@ public class AttendantStationGUI {
         for (int i = 0; i < stationObjects.length; i++) {
             JPanel square = new JPanel(new BorderLayout());
             square.setPreferredSize(new Dimension(220, 220)); // Increased size
-            square.setBackground(Color.BLUE); // You can customize the color
+
+            // Set the default background color of the square to blue
+            square.setBackground(Color.BLUE);
 
             // Center the square in the panel using GridBagConstraints
             gbc.gridx = i % 4;
@@ -180,6 +228,7 @@ public class AttendantStationGUI {
             lightsPanel.setLayout(lightsLayout);
 
             for (char label : new char[]{'I', 'P', 'C', 'B'}) {
+                int finalI = i;
                 JPanel light = new JPanel(new GridBagLayout()) {
                     @Override
                     protected void paintComponent(Graphics g) {
@@ -189,7 +238,10 @@ public class AttendantStationGUI {
                         int x = (getWidth() - diameter) / 2;
                         int y = (getHeight() - diameter) / 2;
                         Ellipse2D.Double ellipse = new Ellipse2D.Double(x, y, diameter, diameter);
-                        g2d.setColor(Color.YELLOW); // Set color of lights
+
+                        // Set the color of lights based on the color stored in the StationObject
+                        g2d.setColor(stationObjects[finalI].getCircleColor(label));
+
                         g2d.fill(ellipse);
                         g2d.dispose();
                     }
@@ -219,8 +271,6 @@ public class AttendantStationGUI {
             // Set a custom font for the "Station #" text with a larger size
             Font stationFont = new Font("Arial", Font.BOLD, 30); // Change font and size as needed
             label.setFont(stationFont);
-
-            square.add(label, BorderLayout.CENTER);
 
             panel.add(square, gbc);
         }
