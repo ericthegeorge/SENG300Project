@@ -147,6 +147,11 @@ public class CentralStationLogic {
 	private PaymentMethods paymentMethod;
 	
 	/**
+     * Instance of logic for selecting a language
+     */
+    public SelectLanguageLogic selectLanguageLogic;
+	
+	/**
 	 * Tracks if the customer session is active
 	 */
 	private boolean sessionStarted;
@@ -166,6 +171,9 @@ public class CentralStationLogic {
 		this.sessionStarted = false;
 		this.paymentMethod = PaymentMethods.NONE;
 		
+		// Initialize SelectLanguageLogic
+        this.selectLanguageLogic = new SelectLanguageLogic(this, "English");
+        
 		// Reference to logic objects
 		this.cartLogic = new CartLogic();
 		this.weightLogic = new WeightLogic(this);
