@@ -2,6 +2,7 @@ package com.thelocalmarketplace.software.logic;
 
 import com.jjjwelectronics.OverloadedDevice;
 import com.jjjwelectronics.scanner.Barcode;
+import com.thelocalmarketplace.hardware.AttendantStation;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
@@ -28,6 +29,8 @@ public class AttendantLogic {
 	
 	/** tracks weather or not a bagging discrepency has been found */
 	private boolean inBaggingDiscrepency;
+
+	//public AttendantStation station=new AttendantStation();
 
 	
 	public AttendantLogic(CentralStationLogic l) {
@@ -82,10 +85,20 @@ public class AttendantLogic {
 		logic.weightLogic.handleWeightDiscrepancy();
 	}
 
+	/**
+	 * Attendant adds ink to the printer with specified amount
+	 * @param amount
+	 * @throws OverloadedDevice
+	 */
 	public void addInk(int amount) throws OverloadedDevice {
 		this.logic.hardware.getPrinter().addInk(amount);
-
     }
+
+	/**
+	 * Attendant addds paper to the printer with amount specified
+	 * @param amount
+	 * @throws OverloadedDevice
+	 */
 
 	public void addPaper(int amount) throws OverloadedDevice {
 		this.logic.hardware.getPrinter().addPaper(amount);
@@ -95,11 +108,48 @@ public class AttendantLogic {
 		this.logic.receiptPrintingController.printDuplicateReceipt();
 	}
 
-	public void disableAttendant(){
+	/**
+	 * disables use of current station
+	 */
+	public void disableStation(){
+		if(this.logic.isSessionStarted()==true){
+			this.logic.stateLogic.gotoState(States.SUSPENDED);
+			this.logic.hardware.getMainScanner().disable();
+			this.logic.hardware.getScanningArea().disable();
+			this.logic.hardware.getBanknoteValidator().disable();
+			this.logic.hardware.getCoinValidator().disable();
+			this.logic.hardware.getCardReader().disable();
+			this.logic.hardware.getHandheldScanner().disable();
+			this.logic.hardware.getBaggingArea().disable();
+			this.logic.hardware.getBanknoteInput().disable();
+			this.logic.hardware.getCoinSlot().disable();
+			this.logic.hardware.getPrinter().disable();
+			this.logic.hardware.getReusableBagDispenser().disable();
+		}
+
 
 	}
 
-	public void enableAttendant(){
+	/**
+	 * enables use of current station
+	 */
 
+	public void enableAttendant(){
+		if(this.logic.isSessionStarted()==false || this.logic.stateLogic.inState(States.SUSPENDED)){
+			this.logic.stateLogic.gotoState(States.NORMAL);
+			this.logic.hardware.unplug();
+			this.logic.hardware.getMainScanner().enable();
+			this.logic.hardware.getScanningArea().enable();
+			this.logic.hardware.getBanknoteValidator().enable();
+			this.logic.hardware.getCoinValidator().enable();
+			this.logic.hardware.getCardReader().enable();
+			this.logic.hardware.getHandheldScanner().enable();
+			this.logic.hardware.getBaggingArea().enable();
+			this.logic.hardware.getBanknoteInput().enable();
+			this.logic.hardware.getCoinSlot().enable();
+			this.logic.hardware.getPrinter().enable();
+			this.logic.hardware.getReusableBagDispenser().enable();
+
+		}
 	}
 }
