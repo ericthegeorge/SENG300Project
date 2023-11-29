@@ -9,21 +9,32 @@ public class KeyboardScreenGUI {
 	// Variables for the screen
 	JFrame keyboardScreenFrame;
 	JPanel keyboardScreenPanel;
-	JPanel keyboardScreenPane;
+	JPanel keyRowOnePanel;
+	JPanel keyRowTwoPanel;
+	JPanel keyRowThreePanel;
+	JPanel keyRowFourPanel;
+	JPanel textFieldPanel;
+	JTextArea textArea;
 	
 	
 	// Constructor for the screen
 	public KeyboardScreenGUI() {
 		keyboardScreenFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
 		keyboardScreenPanel = new JPanel();
-		keyboardScreenPane = new JPanel();
+		keyRowOnePanel = new JPanel();
+		keyRowTwoPanel = new JPanel();
+		keyRowThreePanel = new JPanel();
+		keyRowFourPanel = new JPanel();
+		textFieldPanel = new JPanel();
+		textArea = new JTextArea();
+		
 		
 		
 		addWidgets();
 		
 		// TODO: Build out the rest of the screen. 
 		keyboardScreenFrame.getContentPane().add(keyboardScreenPanel, BorderLayout.CENTER);
-		keyboardScreenFrame.getContentPane().add(keyboardScreenPane, BorderLayout.CENTER);
+		
 		
 		keyboardScreenFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		keyboardScreenFrame.pack();
@@ -35,34 +46,58 @@ public class KeyboardScreenGUI {
 	// Adds all the buttons
 	private void addWidgets() {
 		// Create Layouts
-		BoxLayout keyboardRow1 = new BoxLayout();
-		keyboardScreenPanel.setLayout(keyboardRow1);
-		BoxLayout keyboardRow2 = new BoxLayout();
-		keyboardScreenPane.setLayout(keyboardRow2);
+		keyboardScreenPanel.setLayout(new BoxLayout(keyboardScreenPanel, BoxLayout.Y_AXIS));
+		keyRowOnePanel.setLayout(new BoxLayout(keyRowOnePanel, BoxLayout.X_AXIS));
+		keyRowTwoPanel.setLayout(new BoxLayout(keyRowTwoPanel, BoxLayout.X_AXIS));
+		keyRowThreePanel.setLayout(new BoxLayout(keyRowThreePanel, BoxLayout.X_AXIS));
+		keyRowFourPanel.setLayout(new BoxLayout(keyRowFourPanel, BoxLayout.X_AXIS));
+		textFieldPanel.setLayout(new BoxLayout(textFieldPanel, BoxLayout.X_AXIS));
+		
 		
 		// Add Buttons
-		keyboardScreenPanel.add(new JButton(" Q "));
-		keyboardScreenPanel.add(new JButton(" W "));
-		keyboardScreenPanel.add(new JButton(" E "));
-		keyboardScreenPanel.add(new JButton(" R "));
-		keyboardScreenPanel.add(new JButton(" T "));
-		keyboardScreenPanel.add(new JButton(" Y "));
-		keyboardScreenPanel.add(new JButton(" U "));
-		keyboardScreenPanel.add(new JButton(" I "));
-		keyboardScreenPanel.add(new JButton(" O "));
-		keyboardScreenPanel.add(new JButton(" P "));
-		keyboardScreenPanel.add(new JButton(" _ "));
+		keyRowOnePanel.add(new JButton(" Q "));
+		keyRowOnePanel.add(new JButton(" W "));
+		keyRowOnePanel.add(new JButton(" E "));
+		keyRowOnePanel.add(new JButton(" R "));
+		keyRowOnePanel.add(new JButton(" T "));
+		keyRowOnePanel.add(new JButton(" Y "));
+		keyRowOnePanel.add(new JButton(" U "));
+		keyRowOnePanel.add(new JButton(" I "));
+		keyRowOnePanel.add(new JButton(" O "));
+		keyRowOnePanel.add(new JButton(" P "));
+		keyRowOnePanel.add(new JButton(" _ "));
 		
-		keyboardScreenPane.add(new JButton(" A "));
-		keyboardScreenPane.add(new JButton(" S "));
-		keyboardScreenPane.add(new JButton(" D "));
-		keyboardScreenPane.add(new JButton(" F "));
-		keyboardScreenPane.add(new JButton(" G "));
-		keyboardScreenPane.add(new JButton(" H "));
-		keyboardScreenPane.add(new JButton(" J "));
-		keyboardScreenPane.add(new JButton(" K "));
-		keyboardScreenPane.add(new JButton(" L "));
-		keyboardScreenPane.add(new JButton(" @ "));
+		keyRowTwoPanel.add(new JButton(" A "));
+		keyRowTwoPanel.add(new JButton(" S "));
+		keyRowTwoPanel.add(new JButton(" D "));
+		keyRowTwoPanel.add(new JButton(" F "));
+		keyRowTwoPanel.add(new JButton(" G "));
+		keyRowTwoPanel.add(new JButton(" H "));
+		keyRowTwoPanel.add(new JButton(" J "));
+		keyRowTwoPanel.add(new JButton(" K "));
+		keyRowTwoPanel.add(new JButton(" L "));
+		keyRowTwoPanel.add(new JButton(" @ "));
+		
+		keyRowThreePanel.add(new JButton(" Z "));
+		keyRowThreePanel.add(new JButton(" X "));
+		keyRowThreePanel.add(new JButton(" C "));
+		keyRowThreePanel.add(new JButton(" V "));
+		keyRowThreePanel.add(new JButton(" B "));
+		keyRowThreePanel.add(new JButton(" N "));
+		keyRowThreePanel.add(new JButton(" M "));
+		keyRowThreePanel.add(new JButton(" , "));
+		keyRowThreePanel.add(new JButton(" . "));
+		keyRowThreePanel.add(new JButton(" - "));
+		
+		keyRowFourPanel.add(new JButton(" SPACE "));
+		keyRowFourPanel.add(new JButton(" BACKSPACE "));
+		
+		// Add the smaller containers to the main panel
+		keyboardScreenPanel.add(textFieldPanel);
+		keyboardScreenPanel.add(keyRowOnePanel);
+		keyboardScreenPanel.add(keyRowTwoPanel);
+		keyboardScreenPanel.add(keyRowThreePanel);
+		keyboardScreenPanel.add(keyRowFourPanel);
 		
 		
 	}
