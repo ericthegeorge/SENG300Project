@@ -36,7 +36,7 @@ import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
 public class SignalAttendantLogic {
 	private AttendantStation attendantStation;
 	private AttendantLogic attendantLogic;
-	private boolean helpNeeded;
+	private boolean helpNeeded; //flag for attendant
 	
 	public void getAssistance(ISelfCheckoutStation station) {
 		helpNeeded = true;
@@ -64,8 +64,11 @@ public class SignalAttendantLogic {
 	 * @param station customerStation should belong to superviseStations list for a specific instance of attendantStation
 	 * @exception InvalidArgumentSimulationException thrown is customer self-checkout is not supervised by attendee station
 	 */
-	public void signalHelpNeeded(ISelfCheckoutStation station) {
+	public synchronized void signalHelpNeeded(ISelfCheckoutStation station) {
 		if (attendantStation.supervisedStations().contains(station)) {
+			if (isHelpNeeded()) {
+	               throw new IllegalStateException("Concurrent request: Help is already called.");
+	        }
 			getAssistance(station);
 		}
 		else {
@@ -76,9 +79,11 @@ public class SignalAttendantLogic {
 	 * @param station should belong to superviseStations list
 	 * @exception InvalidArggumentSimulationException thrown if station not supervised by an attendee
 	 */
-	public void clearCustomerRequest(ISelfCheckoutStation station) {
+	public synchronized void clearCustomerRequest(ISelfCheckoutStation station) {
         if (attendantStation.supervisedStations().contains(station)) {
-            clearAssistanceRequest(station);
+        	if (isHelpNeeded()) {
+        		clearAssistanceRequest(station);
+        	}
         } else {
             throw new InvalidArgumentSimulationException("The provided customer station is not supervised by this attendant station.");
         }
