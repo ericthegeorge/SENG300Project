@@ -283,11 +283,14 @@ public class CentralStationLogic {
 		if (this.isSessionStarted()) {
 			throw new InvalidStateSimulationException("Session already started");
 		}
-		
-		System.out.println("Session started");
-		
-		this.stateLogic.gotoState(States.NORMAL);
-		this.sessionStarted = true;
+		if(issuePredicted()) {
+			this.stateLogic.gotoState(States.BLOCKED);
+		} else {
+			System.out.println("Session started");
+			this.stateLogic.gotoState(States.NORMAL);
+			this.sessionStarted = true;
+		}
+
 	}
 	
 	/**
@@ -295,7 +298,44 @@ public class CentralStationLogic {
 	 */
 	public void stopSession() {
 		System.out.println("Session ended");
-		
 		this.sessionStarted = false;
+		
+		//the session can be ended first as the issue prediction 
+		//is not relevant to the current customer
+		if(issuePredicted()) {
+			this.stateLogic.gotoState(States.BLOCKED);
+		} 
+	}
+	
+	public boolean issuePredicted() {
+		boolean issueExists = false;
+		//TODO put printer and ink warning checks in here
+		
+		//Banknote dispenser checks
+	    for (Entry<BigDecimal, BanknoteDispenserController> entry : this.banknoteDispenserControllers.entrySet()) {
+	        final BanknoteDispenserController controller = entry.getValue();
+	        if(controller.shouldWarnEmpty()) {
+		        //TODO interact with attendant station UI
+	        	issueExists = true;
+	        }
+	        if(controller.shouldWarnFull()) {
+	        	//TODO interact with attendant station UI
+	        	issueExists = true;
+	        }
+	    }
+	    
+	    //Coin dispenser checks
+	    for (Entry<BigDecimal, CoinDispenserController> entry : this.coinDispenserControllers.entrySet()) {
+	        final CoinDispenserController controller = entry.getValue();
+	        if(controller.shouldWarnEmpty()) {
+		        //TODO interact with attendant station UI
+	        	issueExists = true;
+	        }
+	        if(controller.shouldWarnFull()) {
+	        	//TODO interact with attendant station UI
+	        	issueExists = true;
+	        }
+	    }
+	    return issueExists;
 	}
 }
