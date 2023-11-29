@@ -71,6 +71,7 @@ public class PayByCashTests {
 		
 		stationBronze = new SelfCheckoutStationBronze();
 		logicBronze = new CentralStationLogic(stationBronze);
+		logicBronze.setBypassIssuePrediction(true);
 		
 		stationBronze.plugIn(PowerGrid.instance());
 		stationBronze.turnOn();
