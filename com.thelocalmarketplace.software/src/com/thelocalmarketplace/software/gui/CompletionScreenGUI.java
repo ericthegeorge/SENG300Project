@@ -85,6 +85,10 @@ public class CompletionScreenGUI {
 		completionScreenPanel.add(Box.createVerticalGlue());
 	}
 	
+	public JPanel getPanel() {
+		return this.completionScreenPanel;
+	}
+	
 	public static void main(String[] args) {
 		CompletionScreenGUI completionScreen = new CompletionScreenGUI();
 	}
