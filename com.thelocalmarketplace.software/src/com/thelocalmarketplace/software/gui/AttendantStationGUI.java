@@ -6,9 +6,28 @@ import java.awt.geom.Ellipse2D;
 
 public class AttendantStationGUI {
 
-    private static JComboBox<String> comboBox;
+    private static JComboBox<StationObject> comboBox;
 
-    static void createFrame(int numSquares) {
+    // Fake class to represent Station objects
+    static class StationObject {
+        private int stationNumber;
+
+        public StationObject(int stationNumber) {
+            this.stationNumber = stationNumber;
+        }
+
+        public int getStationNumber() {
+            return stationNumber;
+        }
+
+        @Override
+        public String toString() {
+            return "Station #" + stationNumber;
+        }
+    }
+
+    static void createFrame(StationObject[] stationObjects) {
+
         JFrame frame = new JFrame("Attendant Station");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
@@ -35,11 +54,8 @@ public class AttendantStationGUI {
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
         comboBox = new JComboBox<>(); // Use the class variable, not local variable
-        updateComboBoxOptions(numSquares); // Initialize JComboBox options
-        comboBox.setEditable(false);
-
         // Create a JComboBox (button with a dropdown menu) for the right panel
-        updateComboBoxOptions(numSquares); // Initialize JComboBox options
+        updateComboBoxOptions(stationObjects); // Initialize JComboBox options
         comboBox.setEditable(false); // Make the combo box not editable
 
         // Set the preferred size of the JComboBox
@@ -131,29 +147,24 @@ public class AttendantStationGUI {
         frame.setVisible(true);
 
         // Initial creation of squares (hardcoded)
-        createSquares(leftPanel, numSquares); // Pass the number of squares as a parameter
+        createSquares(leftPanel, stationObjects); // Pass the number of squares as a parameter
     }
 
     // Method to update JComboBox options based on the given number of squares
-    private static void updateComboBoxOptions(int numSquares) {
-        String[] comboBoxOptions = new String[numSquares];
-        for (int i = 0; i < numSquares; i++) {
-            comboBoxOptions[i] = "Station " + (i + 1);
-        }
-        comboBox.setModel(new DefaultComboBoxModel<>(comboBoxOptions));
+    private static void updateComboBoxOptions(StationObject[] stationObjects) {
+        comboBox.setModel(new DefaultComboBoxModel<>(stationObjects));
     }
 
-    // Method to create squares based on the given number
-    // Method to create squares based on the given number
-    private static void createSquares(JPanel panel, int numSquares) {
+    // Method to create squares based on the given array of StationObjects
+    private static void createSquares(JPanel panel, StationObject[] stationObjects) {
         panel.removeAll(); // Clear existing components
 
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(20, 20, 20, 20); // Increased padding between components
 
-        int rows = (int) Math.ceil((double) numSquares / 4);
+        int rows = (int) Math.ceil((double) stationObjects.length / 4);
 
-        for (int i = 0; i < numSquares; i++) {
+        for (int i = 0; i < stationObjects.length; i++) {
             JPanel square = new JPanel(new BorderLayout());
             square.setPreferredSize(new Dimension(220, 220)); // Increased size
             square.setBackground(Color.BLUE); // You can customize the color
@@ -200,7 +211,7 @@ public class AttendantStationGUI {
             square.add(lightsPanel, BorderLayout.SOUTH);
 
             // Add a label with the text "Station #" and the current number
-            JLabel label = new JLabel("Station #" + (i + 1));
+            JLabel label = new JLabel("Station #" + stationObjects[i].getStationNumber());
             label.setForeground(Color.WHITE); // Set text color to white
             label.setHorizontalAlignment(JLabel.CENTER); // Center align the text
             square.add(label, BorderLayout.CENTER);
@@ -215,7 +226,7 @@ public class AttendantStationGUI {
         }
 
         // Add empty panels to fill the remaining space
-        for (int i = numSquares; i < rows * 4; i++) {
+        for (int i = stationObjects.length; i < rows * 4; i++) {
             JPanel emptySquare = new JPanel();
             emptySquare.setPreferredSize(new Dimension(220, 220)); // Adjusted for larger size
             emptySquare.setBackground(Color.LIGHT_GRAY); // Set background color for empty squares
@@ -225,6 +236,7 @@ public class AttendantStationGUI {
         panel.revalidate(); // Refresh the panel
         panel.repaint(); // Repaint the panel
     }
+
 
 
     // Method to handle button click events
@@ -568,8 +580,17 @@ public class AttendantStationGUI {
     }
 
     public static void main(String[] args) {
-        int numSquares = 5; // Set the initial number of squares
-        SwingUtilities.invokeLater(() -> createFrame(numSquares));
+        int numStations = 3; // Set the initial number of stations
+
+        // Create an array of StationObject instances
+        StationObject[] stationObjects = new StationObject[numStations];
+        for (int i = 0; i < numStations; i++) {
+            stationObjects[i] = new StationObject(i + 1);
+        }
+
+        // Create an instance of AttendantStationGUI
+        AttendantStationGUI attendantStationGUI = new AttendantStationGUI();
+        attendantStationGUI.createFrame(stationObjects);
     }
 
 }
