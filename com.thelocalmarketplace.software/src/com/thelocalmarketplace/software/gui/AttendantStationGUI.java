@@ -237,6 +237,235 @@ public class AttendantStationGUI {
         panel.repaint(); // Repaint the panel
     }
 
+    // Method to create a window for maintaining paper
+    private static void createMaintainPaperWindow(JFrame mainFrame) {
+        JFrame window = new JFrame("Maintain Paper");
+        window.setSize(400, 200);
+        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JTextField quantityTextField = new JTextField();
+        quantityTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        quantityTextField.setMaximumSize(new Dimension(300, 40));
+
+        JButton enterButton = new JButton("Enter");
+        enterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        enterButton.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        enterButton.addActionListener(e -> {
+            String quantity = quantityTextField.getText();
+            handleEnteredQuantity("Maintain Paper", quantity);
+            window.dispose();
+        });
+
+        JLabel label = new JLabel("Enter quantity:");
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        label.setFont(new Font("Arial", Font.BOLD, 24));
+
+        panel.add(label);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));  // Increased spacing
+        panel.add(quantityTextField);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));  // Increased spacing
+        panel.add(enterButton);
+
+        // Center the panel within the window
+        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        window.add(panel);
+        centerWindowOnFrame(window, mainFrame);
+        window.setVisible(true);
+    }
+
+    // Method to create a window for maintaining ink
+    private static void createMaintainInkWindow(JFrame mainFrame) {
+        JFrame window = new JFrame("Maintain Ink");
+        window.setSize(400, 200);
+        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JTextField quantityTextField = new JTextField();
+        quantityTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
+        quantityTextField.setMaximumSize(new Dimension(300, 40));
+
+        JButton enterButton = new JButton("Enter");
+        enterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        enterButton.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        enterButton.addActionListener(e -> {
+            String quantity = quantityTextField.getText();
+            handleEnteredQuantity("Maintain Ink", quantity);
+            window.dispose();
+        });
+
+        JLabel label = new JLabel("Enter quantity:");
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        label.setFont(new Font("Arial", Font.BOLD, 24));
+
+        panel.add(label);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));  // Increased spacing
+        panel.add(quantityTextField);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));  // Increased spacing
+        panel.add(enterButton);
+
+        // Center the panel within the window
+        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        window.add(panel);
+        centerWindowOnFrame(window, mainFrame);
+        window.setVisible(true);
+    }
+
+    // Method to create a window for maintaining coins
+    private static void createMaintainCoinsWindow(JFrame mainFrame) {
+        JFrame coinsWindow = new JFrame("Maintain Coins");
+        coinsWindow.setSize(600, 300);
+        coinsWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        String[] denominations = {"1 cent", "5 cents", "10 cents", "25 cents"};
+        JTextField[] quantityTextFields = new JTextField[denominations.length];
+
+        for (int i = 0; i < denominations.length; i++) {
+            JPanel slotPanel = new JPanel();
+            slotPanel.setLayout(new FlowLayout());
+
+            JLabel denominationLabel = new JLabel(denominations[i]);
+            denominationLabel.setFont(new Font("Arial", Font.PLAIN, 16));  // Increased font size
+
+            JTextField quantityTextField = new JTextField();
+            quantityTextField.setPreferredSize(new Dimension(80, 40));
+
+            quantityTextFields[i] = quantityTextField;
+
+            slotPanel.add(denominationLabel);
+            slotPanel.add(quantityTextField);
+
+            panel.add(slotPanel);
+        }
+
+        JButton enterButton = new JButton("Enter");
+        enterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        enterButton.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        enterButton.addActionListener(e -> {
+            int[] quantities = new int[denominations.length];
+            for (int i = 0; i < denominations.length; i++) {
+                String quantityText = quantityTextFields[i].getText();
+                quantities[i] = Integer.parseInt(quantityText);
+            }
+            handleEnteredQuantities("Maintain Coins", denominations, quantities);
+            coinsWindow.dispose();
+        });
+
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(enterButton);
+
+        coinsWindow.add(panel);
+        centerWindowOnFrame(coinsWindow, mainFrame);
+        coinsWindow.setVisible(true);
+    }
+
+    // Method to create a window for maintaining banknotes
+    private static void createMaintainBanknotesWindow(JFrame mainFrame) {
+        JFrame banknotesWindow = new JFrame("Maintain Banknotes");
+        banknotesWindow.setSize(600, 300);
+        banknotesWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        String[] denominations = {"$1", "$5", "$10", "$20", "$50", "$100"};
+        JTextField[] quantityTextFields = new JTextField[denominations.length];
+
+        for (int i = 0; i < denominations.length; i++) {
+            JPanel slotPanel = new JPanel();
+            slotPanel.setLayout(new FlowLayout());
+
+            JLabel denominationLabel = new JLabel(denominations[i]);
+            denominationLabel.setFont(new Font("Arial", Font.PLAIN, 16));  // Increased font size
+
+            JTextField quantityTextField = new JTextField();
+            quantityTextField.setPreferredSize(new Dimension(80, 40));
+
+            quantityTextFields[i] = quantityTextField;
+
+            slotPanel.add(denominationLabel);
+            slotPanel.add(quantityTextField);
+
+            panel.add(slotPanel);
+        }
+
+        JButton enterButton = new JButton("Enter");
+        enterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        enterButton.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        enterButton.addActionListener(e -> {
+            int[] quantities = new int[denominations.length];
+            for (int i = 0; i < denominations.length; i++) {
+                String quantityText = quantityTextFields[i].getText();
+                quantities[i] = Integer.parseInt(quantityText);
+            }
+            handleEnteredQuantities("Maintain Banknotes", denominations, quantities);
+            banknotesWindow.dispose();
+        });
+
+        panel.add(Box.createRigidArea(new Dimension(0, 20)));
+        panel.add(enterButton);
+
+        banknotesWindow.add(panel);
+        centerWindowOnFrame(banknotesWindow, mainFrame);
+        banknotesWindow.setVisible(true);
+    }
+
+    // Method to create a window for text search
+    private static void createTextSearchWindow(JFrame mainFrame) {
+        JFrame textSearchWindow = new JFrame("Add Item by Text Search");
+        textSearchWindow.setSize(400, 200); // Increased window size
+        textSearchWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+
+        JPanel panel = new JPanel();
+        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+
+        JLabel label = new JLabel("Enter search text:");
+        label.setAlignmentX(Component.CENTER_ALIGNMENT);
+        label.setFont(new Font("Arial", Font.BOLD, 24)); // Increased font size
+        panel.add(label);
+
+        JTextField searchTextfield = new JTextField();
+        searchTextfield.setAlignmentX(Component.CENTER_ALIGNMENT);
+        searchTextfield.setMaximumSize(new Dimension(300, 40)); // Increased text field size
+
+        JButton enterButton = new JButton("Enter");
+        enterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        enterButton.setFont(new Font("Arial", Font.PLAIN, 20)); // Increased font size
+
+        // Add action listener to the Enter button
+        enterButton.addActionListener(e -> {
+            // Handle the entered text (you can use the text from searchTextfield)
+            String searchText = searchTextfield.getText();
+            // Perform actions based on the entered text
+            handleEnteredText(searchText);
+
+            // Close the window after processing
+            textSearchWindow.dispose();
+        });
+
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));  // Increased spacing
+        panel.add(searchTextfield);
+        panel.add(Box.createRigidArea(new Dimension(0, 10)));  // Increased spacing
+        panel.add(enterButton);
+
+        textSearchWindow.add(panel);
+        centerWindowOnFrame(textSearchWindow, mainFrame);
+
+        textSearchWindow.setVisible(true);
+    }
 
 
     // Method to handle button click events
@@ -263,241 +492,6 @@ public class AttendantStationGUI {
 
     }
 
-    private static void createMaintainPaperWindow(JFrame mainFrame) {
-
-        // For other buttons, you can add your logic here
-        JFrame window = new JFrame("Maintain Paper");
-        window.setSize(300, 150);
-        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        JTextField quantityTextField = new JTextField();
-        quantityTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        quantityTextField.setMaximumSize(new Dimension(200, 30));
-
-        JButton enterButton = new JButton("Enter");
-        enterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        // Add action listener to the Enter button
-        enterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Handle the entered quantity (you can use the text from quantityTextField)
-                String quantity = quantityTextField.getText();
-                // Perform actions based on the buttonLabel and entered quantity
-                handleEnteredQuantity("Maintain Paper", quantity);
-
-                // Close the window after processing
-                window.dispose();
-            }
-        });
-
-        JLabel label = new JLabel("Enter quantity:");
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        panel.add(label);
-        panel.add(quantityTextField);
-        panel.add(Box.createRigidArea(new Dimension(0, 5)));
-        panel.add(enterButton);
-
-        // Center the panel within the window
-        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        window.add(panel);
-
-        // Center the window on the screen
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (screenSize.width - window.getWidth()) / 2;
-        int y = (screenSize.height - window.getHeight()) / 2;
-        window.setLocation(x, y);
-
-        window.setVisible(true);
-
-
-    }
-
-    private static void createMaintainInkWindow(JFrame mainFrame) {
-
-        // For other buttons, you can add your logic here
-        JFrame window = new JFrame("Maintain Ink");
-        window.setSize(300, 150);
-        window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        JTextField quantityTextField = new JTextField();
-        quantityTextField.setAlignmentX(Component.CENTER_ALIGNMENT);
-        quantityTextField.setMaximumSize(new Dimension(200, 30));
-
-        JButton enterButton = new JButton("Enter");
-        enterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        // Add action listener to the Enter button
-        enterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Handle the entered quantity (you can use the text from quantityTextField)
-                String quantity = quantityTextField.getText();
-                // Perform actions based on the buttonLabel and entered quantity
-                handleEnteredQuantity("Maintain Ink", quantity);
-
-                // Close the window after processing
-                window.dispose();
-            }
-        });
-
-        JLabel label = new JLabel("Enter quantity:");
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        panel.add(label);
-        panel.add(quantityTextField);
-        panel.add(Box.createRigidArea(new Dimension(0, 5)));
-        panel.add(enterButton);
-
-        // Center the panel within the window
-        panel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        window.add(panel);
-
-        // Center the window on the screen
-        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (screenSize.width - window.getWidth()) / 2;
-        int y = (screenSize.height - window.getHeight()) / 2;
-        window.setLocation(x, y);
-
-        window.setVisible(true);
-
-
-    }
-
-    // Method to create a window for maintaining coins
-    private static void createMaintainCoinsWindow(JFrame mainFrame) {
-        JFrame coinsWindow = new JFrame("Maintain Coins");
-        coinsWindow.setSize(400, 250);
-        coinsWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        // Create multiple slots for different denominations
-        String[] denominations = {"1 cent", "5 cents", "10 cents", "25 cents"};
-        JTextField[] quantityTextFields = new JTextField[denominations.length];
-
-        for (int i = 0; i < denominations.length; i++) {
-            JPanel slotPanel = new JPanel();
-            slotPanel.setLayout(new FlowLayout());
-
-            JLabel denominationLabel = new JLabel(denominations[i]);
-            JTextField quantityTextField = new JTextField();
-            quantityTextField.setPreferredSize(new Dimension(50, 30));  // Fixed size
-
-            quantityTextFields[i] = quantityTextField;
-
-            slotPanel.add(denominationLabel);
-            slotPanel.add(quantityTextField);
-
-            panel.add(slotPanel);
-        }
-
-        JButton enterButton = new JButton("Enter");
-
-        // Add action listener to the Enter button
-        enterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Handle the entered quantities for each denomination
-                int[] quantities = new int[denominations.length];
-                for (int i = 0; i < denominations.length; i++) {
-                    String quantityText = quantityTextFields[i].getText();
-                    quantities[i] = Integer.parseInt(quantityText);
-                }
-
-                // Perform actions based on the entered quantities
-                handleEnteredQuantities("Maintain Coins", denominations, quantities);
-
-                // Close the window after processing
-                coinsWindow.dispose();
-            }
-        });
-
-        panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        panel.add(enterButton);
-
-        coinsWindow.add(panel);
-        coinsWindow.setVisible(true);
-
-        // Center the window on the main frame
-        centerWindowOnFrame(coinsWindow, mainFrame);
-
-        coinsWindow.setVisible(true);
-    }
-
-    // Method to create a window for maintaining banknotes
-    private static void createMaintainBanknotesWindow(JFrame mainFrame) {
-        JFrame banknotesWindow = new JFrame("Maintain Banknotes");
-        banknotesWindow.setSize(400, 250);
-        banknotesWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        // Create multiple slots for different denominations
-        String[] denominations = {"$1", "$5", "$10", "$20", "$50", "$100"};
-        JTextField[] quantityTextFields = new JTextField[denominations.length];
-
-        for (int i = 0; i < denominations.length; i++) {
-            JPanel slotPanel = new JPanel();
-            slotPanel.setLayout(new FlowLayout());
-
-            JLabel denominationLabel = new JLabel(denominations[i]);
-            JTextField quantityTextField = new JTextField();
-            quantityTextField.setPreferredSize(new Dimension(50, 30));  // Fixed size
-
-            quantityTextFields[i] = quantityTextField;
-
-            slotPanel.add(denominationLabel);
-            slotPanel.add(quantityTextField);
-
-            panel.add(slotPanel);
-        }
-
-        JButton enterButton = new JButton("Enter");
-
-        // Add action listener to the Enter button
-        enterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Handle the entered quantities for each denomination
-                int[] quantities = new int[denominations.length];
-                for (int i = 0; i < denominations.length; i++) {
-                    String quantityText = quantityTextFields[i].getText();
-                    quantities[i] = Integer.parseInt(quantityText);
-                }
-
-                // Perform actions based on the entered quantities
-                handleEnteredQuantities("Maintain Banknotes", denominations, quantities);
-
-                // Close the window after processing
-                banknotesWindow.dispose();
-            }
-        });
-
-        panel.add(Box.createRigidArea(new Dimension(0, 10)));
-        panel.add(enterButton);
-
-        banknotesWindow.add(panel);
-        banknotesWindow.setVisible(true);
-
-        // Center the window on the main frame
-        centerWindowOnFrame(banknotesWindow, mainFrame);
-
-        banknotesWindow.setVisible(true);
-    }
-
-
     // Method to handle entered quantities for coins or banknotes
     private static void handleEnteredQuantities(String buttonLabel, String[] denominations, int[] quantities) {
         // Add your logic here based on the buttonLabel, denominations, and quantities
@@ -513,56 +507,6 @@ public class AttendantStationGUI {
         // For example, you can print the values for demonstration purposes
         System.out.println("Button: " + buttonLabel + ", Quantity: " + quantity);
     }
-
-    // Method to create a window for text search
-    // Method to create a window for text search
-    // Method to create a window for text search
-    private static void createTextSearchWindow(JFrame mainFrame) {
-        JFrame textSearchWindow = new JFrame("Add Item by Text Search");
-        textSearchWindow.setSize(300, 150);
-        textSearchWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
-        JPanel panel = new JPanel();
-        panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
-
-        JLabel label = new JLabel("Enter search text:");
-        label.setAlignmentX(Component.CENTER_ALIGNMENT);
-        panel.add(label);
-
-        JTextField searchTextfield = new JTextField();
-        searchTextfield.setAlignmentX(Component.CENTER_ALIGNMENT);
-        searchTextfield.setMaximumSize(new Dimension(200, 30));
-
-        JButton enterButton = new JButton("Enter");
-        enterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
-
-        // Add action listener to the Enter button
-        enterButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                // Handle the entered text (you can use the text from searchTextfield)
-                String searchText = searchTextfield.getText();
-                // Perform actions based on the entered text
-                handleEnteredText(searchText);
-
-                // Close the window after processing
-                textSearchWindow.dispose();
-            }
-        });
-
-        panel.add(Box.createRigidArea(new Dimension(0, 5)));
-        panel.add(searchTextfield);
-        panel.add(Box.createRigidArea(new Dimension(0, 5)));
-        panel.add(enterButton);
-
-        textSearchWindow.add(panel);
-        textSearchWindow.setVisible(true);
-
-        centerWindowOnFrame(textSearchWindow, mainFrame);
-
-        textSearchWindow.setVisible(true);
-    }
-
 
     // Method to handle entered text for text search
     private static void handleEnteredText(String searchText) {
