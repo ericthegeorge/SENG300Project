@@ -94,7 +94,7 @@ public class AddOwnBagsTests {
 		bag2 = new Bag(bag2mass);
 		bag3 = new Bag(invalidBagMass);
 		
-		
+		session.setBypassIssuePrediction(true);
 	}
 	
 	@After 

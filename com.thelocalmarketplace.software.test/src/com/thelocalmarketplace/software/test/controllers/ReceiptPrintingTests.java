@@ -55,6 +55,7 @@ public class ReceiptPrintingTests {
         station.plugIn(PowerGrid.instance());
         station.turnOn();
         session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
         session.startSession();
         controller = new ReceiptPrintingController(session);
               

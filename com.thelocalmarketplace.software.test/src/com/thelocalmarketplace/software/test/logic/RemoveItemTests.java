@@ -116,6 +116,7 @@ public class RemoveItemTests {
 			station.turnOn();
 			
 			session = new CentralStationLogic(station);
+			session.setBypassIssuePrediction(true);
 			session.startSession();
 		}
 		@Rule

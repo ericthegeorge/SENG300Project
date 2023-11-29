@@ -75,6 +75,7 @@ public class WeightDiscrepencyTests {
 		//d1 = new dummyProductDatabaseWithOneItem();
 		//d2 = new dummyProductDatabaseWithNoItemsInInventory();
 		station = new SelfCheckoutStationBronze();
+
 		
 		//initialize database
 		barcode_numeral = new Numeral[]{Numeral.one,Numeral.two, Numeral.three};
@@ -112,6 +113,7 @@ public class WeightDiscrepencyTests {
 		station.plugIn(PowerGrid.instance());
 		station.turnOff();
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		this.scanUntilAdded(product, bitem);
 		station.getHandheldScanner().scan(bitem);
@@ -121,6 +123,7 @@ public class WeightDiscrepencyTests {
 	@Test (expected = SimulationException.class)public void testWeightDiscrepencyWithoutPowerTurnOn() {
 		station.turnOn();
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		this.scanUntilAdded(product, bitem2);
 		session.startSession();
 		station.getBaggingArea().addAnItem(bitem2);
@@ -129,6 +132,7 @@ public class WeightDiscrepencyTests {
 		station.plugIn(PowerGrid.instance());
 		station.turnOn();
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		this.scanUntilAdded(product, bitem3);
 		station.getBaggingArea().addAnItem(bitem3);
@@ -143,6 +147,7 @@ public class WeightDiscrepencyTests {
 		station.turnOn();
 		
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
 		this.scanUntilAdded(product, bitem2);
@@ -157,6 +162,7 @@ public class WeightDiscrepencyTests {
 		station.turnOn();
 		
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
 		//station.scanner.scan(bitem2);
@@ -166,8 +172,10 @@ public class WeightDiscrepencyTests {
 		station.plugIn(PowerGrid.instance());
 		station.turnOn();
 		
-		session = new CentralStationLogic(station);;
+		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
+		
 		
 		//sensativity of the scale is 100mg
 		Mass  sensativity = station.getBaggingArea().getSensitivityLimit();
@@ -181,6 +189,7 @@ public class WeightDiscrepencyTests {
 		station.turnOn();
 		
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
 		//sensativity of the scale is 100mg
@@ -199,6 +208,7 @@ public class WeightDiscrepencyTests {
 		station.turnOn();
 		
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
 		this.scanUntilAdded(product, bitem2);
@@ -213,6 +223,7 @@ public class WeightDiscrepencyTests {
 		station.turnOn();
 		
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
 		//station.scanner.scan(bitem2);
@@ -228,6 +239,7 @@ public class WeightDiscrepencyTests {
 		station.turnOn();
 		
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
 		this.scanUntilAdded(product, bitem3);
@@ -242,6 +254,7 @@ public class WeightDiscrepencyTests {
 		station.turnOn();
 		
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
 		this.scanUntilAdded(product, bitem);
@@ -256,6 +269,7 @@ public class WeightDiscrepencyTests {
 		station.turnOn();
 		
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
 		this.session.weightLogic.addExpectedWeight(new Barcode(new Numeral[] {Numeral.one}));
@@ -267,6 +281,7 @@ public class WeightDiscrepencyTests {
 		station.turnOn();
 		
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
 		this.session.weightLogic.removeExpectedWeight(new Barcode(new Numeral[] {Numeral.one}));

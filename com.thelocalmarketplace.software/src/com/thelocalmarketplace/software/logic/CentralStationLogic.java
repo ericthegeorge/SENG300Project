@@ -150,8 +150,8 @@ public class CentralStationLogic {
 	 * Tracks if the customer session is active
 	 */
 	private boolean sessionStarted;
-	
-	
+	private boolean bypassIssuePrediction;
+
 	/**
 	 * Base constructor for a new CentralStationLogic instance
 	 * @throws NullPointerException If hardware is null
@@ -204,7 +204,8 @@ public class CentralStationLogic {
 	public void selectPaymentMethod(PaymentMethods method) {
 		this.paymentMethod = method;
 	}
-	
+
+
 	/**
 	 * Helper method to setup coin dispenser controllers
 	 * @param denominations Is the list of coin denominations supported by the hardware
@@ -308,6 +309,7 @@ public class CentralStationLogic {
 	}
 	
 	public boolean issuePredicted() {
+		if (bypassIssuePrediction) return false;
 		boolean issueExists = false;
 		//TODO put printer and ink warning checks in here
 		
@@ -337,5 +339,12 @@ public class CentralStationLogic {
 	        }
 	    }
 	    return issueExists;
+	}
+	
+	/**Toggles checking of issuePrediction, allowing legacy test cases to perform
+	 * @param bypassIssuePrediction
+	 */
+	public void setBypassIssuePrediction(boolean bypassIssuePrediction) {
+		this.bypassIssuePrediction = bypassIssuePrediction;
 	}
 }
