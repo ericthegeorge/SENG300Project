@@ -4,6 +4,8 @@ import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Mass.MassDifference;
 import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PriceLookUpCode;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
@@ -93,6 +95,25 @@ public class WeightLogic extends AbstractLogicDependant {
 		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode);
 		Mass mass = new Mass(product.getExpectedWeight());
 		this.expectedWeight = this.expectedWeight.sum(mass);
+	}
+	
+	/** Adds the expected weight of the product with given barcode to the expectedWeight
+	 * @param itemIdentifier identifier of the item for which to add the expected weight (barcode, PLU code, etc.)*/
+	/*public <T>void addExpectedWeight(T itemIdentifier) {
+		if (!ProductDatabases.BARCODED_PRODUCT_DATABASE.containsKey(itemIdentifier)) {
+			throw new InvalidStateSimulationException("Barcode not registered to product database");
+		}
+		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(itemIdentifier);
+		Mass mass = new Mass(product.getExpectedWeight());
+		this.expectedWeight = this.expectedWeight.sum(mass);
+	}*/
+	
+	/** Adds the expected weight of the product with given price lookup code to the expectedWeight
+	 * @param priceLookUpCode price-lookup code of the item for which to add the expected weight */
+	public void addExpectedWeight(PriceLookUpCode priceLookUpCode) {
+		//PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(priceLookUpCode);
+		//Mass mass = new Mass(product.getExpectedWeight());
+		//this.expectedWeight = this.expectedWeight.sum(mass);
 	}
 	
 	/** Removes the weight of the product given from expectedWeight

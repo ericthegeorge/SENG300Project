@@ -47,7 +47,11 @@ public class WeightDiscrepancyController extends AbstractLogicDependant implemen
 		if (!this.logic.stateLogic.inState(States.ADDBAGS)) {
 			this.logic.weightLogic.updateActualWeight(mass);
 			this.logic.weightLogic.handleWeightDiscrepancy();	
-		} else {
+		} 
+		else if (this.logic.addPLUCodedProductController.awaitingPLUMeasurement()) {
+			// something
+		}
+		else {
 			
 			// The actual mass now is whatever was on the scale before this change
 			Mass one_bag = mass.difference(this.logic.weightLogic.getActualWeight()).abs();
