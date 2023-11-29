@@ -62,6 +62,7 @@ public class HandleBulkyItemTests {
 		station.turnOn();
 		
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
 		Barcode barcode = new Barcode(new Numeral[] {Numeral.one});

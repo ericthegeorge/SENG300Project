@@ -94,7 +94,7 @@ public class PayByCoinTests {
 	public static void initCoinDispensers(AbstractSelfCheckoutStation hardware, Map<BigDecimal, Integer> coinAmounts) throws SimulationException, CashOverloadException {
 		for (Entry<BigDecimal, Integer> c : coinAmounts.entrySet()) {
 			for (int j = 0; j < c.getValue(); j++) {					
-				hardware.getCoinDispensers().get(c.getKey()).load(new Coin(Currency.getInstance("CAD"), c.getKey()));;
+				hardware.getCoinDispensers().get(c.getKey()).load(new Coin(Currency.getInstance("CAD"), c.getKey()));
 			}
 		}
 	}
@@ -142,6 +142,7 @@ public class PayByCoinTests {
 		
 		this.logic = new CentralStationLogic(hardware);
 		this.logic.selectPaymentMethod(PaymentMethods.CASH);
+		this.logic.setBypassIssuePrediction(true);
 	}
 	
 	/**

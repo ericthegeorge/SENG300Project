@@ -94,6 +94,7 @@ public class CentralStationLogicTest {
 		station.turnOn();
 
 		session = new CentralStationLogic(station);
+		session.setBypassIssuePrediction(true);
 	}
 	
 	@Test public void startSessionStateNormalTest() {
