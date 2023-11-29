@@ -139,6 +139,10 @@ public class StartScreenGUI {
 		startScreenPanel.add(horizontalPanel);
 	}
 	
+	public JPanel getPanel() {
+		return this.startScreenPanel;
+	}
+	
 	public static void main(String[] args) {
 		StartScreenGUI startScreen = new StartScreenGUI();
 	}
