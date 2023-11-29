@@ -6,6 +6,8 @@ import java.awt.geom.Ellipse2D;
 
 public class AttendantStationGUI {
 
+    private static JComboBox<String> comboBox;
+
     static void createFrame(int numSquares) {
         JFrame frame = new JFrame("Attendant Station");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -32,13 +34,12 @@ public class AttendantStationGUI {
         JPanel buttonPanel = new JPanel();
         buttonPanel.setLayout(new BoxLayout(buttonPanel, BoxLayout.Y_AXIS));
 
-        // Create a JComboBox (button with a dropdown menu) for the right panel
-        String[] comboBoxOptions = new String[numSquares];
-        for (int i = 0; i < numSquares; i++) {
-            comboBoxOptions[i] = "Station " + (i + 1);
-        }
+        comboBox = new JComboBox<>(); // Use the class variable, not local variable
+        updateComboBoxOptions(numSquares); // Initialize JComboBox options
+        comboBox.setEditable(false);
 
-        JComboBox<String> comboBox = new JComboBox<>(comboBoxOptions);
+        // Create a JComboBox (button with a dropdown menu) for the right panel
+        updateComboBoxOptions(numSquares); // Initialize JComboBox options
         comboBox.setEditable(false); // Make the combo box not editable
 
         // Set the preferred size of the JComboBox
@@ -133,6 +134,16 @@ public class AttendantStationGUI {
         createSquares(leftPanel, numSquares); // Pass the number of squares as a parameter
     }
 
+    // Method to update JComboBox options based on the given number of squares
+    private static void updateComboBoxOptions(int numSquares) {
+        String[] comboBoxOptions = new String[numSquares];
+        for (int i = 0; i < numSquares; i++) {
+            comboBoxOptions[i] = "Station " + (i + 1);
+        }
+        comboBox.setModel(new DefaultComboBoxModel<>(comboBoxOptions));
+    }
+
+    // Method to create squares based on the given number
     // Method to create squares based on the given number
     private static void createSquares(JPanel panel, int numSquares) {
         panel.removeAll(); // Clear existing components
@@ -214,6 +225,7 @@ public class AttendantStationGUI {
         panel.revalidate(); // Refresh the panel
         panel.repaint(); // Repaint the panel
     }
+
 
     // Method to handle button click events
     private static void handleButtonClick(String buttonLabel, JFrame frame) {
@@ -556,7 +568,7 @@ public class AttendantStationGUI {
     }
 
     public static void main(String[] args) {
-        int numSquares = 7; // Set the initial number of squares
+        int numSquares = 5; // Set the initial number of squares
         SwingUtilities.invokeLater(() -> createFrame(numSquares));
     }
 
