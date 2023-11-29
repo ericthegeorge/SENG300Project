@@ -547,11 +547,6 @@ public class AttendantStationGUI {
         System.out.println("Search Text: " + searchText);
     }
 
-    public static void main(String[] args) {
-        int numSquares = 7; // Set the initial number of squares
-        SwingUtilities.invokeLater(() -> createFrame(numSquares));
-    }
-
     private static void centerWindowOnFrame(JFrame window, JFrame mainFrame) {
         // Center the window on the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -559,4 +554,10 @@ public class AttendantStationGUI {
         int y = mainFrame.getY() + (mainFrame.getHeight() - window.getHeight()) / 2;
         window.setLocation(x, y);
     }
+
+    public static void main(String[] args) {
+        int numSquares = 7; // Set the initial number of squares
+        SwingUtilities.invokeLater(() -> createFrame(numSquares));
+    }
+
 }
