@@ -97,23 +97,12 @@ public class WeightLogic extends AbstractLogicDependant {
 		this.expectedWeight = this.expectedWeight.sum(mass);
 	}
 	
-	/** Adds the expected weight of the product with given barcode to the expectedWeight
-	 * @param itemIdentifier identifier of the item for which to add the expected weight (barcode, PLU code, etc.)*/
-	/*public <T>void addExpectedWeight(T itemIdentifier) {
-		if (!ProductDatabases.BARCODED_PRODUCT_DATABASE.containsKey(itemIdentifier)) {
-			throw new InvalidStateSimulationException("Barcode not registered to product database");
-		}
-		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(itemIdentifier);
-		Mass mass = new Mass(product.getExpectedWeight());
-		this.expectedWeight = this.expectedWeight.sum(mass);
-	}*/
-	
-	/** Adds the expected weight of the product with given price lookup code to the expectedWeight
-	 * @param priceLookUpCode price-lookup code of the item for which to add the expected weight */
-	public void addExpectedWeight(PriceLookUpCode priceLookUpCode) {
-		//PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(priceLookUpCode);
-		//Mass mass = new Mass(product.getExpectedWeight());
-		//this.expectedWeight = this.expectedWeight.sum(mass);
+	/** Updates the expected weight by adding the weight of a PLU coded item to expected weight
+	 * The expected weight will be the same as the actual weight since the actual weight measurement is used to determine cost
+	 * the expected weight is merely updated in case someone removes the item or adds more items to the scale
+	 * @param massPLUCodedItem the mass of the PLU coded item */
+	public void addExpectedWeight(Mass massPLUCodedItem) {
+		this.expectedWeight = this.expectedWeight.sum(massPLUCodedItem);
 	}
 	
 	/** Removes the weight of the product given from expectedWeight

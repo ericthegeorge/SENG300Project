@@ -1,5 +1,8 @@
 package com.thelocalmarketplace.software.controllers.item;
 
+import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.Mass.MassDifference;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
@@ -38,6 +41,7 @@ import ca.ucalgary.seng300.simulation.SimulationException;
 public class AddPLUCodedItemController extends AbstractLogicDependant {
 
 	private boolean isAwaitingPLUMeasurement = false;
+	private PriceLookUpCode priceLookUpCode;
 	
 	/**
 	 * AddItemByPLUController Constructor
@@ -67,14 +71,28 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 			throw new InvalidStateSimulationException("Price-lookup code not registered to product database");
 		}
 		
-		//this.logic.cartLogic.addPLUCodedProductToCart(priceLookUpCode);
-		//this.logic.weightLogic.addExpectedWeight(priceLookUpCode, );
+		this.priceLookUpCode = priceLookUpCode;
 		
 		// blocks the station
 		this.logic.stateLogic.gotoState(States.BLOCKED);
 		isAwaitingPLUMeasurement = true;
 		
 		System.out.println("Please place item on scale to determine price");
+	}
+	
+	public void addPLUCodedItem(Mass prevMass, Mass newMass) {
+		isAwaitingPLUMeasurement = false;
+		
+		MassDifference difference = prevMass.difference(newMass);
+		Mass itemMass = difference.abs();
+		
+		PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(priceLookUpCode);
+		long itemPrice = product.getPrice() * (itemMass.inMicrograms().longValue() * 1000000);
+		
+		this.logic.cartLogic.addPLUCodedProductToCart(priceLookUpCode, itemPrice);
+		
+		// expected weight is updated so that checkWeightDiscrepancy() in WeightLogic does not incorrectly return true
+		this.logic.weightLogic.addExpectedWeight(itemMass);
 	}
 
 	/**
@@ -83,7 +101,7 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 	 * cost of the PLU coded item.
 	 * @return whether or not the system is awaiting a scale measurement
 	 */
-	public boolean awaitingPLUMeasurement() {
+	public boolean getAwaitingPLUMeasurement() {
 		return isAwaitingPLUMeasurement;
 	}
 	

@@ -45,13 +45,17 @@ public class WeightDiscrepancyController extends AbstractLogicDependant implemen
 		
 		// Weight discrepancies are ignored when in ADDBAGS state
 		if (!this.logic.stateLogic.inState(States.ADDBAGS)) {
+			
+			// Adds a PLU coded item if the station is expecting that to be the next thing on the scale
+			if (this.logic.addPLUCodedProductController.getAwaitingPLUMeasurement()) {
+				// passes in the previous mass and the new mass as parameters to calculate the mass of the item
+				this.logic.addPLUCodedProductController.addPLUCodedItem(this.logic.weightLogic.getActualWeight(), mass);
+			}
+			
 			this.logic.weightLogic.updateActualWeight(mass);
-			this.logic.weightLogic.handleWeightDiscrepancy();	
-		} 
-		else if (this.logic.addPLUCodedProductController.awaitingPLUMeasurement()) {
-			// something
-		}
-		else {
+			this.logic.weightLogic.handleWeightDiscrepancy();
+			
+		} else {
 			
 			// The actual mass now is whatever was on the scale before this change
 			Mass one_bag = mass.difference(this.logic.weightLogic.getActualWeight()).abs();

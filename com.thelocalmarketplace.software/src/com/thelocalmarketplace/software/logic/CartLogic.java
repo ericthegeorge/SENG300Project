@@ -7,6 +7,8 @@ import java.util.Map.Entry;
 
 import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.Utilities;
@@ -69,6 +71,14 @@ public class CartLogic {
 		//}
 	}
 	
+	public void addProductToCart(PLUCodedProduct product, long itemPrice) {
+		Utilities.modifyCountMapping(cart, product, 1);
+		
+		// Update balance owed
+		BigDecimal newPrice = this.balanceOwed.add(new BigDecimal(itemPrice));
+		this.updateBalance(newPrice);
+	}
+	
 	/**
 	 * Removes a product from customer's cart
 	 * @param product The product to remove
@@ -107,6 +117,22 @@ public class CartLogic {
 		}
 		
 		this.addProductToCart(toadd);
+	}
+	
+	/**
+	 * Takes a price-lookup code, looks it up in product database, then adds it to customer cart
+	 * @param priceLookUpCode The price-lookup code to use
+	 * @param itemPrice the price of the item (already calculated based on weight and price per kg)
+	 * @throws SimulationException If priceLookUpCode is not registered in available inventory
+	 */
+	public void addPLUCodedProductToCart(PriceLookUpCode priceLookUpCode, long itemPrice) throws SimulationException {
+		PLUCodedProduct toadd = ProductDatabases.PLU_PRODUCT_DATABASE.get(priceLookUpCode);
+
+		if (!ProductDatabases.INVENTORY.containsKey(toadd) || ProductDatabases.INVENTORY.get(toadd) < 1) {
+			throw new InvalidStateSimulationException("No items of this type are in inventory");
+		}
+		
+		this.addProductToCart(toadd, itemPrice);
 	}
 	
 	/**
