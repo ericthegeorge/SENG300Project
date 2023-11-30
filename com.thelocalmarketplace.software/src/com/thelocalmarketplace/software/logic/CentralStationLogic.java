@@ -151,6 +151,7 @@ public class CentralStationLogic {
      */
     public SelectLanguageLogic selectLanguageLogic;
 	
+    
 	/**
 	 * Tracks if the customer session is active
 	 */
@@ -195,6 +196,8 @@ public class CentralStationLogic {
 		
 		this.setupCoinDispenserControllers(this.coinCurrencyLogic.getDenominationsAsList());
 		this.setupBanknoteDispenserControllers(this.banknoteCurrencyLogic.getDenominationsAsList());
+	
+		initializeMembershipDatabase();
 	}
 	
 	/**
@@ -274,6 +277,10 @@ public class CentralStationLogic {
 	    }
 	    
 	    return available;
+	}
+	
+	public void initializeMembershipDatabase() {
+		MembershipDatabase.NUMBER_TO_CARDHOLDER.put("111222333", "Demo Member");
 	}
 
 	/**
