@@ -4,6 +4,7 @@ import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Mass.MassDifference;
 import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
@@ -105,7 +106,7 @@ public class WeightLogic extends AbstractLogicDependant {
 		this.expectedWeight = this.expectedWeight.sum(massPLUCodedItem);
 	}
 	
-	/** Removes the weight of the product given from expectedWeight
+	/** Removes the weight of the barcode product given from expectedWeight
 	 * @param barcode - barcode of item to remove weight of */
 	public void removeExpectedWeight(Barcode barcode) {
 		if (!ProductDatabases.BARCODED_PRODUCT_DATABASE.containsKey(barcode)) {
@@ -113,6 +114,19 @@ public class WeightLogic extends AbstractLogicDependant {
 		}
 		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode);
 		Mass mass = new Mass(product.getExpectedWeight());
+		MassDifference difference = this.expectedWeight.difference(mass);
+		if (difference.compareTo(Mass.ZERO) < 0) throw new InvalidStateSimulationException("Expected weight cannot be negative");
+		this.expectedWeight = difference.abs();
+	}
+	
+	/** Removes the weight of the PLU coded item given from expectedWeight
+	 * @param item - the PLU coded item to remove the weight of */
+	public void removeExpectedWeight(PLUCodedItem item) {
+		if (!ProductDatabases.PLU_PRODUCT_DATABASE.containsKey(item.getPLUCode())) {
+			throw new InvalidStateSimulationException("price-lookup code not registered to product database");
+		}
+		PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(item.getPLUCode());
+		Mass mass = item.getMass();
 		MassDifference difference = this.expectedWeight.difference(mass);
 		if (difference.compareTo(Mass.ZERO) < 0) throw new InvalidStateSimulationException("Expected weight cannot be negative");
 		this.expectedWeight = difference.abs();

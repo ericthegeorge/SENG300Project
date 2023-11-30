@@ -2,6 +2,7 @@ package com.thelocalmarketplace.software.controllers.item;
 
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Mass.MassDifference;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
@@ -80,6 +81,12 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 		System.out.println("Please place item on scale to determine price");
 	}
 	
+	/**
+	 * is called when the mass of the scale changes and isAwaitingPLUMeasurement == true
+	 * determines the mass and price of the item, calls the method to add it to cart, and updates the expected weight
+	 * @param prevMass expected mass before adding the item
+	 * @param newMass expected mass after adding the item
+	 */
 	public void addPLUCodedItem(Mass prevMass, Mass newMass) {
 		isAwaitingPLUMeasurement = false;
 		
@@ -87,12 +94,30 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 		Mass itemMass = difference.abs();
 		
 		PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(priceLookUpCode);
-		long itemPrice = product.getPrice() * (itemMass.inMicrograms().longValue() * 1000000);
 		
-		this.logic.cartLogic.addPLUCodedProductToCart(priceLookUpCode, itemPrice);
+		if (!ProductDatabases.INVENTORY.containsKey(product) || ProductDatabases.INVENTORY.get(product) < 1) {
+			throw new InvalidStateSimulationException("No items of this type are in inventory");
+		}
+		
+		PLUCodedItem item = new PLUCodedItem(priceLookUpCode, itemMass);
+		
+		long itemPrice = getPLUCodedItemPrice(item);
+		
+		this.logic.cartLogic.addPLUCodedItemToCart(item, itemPrice);
 		
 		// expected weight is updated so that checkWeightDiscrepancy() in WeightLogic does not incorrectly return true
 		this.logic.weightLogic.addExpectedWeight(itemMass);
+	}
+	
+	/**
+	 * get item price by multiplying price per kg by the weight in kg
+	 * @param item - PLU coded item to get price of
+	 * @return - price of the PLU coded item
+	 */
+	public long getPLUCodedItemPrice(PLUCodedItem item) {
+		PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(item.getPLUCode());
+		long itemPrice = product.getPrice() * (item.getMass().inMicrograms().longValue() / 1000000000);
+		return itemPrice;
 	}
 
 	/**
