@@ -17,7 +17,7 @@ public class CashScreenGUI {
     public CashScreenGUI() {
         cashPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
         cashPagePanel = new JPanel();
-        totalCashField = new JTextField(10);
+        totalCashField = new JTextField(15);
         billCounts = new HashMap<>();
 
         addWidgets();
@@ -54,6 +54,8 @@ public class CashScreenGUI {
         // label for total cash inserted
         JLabel totalLabel = new JLabel("Total Cash Inserted:");
         totalPanel.add(totalLabel);
+        totalLabel.setFont(new Font("Arial", Font.PLAIN, 30));
+        totalCashField.setFont(new Font("Arial", Font.PLAIN, 30));
         totalPanel.add(totalCashField);
 
         // add the bill buttons and total panels to the main panel
