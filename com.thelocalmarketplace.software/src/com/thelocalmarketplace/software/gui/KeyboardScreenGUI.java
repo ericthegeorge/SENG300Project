@@ -13,7 +13,8 @@ public class KeyboardScreenGUI {
 	JPanel keyRowTwoPanel;
 	JPanel keyRowThreePanel;
 	JPanel keyRowFourPanel;
-	JPanel textFieldPanel;
+	JPanel keyRowFivePanel;
+	JPanel textAreaPanel;
 	JTextArea textArea;
 	
 	
@@ -25,8 +26,9 @@ public class KeyboardScreenGUI {
 		keyRowTwoPanel = new JPanel();
 		keyRowThreePanel = new JPanel();
 		keyRowFourPanel = new JPanel();
-		textFieldPanel = new JPanel();
-		textArea = new JTextArea();
+		keyRowFivePanel = new JPanel();
+		textAreaPanel = new JPanel();
+		textArea = new JTextArea("Enter Item Name or code");
 		
 		
 		
@@ -51,7 +53,8 @@ public class KeyboardScreenGUI {
 		keyRowTwoPanel.setLayout(new BoxLayout(keyRowTwoPanel, BoxLayout.X_AXIS));
 		keyRowThreePanel.setLayout(new BoxLayout(keyRowThreePanel, BoxLayout.X_AXIS));
 		keyRowFourPanel.setLayout(new BoxLayout(keyRowFourPanel, BoxLayout.X_AXIS));
-		textFieldPanel.setLayout(new BoxLayout(textFieldPanel, BoxLayout.X_AXIS));
+		keyRowFivePanel.setLayout(new BoxLayout(keyRowFivePanel, BoxLayout.X_AXIS));
+		textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.X_AXIS));
 		
 		
 		// Add Buttons
@@ -91,9 +94,23 @@ public class KeyboardScreenGUI {
 		
 		keyRowFourPanel.add(new JButton(" SPACE "));
 		keyRowFourPanel.add(new JButton(" BACKSPACE "));
+		keyRowFourPanel.add(new JButton(" ENTER "));
+		
+		keyRowFivePanel.add(new JButton(" 1 "));
+		keyRowFivePanel.add(new JButton(" 2 "));
+		keyRowFivePanel.add(new JButton(" 3 "));
+		keyRowFivePanel.add(new JButton(" 4 "));
+		keyRowFivePanel.add(new JButton(" 5 "));
+		keyRowFivePanel.add(new JButton(" 6 "));
+		keyRowFivePanel.add(new JButton(" 7 "));
+		keyRowFivePanel.add(new JButton(" 8 "));
+		keyRowFivePanel.add(new JButton(" 9 "));
+		keyRowFivePanel.add(new JButton(" 0 "));
 		
 		// Add the smaller containers to the main panel
-		keyboardScreenPanel.add(textFieldPanel);
+		textAreaPanel.add(textArea);
+		keyboardScreenPanel.add(textAreaPanel);
+		keyboardScreenPanel.add(keyRowFivePanel);
 		keyboardScreenPanel.add(keyRowOnePanel);
 		keyboardScreenPanel.add(keyRowTwoPanel);
 		keyboardScreenPanel.add(keyRowThreePanel);
