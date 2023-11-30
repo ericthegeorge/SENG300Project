@@ -33,7 +33,7 @@ public class PaymentScreenGUI {
     private void addWidgets() {
         paymentPagePanel.setLayout(new BorderLayout());
 
-        // Top panel
+        // top panel
         JPanel topPanel = new JPanel();
         selectPaymentLabel = new JLabel("Select Payment Method");  // Fix this line
         selectPaymentLabel.setFont(new Font("Arial", Font.BOLD, 18));
@@ -41,15 +41,15 @@ public class PaymentScreenGUI {
         paymentPagePanel.add(topPanel, BorderLayout.NORTH);
 
 
-        // Center panel (containing left and right panels)
+        // center panel (containing left and right panels)
         JPanel centerPanel = new JPanel();
         centerPanel.setLayout(new GridLayout(1, 2));
 
-        // Left panel
+        // left panel
         JPanel buttonsPanel = new JPanel();
         buttonsPanel.setLayout(new GridLayout(5, 1, 0, 20));
 
-        // Buttons
+        // buttons
         cashButton = new JButton("Cash");
         creditButton = new JButton("Credit");
         debitButton = new JButton("Debit");
@@ -64,7 +64,15 @@ public class PaymentScreenGUI {
 
         centerPanel.add(buttonsPanel);
 
-        // Right panel
+        // notify attendant
+        notifyAttendantButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                notifyAttendant();
+            }
+        });
+
+        // right panel
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
 
@@ -95,6 +103,9 @@ public class PaymentScreenGUI {
         paymentPagePanel.add(centerPanel, BorderLayout.CENTER);
     }
 
+    private void notifyAttendant() {
+        JOptionPane.showMessageDialog(paymentPageFrame, "Attendant notified. Please wait for assistance.");
+    }
     public static void main(String[] args) {
         PaymentScreenGUI paymentScreen = new PaymentScreenGUI();
     }
