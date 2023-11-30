@@ -52,6 +52,9 @@ public class MembershipLogic extends AbstractLogicDependant{
 	//only get data once or multiplying chance of failure
 	private String[] getCardData(CardData data) {
 		String[] retData = new String[2];
+		if (!data.getType().equals("Membership")) {
+			return retData;
+		}
 		retData[0] = data.getNumber();
 		retData[1] = data.getCardholder();
 		return retData;
