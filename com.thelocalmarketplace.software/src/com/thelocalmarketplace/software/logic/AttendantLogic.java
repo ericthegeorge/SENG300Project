@@ -30,9 +30,6 @@ public class AttendantLogic {
 	/** tracks weather or not a bagging discrepency has been found */
 	private boolean inBaggingDiscrepency;
 
-	//public AttendantStation station=new AttendantStation();
-
-	
 	public AttendantLogic(CentralStationLogic l) {
 		this.logic = l;
 	}
@@ -107,7 +104,6 @@ public class AttendantLogic {
 	 * @param amount	the amount of paper to add
 	 * @throws OverloadedDevice if too much paper is added
 	 */
-
 	public void addPaper(int amount) throws OverloadedDevice {
 
 		//manually disable printer
@@ -141,17 +137,14 @@ public class AttendantLogic {
 			this.logic.hardware.getCoinSlot().disable();
 			this.logic.hardware.getPrinter().disable();
 			this.logic.hardware.getReusableBagDispenser().disable();
+			this.logic.setSessionDisabled(true);
 		}
-
-
 	}
-
 	/**
 	 * enables use of current station
 	 */
-
 	public void enableStation(){
-		if(this.logic.isSessionStarted()==false || this.logic.stateLogic.inState(States.SUSPENDED)){
+		if(this.logic.getSessionDisabled()==true){
 			this.logic.hardware.getMainScanner().enable();
 			this.logic.hardware.getScanningArea().enable();
 			this.logic.hardware.getBanknoteValidator().enable();

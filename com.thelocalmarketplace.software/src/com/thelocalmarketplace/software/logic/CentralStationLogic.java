@@ -152,6 +152,8 @@ public class CentralStationLogic {
 	private boolean sessionStarted;
 	private boolean bypassIssuePrediction;
 
+	private boolean sessionBlocked;
+
 	/**
 	 * Base constructor for a new CentralStationLogic instance
 	 * @throws NullPointerException If hardware is null
@@ -292,6 +294,23 @@ public class CentralStationLogic {
 			this.sessionStarted = true;
 		}
 
+	}
+
+
+	/**
+	 * allows attendant to set if session is disabled or not
+	 * @param disabled whether or not the attendant disabled the session
+	 */
+	public void setSessionDisabled(boolean disabled){
+		this.sessionBlocked=disabled;
+	}
+
+	/**
+	 * gets whether or not the attendant has blocked the session
+	 * @return bool of whether session blocked or not
+	 */
+	public boolean getSessionDisabled(){
+		return this.sessionBlocked;
 	}
 	
 	/**
