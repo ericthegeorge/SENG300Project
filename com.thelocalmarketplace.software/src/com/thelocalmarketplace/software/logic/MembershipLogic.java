@@ -9,7 +9,11 @@ import com.thelocalmarketplace.software.AbstractLogicDependant;
 public class MembershipLogic extends AbstractLogicDependant{
 	private String number = "";
 	private String cardHolder = "";
+	public Error code = Error.NO_ERROR;
 	
+	private enum Error{
+		WRONG_CARD_TYPE, NO_SUCH_MEMBER_FOUND, NO_ERROR;
+	}
 	public String getNumber() {
 		return this.number;
 	}
@@ -25,39 +29,59 @@ public class MembershipLogic extends AbstractLogicDependant{
 	}
 
 	public boolean enterMembershipByNumber(String number) {
+		this.code = Error.NO_ERROR;
+		this.setMemberData(number);
 		//If number is not a valid membership{return false;}
-		//If number is valid, get cardholder name, and set name and number.
-		//What basis is a membership number valid?
-		return false;
+		if (!isValidMembership()) {
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean enterMembershipBySwipe(CardSwipeData csd) {
+		this.code = Error.NO_ERROR;
+		this.setMemberData(csd);
 		//If number is not a valid membership{return false;}
-		//If number is valid, get cardholder name, and set name and number.
-		return false;
+		if (!isValidMembership()) {
+			return false;
+		}
+		return true;
 	}
 	
 	public boolean enterMembershipByScan(CardTapData ctd) {
-		
+		this.code = Error.NO_ERROR;
+		this.setMemberData(ctd);
 		//If number is not a valid membership{return false;}
-		//If number is valid, get cardholder name, and set name and number.
-		return false;
+		if (!isValidMembership()) {
+			return false;
+		}
+		return true;
 	}
 	
-	private boolean isValidMembership(String number) {
-		
-		return false;
+	private boolean isValidMembership() {
+		if(MembershipDatabase.NUMBER_TO_CARDHOLDER.get(number).equals(null)) {
+			this.code = Error.NO_SUCH_MEMBER_FOUND;
+			return false;
+		}
+		return true;
 	}
 	
 	//only get data once or multiplying chance of failure
-	private String[] getCardData(CardData data) {
-		String[] retData = new String[2];
+	private void setMemberData(CardData data) {
 		if (!data.getType().equals("Membership")) {
-			return retData;
+			this.code = Error.WRONG_CARD_TYPE;
+			return;
 		}
-		retData[0] = data.getNumber();
-		retData[1] = data.getCardholder();
-		return retData;
+		this.number = data.getNumber();
+		this.cardHolder = data.getCardholder();
+	}
+	
+	private void setMemberData(String number) {
+		this.number = number;
+		this.cardHolder = MembershipDatabase.NUMBER_TO_CARDHOLDER.get(number);
+		if (this.cardHolder.equals(null)) {
+			this.code = Error.NO_SUCH_MEMBER_FOUND;
+		}
 	}
 	
 	
