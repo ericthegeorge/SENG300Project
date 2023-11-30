@@ -231,4 +231,84 @@ public class BanknoteDispenserControllerTest {
 		inputSilver.moneyFull(stub);
 		inputGold.moneyFull(stub);
 	}
+	// for the test cases could not change the capacity of banknote dispenser, foreverever set at 1000
+		@Test
+		public void shouldWarnNotEmptyTest() {
+			// should not warn if dispenser banknote > 200 
+			
+			
+			
+			for (int i = 0; i < 200; i++) {
+				inputBronze.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 200; i++) {
+				inputSilver.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 200; i++) {
+				inputGold.banknoteAdded(stub, twoNote);
+			}
+			
+			inputBronze.banknoteAdded(stub, twoNote);
+			inputSilver.banknoteAdded(stub, twoNote);
+			inputGold.banknoteAdded(stub, twoNote);
+			
+			assertFalse(inputBronze.shouldWarnEmpty());
+			assertFalse(inputSilver.shouldWarnEmpty());
+			assertFalse(inputGold.shouldWarnEmpty());
+			
+		}
+		
+		@Test
+		public void shouldWarnEmptyTest() {
+			// should not warn if dispenser banknote <= 200 
+			
+			
+			
+			inputBronze.banknoteAdded(stub, twoNote);
+			inputSilver.banknoteAdded(stub, twoNote);
+			inputGold.banknoteAdded(stub, twoNote);
+			
+			assertTrue(inputBronze.shouldWarnEmpty());
+			assertTrue(inputSilver.shouldWarnEmpty());
+			assertTrue(inputGold.shouldWarnEmpty());
+			
+		}
+		@Test
+		public void shouldNotWarnFullTest() {
+			// should  not warn if dispenser banknote < 800 
+			
+			for (int i = 0; i < 799; i++) {
+				inputBronze.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 799; i++) {
+				inputSilver.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 799; i++) {
+				inputGold.banknoteAdded(stub, twoNote);
+			}
+			
+			assertFalse(inputBronze.shouldWarnFull());
+			assertFalse(inputSilver.shouldWarnFull());
+			assertFalse(inputGold.shouldWarnFull());
+		}
+		@Test
+		public void shouldWarnFullTest() {
+			
+			// should  warn if dispenser banknote >= 800 
+			
+			for (int i = 0; i < 800; i++) {
+				inputBronze.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 800; i++) {
+				inputSilver.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 800; i++) {
+				inputGold.banknoteAdded(stub, twoNote);
+			}
+			
+			assertTrue(inputBronze.shouldWarnFull());
+			assertTrue(inputSilver.shouldWarnFull());
+			assertTrue(inputGold.shouldWarnFull());
+		}
+		
 }
