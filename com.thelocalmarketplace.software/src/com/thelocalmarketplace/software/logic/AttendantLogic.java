@@ -125,7 +125,7 @@ public class AttendantLogic {
 	}
 
 	/**
-	 * disables use of current station
+	 * attendant disables use of current station
 	 */
 	public void disableStation(){
 		if(this.logic.isSessionStarted()==true){
@@ -152,8 +152,6 @@ public class AttendantLogic {
 
 	public void enableStation(){
 		if(this.logic.isSessionStarted()==false || this.logic.stateLogic.inState(States.SUSPENDED)){
-			this.logic.stateLogic.gotoState(States.NORMAL);
-			this.logic.hardware.unplug();
 			this.logic.hardware.getMainScanner().enable();
 			this.logic.hardware.getScanningArea().enable();
 			this.logic.hardware.getBanknoteValidator().enable();
