@@ -87,21 +87,37 @@ public class AttendantLogic {
 
 	/**
 	 * Attendant adds ink to the printer with specified amount
-	 * @param amount
-	 * @throws OverloadedDevice
+	 * @param amount - the amount of ink to add
+	 * @throws OverloadedDevice is there is too much ink added
 	 */
 	public void addInk(int amount) throws OverloadedDevice {
+
+		//manually disable printer
+		this.logic.hardware.getPrinter().disable();
+
+		//add the ink to the printer
 		this.logic.hardware.getPrinter().addInk(amount);
-    }
+
+		//manually enable printer again
+		this.logic.hardware.getPrinter().enable();
+	}
 
 	/**
 	 * Attendant addds paper to the printer with amount specified
-	 * @param amount
-	 * @throws OverloadedDevice
+	 * @param amount	the amount of paper to add
+	 * @throws OverloadedDevice if too much paper is added
 	 */
 
 	public void addPaper(int amount) throws OverloadedDevice {
+
+		//manually disable printer
+		this.logic.hardware.getPrinter().disable();
+
+		//manually enable printer again
 		this.logic.hardware.getPrinter().addPaper(amount);
+
+		//manually enable printer again
+		this.logic.hardware.getPrinter().enable();
 	}
 	
 	public void printDuplicateReceipt() {
