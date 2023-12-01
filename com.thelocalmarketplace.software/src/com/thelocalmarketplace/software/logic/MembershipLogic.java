@@ -5,11 +5,12 @@ import com.jjjwelectronics.card.Card.CardData;
 import com.jjjwelectronics.card.Card.CardSwipeData;
 import com.jjjwelectronics.card.Card.CardTapData;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
+import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 public class MembershipLogic extends AbstractLogicDependant{
-	private String number = "";
-	private String cardHolder = "";
-	public Error code = Error.NO_ERROR;
+	private String number;
+	private String cardHolder;
+	public Error code;
 	
 	private enum Error{
 		WRONG_CARD_TYPE, NO_SUCH_MEMBER_FOUND, NO_ERROR;
@@ -25,6 +26,7 @@ public class MembershipLogic extends AbstractLogicDependant{
 	
 	public MembershipLogic(CentralStationLogic logic) throws NullPointerException {
 		super(logic);
+		 code = Error.NO_ERROR;
 		// TODO Auto-generated constructor stub
 	}
 
@@ -35,28 +37,21 @@ public class MembershipLogic extends AbstractLogicDependant{
 		if (!isValidMembership()) {
 			return false;
 		}
+		finishMembershipAddingProcess();
 		return true;
 	}
 	
-	public boolean enterMembershipBySwipe(CardSwipeData csd) {
+	public boolean enterMembershipByCard(CardData cd) {
 		this.code = Error.NO_ERROR;
-		this.setMemberData(csd);
+		this.setMemberData(cd);
 		//If number is not a valid membership{return false;}
-		if (!isValidMembership()) {
+		if (!isValidMembership()) {	
 			return false;
 		}
+		finishMembershipAddingProcess();
 		return true;
 	}
 	
-	public boolean enterMembershipByScan(CardTapData ctd) {
-		this.code = Error.NO_ERROR;
-		this.setMemberData(ctd);
-		//If number is not a valid membership{return false;}
-		if (!isValidMembership()) {
-			return false;
-		}
-		return true;
-	}
 	
 	private boolean isValidMembership() {
 		if(MembershipDatabase.NUMBER_TO_CARDHOLDER.get(number).equals(null)) {
@@ -82,6 +77,10 @@ public class MembershipLogic extends AbstractLogicDependant{
 		if (this.cardHolder.equals(null)) {
 			this.code = Error.NO_SUCH_MEMBER_FOUND;
 		}
+	}
+	
+	private void finishMembershipAddingProcess() {
+		this.logic.stateLogic.gotoState(States.NORMAL);
 	}
 	
 	

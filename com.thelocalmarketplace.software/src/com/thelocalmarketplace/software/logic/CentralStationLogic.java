@@ -150,6 +150,11 @@ public class CentralStationLogic {
      * Instance of logic for selecting a language
      */
     public SelectLanguageLogic selectLanguageLogic;
+    
+    /**
+     * Instance of logic for handling memberships
+     */
+    public MembershipLogic membershipLogic;
 	
     
 	/**
@@ -190,6 +195,7 @@ public class CentralStationLogic {
 		this.attendantLogic = new AttendantLogic(this);
 		this.addBagsLogic = new AddBagsLogic(this);
 		this.removeItemLogic = new RemoveItemLogic(this);
+		this.membershipLogic = new MembershipLogic(this);
 		
 		this.coinCurrencyLogic = new CurrencyLogic(this.hardware.getCoinDenominations());
 		this.banknoteCurrencyLogic = new CurrencyLogic(this.hardware.getBanknoteDenominations());
@@ -279,7 +285,7 @@ public class CentralStationLogic {
 	    return available;
 	}
 	
-	public void initializeMembershipDatabase() {
+	private void initializeMembershipDatabase() {
 		MembershipDatabase.NUMBER_TO_CARDHOLDER.put("111222333", "Demo Member");
 	}
 

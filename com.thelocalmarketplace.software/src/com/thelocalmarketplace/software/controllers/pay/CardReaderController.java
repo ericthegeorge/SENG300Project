@@ -58,13 +58,16 @@ public class CardReaderController extends AbstractLogicDependant implements Card
     @Override
     public void aCardHasBeenSwiped() {
         System.out.println("A card has been swiped");
+        // Shouldnt it be after the transaction? it might mess w swiping a membership card
         this.logic.cardLogic.isDataRead(false);
     }
+   
 
     @Override
     public void theDataFromACardHasBeenRead(CardData data) {
-    	PaymentMethods t = this.logic.cardLogic.getCardPaymentType(data.getType());
-   
+    	String type = data.getType();
+    	PaymentMethods t = this.logic.cardLogic.getCardPaymentType(type);
+    	
         this.logic.cardLogic.isDataRead(true);
 
         if (!this.logic.isSessionStarted()) {
@@ -81,8 +84,11 @@ public class CardReaderController extends AbstractLogicDependant implements Card
         if(this.logic.cardLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
 
             //if successful reduce amount owed by customer otherwise do nothing
-            this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
-
+        this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
+        
+        
+        if(type.equals("Membership") && this.logic.stateLogic.inState(States.MEMBER));
+        	logic.membershipLogic.enterMembershipByCard(data);
         }
 
         System.out.println("Total owed: " + this.logic.cartLogic.getBalanceOwed());
