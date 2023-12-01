@@ -152,7 +152,7 @@ public class CentralStationLogic {
 	private boolean sessionStarted;
 	private boolean bypassIssuePrediction;
 
-	private boolean sessionBlocked;
+
 
 	/**
 	 * Base constructor for a new CentralStationLogic instance
@@ -296,23 +296,6 @@ public class CentralStationLogic {
 
 	}
 
-
-	/**
-	 * allows attendant to set if session is disabled or not
-	 * @param disabled whether or not the attendant disabled the session
-	 */
-	public void setSessionDisabled(boolean disabled){
-		this.sessionBlocked=disabled;
-	}
-
-	/**
-	 * gets whether or not the attendant has blocked the session
-	 * @return bool of whether session blocked or not
-	 */
-	public boolean getSessionDisabled(){
-		return this.sessionBlocked;
-	}
-	
 	/**
 	 * Marks the current self checkout session as inactive
 	 */

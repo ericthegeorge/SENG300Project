@@ -126,39 +126,18 @@ public class AttendantLogic {
 	 */
 	public void disableStation(){
 		if(this.logic.isSessionStarted()==true){
-			this.logic.stateLogic.gotoState(States.SUSPENDED);
-			this.logic.hardware.getMainScanner().disable();
-			this.logic.hardware.getScanningArea().disable();
-			this.logic.hardware.getBanknoteValidator().disable();
-			this.logic.hardware.getCoinValidator().disable();
-			this.logic.hardware.getCardReader().disable();
-			this.logic.hardware.getHandheldScanner().disable();
-			this.logic.hardware.getBaggingArea().disable();
-			this.logic.hardware.getBanknoteInput().disable();
-			this.logic.hardware.getCoinSlot().disable();
-			this.logic.hardware.getPrinter().disable();
-			this.logic.hardware.getReusableBagDispenser().disable();
-			this.logic.setSessionDisabled(true);
+			throw new InvalidStateSimulationException("Session active,can not disable");
 		}
+		this.logic.stateLogic.gotoState(States.BLOCKED);
 	}
 	/**
 	 * enables use of current station
 	 */
 	public void enableStation(){
-		if(this.logic.getSessionDisabled()==true){
-			this.logic.hardware.getMainScanner().enable();
-			this.logic.hardware.getScanningArea().enable();
-			this.logic.hardware.getBanknoteValidator().enable();
-			this.logic.hardware.getCoinValidator().enable();
-			this.logic.hardware.getCardReader().enable();
-			this.logic.hardware.getHandheldScanner().enable();
-			this.logic.hardware.getBaggingArea().enable();
-			this.logic.hardware.getBanknoteInput().enable();
-			this.logic.hardware.getCoinSlot().enable();
-			this.logic.hardware.getPrinter().enable();
-			this.logic.hardware.getReusableBagDispenser().enable();
-			this.logic.setSessionDisabled(false);
-
+		if(!this.logic.stateLogic.inState(States.BLOCKED)){
+			throw new InvalidStateSimulationException("Station must be disabled");
 		}
+		this.logic.stateLogic.gotoState(States.NORMAL);
+
 	}
 }
