@@ -226,12 +226,14 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 
 	@Override
 	public void paperHasBeenAddedToThePrinter() {
+		System.out.println("Paper has been added");
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
 	public void inkHasBeenAddedToThePrinter() {
+		System.out.println("Ink has been added");
 		// TODO Auto-generated method stub
 
 	}
