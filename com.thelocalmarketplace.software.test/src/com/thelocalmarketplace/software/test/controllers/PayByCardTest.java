@@ -1,6 +1,8 @@
 package com.thelocalmarketplace.software.test.controllers;
 
+import com.jjjwelectronics.card.BlockedCardException;
 import com.jjjwelectronics.card.Card;
+import com.jjjwelectronics.card.Card.CardInsertData;
 import com.jjjwelectronics.card.InvalidPINException;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
@@ -93,6 +95,7 @@ public class PayByCardTest {
 	    session.hardware.getCardReader().enable();
 	    session.stateLogic.gotoState(States.CHECKOUT);
 	    session.hardware.getCardReader().insert(this.debit, "1234");
+
 	    
 	    assertEquals(BigDecimal.valueOf(0.0),session.cartLogic.getBalanceOwed());
 	}
@@ -143,13 +146,20 @@ public class PayByCardTest {
 	    assertEquals(BigDecimal.valueOf(0.0),session.cartLogic.getBalanceOwed());
 	}
 	
-	@Test
-	public void testInvalidPinTransaction() throws InvalidPINException, IOException {
+	@Test (expected = BlockedCardException.class)
+	public void testBlockedAfterThreeAttemptsTransaction() throws InvalidPINException, IOException {
 	    session.cartLogic.updateBalance(BigDecimal.valueOf(10.00));
 	    session.hardware.getCardReader().enable();
 	    session.stateLogic.gotoState(States.CHECKOUT);
-	    session.hardware.getCardReader().insert(this.debit, "1111");
 	    
+	    for (int i = 0; i < 3; i++) {
+		    try {
+		    	session.hardware.getCardReader().insert(this.debit, "1111");
+		    } catch(InvalidPINException e) {
+		    	session.hardware.getCardReader().remove();
+		    }
+	    }
+	    session.hardware.getCardReader().insert(this.debit, "1111");
 	    assertEquals(BigDecimal.valueOf(0.0),session.cartLogic.getBalanceOwed());
 	}
 }

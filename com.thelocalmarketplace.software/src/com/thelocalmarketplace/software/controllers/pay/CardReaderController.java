@@ -30,6 +30,7 @@ import com.thelocalmarketplace.software.logic.StateLogic.States;
 public class CardReaderController extends AbstractLogicDependant implements CardReaderListener{
     
 	String type;
+	
 	/**
      * Base constructor
      * @param logic Reference to the central station logic
@@ -89,25 +90,30 @@ public class CardReaderController extends AbstractLogicDependant implements Card
         }
         
         if (CardMethods.TAP.equals(c))
-        	System.out.println("Card tap processing...");
+        	System.out.println("Tap payment has been processed");
         
-        else if (CardMethods.INSERT.equals(c))
-        	// Open a signature GUI here
-        	System.out.println("Card Insert processing... - Provide a signature");
-        
-        else if (CardMethods.SWIPE.equals(c))
-        	// Open a signature GUI here
-        	System.out.println("Card Insert processing... - Provide a signature");
+        else if (CardMethods.INSERT.equals(c)) {
+        	if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
+        	        //check if transaction successful
+        	        if(this.logic.cardPaymentLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
+
+        	            //if successful reduce amount owed by customer otherwise do nothing
+        	            this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
+        	        } 
+        	}
+        }
+        else if (CardMethods.SWIPE.equals(c)) {
+        	 if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
+        	      	//check if transaction successful
+        	        if(this.logic.cardPaymentLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
+
+        	        	//if successful reduce amount owed by customer otherwise do nothing
+        	        	this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
+        	        }
+        	 }       
+        }	        			
         else
         	throw new InvalidStateSimulationException("Invalid card payment method");
-        
-        //check if transaction successful
-        if(this.logic.cardPaymentLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
-
-            //if successful reduce amount owed by customer otherwise do nothing
-            this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
-
-        }
 
         System.out.println("Total owed: " + this.logic.cartLogic.getBalanceOwed());
 

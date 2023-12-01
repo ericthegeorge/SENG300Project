@@ -1,5 +1,9 @@
 package com.thelocalmarketplace.software.logic;
 
+import java.util.Scanner;
+
+import com.jjjwelectronics.card.Card;
+import com.jjjwelectronics.card.Card.CardInsertData;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
 import com.thelocalmarketplace.software.logic.CentralStationLogic.CardMethods;
@@ -87,5 +91,14 @@ public class CardPaymentLogic extends AbstractLogicDependant {
     	}
     	
     	return CardMethods.NONE;
+    }
+    
+    public boolean validateSignature() {
+    	Scanner scanner = new Scanner(System.in); // Temporary Signature Input Method; GUI should be able to replace this
+    	System.out.println("Please enter a signature:");
+    	
+    	signature = scanner.nextLine();
+    	scanner.close();
+    	return true;
     }
 }
