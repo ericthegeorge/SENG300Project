@@ -7,9 +7,14 @@ import java.util.Map.Entry;
 import com.jjjwelectronics.EmptyDevice;
 import com.jjjwelectronics.IDevice;
 import com.jjjwelectronics.IDeviceListener;
+import com.jjjwelectronics.Item;
 import com.jjjwelectronics.OverloadedDevice;
 import com.jjjwelectronics.printer.ReceiptPrinterListener;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.Product;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
@@ -50,7 +55,7 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
      */
     public String createPaymentRecord(BigDecimal change) {
         StringBuilder paymentRecord = new StringBuilder();
-        Map<Product, Integer> cartItems = this.logic.cartLogic.getCart();
+        Map<Item, Integer> cartItems = this.logic.cartLogic.getCart();
         BigDecimal totalCost = BigDecimal.ZERO; 
         //Begin the receipt.
         paymentRecord.append("Customer Receipt\n");
@@ -58,11 +63,22 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
         
         int i = 0;
         // Iterate through each item in the cart, adding printing them on the receipt.
-        for (Entry<Product, Integer> entry : cartItems.entrySet()) {
-            Product product = entry.getKey();
+        for (Entry<Item, Integer> entry : cartItems.entrySet()) {
+            Item item = entry.getKey();
             Integer quantity = entry.getValue();
+            BigDecimal price = BigDecimal.ZERO;
             
-            BigDecimal price = new BigDecimal(product.getPrice());
+            if (item instanceof BarcodedItem) {
+            	BarcodedItem barcodedItem = (BarcodedItem) item;
+            	BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode());
+            	price = new BigDecimal(product.getPrice());
+            }
+            if (item instanceof PLUCodedItem) {
+            	PLUCodedItem barcodedItem = (PLUCodedItem) item;
+            	price = new BigDecimal(this.logic.addPLUCodedProductController.getPLUCodedItemPrice(barcodedItem));
+            }
+            
+            //BigDecimal price = new BigDecimal(product.getPrice());
             BigDecimal totalItemCost = price.multiply(new BigDecimal(quantity));
             totalCost.add(totalItemCost);
             paymentRecord.append("Item " + ++i + ":\n");
