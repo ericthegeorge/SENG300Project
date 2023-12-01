@@ -89,13 +89,13 @@ public class AttendantLogic {
 	 */
 	public void addInk(int amount) throws OverloadedDevice {
 		//makes sure session is disabled before adding ink
-		if(this.logic.getSessionDisabled()==false){
+		if(!this.logic.stateLogic.inState(States.BLOCKED)){
 			throw new InvalidStateSimulationException("Station must be disabled");
 		}
 		else{
 			//add the ink to the printer
 			this.logic.hardware.getPrinter().addInk(amount);
-			enableStation();
+			this.logic.stateLogic.gotoState(States.NORMAL);
 		}
 
 	}
@@ -107,12 +107,12 @@ public class AttendantLogic {
 	 */
 	public void addPaper(int amount) throws OverloadedDevice {
 		//makes sure station is disabled before adding paper
-		if(this.logic.getSessionDisabled()==false){
+		if(!this.logic.stateLogic.inState(States.BLOCKED)){
 			throw new InvalidStateSimulationException("Station must be disabled");
 		}else{
 			//add in specifified amount of paper
 			this.logic.hardware.getPrinter().addPaper(amount);
-			enableStation();
+			this.logic.stateLogic.gotoState(States.NORMAL);
 		}
 
 	}
