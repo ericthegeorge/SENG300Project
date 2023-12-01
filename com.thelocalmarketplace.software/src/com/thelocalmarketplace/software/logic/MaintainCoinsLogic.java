@@ -1,3 +1,30 @@
+/**
+ * @author Tanmay Mishra (30127407)
+ * -------------------------------------------
+ * @author Camila Hernandez (30134911)
+ * @author Adrian Brisebois
+ * @author Alan Yong
+ * @author Ananya jain
+ * @author Andrew Matti
+ * @author Atique Muhammad
+ * @author Christopher Lo
+ * @author Danny Ly
+ * @author Eric George
+ * @author Gareth Jenkins
+ * @author Ian Beler
+ * @author Jahnissi Nwakanma
+ * @author Jenny Dang
+ * @author Maheen Nizamani
+ * @author Michael Svoboda
+ * @author Olivia Crosby
+ * @author Rico Manalastas
+ * @author Ryan Korsrud
+ * @author Shanza Raza
+ * @author Sukhnaaz Sidhu
+ * @author Zhenhui Ren
+ */
+
+
 package com.thelocalmarketplace.software.logic;
 
 import com.thelocalmarketplace.software.AbstractLogicDependant;
