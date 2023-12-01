@@ -13,6 +13,7 @@ public class KeyboardScreenGUI {
 	JPanel keyRowThreePanel;
 	JPanel keyRowFourPanel;
 	JPanel keyRowFivePanel;
+	JPanel keyRowSixPanel;
 	JPanel textAreaPanel;
 	JTabbedPane visualAlphaPanel;
 	JPanel item_A;
@@ -36,6 +37,7 @@ public class KeyboardScreenGUI {
 		keyRowThreePanel = new JPanel();
 		keyRowFourPanel = new JPanel();
 		keyRowFivePanel = new JPanel();
+		keyRowSixPanel = new JPanel();
 		textAreaPanel = new JPanel();
 		visualAlphaPanel = new JTabbedPane();
 		item_A = new JPanel();
@@ -72,6 +74,7 @@ public class KeyboardScreenGUI {
 		keyRowThreePanel.setLayout(new BoxLayout(keyRowThreePanel, BoxLayout.X_AXIS));
 		keyRowFourPanel.setLayout(new BoxLayout(keyRowFourPanel, BoxLayout.X_AXIS));
 		keyRowFivePanel.setLayout(new BoxLayout(keyRowFivePanel, BoxLayout.X_AXIS));
+		keyRowSixPanel.setLayout(new BoxLayout(keyRowSixPanel, BoxLayout.X_AXIS));
 		textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.X_AXIS));
 		
 		item_A.setLayout(new BoxLayout(item_A, BoxLayout.X_AXIS));
@@ -235,6 +238,10 @@ public class KeyboardScreenGUI {
 		keyRowFivePanel.add(Box.createRigidArea(new Dimension(5,0)));
 		keyRowFivePanel.add(new JButton(" 0 "));
 		
+		keyRowSixPanel.add(Box.createRigidArea(new Dimension(0,50)));
+		keyRowSixPanel.add(new JButton(" ATTENDANT ASSISTANCE "));
+		keyRowSixPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		
 		// Build Text Box
 		textBar.setText(searchText);
 		textAreaPanel.add(textBar);
@@ -250,6 +257,7 @@ public class KeyboardScreenGUI {
 		keyboardScreenPanel.add(keyRowTwoPanel);
 		keyboardScreenPanel.add(keyRowThreePanel);
 		keyboardScreenPanel.add(keyRowFourPanel);
+		keyboardScreenPanel.add(keyRowSixPanel);
 		
 		
 	}
