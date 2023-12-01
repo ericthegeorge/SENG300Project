@@ -7,6 +7,7 @@ import com.jjjwelectronics.card.Card.CardData;
 import com.jjjwelectronics.card.CardReaderListener;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.CardMethods;
 import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
@@ -23,9 +24,12 @@ import com.thelocalmarketplace.software.logic.StateLogic.States;
  * @author Phuong Le (30175125)
  * @author Daniel Yakimenka (10185055)
  * @author Merick Parkinson (30196225)
+ * --------------------------------
+ * @author Christopher Lo (30113400) renamed CardSwipeLogic to CardPaymentLogic
  */
 public class CardReaderController extends AbstractLogicDependant implements CardReaderListener{
     
+	String type;
 	/**
      * Base constructor
      * @param logic Reference to the central station logic
@@ -41,7 +45,9 @@ public class CardReaderController extends AbstractLogicDependant implements Card
 
     @Override
     public void aCardHasBeenInserted() {
-
+        System.out.println("A card has been inserted");
+        type = "insert";
+        this.logic.cardPaymentLogic.isDataRead(false);
     }
 
     @Override
@@ -51,21 +57,26 @@ public class CardReaderController extends AbstractLogicDependant implements Card
 
     @Override
     public void aCardHasBeenTapped() {
-
+        System.out.println("A card has been tapped");
+        type = "tap";
+        this.logic.cardPaymentLogic.isDataRead(false);
     }
+
 
     //Ask for signature when card is swiped
     @Override
     public void aCardHasBeenSwiped() {
         System.out.println("A card has been swiped");
-        this.logic.cardLogic.isDataRead(false);
+        type = "swipe";
+        this.logic.cardPaymentLogic.isDataRead(false);
     }
 
     @Override
     public void theDataFromACardHasBeenRead(CardData data) {
-    	PaymentMethods t = this.logic.cardLogic.getCardPaymentType(data.getType());
-   
-        this.logic.cardLogic.isDataRead(true);
+    	PaymentMethods t = this.logic.cardPaymentLogic.getCardType(data.getType());
+    	CardMethods c = this.logic.cardPaymentLogic.setCardPaymentType(type);
+
+        this.logic.cardPaymentLogic.isDataRead(true);
 
         if (!this.logic.isSessionStarted()) {
             throw new InvalidStateSimulationException("Session not started");
@@ -76,9 +87,22 @@ public class CardReaderController extends AbstractLogicDependant implements Card
         else if (!this.logic.getSelectedPaymentMethod().equals(t)) {
         	throw new InvalidStateSimulationException("Pay by " + t.toString() + " not selected");
         }
-
+        
+        if (CardMethods.TAP.equals(c))
+        	System.out.println("Card tap processing...");
+        
+        else if (CardMethods.INSERT.equals(c))
+        	// Open a signature GUI here
+        	System.out.println("Card Insert processing... - Provide a signature");
+        
+        else if (CardMethods.SWIPE.equals(c))
+        	// Open a signature GUI here
+        	System.out.println("Card Insert processing... - Provide a signature");
+        else
+        	throw new InvalidStateSimulationException("Invalid card payment method");
+        
         //check if transaction successful
-        if(this.logic.cardLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
+        if(this.logic.cardPaymentLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
 
             //if successful reduce amount owed by customer otherwise do nothing
             this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());

@@ -2,10 +2,15 @@ package com.thelocalmarketplace.software.logic;
 
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.CardMethods;
 import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
 
 /**
- * Card Swipe Logic
+ * Card Payment Logic
+ * @author Christopher Lo (30113400)
+ * 
+ * Now handles the logic for: credit/debit tap/insert/swipe
+ * ---------------------------------
  * @author Maheen Nizmani (30172615)
  * ---------------------------------
  * @author Connell Reffo (10186960)
@@ -19,25 +24,26 @@ import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods
  * @author Merick Parkinson (30196225)
  * @author Farida Elogueil (30171114)
  */
-public class CardSwipeLogic extends AbstractLogicDependant {
+public class CardPaymentLogic extends AbstractLogicDependant {
 
     public String signature;
-    public CardIssuer bank;
+    public CardIssuer issuer;
     boolean dataRead;
 
     
-    public CardSwipeLogic(CentralStationLogic logic, CardIssuer bank) throws NullPointerException {
+    public CardPaymentLogic(CentralStationLogic logic, CardIssuer bank) throws NullPointerException {
     	super(logic);
     	
-        this.bank = bank;
+        this.issuer = bank;
     }
 
     //approve the transaction
-    public boolean approveTransaction(String debitCardNumber, double chargeAmount) {
-        Long holdNumber = this.bank.authorizeHold(debitCardNumber, chargeAmount);
+    public boolean approveTransaction(String cardNumber, double chargeAmount) {
+    	
+        Long holdNumber = this.issuer.authorizeHold(cardNumber, chargeAmount);
         
         if (holdNumber != -1) {
-            return this.bank.postTransaction(debitCardNumber, holdNumber, chargeAmount);
+            return this.issuer.postTransaction(cardNumber, holdNumber, chargeAmount);
         }
         
         return false;
@@ -45,7 +51,7 @@ public class CardSwipeLogic extends AbstractLogicDependant {
 
 
     //keeps track of whether data was read or not
-    public void isDataRead(boolean read){
+    public void isDataRead(boolean read) {
         dataRead = read;
     }
 
@@ -54,7 +60,7 @@ public class CardSwipeLogic extends AbstractLogicDependant {
         return dataRead;
     }
     
-    public PaymentMethods getCardPaymentType(String type) {
+    public PaymentMethods getCardType(String type) {
     	String t = type.toLowerCase();
     	
     	if (t.contains("debit")) {
@@ -65,5 +71,21 @@ public class CardSwipeLogic extends AbstractLogicDependant {
     	}
     	
     	return PaymentMethods.NONE;
+    }
+    
+    public CardMethods setCardPaymentType(String type) {
+    	String t = type.toLowerCase();
+    	
+    	if (t.contains("tap")) {
+    		return CardMethods.TAP;
+    	}
+    	else if (t.contains("insert")) {
+    		return CardMethods.INSERT;
+    	}
+    	else if (t.contains("swipe")) {
+    		return CardMethods.SWIPE;
+    	}
+    	
+    	return CardMethods.NONE;
     }
 }

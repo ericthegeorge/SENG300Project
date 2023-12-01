@@ -50,6 +50,13 @@ public class CentralStationLogic {
 		CASH
 	}
 	
+	public enum CardMethods {
+		NONE, // Default
+		TAP,
+		INSERT,
+		SWIPE
+	}
+	
 	
 	/**
 	 * Reference to physical hardware
@@ -131,10 +138,10 @@ public class CentralStationLogic {
 	 */
 	public AttendantLogic attendantLogic;
 
-  /**
-   * Instance of logic for card payment via swipe
-   */
-	public CardSwipeLogic cardLogic;
+	/**
+	 * Instance of logic for card payment via swipe
+	 */
+	public CardPaymentLogic cardPaymentLogic;
 	
 	/**
 	 * Instance of logic for states
@@ -145,6 +152,11 @@ public class CentralStationLogic {
 	 * Current selected payment method
 	 */
 	private PaymentMethods paymentMethod;
+	
+	/**
+	 * Current selected payment method
+	 */
+	private CardMethods cardMethod;
 	
 	/**
      * Instance of logic for selecting a language
@@ -213,7 +225,6 @@ public class CentralStationLogic {
 		this.paymentMethod = method;
 	}
 
-
 	/**
 	 * Helper method to setup coin dispenser controllers
 	 * @param denominations Is the list of coin denominations supported by the hardware
@@ -228,7 +239,7 @@ public class CentralStationLogic {
 	 * @param bank is the details of the customer's bank
 	 */
 	public void setupBankDetails(CardIssuer bank) {
-		this.cardLogic=new CardSwipeLogic(this,bank);
+		this.cardPaymentLogic = new CardPaymentLogic(this, bank);
 	}
 	
 	/**
