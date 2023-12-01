@@ -3,6 +3,7 @@ import java.util.Scanner;
 
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
+import com.jjjwelectronics.bag.ReusableBag;
 import com.jjjwelectronics.bag.ReusableBagDispenserBronze;
 import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
@@ -41,17 +42,18 @@ import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
 
 public class PurchaseBagsLogic extends AbstractLogicDependant{
 	
-	public double bagExpectedWeight = 20;
-	public String bagDescription = "Reusable bags for purchase";
-	public long price = 1;
+//	public double bagExpectedWeight = 20;
+//	public String bagDescription = "Reusable bags for purchase";
+//	public long price = 1;
 	public int numberOfBags;
 	// sample barcode for bags
-	Numeral[] barcodeDigits = {Numeral.one, Numeral.two, Numeral.three, Numeral.four};
-	Barcode bagBarcode = new Barcode(barcodeDigits);
-	BarcodedProduct bagsforPurchase = new BarcodedProduct(bagBarcode, bagDescription, price, bagExpectedWeight );
+//	Numeral[] barcodeDigits = {Numeral.one, Numeral.two, Numeral.three, Numeral.four};
+//	Barcode bagBarcode = new Barcode(barcodeDigits);
+//	BarcodedProduct bagsforPurchase = new BarcodedProduct(bagBarcode, bagDescription, price, bagExpectedWeight );
 
 	/** tracks weather or not the attendant has approved the current bagging area*/
 	public boolean approvedBagging;
+	ReusableBag bagInstance;
 	
 	public PurchaseBagsLogic(CentralStationLogic logic) throws NullPointerException {
 		super(logic);
@@ -69,10 +71,11 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 	        
         numberOfBags = scanner.nextInt();
         scanner.close();
-        new ReusableBagDispenserBronze(numberOfBags);
+        bagInstance = new ReusableBag();
+//        ReusableBag bagInstance = new ReusableBagDispenserBronze(numberOfBags);
         //Adding the number of bags to the cart
         for (int i = 0;i<numberOfBags;i++ )
-        	logic.cartLogic.addBarcodedProductToCart(bagBarcode);
+        	logic.cartLogic.addProductToCart(bagInstance);
         //TODO in GUI 
 		System.out.println("Bag added to order please place bags on the scale");
 	}
@@ -87,7 +90,10 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 		if (!logic.isSessionStarted()) throw new InvalidStateSimulationException("Session has not started");
 		if (!logic.stateLogic.inState(States.ADDBAGS)) throw new InvalidStateSimulationException("Cannot end ADDBAGS state when not in ADDBAGS state");
 		
-		Mass totalBagMass = new Mass(bagsforPurchase.getExpectedWeight()* numberOfBags);
+		Mass totalBagMass= null;  
+		for (int i = 0;i<numberOfBags;i++ )
+			totalBagMass.sum(bagInstance.getMass());
+		
 		logic.weightLogic.updateTotalBagMass(totalBagMass);
 		if (logic.weightLogic.getTotalBagMass().compareTo(totalBagMass) < 0 || this.approvedBagging) {
 			// If bag weight is under the allowed weight
