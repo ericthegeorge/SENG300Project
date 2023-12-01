@@ -1,6 +1,8 @@
 package com.thelocalmarketplace.software.logic;
 
+import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
@@ -34,12 +36,11 @@ public class RemoveItemLogic extends AbstractLogicDependant{
 	
 	/**
 	 * Removes a barcoded item from the cart and updates states and expected weight.
-	 * @param product - barcoded product to be removed
+	 * @param item - barcoded item to be removed
 	 * @throws NullPointerException
-	 *  Removal of other types of items added in next iteration
 	 */
-	public void removeBarcodedItem(BarcodedProduct product) throws NullPointerException{
-    	if (product == null) {
+	public void removeBarcodedItem(BarcodedItem item) throws NullPointerException{
+    	if (item == null) {
             throw new NullPointerException("Barcode is null");
         }
     	
@@ -50,16 +51,48 @@ public class RemoveItemLogic extends AbstractLogicDependant{
     	
     	// When method is used to resolve weight discrepancies
     	else if (this.logic.stateLogic.inState(States.BLOCKED)) {
-	    	this.logic.cartLogic.removeProductFromCart(product);
-	    	this.logic.weightLogic.removeExpectedWeight(product.getBarcode());
+	    	this.logic.cartLogic.removeProductFromCart(item);
+	    	this.logic.weightLogic.removeExpectedWeight(item.getBarcode());
 	    	System.out.println("Item removed from cart.");
 	    	logic.weightLogic.handleWeightDiscrepancy();
     	}
     	
     	// When method is used to remove unwanted items (without triggering a weight discrepancy
     	else {
-    		this.logic.cartLogic.removeProductFromCart(product);
-	    	this.logic.weightLogic.removeExpectedWeight(product.getBarcode());
+    		this.logic.cartLogic.removeProductFromCart(item);
+	    	this.logic.weightLogic.removeExpectedWeight(item.getBarcode());
+	    	this.logic.stateLogic.gotoState(States.BLOCKED);
+	    	System.out.println("Item removed from cart. Please remove the item from the bagging area");
+    	}	
+	}
+	
+	/**
+	 * Removes a PLU coded item from the cart and updates states and expected weight
+	 * @param item - PLU coded item to be removed
+	 * @throws NullPointerException
+	 */
+	public void removePLUCodedItem(PLUCodedItem item) throws NullPointerException{
+    	if (item == null) {
+            throw new NullPointerException("PLU code is null");
+        }
+    	
+    	else if (!this.logic.isSessionStarted()) {
+    		throw new InvalidStateSimulationException("The session has not been started");
+    	}
+    	
+    	
+    	// When method is used to resolve weight discrepancies
+    	else if (this.logic.stateLogic.inState(States.BLOCKED)) {
+	    	this.logic.cartLogic.removeProductFromCart(item);
+	    	this.logic.weightLogic.removeExpectedWeight(item);
+	    	System.out.println("Item removed from cart.");
+	    	logic.weightLogic.handleWeightDiscrepancy();
+    	}
+    	
+    	// When method is used to remove unwanted items (without triggering a weight discrepancy
+    	else {
+    		this.logic.cartLogic.removeProductFromCart(item);
+	    	this.logic.weightLogic.removeExpectedWeight(item);
 	    	this.logic.stateLogic.gotoState(States.BLOCKED);
 	    	System.out.println("Item removed from cart. Please remove the item from the bagging area");
     	}	

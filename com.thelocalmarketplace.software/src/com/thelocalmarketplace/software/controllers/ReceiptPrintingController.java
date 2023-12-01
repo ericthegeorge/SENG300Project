@@ -7,9 +7,14 @@ import java.util.Map.Entry;
 import com.jjjwelectronics.EmptyDevice;
 import com.jjjwelectronics.IDevice;
 import com.jjjwelectronics.IDeviceListener;
+import com.jjjwelectronics.Item;
 import com.jjjwelectronics.OverloadedDevice;
 import com.jjjwelectronics.printer.ReceiptPrinterListener;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.Product;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
@@ -40,79 +45,85 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 
 		this.duplicateReceipt = "";
 		this.logic.hardware.getPrinter().register(this);
-		// this.logic.hardware.printer.register(this);
-	}
+    	//this.logic.hardware.printer.register(this);
+    }
+    
+    /**
+     * Generates a string that represents a receipt to be printed
+     * @return The receipt as a string.
+     */
+    public String createPaymentRecord(BigDecimal change) {
+        StringBuilder paymentRecord = new StringBuilder();
+        Map<Item, Integer> cartItems = this.logic.cartLogic.getCart();
+        BigDecimal totalCost = BigDecimal.ZERO; 
+        //Begin the receipt.
+        paymentRecord.append("Customer Receipt\n");
+      	if (logic.membershipLogic.getCardHolder() != null) {
+			    paymentRecord.append("Member Name: " + logic.membershipLogic.getCardHolder() + "\n" + "Member Number: "
+					    + logic.membershipLogic.getNumber() + "\n");
+		    }
+        paymentRecord.append("=========================\n");
+        
+        int i = 0;
+        // Iterate through each item in the cart, adding printing them on the receipt.
+        for (Entry<Item, Integer> entry : cartItems.entrySet()) {
+            Item item = entry.getKey();
+            Integer quantity = entry.getValue();
+            BigDecimal price = BigDecimal.ZERO;
+            
+            if (item instanceof BarcodedItem) {
+            	BarcodedItem barcodedItem = (BarcodedItem) item;
+            	BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode());
+            	price = new BigDecimal(product.getPrice());
+            }
+            if (item instanceof PLUCodedItem) {
+            	PLUCodedItem barcodedItem = (PLUCodedItem) item;
+            	price = new BigDecimal(this.logic.addPLUCodedProductController.getPLUCodedItemPrice(barcodedItem));
+            }
+            
+            BigDecimal totalItemCost = price.multiply(new BigDecimal(quantity));
+            totalCost.add(totalItemCost);
+            paymentRecord.append("Item " + ++i + ":\n");
+            paymentRecord.append(" - Qty: ");
+            paymentRecord.append(quantity);
+            paymentRecord.append(", Unit Price: $");
+            paymentRecord.append(price);
+            paymentRecord.append(", Total: $");
+            paymentRecord.append(totalItemCost);
+            paymentRecord.append("\n");
+        }
 
-	/**
-	 * Generates a string that represents a receipt to be printed
-	 * 
-	 * @return The receipt as a string.
-	 */
-	public String createPaymentRecord(BigDecimal change) {
-		StringBuilder paymentRecord = new StringBuilder();
-		Map<Product, Integer> cartItems = this.logic.cartLogic.getCart();
-		BigDecimal totalCost = BigDecimal.ZERO;
-		// Begin the receipt.
-		paymentRecord.append("Customer Receipt\n");
-		if (logic.membershipLogic.getCardHolder() != null) {
-			paymentRecord.append("Member Name: " + logic.membershipLogic.getCardHolder() + "\n" + "Member Number: "
-					+ logic.membershipLogic.getNumber() + "\n");
-		}
-		paymentRecord.append("=========================\n");
+        paymentRecord.append("=========================\n");
+        paymentRecord.append("Total Cost: $").append(totalCost).append("\n");
+        paymentRecord.append("Change Given: $").append(change.toString()).append("\n");
+        
+        System.out.print(paymentRecord);
+        
+        return paymentRecord.toString();
+    }
+    
+    /**Generates receipt and calls receipt printing hardware to print it.
+     * @param change
+     */
+    public void handlePrintReceipt(BigDecimal change) {
+        String receiptText = createPaymentRecord(change);
+        
+        try {        	
+        	this.printReceipt(receiptText);
+        	this.finish();
+        } catch (Exception e) {
+        	this.onPrintingFail();
+        	this.duplicateReceipt = receiptText;
+        	
+        }
+    }
 
-		int i = 0;
-		// Iterate through each item in the cart, adding printing them on the receipt.
-		for (Entry<Product, Integer> entry : cartItems.entrySet()) {
-			Product product = entry.getKey();
-			Integer quantity = entry.getValue();
-
-			BigDecimal price = new BigDecimal(product.getPrice());
-			BigDecimal totalItemCost = price.multiply(new BigDecimal(quantity));
-			totalCost.add(totalItemCost);
-			paymentRecord.append("Item " + ++i + ":\n");
-			paymentRecord.append(" - Qty: ");
-			paymentRecord.append(quantity);
-			paymentRecord.append(", Unit Price: $");
-			paymentRecord.append(price);
-			paymentRecord.append(", Total: $");
-			paymentRecord.append(totalItemCost);
-			paymentRecord.append("\n");
-		}
-
-		paymentRecord.append("=========================\n");
-		paymentRecord.append("Total Cost: $").append(totalCost).append("\n");
-		paymentRecord.append("Change Given: $").append(change.toString()).append("\n");
-
-		System.out.print(paymentRecord);
-
-		return paymentRecord.toString();
-	}
-
-	/**
-	 * Generates receipt and calls receipt printing hardware to print it.
-	 * 
-	 * @param change
-	 */
-	public void handlePrintReceipt(BigDecimal change) {
-		String receiptText = createPaymentRecord(change);
-
-		try {
-			this.printReceipt(receiptText);
-			this.finish();
-		} catch (Exception e) {
-			this.onPrintingFail();
-			this.duplicateReceipt = receiptText;
-
-		}
-	}
-
-	/**
-	 * Helper method for printing receipt
-	 * 
-	 * @param receiptText Is the string to print
-	 * @throws OverloadedDevice
-	 * @throws EmptyDevice
-	 */
+  /**
+   * Helper method for printing receipt
+   * @param receiptText Is the string to print
+   * @throws OverloadedDevice 
+   * @throws EmptyDevice 
+   */
 	private void printReceipt(String receiptText) throws EmptyDevice, OverloadedDevice {
 		for (char c : receiptText.toCharArray()) {
 
