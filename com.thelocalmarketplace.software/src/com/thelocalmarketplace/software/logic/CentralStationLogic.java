@@ -26,6 +26,9 @@ import ca.ucalgary.seng300.simulation.SimulationException;
  * Codebase originated from Connell's project
  * Combined idea of having session handling part of central logic unit from Braden's project
  * 
+ * @author Christopher Lo (30113400)
+ * added CardMethods enumeration and changed method names to fit Insert/Tap Use Cases
+ * -----------------------------------
  * @author Connell Reffo (10186960)
  * @author Tara Strickland (10105877)
  * @author Angelina Rochon (30087177)
@@ -48,6 +51,13 @@ public class CentralStationLogic {
 		CREDIT,
 		DEBIT,
 		CASH
+	}
+	
+	public enum CardMethods {
+		NONE, // Default
+		TAP,
+		INSERT,
+		SWIPE
 	}
 	
 	
@@ -96,6 +106,11 @@ public class CentralStationLogic {
 	 */
 	public AddBarcodedItemController addBarcodedProductController;
 	
+	/**
+	 * Instance of the controller that handles adding PLU coded product
+	 */
+	public AddPLUCodedItemController addPLUCodedProductController;
+	
 	/** 
 	 * Instance of weight logic 
 	 */
@@ -131,10 +146,10 @@ public class CentralStationLogic {
 	 */
 	public AttendantLogic attendantLogic;
 
-  /**
-   * Instance of logic for card payment via swipe
-   */
-	public CardSwipeLogic cardLogic;
+	/**
+	 * Instance of logic for card payment via swipe
+	 */
+	public CardPaymentLogic cardPaymentLogic;
 	
 	/**
 	 * Instance of logic for states
@@ -146,6 +161,22 @@ public class CentralStationLogic {
 	 */
 	private PaymentMethods paymentMethod;
 	
+	/**
+	 * Current selected payment method
+	 */
+	private CardMethods cardMethod;
+	
+	/**
+     * Instance of logic for selecting a language
+     */
+    public SelectLanguageLogic selectLanguageLogic;
+    
+    /**
+     * Instance of logic for handling memberships
+     */
+    public MembershipLogic membershipLogic;
+	
+    
 	/**
 	 * Tracks if the customer session is active
 	 */
@@ -166,6 +197,9 @@ public class CentralStationLogic {
 		this.sessionStarted = false;
 		this.paymentMethod = PaymentMethods.NONE;
 		
+		// Initialize SelectLanguageLogic
+        this.selectLanguageLogic = new SelectLanguageLogic(this, "English");
+        
 		// Reference to logic objects
 		this.cartLogic = new CartLogic();
 		this.weightLogic = new WeightLogic(this);
@@ -175,18 +209,22 @@ public class CentralStationLogic {
 		this.coinPaymentController = new CoinPaymentController(this);
 		this.cashPaymentController = new CashPaymentController(this);
 		this.addBarcodedProductController = new AddBarcodedItemController(this);
+		this.addPLUCodedProductController = new AddPLUCodedItemController(this);
 		this.weightDiscrepancyController = new WeightDiscrepancyController(this);
 		this.cardReaderController = new CardReaderController(this);
 		this.receiptPrintingController = new ReceiptPrintingController(this);
 		this.attendantLogic = new AttendantLogic(this);
 		this.addBagsLogic = new AddBagsLogic(this);
 		this.removeItemLogic = new RemoveItemLogic(this);
+		this.membershipLogic = new MembershipLogic(this);
 		
 		this.coinCurrencyLogic = new CurrencyLogic(this.hardware.getCoinDenominations());
 		this.banknoteCurrencyLogic = new CurrencyLogic(this.hardware.getBanknoteDenominations());
 		
 		this.setupCoinDispenserControllers(this.coinCurrencyLogic.getDenominationsAsList());
 		this.setupBanknoteDispenserControllers(this.banknoteCurrencyLogic.getDenominationsAsList());
+	
+		initializeMembershipDatabase();
 	}
 	
 	/**
@@ -205,7 +243,6 @@ public class CentralStationLogic {
 		this.paymentMethod = method;
 	}
 
-
 	/**
 	 * Helper method to setup coin dispenser controllers
 	 * @param denominations Is the list of coin denominations supported by the hardware
@@ -220,7 +257,7 @@ public class CentralStationLogic {
 	 * @param bank is the details of the customer's bank
 	 */
 	public void setupBankDetails(CardIssuer bank) {
-		this.cardLogic=new CardSwipeLogic(this,bank);
+		this.cardPaymentLogic = new CardPaymentLogic(this, bank);
 	}
 	
 	/**
@@ -266,6 +303,10 @@ public class CentralStationLogic {
 	    }
 	    
 	    return available;
+	}
+	
+	private void initializeMembershipDatabase() {
+		MembershipDatabase.NUMBER_TO_CARDHOLDER.put("111222333", "Demo Member");
 	}
 
 	/**

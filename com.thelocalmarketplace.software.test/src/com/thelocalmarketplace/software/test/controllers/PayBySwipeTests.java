@@ -49,7 +49,7 @@ public class PayBySwipeTests {
 
         do{
             session.hardware.getCardReader().swipe(this.card);
-        } while(!session.cardLogic.isDataRead());
+        } while(!session.cardPaymentLogic.isDataRead());
 
     }
     @Before
@@ -71,7 +71,7 @@ public class PayBySwipeTests {
         //set up bank details
         CardIssuer bank= new CardIssuer("Scotia Bank",3);
         session.setupBankDetails(bank);
-        this.card = new Card("DEBIT","123456789","John","329");
+        this.card = new Card("DEBIT", "123456789", "John", "329", null, false, false);
         Calendar expiry = Calendar.getInstance();
         expiry.set(2025,Calendar.JANUARY,24);
         bank.addCardData("123456789", "John",expiry,"329",32.00);
@@ -147,22 +147,22 @@ public class PayBySwipeTests {
     
     @Test
     public void testGetCardPaymentTypeDebit() {
-    	Card c = new Card("deBiT","123456789","John","329");
+    	Card c = new Card("deBiT","123456789","John","329", null, false, false);
     	
-    	assertEquals(PaymentMethods.DEBIT, session.cardLogic.getCardPaymentType(c.kind));
+    	assertEquals(PaymentMethods.DEBIT, session.cardPaymentLogic.getCardType(c.kind));
     }
     
     @Test
     public void testGetCardPaymentTypeCredit() {
-    	Card c = new Card("CreDIt","123456789","John","329");
+    	Card c = new Card("CreDIt","123456789","John","329", null, false, false);
     	
-    	assertEquals(PaymentMethods.CREDIT, session.cardLogic.getCardPaymentType(c.kind));
+    	assertEquals(PaymentMethods.CREDIT, session.cardPaymentLogic.getCardType(c.kind));
     }
     
     @Test
     public void testGetCardPaymentTypeNone() {
-    	Card c = new Card("fdsgds","123456789","John","329");
+    	Card c = new Card("fdsgds","123456789","John","329", null, false, false);
     	
-    	assertEquals(PaymentMethods.NONE, session.cardLogic.getCardPaymentType(c.kind));
+    	assertEquals(PaymentMethods.NONE, session.cardPaymentLogic.getCardType(c.kind));
     }
 }
