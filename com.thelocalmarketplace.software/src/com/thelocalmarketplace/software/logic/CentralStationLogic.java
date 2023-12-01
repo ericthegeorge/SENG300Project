@@ -352,7 +352,18 @@ public class CentralStationLogic {
 	public boolean issuePredicted() {
 		if (bypassIssuePrediction) return false;
 		boolean issueExists = false;
-		//TODO put printer and ink warning checks in here
+		
+		boolean lowInk = receiptPrintingController.isLowInk();
+		if (lowInk) {
+                	// TODO: interact with attendant station UI for  for low ink warning
+			issueExists = true;
+		}
+		
+		boolean lowPaper = receiptPrintingController.isLowInk();
+		if (lowPaper) {
+			//TODO: interact with attendant station UI for low paper warning
+	        	issueExists = true;
+	  	  }
 		
 		//Banknote dispenser checks
 	    for (Entry<BigDecimal, BanknoteDispenserController> entry : this.banknoteDispenserControllers.entrySet()) {
