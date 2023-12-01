@@ -29,11 +29,11 @@ package com.thelocalmarketplace.software.logic;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
-public class MaintainBanknotes extends AbstractLogicDependant {
+public class MaintainBanknotesLogic extends AbstractLogicDependant {
 
 	
 	
-	public MaintainBanknotes(CentralStationLogic logic) throws NullPointerException {
+	public MaintainBanknotesLogic(CentralStationLogic logic) throws NullPointerException {
 		super(logic);
 		// TODO Auto-generated constructor stub
 	}
