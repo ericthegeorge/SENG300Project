@@ -88,15 +88,16 @@ public class AttendantLogic {
 	 * @throws OverloadedDevice is there is too much ink added
 	 */
 	public void addInk(int amount) throws OverloadedDevice {
+		//makes sure session is disabled before adding ink
+		if(this.logic.getSessionDisabled()==false){
+			throw new InvalidStateSimulationException("Station must be disabled");
+		}
+		else{
+			//add the ink to the printer
+			this.logic.hardware.getPrinter().addInk(amount);
+			enableStation();
+		}
 
-		//manually disable printer
-		this.logic.hardware.getPrinter().disable();
-
-		//add the ink to the printer
-		this.logic.hardware.getPrinter().addInk(amount);
-
-		//manually enable printer again
-		this.logic.hardware.getPrinter().enable();
 	}
 
 	/**
@@ -105,15 +106,15 @@ public class AttendantLogic {
 	 * @throws OverloadedDevice if too much paper is added
 	 */
 	public void addPaper(int amount) throws OverloadedDevice {
+		//makes sure station is disabled before adding paper
+		if(this.logic.getSessionDisabled()==false){
+			throw new InvalidStateSimulationException("Station must be disabled");
+		}else{
+			//add in specifified amount of paper
+			this.logic.hardware.getPrinter().addPaper(amount);
+			enableStation();
+		}
 
-		//manually disable printer
-		this.logic.hardware.getPrinter().disable();
-
-		//manually enable printer again
-		this.logic.hardware.getPrinter().addPaper(amount);
-
-		//manually enable printer again
-		this.logic.hardware.getPrinter().enable();
 	}
 	
 	public void printDuplicateReceipt() {
@@ -156,6 +157,7 @@ public class AttendantLogic {
 			this.logic.hardware.getCoinSlot().enable();
 			this.logic.hardware.getPrinter().enable();
 			this.logic.hardware.getReusableBagDispenser().enable();
+			this.logic.setSessionDisabled(false);
 
 		}
 	}
