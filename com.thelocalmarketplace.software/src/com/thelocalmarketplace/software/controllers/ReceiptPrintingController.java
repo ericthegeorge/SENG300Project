@@ -53,10 +53,10 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 		Map<Product, Integer> cartItems = this.logic.cartLogic.getCart();
 		BigDecimal totalCost = BigDecimal.ZERO;
 		// Begin the receipt.
+		paymentRecord.append("Customer Receipt\n");
 		if (logic.membershipLogic.getCardHolder() != null) {
-			paymentRecord.append(logic.membershipLogic.getCardHolder() + "\n");
-		} else {
-			paymentRecord.append("Customer Receipt\n");
+			paymentRecord.append("Member Name: " + logic.membershipLogic.getCardHolder() + "\n" + "Member Number: "
+					+ logic.membershipLogic.getNumber() + "\n");
 		}
 		paymentRecord.append("=========================\n");
 
