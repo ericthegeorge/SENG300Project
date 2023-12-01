@@ -7,11 +7,15 @@ import com.jjjwelectronics.card.Card.CardData;
 import com.jjjwelectronics.card.CardReaderListener;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.CardMethods;
 import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 /**
  * Card Reader Controller
+ * @author Christopher Lo (30113400)
+ * Updated listeners to taking action regarding on which was called, as well as adding if-statements for each type of card payments
+ * --------------------------------
  * @author Maheen Nizmani (30172615)
  * --------------------------------
  * @author Connell Reffo (10186960)
@@ -23,9 +27,12 @@ import com.thelocalmarketplace.software.logic.StateLogic.States;
  * @author Phuong Le (30175125)
  * @author Daniel Yakimenka (10185055)
  * @author Merick Parkinson (30196225)
+ * --------------------------------
  */
 public class CardReaderController extends AbstractLogicDependant implements CardReaderListener{
     
+	String type;
+	
 	/**
      * Base constructor
      * @param logic Reference to the central station logic
@@ -41,7 +48,9 @@ public class CardReaderController extends AbstractLogicDependant implements Card
 
     @Override
     public void aCardHasBeenInserted() {
-
+        System.out.println("A card has been inserted");
+        type = "insert";
+        this.logic.cardPaymentLogic.isDataRead(false);
     }
 
     @Override
@@ -51,24 +60,27 @@ public class CardReaderController extends AbstractLogicDependant implements Card
 
     @Override
     public void aCardHasBeenTapped() {
-
+        System.out.println("A card has been tapped");
+        type = "tap";
+        this.logic.cardPaymentLogic.isDataRead(false);
     }
+
 
     //Ask for signature when card is swiped
     @Override
     public void aCardHasBeenSwiped() {
         System.out.println("A card has been swiped");
-        // Shouldnt it be after the transaction? it might mess w swiping a membership card
-        this.logic.cardLogic.isDataRead(false);
+        type = "swipe";
     }
    
 
     @Override
     public void theDataFromACardHasBeenRead(CardData data) {
-    	String type = data.getType();
-    	PaymentMethods t = this.logic.cardLogic.getCardPaymentType(type);
-    	
-        this.logic.cardLogic.isDataRead(true);
+      String type = data.getType();
+    	PaymentMethods t = this.logic.cardPaymentLogic.getCardType(data.getType());
+    	CardMethods c = this.logic.cardPaymentLogic.setCardPaymentType(type);
+
+        this.logic.cardPaymentLogic.isDataRead(true);
 
         if (!this.logic.isSessionStarted()) {
             throw new InvalidStateSimulationException("Session not started");
@@ -79,20 +91,38 @@ public class CardReaderController extends AbstractLogicDependant implements Card
         else if (!this.logic.getSelectedPaymentMethod().equals(t)) {
         	throw new InvalidStateSimulationException("Pay by " + t.toString() + " not selected");
         }
-
-        //check if transaction successful
-        if(this.logic.cardLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
-
-            //if successful reduce amount owed by customer otherwise do nothing
-        this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
         
+        if (CardMethods.TAP.equals(c))
+        	System.out.println("Tap payment has been processed");
         
-        if(type.equals("Membership") && this.logic.stateLogic.inState(States.MEMBER));
-        	logic.membershipLogic.enterMembershipByCard(data);
+        else if (CardMethods.INSERT.equals(c)) {
+        	if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
+        	        //check if transaction successful
+        	        if(this.logic.cardPaymentLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
+
+        	            //if successful reduce amount owed by customer otherwise do nothing
+        	            this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
+        	        } 
+        	}
         }
+        else if (CardMethods.SWIPE.equals(c)) {
+        	 if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
+        	      	//check if transaction successful
+        	        if(this.logic.cardPaymentLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
+
+        	        	//if successful reduce amount owed by customer otherwise do nothing
+        	        	this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
+        	        }
+        	 }       
+        }	        			
+        else
+        	throw new InvalidStateSimulationException("Invalid card payment method");
 
         System.out.println("Total owed: " + this.logic.cartLogic.getBalanceOwed());
-
+  
+        if(type.equals("Membership") && this.logic.stateLogic.inState(States.MEMBER)){
+        	logic.membershipLogic.enterMembershipByCard(data);
+        }
     }
     
     // ---- Unused ----
