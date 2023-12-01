@@ -162,9 +162,8 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
     public boolean isLowInk() {
         // Implementing logic to check the ink level and return true if it's low.
     	int inkRemaining = this.logic.hardware.getPrinter().inkRemaining();
-    	// Assuming full capacity is 100 units, adjust the threshold as needed
-        int fullCapacity = 100;
-        int threshold = (1 * fullCapacity) / 4;
+    	// Adjust the threshold to 50 units
+        int threshold = 50
 
         // Check if the ink level is below the threshold
         return inkRemaining < threshold;
@@ -172,9 +171,8 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
     public boolean isLowPaper() {
         // Implementing logic to check the paper level and return true if it's low.
         int paperRemaining = this.logic.hardware.getPrinter().paperRemaining();
-    	// Assuming full capacity is 100 units, adjust the threshold as needed
-        int fullCapacity = 100;
-        int threshold = (1 * fullCapacity) / 4;
+    	// Adjust the threshold to 10 units
+        int threshold = 10
         // Check if the paper level is below the threshold
 
         return paperRemaining < threshold;
