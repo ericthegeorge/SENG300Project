@@ -94,6 +94,14 @@ public class CardReaderController extends AbstractLogicDependant implements Card
         
         if (CardMethods.TAP.equals(c))
         	System.out.println("Tap payment has been processed");
+			if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
+				//check if transaction successful
+				if(this.logic.cardPaymentLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
+			
+				   //if successful reduce amount owed by customer otherwise do nothing
+				   this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
+				   }
+			}
         
         else if (CardMethods.INSERT.equals(c)) {
         	if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
