@@ -1,12 +1,20 @@
 package com.thelocalmarketplace.software.logic;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
 import com.jjjwelectronics.scanner.Barcode;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.jjjwelectronics.Item;
+import com.jjjwelectronics.Mass;
+import com.jjjwelectronics.bag.ReusableBag;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.Utilities;
@@ -38,7 +46,7 @@ public class CartLogic {
 	 * Includes products without barcodes
 	 * Maps a product to its count
 	 */
-	private Map<Product, Integer> cart;
+	private Map<Item, Integer> cart;
 	
 	/**
 	 * Tracks how much money the customer owes
@@ -51,69 +59,119 @@ public class CartLogic {
 	public CartLogic() {
 		
 		// Initialization
-		this.cart = new HashMap<Product, Integer>();
+		this.cart = new HashMap<Item, Integer>();
 		
 		this.balanceOwed = BigDecimal.ZERO;
 	}
 	
-	
-	public void addProductToCart(BarcodedProduct product) {
-		Utilities.modifyCountMapping(cart, product, 1);
+	/**
+	 * Adds a Barcoded item to the cart, and updates balance using the price
+	 * @param item - barcoded item to add to the cart
+	 * @param itemPrice - price of the barcoded item
+	 */
+	public void addProductToCart(BarcodedItem item, long itemPrice) {
+		Utilities.modifyCountMapping(cart, item, 1);
 		
 		// Update balance owed
-		//if (product.isPerUnit()) {
-		BigDecimal newPrice = this.balanceOwed.add(new BigDecimal(product.getPrice()));
+		BigDecimal newPrice = this.balanceOwed.add(new BigDecimal(itemPrice));
 		this.updateBalance(newPrice);
-		//} else {
-			
-		//}
 	}
 	
 	/**
-	 * Removes a product from customer's cart
-	 * @param product The product to remove
-	 * @throws SimulationException If the product is not in the cart
+	 * Adds a PLU coded item to the cart, and updates balance using the price
+	 * @param item - PLU coded item to add the cart
+	 * @param itemPrice - price of the PLU coded item
 	 */
-	public void removeProductFromCart(BarcodedProduct product) throws SimulationException {
-		if (!this.getCart().containsKey(product)) {
+	public void addProductToCart(PLUCodedItem item, long itemPrice) {
+		Utilities.modifyCountMapping(cart, item, 1);
+		
+		// Update balance owed
+		BigDecimal newPrice = this.balanceOwed.add(new BigDecimal(itemPrice));
+		this.updateBalance(newPrice);
+	}
+	
+	public void addProductToCart(ReusableBag item) {
+		Utilities.modifyCountMapping(cart, item, 1);
+		
+		// Reusable Bags have no price as of now
+//		BigDecimal newPrice = this.balanceOwed.add(new BigDecimal(itemPrice));
+//		this.updateBalance(newPrice);
+	}
+	
+	/**
+	 * Removes a barcoded item from customer's cart
+	 * @param item The barcoded item to remove
+	 * @throws SimulationException If the item is not in the cart
+	 */
+	public void removeProductFromCart(BarcodedItem item) throws SimulationException {
+		if (!this.getCart().containsKey(item)) {
 			throw new InvalidStateSimulationException("Product not in cart");
 		}
 		
-		Utilities.modifyCountMapping(cart, product, -1);
+		Utilities.modifyCountMapping(cart, item, -1);
 		
 		// Update balance owed
-		//if (product.isPerUnit()) {
+		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
 		BigDecimal newPrice = this.balanceOwed.subtract(new BigDecimal(product.getPrice()));
 		this.updateBalance(newPrice);
-		//} else {
-			
-		//}
 	}
 	
 	/**
-	 * Takes a barcode, looks it up in product database, then adds it to customer cart
+	 * Removes a PLU coded item from customer's cart
+	 * @param item the PLU coded item to remove
+	 * @throws SimulationException If the item is not in the cart
+	 */
+	public void removeProductFromCart(PLUCodedItem item) throws SimulationException {
+		if (!this.getCart().containsKey(item)) {
+			throw new InvalidStateSimulationException("Product not in cart");
+		}
+		
+		Utilities.modifyCountMapping(cart, item, -1);
+		
+		// Update balance owed
+		PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(item.getPLUCode());
+		long itemPrice = product.getPrice() * (item.getMass().inMicrograms().longValue() / 1000000000);
+		BigDecimal newPrice = this.balanceOwed.subtract(new BigDecimal(itemPrice));
+		this.updateBalance(newPrice);
+	}
+	
+	/**
+	 * Takes a barcode, looks it up in product database, then and calls addProductToCart() to add it to the cart
 	 * @param barcode The barcode to use
 	 * @throws SimulationException If barcode is not registered to product database
 	 * @throws SimulationException If barcode is not registered in available inventory
 	 */
 	public void addBarcodedProductToCart(Barcode barcode) throws SimulationException {
-		BarcodedProduct toadd = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode);
+		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode);
 		
 		if (!ProductDatabases.BARCODED_PRODUCT_DATABASE.containsKey(barcode)) {
 			throw new InvalidStateSimulationException("Barcode not registered to product database");
 		}
-		else if (!ProductDatabases.INVENTORY.containsKey(toadd) || ProductDatabases.INVENTORY.get(toadd) < 1) {
+		else if (!ProductDatabases.INVENTORY.containsKey(product) || ProductDatabases.INVENTORY.get(product) < 1) {
 			throw new InvalidStateSimulationException("No items of this type are in inventory");
 		}
 		
-		this.addProductToCart(toadd);
+		long weight = (long) product.getExpectedWeight();
+		Mass itemMass = new Mass(BigInteger.valueOf(weight));
+		BarcodedItem item = new BarcodedItem(barcode, itemMass);
+		
+		this.addProductToCart(item, product.getPrice());
+	}
+	
+	/**
+	 * Takes a PLU coded item and its price, and calls addProductToCart() to add it to the cart
+	 * @param item The PLU coded item to add
+	 * @param itemPrice the price of the item (already calculated based on weight and price per kg)
+	 */
+	public void addPLUCodedItemToCart(PLUCodedItem item, long itemPrice) throws SimulationException {
+		this.addProductToCart(item, itemPrice);
 	}
 	
 	/**
 	 * Gets the customer's cart
 	 * @return A list of products that represent the cart
 	 */
-	public Map<Product, Integer> getCart() {
+	public Map<Item, Integer> getCart() {
 		return this.cart;
 	}
 	
@@ -124,11 +182,23 @@ public class CartLogic {
 	public BigDecimal calculateTotalCost() {
 		long balance = 0;
 		
-		for (Entry<Product, Integer> productAndCount : this.getCart().entrySet()) {
-			Product product = productAndCount.getKey();
-			int count = productAndCount.getValue();
+		for (Entry<Item, Integer> itemAndCount : this.getCart().entrySet()) {
+			Item item = itemAndCount.getKey();
+			int count = itemAndCount.getValue();
 			
-			balance += product.getPrice() * count;
+			// update balance when the item is a barcoded item
+			if (item instanceof BarcodedItem) {
+				BarcodedItem barcodedItem = (BarcodedItem) item;
+				BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode());
+				balance += product.getPrice() * count;
+			}
+			// update balance when the item is a PLU coded item
+			else if (item instanceof PLUCodedItem) {
+				PLUCodedItem pluCodedItem = (PLUCodedItem) item;
+				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode());
+				long itemPrice = product.getPrice() * (item.getMass().inMicrograms().longValue() / 1000000000);
+				balance += itemPrice * count;
+			}
 		}
 		
 		return new BigDecimal(balance);
