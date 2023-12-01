@@ -61,7 +61,7 @@ public class PaymentScreenGUI {
 
         // top panel
         JPanel topPanel = new JPanel();
-        selectPaymentLabel = new JLabel("Select Payment Method");  // Fix this line
+        selectPaymentLabel = new JLabel("Select Payment Method"); 
         selectPaymentLabel.setFont(new Font("Arial", Font.BOLD, 18));
         topPanel.add(selectPaymentLabel);
         paymentPagePanel.add(topPanel, BorderLayout.NORTH);
