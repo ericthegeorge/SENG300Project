@@ -13,6 +13,9 @@ import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 /**
  * Card Reader Controller
+ * @author Christopher Lo (30113400)
+ * Updated listeners to taking action regarding on which was called, as well as adding if-statements for each type of card payments
+ * --------------------------------
  * @author Maheen Nizmani (30172615)
  * --------------------------------
  * @author Connell Reffo (10186960)
@@ -25,7 +28,6 @@ import com.thelocalmarketplace.software.logic.StateLogic.States;
  * @author Daniel Yakimenka (10185055)
  * @author Merick Parkinson (30196225)
  * --------------------------------
- * @author Christopher Lo (30113400) renamed CardSwipeLogic to CardPaymentLogic
  */
 public class CardReaderController extends AbstractLogicDependant implements CardReaderListener{
     

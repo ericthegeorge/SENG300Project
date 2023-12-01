@@ -14,6 +14,8 @@ import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods
  * @author Christopher Lo (30113400)
  * 
  * Now handles the logic for: credit/debit tap/insert/swipe
+ * Also now can set card payment type with the CardMethod enumeration from the Central Station logic
+ * Also added a validateSignature method
  * ---------------------------------
  * @author Maheen Nizmani (30172615)
  * ---------------------------------

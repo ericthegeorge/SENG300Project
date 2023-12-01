@@ -26,6 +26,9 @@ import ca.ucalgary.seng300.simulation.SimulationException;
  * Codebase originated from Connell's project
  * Combined idea of having session handling part of central logic unit from Braden's project
  * 
+ * @author Christopher Lo (30113400)
+ * added CardMethods enumeration and changed method names to fit Insert/Tap Use Cases
+ * -----------------------------------
  * @author Connell Reffo (10186960)
  * @author Tara Strickland (10105877)
  * @author Angelina Rochon (30087177)
