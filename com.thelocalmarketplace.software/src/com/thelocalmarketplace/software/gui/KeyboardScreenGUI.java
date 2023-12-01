@@ -74,7 +74,7 @@ public class KeyboardScreenGUI {
 		keyRowFourPanel.setLayout(new BoxLayout(keyRowFourPanel, BoxLayout.X_AXIS));
 		keyRowFivePanel.setLayout(new BoxLayout(keyRowFivePanel, BoxLayout.X_AXIS));
 		textAreaPanel.setLayout(new BoxLayout(textAreaPanel, BoxLayout.X_AXIS));
-		//visualAlphaPanel.setLayout(new CardLayout());
+		
 		item_A.setLayout(new BoxLayout(item_A, BoxLayout.X_AXIS));
 		item_BtoC.setLayout(new BoxLayout(item_BtoC, BoxLayout.X_AXIS));
 		item_DtoJ.setLayout(new BoxLayout(item_DtoJ, BoxLayout.X_AXIS));
@@ -83,10 +83,8 @@ public class KeyboardScreenGUI {
 		item_QtoS.setLayout(new BoxLayout(item_QtoS, BoxLayout.X_AXIS));
 		item_TtoZ.setLayout(new BoxLayout(item_TtoZ, BoxLayout.X_AXIS));
 		
-		// Add Buttons
 		
-		
-		// Build CardLayout
+		// Build Tab Layout
 		
 		item_A.add(Box.createRigidArea(new Dimension(5,0)));
 		item_A.add(new JButton(" Apples "));
@@ -138,7 +136,7 @@ public class KeyboardScreenGUI {
 		item_TtoZ.add(new JButton(" Watermelon "));
 		item_TtoZ.add(Box.createRigidArea(new Dimension(5,0)));
 
-		
+		// Add Tabs to layout
 		visualAlphaPanel.addTab("        A        ", item_A);
 		visualAlphaPanel.addTab("      B - C      ", item_BtoC);
 		visualAlphaPanel.addTab("      D - J      ", item_DtoJ);
@@ -147,7 +145,7 @@ public class KeyboardScreenGUI {
 		visualAlphaPanel.addTab("      Q - S      ", item_QtoS);
 		visualAlphaPanel.addTab("      T - Z      ", item_TtoZ);
 		
-
+		// Add Buttons for keyboard
 		keyRowOnePanel.add(new JButton(" Q "));
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
 		keyRowOnePanel.add(new JButton(" W "));
@@ -238,12 +236,15 @@ public class KeyboardScreenGUI {
 		keyRowFivePanel.add(Box.createRigidArea(new Dimension(5,0)));
 		keyRowFivePanel.add(new JButton(" 0 "));
 		
-		// Add the smaller containers to the main panel
-		
-		keyboardScreenPanel.add(visualAlphaPanel, BorderLayout.CENTER);
+		// Build Text Box
 		textBar.setText(searchText);
 		textAreaPanel.add(textBar);
 		textAreaPanel.add(Box.createRigidArea(new Dimension(0,50)));
+		
+		// Add the smaller containers to the main panel
+		
+		keyboardScreenPanel.add(visualAlphaPanel, BorderLayout.CENTER);
+		
 		keyboardScreenPanel.add(textAreaPanel);
 		keyboardScreenPanel.add(keyRowFivePanel);
 		keyboardScreenPanel.add(keyRowOnePanel);
