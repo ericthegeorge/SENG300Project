@@ -22,8 +22,7 @@ import com.thelocalmarketplace.software.logic.StateLogic.States;
 /**
  * @author Phuong Le (30175125)
  * @author Farida Elogueil (30171114)
- * @author Connell Reffo (10186960)
- * -----------------------------------
+ * @author Connell Reffo (10186960) -----------------------------------
  * @author Tara Strickland (10105877)
  * @author Angelina Rochon (30087177)
  * @author Julian Fan (30235289)
@@ -34,17 +33,17 @@ import com.thelocalmarketplace.software.logic.StateLogic.States;
  * @author Merick Parkinson (30196225)
  */
 public class ReceiptPrintingController extends AbstractLogicDependant implements ReceiptPrinterListener {
-	
+
 	// A duplicate receipt that can be printed by the attendant.
 	String duplicateReceipt;
-	
+
 	/**
 	 * Base constructor
 	 */
-    public ReceiptPrintingController(CentralStationLogic logic) throws NullPointerException {
-    	super(logic);
-    	
-    	this.duplicateReceipt = "";
+	public ReceiptPrintingController(CentralStationLogic logic) throws NullPointerException {
+		super(logic);
+
+		this.duplicateReceipt = "";
 		this.logic.hardware.getPrinter().register(this);
     	//this.logic.hardware.printer.register(this);
     }
@@ -59,6 +58,10 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
         BigDecimal totalCost = BigDecimal.ZERO; 
         //Begin the receipt.
         paymentRecord.append("Customer Receipt\n");
+      	if (logic.membershipLogic.getCardHolder() != null) {
+			    paymentRecord.append("Member Name: " + logic.membershipLogic.getCardHolder() + "\n" + "Member Number: "
+					    + logic.membershipLogic.getNumber() + "\n");
+		    }
         paymentRecord.append("=========================\n");
         
         int i = 0;
@@ -78,7 +81,6 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
             	price = new BigDecimal(this.logic.addPLUCodedProductController.getPLUCodedItemPrice(barcodedItem));
             }
             
-            //BigDecimal price = new BigDecimal(product.getPrice());
             BigDecimal totalItemCost = price.multiply(new BigDecimal(quantity));
             totalCost.add(totalItemCost);
             paymentRecord.append("Item " + ++i + ":\n");
@@ -109,41 +111,41 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
         try {        	
         	this.printReceipt(receiptText);
         	this.finish();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
         	this.onPrintingFail();
         	this.duplicateReceipt = receiptText;
         	
         }
     }
 
-    /**
-     * Helper method for printing receipt
-     * @param receiptText Is the string to print
-     * @throws OverloadedDevice 
-     * @throws EmptyDevice 
-     */
+  /**
+   * Helper method for printing receipt
+   * @param receiptText Is the string to print
+   * @throws OverloadedDevice 
+   * @throws EmptyDevice 
+   */
 	private void printReceipt(String receiptText) throws EmptyDevice, OverloadedDevice {
 		for (char c : receiptText.toCharArray()) {
 
 			this.logic.hardware.getPrinter().print(c);
-	    	//this.logic.hardware.printer.print(c);
-	    }
+			// this.logic.hardware.printer.print(c);
+		}
 
 		this.logic.hardware.getPrinter().cutPaper();
-	    //this.logic.hardware.printer.cutPaper();
+		// this.logic.hardware.printer.cutPaper();
 	}
-	
-	
+
 	/**
 	 * Prints out a duplicate receipt. Only meant to be used by the attendant.
-	 * Returns the machine to normal as there is no longer a receipt that hasn't been printed.
+	 * Returns the machine to normal as there is no longer a receipt that hasn't
+	 * been printed.
 	 */
 	public void printDuplicateReceipt() {
 		try {
 			// Try to print out the receipt once more.
 			this.printReceipt(duplicateReceipt);
-			// Returns the machine to normal as the receipt is printed and the machine can resume.
+			// Returns the machine to normal as the receipt is printed and the machine can
+			// resume.
 			this.logic.stateLogic.gotoState(States.NORMAL);
 			// Removes the receipts as it is no longer needed.
 			this.duplicateReceipt = "";
@@ -152,29 +154,30 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 			this.onPrintingFail();
 		}
 	}
-	
+
 	/**
 	 * Executes after a receipt is successfully printed
 	 */
 	private void finish() {
-		
+
 		// Thank customer
-        System.out.println("Thank you for your business with The Local Marketplace");
-        
-        // End session
-        this.logic.stopSession();
-    }
-	
+		System.out.println("Thank you for your business with The Local Marketplace");
+
+		// End session
+		this.logic.stopSession();
+	}
+
 	/**
-	 * Executes if a receipt fails to print. Prints message to console and sets the state control software to suspended.
+	 * Executes if a receipt fails to print. Prints message to console and sets the
+	 * state control software to suspended.
 	 */
 	private void onPrintingFail() {
 		System.out.println("Failed to print receipt");
-		
+
 		// Suspend station
 		this.logic.stateLogic.gotoState(States.SUSPENDED);
 	}
-	
+
 	@Override
 	public void thePrinterIsOutOfPaper() {
 		this.onPrintingFail();
@@ -188,48 +191,48 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 	@Override
 	public void aDeviceHasBeenEnabled(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void aDeviceHasBeenDisabled(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void aDeviceHasBeenTurnedOn(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void aDeviceHasBeenTurnedOff(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void thePrinterHasLowInk() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void thePrinterHasLowPaper() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void paperHasBeenAddedToThePrinter() {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void inkHasBeenAddedToThePrinter() {
 		// TODO Auto-generated method stub
-		
+
 	}
 }
