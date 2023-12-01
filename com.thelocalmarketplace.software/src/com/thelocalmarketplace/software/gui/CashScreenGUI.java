@@ -8,6 +8,32 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * @author Jenny Dang (30153821)
+ * --------------------------------
+ * @author Adrian Brisebois
+ * @author Alan Yong
+ * @author Ananya jain
+ * @author Andrew Matti
+ * @author Atique Muhammad
+ * @author Christopher Lo
+ * @author Danny Ly
+ * @author Eric George
+ * @author Gareth Jenkins
+ * @author Ian Beler
+ * @author Jahnissi Nwakanma
+ * @author Camila Hernandez 
+ * @author Maheen Nizamani
+ * @author Michael Svoboda
+ * @author Olivia Crosby
+ * @author Rico Manalastas
+ * @author Ryan Korsrud
+ * @author Shanza Raza
+ * @author Sukhnaaz Sidhu
+ * @author Tanmay Mishra
+ * @author Zhenhui Ren
+ */
+
 public class CashScreenGUI {
     private JFrame cashPageFrame;
     private JPanel cashPagePanel;
