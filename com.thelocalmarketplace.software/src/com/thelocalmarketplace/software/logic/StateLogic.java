@@ -44,7 +44,8 @@ public class StateLogic extends AbstractLogicDependant {
 		BLOCKED,
 		ADDBAGS,
 		CHECKOUT,
-		SUSPENDED
+		SUSPENDED,
+		MEMBER
 	}
 	
 

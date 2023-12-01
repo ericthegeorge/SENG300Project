@@ -71,11 +71,12 @@ public class CardReaderController extends AbstractLogicDependant implements Card
     public void aCardHasBeenSwiped() {
         System.out.println("A card has been swiped");
         type = "swipe";
-        this.logic.cardPaymentLogic.isDataRead(false);
     }
+   
 
     @Override
     public void theDataFromACardHasBeenRead(CardData data) {
+      String type = data.getType();
     	PaymentMethods t = this.logic.cardPaymentLogic.getCardType(data.getType());
     	CardMethods c = this.logic.cardPaymentLogic.setCardPaymentType(type);
 
@@ -118,7 +119,10 @@ public class CardReaderController extends AbstractLogicDependant implements Card
         	throw new InvalidStateSimulationException("Invalid card payment method");
 
         System.out.println("Total owed: " + this.logic.cartLogic.getBalanceOwed());
-
+  
+        if(type.equals("Membership") && this.logic.stateLogic.inState(States.MEMBER)){
+        	logic.membershipLogic.enterMembershipByCard(data);
+        }
     }
     
     // ---- Unused ----
