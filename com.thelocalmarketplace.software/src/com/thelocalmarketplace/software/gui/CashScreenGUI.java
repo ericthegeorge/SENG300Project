@@ -88,7 +88,7 @@ public class CashScreenGUI {
         cashPagePanel.add(billButtonsPanel, BorderLayout.WEST);
         cashPagePanel.add(totalPanel, BorderLayout.CENTER);
 
-        // notify Attendant
+        // notify attendant
         JButton notifyButton = new JButton("Notify Attendant");
         notifyButton.setPreferredSize(new Dimension(200, 50));
         notifyButton.addActionListener(new ActionListener() {
