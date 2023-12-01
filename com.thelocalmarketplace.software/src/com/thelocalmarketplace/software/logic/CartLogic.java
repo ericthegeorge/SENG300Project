@@ -37,6 +37,7 @@ import ca.ucalgary.seng300.simulation.SimulationException;
  * @author Daniel Yakimenka (10185055)
  * @author Merick Parkinson (30196225)
  * @author Farida Elogueil (30171114)
+ * @author Tanmay Mishra (30127407)
  */
 public class CartLogic {
 	
@@ -74,6 +75,16 @@ public class CartLogic {
 		// Update balance owed
 		BigDecimal newPrice = this.balanceOwed.add(new BigDecimal(itemPrice));
 		this.updateBalance(newPrice);
+	}
+	/**
+	 * Adds a Reusable bag to the cart, and updates the weight of the cart
+	 */
+	public void addProductToCart(ReusableBag item) {
+		Utilities.modifyCountMapping(cart, item, 1);
+		
+		// Reusable Bags have no price as of now
+//		BigDecimal newPrice = this.balanceOwed.add(new BigDecimal(itemPrice));
+//		this.updateBalance(newPrice);
 	}
 	
 	/**
