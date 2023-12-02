@@ -9,8 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * @author Jenny Dang (30153821)
- * --------------------------------
+ * @author Jenny Dang
  * @author Adrian Brisebois
  * @author Alan Yong
  * @author Ananya jain
