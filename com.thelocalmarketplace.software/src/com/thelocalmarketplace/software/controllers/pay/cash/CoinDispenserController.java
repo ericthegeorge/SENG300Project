@@ -33,7 +33,7 @@ public class CoinDispenserController extends AbstractLogicDependant implements C
 	 * will be triggered when there >= 8 or <= 2 banknotes respectively 
 	 * in a dispenser with a maximum capacity of 10. 
 	 */
-	static double warnAtPercentage = 20; //this can be modified by the customer as needed
+	static double warnAtPercentage = 20 / 100.0; //this can be modified by the customer as needed
 	ICoinDispenser dispenser;
 	
 	/**
@@ -63,7 +63,7 @@ public class CoinDispenserController extends AbstractLogicDependant implements C
 	}
 	
 	public boolean shouldWarnFull() {
-		if(dispenser.getCapacity() - available.size() >= dispenser.getCapacity() * warnAtPercentage) return true;
+		if(dispenser.getCapacity() - available.size() <= dispenser.getCapacity() * warnAtPercentage) return true;
 		return false;
 	}
 	

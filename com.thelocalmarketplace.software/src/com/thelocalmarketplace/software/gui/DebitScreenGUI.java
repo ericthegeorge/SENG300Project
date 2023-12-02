@@ -4,10 +4,15 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import com.thelocalmarketplace.software.controllers.pay.CardReaderController;
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+
+// need help to connect the software to this
 
 public class DebitScreenGUI {
     private JFrame debitPageFrame;
     private JPanel debitPagePanel;
+    private CardReaderController cardReaderController;
     
     public DebitScreenGUI() {
         debitPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
@@ -16,32 +21,40 @@ public class DebitScreenGUI {
         addWidgets();
 
         debitPageFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        debitPageFrame.setSize(1000, 1000);
+        debitPageFrame.setSize(1000, 1000); 
         debitPageFrame.setContentPane(debitPagePanel);
         debitPageFrame.setVisible(true);
     }
 
     private void addWidgets() {
 
-        JButton button1 = new JButton("Insert");
-        JButton button2 = new JButton("Tap");
-        JButton button3 = new JButton("Go back");
+        JButton insertButton = new JButton("Insert");
+        JButton tapButton = new JButton("Tap");
+        JButton swipeButton = new JButton("Swipe");
+        JButton goBackButton = new JButton("Go back");
 
-        button1.addActionListener(new ActionListener() {
+        insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                cardReaderController.aCardHasBeenInserted();
             }
         });
 
-        button2.addActionListener(new ActionListener() {
+        tapButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                
+                cardReaderController.aCardHasBeenTapped();
+            }
+        });
+        
+        swipeButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cardReaderController.aCardHasBeenSwiped();
             }
         });
 
-        button3.addActionListener(new ActionListener() {
+        goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
             	debitPageFrame.dispose();
@@ -50,13 +63,14 @@ public class DebitScreenGUI {
         });
 
 
-        debitPagePanel.setLayout(new GridLayout(1, 3)); 
-        debitPagePanel.add(button1);
-        debitPagePanel.add(button2);
-        debitPagePanel.add(button3);
+        debitPagePanel.setLayout(new GridLayout(2, 2)); 
+        debitPagePanel.add(insertButton);
+        debitPagePanel.add(tapButton);
+        debitPagePanel.add(swipeButton);
+        debitPagePanel.add(goBackButton);
     }
     
-    public static void main(String[] args) {
+    public static void main(String[] args) throws NullPointerException {
         DebitScreenGUI debitScreen = new DebitScreenGUI();
     }
 }

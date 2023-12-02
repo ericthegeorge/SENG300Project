@@ -5,31 +5,6 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
-/**
- * @author Jenny Dang 
- * @author Adrian Brisebois
- * @author Alan Yong
- * @author Ananya jain
- * @author Andrew Matti
- * @author Atique Muhammad
- * @author Christopher Lo
- * @author Danny Ly
- * @author Eric George
- * @author Gareth Jenkins
- * @author Ian Beler
- * @author Jahnissi Nwakanma
- * @author Camila Hernandez 
- * @author Maheen Nizamani
- * @author Michael Svoboda
- * @author Olivia Crosby
- * @author Rico Manalastas
- * @author Ryan Korsrud
- * @author Shanza Raza
- * @author Sukhnaaz Sidhu
- * @author Tanmay Mishra
- * @author Zhenhui Ren
- */
-
 public class PaymentScreenGUI {
     private JFrame paymentPageFrame;
     private JPanel paymentPagePanel;
@@ -160,7 +135,7 @@ public class PaymentScreenGUI {
         });
        
     }
-
+ 
     private void notifyAttendant() {
         JOptionPane.showMessageDialog(paymentPageFrame, "Attendant notified. Please wait for assistance.");
     }

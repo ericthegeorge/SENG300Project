@@ -32,7 +32,7 @@ public class BanknoteDispenserController extends AbstractLogicDependant implemen
 	 * will be triggered when there >= 8 or <= 2 banknotes respectively 
 	 * in a dispenser with a maximum capacity of 10. 
 	 */
-	static double warnAtPercentage = 20; //this can be modified by the customer as needed
+	static double warnAtPercentage = 20 / 100.0; //this can be modified by the customer as needed
 	IBanknoteDispenser dispenser;
 	private List<Banknote> available;
 
@@ -53,7 +53,7 @@ public class BanknoteDispenserController extends AbstractLogicDependant implemen
 	}
 	
 	public boolean shouldWarnFull() {
-		if(dispenser.getCapacity() - available.size() >= dispenser.getCapacity() * warnAtPercentage) return true;
+		if(dispenser.getCapacity() - available.size() <= dispenser.getCapacity() * warnAtPercentage) return true;
 		return false;
 	}
 	
