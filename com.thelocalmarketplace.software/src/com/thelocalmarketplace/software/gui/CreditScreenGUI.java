@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import com.thelocalmarketplace.software.controllers.pay.CardReaderController;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
+// need help to connect the software to this
+
 public class CreditScreenGUI {
     private JFrame creditPageFrame;
     private JPanel creditPagePanel;
