@@ -139,4 +139,68 @@ public class ReceiptPrintingTests {
         attendant.printDuplicateReceipt();
         assertEquals(this.session.stateLogic.getState(), States.NORMAL);
     }
+@Test 
+    public void testLowInkforHighLevel() {
+    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
+        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
+        session.cartLogic.addProductToCart(product1);  
+        station.getPrinter().addInk(80);
+        station.getPrinter().addPaper(1);
+        controller.handlePrintReceipt(new BigDecimal(0));
+        boolean lowInk = controller.isLowInk();
+
+        assertEquals(this.session.stateLogic.getState(), States.NORMAL);
+        
+        assertFalse(lowInk);
+    }
+    @Test 
+    public void testLowInkforLowLevel() {
+    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
+        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
+        session.cartLogic.addProductToCart(product1);  
+        station.getPrinter().addInk(20);
+        station.getPrinter().addPaper(1);
+        controller.handlePrintReceipt(new BigDecimal(0));
+        boolean lowInk = controller.isLowInk();
+
+        assertEquals(this.session.stateLogic.getState(), States.NORMAL);
+        
+        assertTrue(lowInk);
+    }
+    
+    @Test
+    public void testLowPaperforHighLevel() {
+    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
+        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
+        session.cartLogic.addProductToCart(product1);  
+        station.getPrinter().addInk(1000);
+        station.getPrinter().addPaper(800);
+        controller.handlePrintReceipt(new BigDecimal(0));
+        
+        boolean lowPaper = controller.isLowPaper();
+        
+        assertEquals(this.session.stateLogic.getState(), States.NORMAL);
+
+        assertFalse(lowPaper);
+    	
+    }
+    
+    @Test
+    public void testLowPaperforLowLevel() {
+    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
+        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
+        session.cartLogic.addProductToCart(product1);  
+        station.getPrinter().addInk(1000);
+        station.getPrinter().addPaper(2);
+        controller.handlePrintReceipt(new BigDecimal(0));
+        
+        boolean lowPaper = controller.isLowPaper();
+        
+        assertEquals(this.session.stateLogic.getState(), States.NORMAL);
+
+        assertFalse(lowPaper);
+    	
+    }
+
 }
+
