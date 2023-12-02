@@ -1,5 +1,8 @@
 package com.thelocalmarketplace.software.test.logic;
 
+/**
+ * Author: Danny Ly
+ */
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
@@ -35,7 +38,6 @@ public class MembershipTests {
 	private SelfCheckoutStationBronze hardware;
 	private CentralStationLogic logic;
 	private MembershipLogic membershipLogic;
-//	private Card membershipCard;
 	
 	// stub for Card data allows for making a membership card in this test
 	public class CardDataStub implements CardData {
@@ -89,11 +91,9 @@ public class MembershipTests {
 		this.logic = new CentralStationLogic(hardware);
 		this.membershipLogic = new MembershipLogic(logic);
 		
-		 MembershipDatabase.NUMBER_TO_CARDHOLDER.put("111222333", "Demo Member");
-		 
-//		 this.membershipCard = new Card("Membership", "111222333", "Demo Member", "123", "1234", true, true);
-		 cardData = new CardDataStub ("Membership", "111222333", "Demo Member", "123");
-		 falseCardData = new CardDataStub ("Membership", "111242333", "semo Member", "123");
+		MembershipDatabase.NUMBER_TO_CARDHOLDER.put("111222333", "Demo Member");
+		cardData = new CardDataStub ("Membership", "111222333", "Demo Member", "123");
+		falseCardData = new CardDataStub ("Membership", "111242333", "semo Member", "123");
 	 }
 	 
 	 
