@@ -6,8 +6,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 
 /**
- * @author Jenny Dang (30153821)
- * --------------------------------
+ * @author Jenny Dang 
  * @author Adrian Brisebois
  * @author Alan Yong
  * @author Ananya jain
