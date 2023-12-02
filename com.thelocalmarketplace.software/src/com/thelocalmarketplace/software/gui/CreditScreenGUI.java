@@ -16,7 +16,7 @@ public class CreditScreenGUI {
         addWidgets();
 
         creditPageFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        creditPageFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        creditPageFrame.setSize(1000, 1000);
         creditPageFrame.setContentPane(creditPagePanel);
         creditPageFrame.setVisible(true);
     }
