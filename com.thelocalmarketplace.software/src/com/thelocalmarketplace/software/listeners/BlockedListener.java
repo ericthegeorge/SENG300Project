@@ -32,6 +32,11 @@ public class BlockedListener extends AbstractStateTransitionListener {
 		this.logic.hardware.getCoinValidator().disable();
 		this.logic.hardware.getBanknoteInput().disable();
 		this.logic.hardware.getBanknoteValidator().disable();
+		this.logic.hardware.getMainScanner().disable();
+		this.logic.hardware.getScanningArea().disable();
+		this.logic.hardware.getCardReader().disable();
+		this.logic.hardware.getPrinter().disable();
+		this.logic.hardware.getReusableBagDispenser().disable();
 
 		/*
 		this.logic.hardware.baggingArea.disable();

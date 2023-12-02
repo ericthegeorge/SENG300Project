@@ -183,6 +183,8 @@ public class CentralStationLogic {
 	private boolean sessionStarted;
 	private boolean bypassIssuePrediction;
 
+
+
 	/**
 	 * Base constructor for a new CentralStationLogic instance
 	 * @throws NullPointerException If hardware is null
@@ -334,7 +336,7 @@ public class CentralStationLogic {
 		}
 
 	}
-	
+
 	/**
 	 * Marks the current self checkout session as inactive
 	 */

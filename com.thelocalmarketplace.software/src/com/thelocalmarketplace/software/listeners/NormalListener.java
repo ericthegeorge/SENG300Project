@@ -32,6 +32,13 @@ public class NormalListener extends AbstractStateTransitionListener {
 		this.logic.hardware.getCoinValidator().enable();
 		this.logic.hardware.getBanknoteInput().enable();
 		this.logic.hardware.getCoinValidator().enable();
+
+		this.logic.hardware.getScanningArea().enable();
+		this.logic.hardware.getBanknoteValidator().enable();
+		this.logic.hardware.getCardReader().enable();
+		this.logic.hardware.getPrinter().enable();
+		this.logic.hardware.getReusableBagDispenser().enable();
+
 	/*	this.logic.hardware.baggingArea.enable();
 		
 		this.logic.hardware.handheldScanner.enable();

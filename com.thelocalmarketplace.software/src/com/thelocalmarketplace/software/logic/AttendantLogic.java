@@ -1,6 +1,8 @@
 package com.thelocalmarketplace.software.logic;
 
+import com.jjjwelectronics.OverloadedDevice;
 import com.jjjwelectronics.scanner.Barcode;
+import com.thelocalmarketplace.hardware.AttendantStation;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
@@ -28,7 +30,6 @@ public class AttendantLogic {
 	/** tracks weather or not a bagging discrepency has been found */
 	private boolean inBaggingDiscrepency;
 
-	
 	public AttendantLogic(CentralStationLogic l) {
 		this.logic = l;
 	}
@@ -80,8 +81,63 @@ public class AttendantLogic {
 		logic.weightLogic.removeExpectedWeight(barcode);
 		logic.weightLogic.handleWeightDiscrepancy();
 	}
+
+	/**
+	 * Attendant adds ink to the printer with specified amount
+	 * @param amount - the amount of ink to add
+	 * @throws OverloadedDevice is there is too much ink added
+	 */
+	public void addInk(int amount) throws OverloadedDevice {
+		//makes sure session is disabled before adding ink
+		if(!this.logic.stateLogic.inState(States.BLOCKED)){
+			throw new InvalidStateSimulationException("Station must be disabled");
+		}
+		else{
+			//add the ink to the printer
+			this.logic.hardware.getPrinter().addInk(amount);
+			this.logic.stateLogic.gotoState(States.NORMAL);
+		}
+
+	}
+
+	/**
+	 * Attendant addds paper to the printer with amount specified
+	 * @param amount	the amount of paper to add
+	 * @throws OverloadedDevice if too much paper is added
+	 */
+	public void addPaper(int amount) throws OverloadedDevice {
+		//makes sure station is disabled before adding paper
+		if(!this.logic.stateLogic.inState(States.BLOCKED)){
+			throw new InvalidStateSimulationException("Station must be disabled");
+		}else{
+			//add in specifified amount of paper
+			this.logic.hardware.getPrinter().addPaper(amount);
+			this.logic.stateLogic.gotoState(States.NORMAL);
+		}
+
+	}
 	
 	public void printDuplicateReceipt() {
 		this.logic.receiptPrintingController.printDuplicateReceipt();
+	}
+
+	/**
+	 * attendant disables use of current station
+	 */
+	public void disableStation(){
+		if(this.logic.isSessionStarted()==true){
+			throw new InvalidStateSimulationException("Session active,can not disable");
+		}
+		this.logic.stateLogic.gotoState(States.BLOCKED);
+	}
+	/**
+	 * enables use of current station
+	 */
+	public void enableStation(){
+		if(!this.logic.stateLogic.inState(States.BLOCKED)){
+			throw new InvalidStateSimulationException("Station must be disabled");
+		}
+		this.logic.stateLogic.gotoState(States.NORMAL);
+
 	}
 }
