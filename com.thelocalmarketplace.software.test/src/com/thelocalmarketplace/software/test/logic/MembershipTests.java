@@ -33,6 +33,8 @@ import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertNull;
 import static org.junit.Assert.assertTrue;
 
+// Membership is not fully implemented in this iteration, so some tests will have errors due to
+// this incompletion.
 public class MembershipTests {
 	
 	private SelfCheckoutStationBronze hardware;
@@ -93,9 +95,9 @@ public class MembershipTests {
 		
 		MembershipDatabase.NUMBER_TO_CARDHOLDER.put("111222333", "Demo Member");
 		cardData = new CardDataStub ("Membership", "111222333", "Demo Member", "123");
-		falseCardData = new CardDataStub ("Membership", "111242333", "semo Member", "123");
+		falseCardData = new CardDataStub ("Membership", "111242333", "Non-Member", "123");
+	
 	 }
-	 
 	 
 	 @Test
 	 public void testIfMemberByNumber() {
@@ -115,6 +117,16 @@ public class MembershipTests {
 	 @Test
 	 public void testIfNotMemberByCard() {
 		 assertFalse(membershipLogic.enterMembershipByCard(falseCardData));
+	 }
+	 
+	 @Test (expected = NullPointerException.class) 
+	 public void testNullNumber() throws Exception{
+		 assertTrue(membershipLogic.enterMembershipByNumber(null));
+	 }
+	 
+	 @Test (expected = NullPointerException.class) 
+	 public void testNullCard() throws Exception{
+		 assertTrue(membershipLogic.enterMembershipByCard(null));
 	 }
 
 }
