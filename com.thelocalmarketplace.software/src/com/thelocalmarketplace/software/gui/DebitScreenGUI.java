@@ -16,7 +16,7 @@ public class DebitScreenGUI {
         addWidgets();
 
         debitPageFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        debitPageFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        debitPageFrame.setSize(1000, 1000);
         debitPageFrame.setContentPane(debitPagePanel);
         debitPageFrame.setVisible(true);
     }
