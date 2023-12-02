@@ -89,53 +89,158 @@ public class KeyboardScreenGUI {
 		// Build Tab Layout
 		
 		item_A.add(Box.createRigidArea(new Dimension(5,0)));
-		item_A.add(new JButton(" Apples "));
+		JButton apple_button = new JButton(" Apples ");
+		item_A.add(apple_button);
+		apple_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_A.add(Box.createRigidArea(new Dimension(5,0)));
-		item_A.add(new JButton(" Avocado "));
+		JButton avocado_button = new JButton(" Avocado ");
+		item_A.add(avocado_button);
+		avocado_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_A.add(Box.createRigidArea(new Dimension(5,0)));
-		item_A.add(new JButton(" Asparagus "));
+		JButton asparagus_button = new JButton(" Asparagus ");
+		item_A.add(asparagus_button);
+		asparagus_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_A.add(Box.createRigidArea(new Dimension(5,0)));
 		item_BtoC.add(Box.createRigidArea(new Dimension(5,0)));
-		item_BtoC.add(new JButton(" Blueberries "));
+		JButton blueberries_button = new JButton(" Blueberries ");
+		item_BtoC.add(blueberries_button);
+		blueberries_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_BtoC.add(Box.createRigidArea(new Dimension(5,0)));
-		item_BtoC.add(new JButton(" Beets "));
+		JButton beets_button = new JButton(" Beets ");
+		item_BtoC.add(beets_button);
+		beets_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_BtoC.add(Box.createRigidArea(new Dimension(5,0)));
-		item_BtoC.add(new JButton(" Celery "));
+		JButton celery_button = new JButton(" Celery ");
+		item_BtoC.add(celery_button);
+		celery_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_BtoC.add(Box.createRigidArea(new Dimension(5,0)));
 		item_DtoJ.add(Box.createRigidArea(new Dimension(5,0)));
-		item_DtoJ.add(new JButton(" Endive "));
+		JButton endive_button = new JButton(" Endive ");
+		item_DtoJ.add(endive_button);
+		endive_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_DtoJ.add(Box.createRigidArea(new Dimension(5,0)));
-		item_DtoJ.add(new JButton(" Grapes "));
+		JButton grapes_button = new JButton(" Grapes ");
+		item_DtoJ.add(grapes_button);
+		grapes_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_DtoJ.add(Box.createRigidArea(new Dimension(5,0)));
-		item_DtoJ.add(new JButton(" Jicama "));
+		JButton jicama_button = new JButton(" Jicama ");
+		item_DtoJ.add(jicama_button);
+		jicama_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_DtoJ.add(Box.createRigidArea(new Dimension(5,0)));
 		item_KtoM.add(Box.createRigidArea(new Dimension(5,0)));
-		item_KtoM.add(new JButton(" Kale "));
+		JButton kale_button = new JButton(" Kale ");
+		item_KtoM.add(kale_button);
+		kale_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_KtoM.add(Box.createRigidArea(new Dimension(5,0)));
-		item_KtoM.add(new JButton(" Lettuce "));
+		JButton lettuce_button = new JButton(" Lettuce ");
+		item_KtoM.add(lettuce_button);
+		lettuce_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_KtoM.add(Box.createRigidArea(new Dimension(5,0)));
-		item_KtoM.add(new JButton(" Mangos "));
+		JButton mango_button = new JButton(" Mangos ");
+		item_KtoM.add(mango_button);
+		mango_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_KtoM.add(Box.createRigidArea(new Dimension(5,0)));
 		item_NtoP.add(Box.createRigidArea(new Dimension(5,0)));
-		item_NtoP.add(new JButton(" Green Peppers "));
+		JButton grnpeppers_button = new JButton(" Green Peppers ");
+		item_NtoP.add(grnpeppers_button);
+		grnpeppers_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_NtoP.add(Box.createRigidArea(new Dimension(5,0)));
-		item_NtoP.add(new JButton(" Onions "));
+		JButton onions_button = new JButton(" Onions ");
+		item_NtoP.add(onions_button);
+		onions_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_NtoP.add(Box.createRigidArea(new Dimension(5,0)));
-		item_NtoP.add(new JButton(" Red Peppers "));
+		JButton redpeppers_button = new JButton(" Red Peppers ");
+		item_NtoP.add(redpeppers_button);
+		redpeppers_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_NtoP.add(Box.createRigidArea(new Dimension(5,0)));
 		item_QtoS.add(Box.createRigidArea(new Dimension(5,0)));
-		item_QtoS.add(new JButton(" Radishes "));
+		JButton radish_button = new JButton(" Radishes ");
+		item_QtoS.add(radish_button);
+		radish_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_QtoS.add(Box.createRigidArea(new Dimension(5,0)));
-		item_QtoS.add(new JButton(" Shallots "));
+		JButton shallot_button = new JButton(" Shallots ");
+		item_QtoS.add(shallot_button);
+		shallot_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_QtoS.add(Box.createRigidArea(new Dimension(5,0)));
-		item_QtoS.add(new JButton(" Spinach "));
+		JButton spinach_button = new JButton(" Spinach ");
+		item_QtoS.add(spinach_button);
+		spinach_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_QtoS.add(Box.createRigidArea(new Dimension(5,0)));
 		item_TtoZ.add(Box.createRigidArea(new Dimension(5,0)));
-		item_TtoZ.add(new JButton(" Tomatoes "));
+		JButton tomato_button = new JButton(" Tomatoes ");
+		item_TtoZ.add(tomato_button);
+		tomato_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_TtoZ.add(Box.createRigidArea(new Dimension(5,0)));
-		item_TtoZ.add(new JButton(" Yams "));
+		JButton yam_button = new JButton(" Yams ");
+		item_TtoZ.add(yam_button);
+		yam_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_TtoZ.add(Box.createRigidArea(new Dimension(5,0)));
-		item_TtoZ.add(new JButton(" Watermelon "));
+		JButton watermelon_button = new JButton(" Watermelon ");
+		item_TtoZ.add(watermelon_button);
+		watermelon_button.addActionListener(e -> {
+    		// TODO: Implement visual catalog
+    		
+    	});
 		item_TtoZ.add(Box.createRigidArea(new Dimension(5,0)));
 
 		// Add Tabs to layout
@@ -148,98 +253,334 @@ public class KeyboardScreenGUI {
 		visualAlphaPanel.addTab("      T - Z      ", item_TtoZ);
 		
 		// Add Buttons for keyboard
-		keyRowOnePanel.add(new JButton(" Q "));
+		// Letters for first row
+		JButton q_button = new JButton(" Q ");
+		keyRowOnePanel.add(q_button);
+		q_button.addActionListener(e -> {
+    		addText("Q");
+    		
+    	});
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowOnePanel.add(new JButton(" W "));
+		JButton w_button = new JButton(" W ");
+		keyRowOnePanel.add(w_button);
+		w_button.addActionListener(e -> {
+    		addText("W");
+    		
+    	});
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowOnePanel.add(new JButton(" E "));
+		JButton e_button = new JButton(" E ");
+		keyRowOnePanel.add(e_button);
+		e_button.addActionListener(e -> {
+    		addText("E");
+    		
+    	});
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowOnePanel.add(new JButton(" R "));
+		JButton r_button = new JButton(" R ");
+		keyRowOnePanel.add(r_button);
+		r_button.addActionListener(e -> {
+    		addText("R");
+    		
+    	});
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowOnePanel.add(new JButton(" T "));
+		JButton t_button = new JButton(" T ");
+		keyRowOnePanel.add(t_button);
+		t_button.addActionListener(e -> {
+    		addText("T");
+    		
+    	});
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowOnePanel.add(new JButton(" Y "));
+		JButton y_button = new JButton(" Y ");
+		keyRowOnePanel.add(y_button);
+		y_button.addActionListener(e -> {
+    		addText("Y");
+    		
+    	});
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowOnePanel.add(new JButton(" U "));
+		JButton u_button = new JButton(" U ");
+		keyRowOnePanel.add(u_button);
+		u_button.addActionListener(e -> {
+    		addText("U");
+    		
+    	});
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowOnePanel.add(new JButton(" I "));
+		JButton i_button = new JButton(" I ");
+		keyRowOnePanel.add(i_button);
+		i_button.addActionListener(e -> {
+    		addText("I");
+    		
+    	});
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowOnePanel.add(new JButton(" O "));
+		JButton o_button = new JButton(" O ");
+		keyRowOnePanel.add(o_button);
+		o_button.addActionListener(e -> {
+    		addText("O");
+    		
+    	});
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowOnePanel.add(new JButton(" P "));
+		JButton p_button = new JButton(" P ");
+		keyRowOnePanel.add(p_button);
+		p_button.addActionListener(e -> {
+    		addText("P");
+    		
+    	});
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowOnePanel.add(new JButton(" _ "));
+		JButton under_button = new JButton(" _ ");
+		keyRowOnePanel.add(under_button);
+		under_button.addActionListener(e -> {
+    		addText("_");
+    		
+    	});
 		
-		keyRowTwoPanel.add(new JButton(" A "));
+		// Letters for second row
+		JButton a_button = new JButton(" A ");
+		keyRowTwoPanel.add(a_button);
+		a_button.addActionListener(e -> {
+    		addText("A");
+    		
+    	});
 		keyRowTwoPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowTwoPanel.add(new JButton(" S "));
+		JButton s_button = new JButton(" S ");
+		keyRowTwoPanel.add(s_button);
+		s_button.addActionListener(e -> {
+    		addText("S");
+    		
+    	});
 		keyRowTwoPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowTwoPanel.add(new JButton(" D "));
+		JButton d_button = new JButton(" D ");
+		keyRowTwoPanel.add(d_button);
+		d_button.addActionListener(e -> {
+    		addText("D");
+    		
+    	});
 		keyRowTwoPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowTwoPanel.add(new JButton(" F "));
+		JButton f_button = new JButton(" F ");
+		keyRowTwoPanel.add(f_button);
+		f_button.addActionListener(e -> {
+    		addText("F");
+    		
+    	});
 		keyRowTwoPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowTwoPanel.add(new JButton(" G "));
+		JButton g_button = new JButton(" G ");
+		keyRowTwoPanel.add(g_button);
+		g_button.addActionListener(e -> {
+    		addText("G");
+    		
+    	});
 		keyRowTwoPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowTwoPanel.add(new JButton(" H "));
+		JButton h_button = new JButton(" H ");
+		keyRowTwoPanel.add(h_button);
+		h_button.addActionListener(e -> {
+    		addText("H");
+    		
+    	});
 		keyRowTwoPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowTwoPanel.add(new JButton(" J "));
+		JButton j_button = new JButton(" J ");
+		keyRowTwoPanel.add(j_button);
+		j_button.addActionListener(e -> {
+    		addText("J");
+    		
+    	});
 		keyRowTwoPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowTwoPanel.add(new JButton(" K "));
+		JButton k_button = new JButton(" K ");
+		keyRowTwoPanel.add(k_button);
+		k_button.addActionListener(e -> {
+    		addText("K");
+    		
+    	});
 		keyRowTwoPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowTwoPanel.add(new JButton(" L "));
+		JButton l_button = new JButton(" L ");
+		keyRowTwoPanel.add(l_button);
+		l_button.addActionListener(e -> {
+    		addText("L");
+    		
+    	});
 		keyRowTwoPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowTwoPanel.add(new JButton(" @ "));
+		JButton at_button = new JButton(" @ ");
+		keyRowTwoPanel.add(at_button);
+		at_button.addActionListener(e -> {
+    		addText("@");
+    		
+    	});
 		
-		keyRowThreePanel.add(new JButton(" Z "));
+		// Letters for third row
+		JButton z_button = new JButton(" Z ");
+		keyRowThreePanel.add(z_button);
+		z_button.addActionListener(e -> {
+    		addText("Z");
+    		
+    	});
 		keyRowThreePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowThreePanel.add(new JButton(" X "));
+		JButton x_button = new JButton(" X ");
+		keyRowThreePanel.add(x_button);
+		x_button.addActionListener(e -> {
+    		addText("X");
+    		
+    	});
 		keyRowThreePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowThreePanel.add(new JButton(" C "));
+		JButton c_button = new JButton(" C ");
+		keyRowThreePanel.add(c_button);
+		c_button.addActionListener(e -> {
+    		addText("C");
+    		
+    	});
 		keyRowThreePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowThreePanel.add(new JButton(" V "));
+		JButton v_button = new JButton(" V ");
+		keyRowThreePanel.add(v_button);
+		v_button.addActionListener(e -> {
+    		addText("V");
+    		
+    	});
 		keyRowThreePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowThreePanel.add(new JButton(" B "));
+		JButton b_button = new JButton(" B ");
+		keyRowThreePanel.add(b_button);
+		b_button.addActionListener(e -> {
+    		addText("B");
+    		
+    	});
 		keyRowThreePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowThreePanel.add(new JButton(" N "));
+		JButton n_button = new JButton(" N ");
+		keyRowThreePanel.add(n_button);
+		n_button.addActionListener(e -> {
+    		addText("N");
+    		
+    	});
 		keyRowThreePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowThreePanel.add(new JButton(" M "));
+		JButton m_button = new JButton(" M ");
+		keyRowThreePanel.add(m_button);
+		m_button.addActionListener(e -> {
+    		addText("M");
+    		
+    	});
 		keyRowThreePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowThreePanel.add(new JButton(" , "));
+		JButton comma_button = new JButton(" , ");
+		keyRowThreePanel.add(comma_button);
+		comma_button.addActionListener(e -> {
+    		addText(",");
+    		
+    	});
 		keyRowThreePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowThreePanel.add(new JButton(" . "));
+		JButton period_button = new JButton(" . ");
+		keyRowThreePanel.add(period_button);
+		period_button.addActionListener(e -> {
+    		addText(".");
+    		
+    	});
 		keyRowThreePanel.add(Box.createRigidArea(new Dimension(5,50)));
-		keyRowThreePanel.add(new JButton(" - "));
+		JButton dash_button = new JButton(" - ");
+		keyRowThreePanel.add(dash_button);
+		dash_button.addActionListener(e -> {
+    		addText("-");
+    		
+    	});
 		
-		keyRowFourPanel.add(new JButton(" GO BACK "));
+		// Enter/space/backspace/go back
+		JButton back_button = new JButton(" GO BACK ");
+		keyRowFourPanel.add(back_button);
+		back_button.addActionListener(e -> {
+    		// TODO: Implement Go Back Page action
+    		
+    	});
 		keyRowFourPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFourPanel.add(new JButton(" SPACE "));
+		JButton space_button = new JButton(" SPACE ");
+		keyRowFourPanel.add(space_button);
+		space_button.addActionListener(e -> {
+    		addText(" ");
+    		
+    	});
 		keyRowFourPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFourPanel.add(new JButton(" BACKSPACE "));
+		JButton delete_button = new JButton(" BACKSPACE ");
+		keyRowFourPanel.add(delete_button);
+		delete_button.addActionListener(e -> {
+    		deleteText();
+    		
+    	});
 		keyRowFourPanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFourPanel.add(new JButton(" ENTER "));
+		JButton enter_button = new JButton(" ENTER ");
+		keyRowFourPanel.add(enter_button);
+		enter_button.addActionListener(e -> {
+			// TODO: Implement enter action
+    		
+    	});
 		
-		keyRowFivePanel.add(new JButton(" 1 "));
+		// Number row
+		JButton one_button = new JButton(" 1 ");
+		keyRowFivePanel.add(one_button);
+		one_button.addActionListener(e -> {
+    		addText("1");
+    		
+    	});
 		keyRowFivePanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFivePanel.add(new JButton(" 2 "));
+		JButton two_button = new JButton(" 2 ");
+		keyRowFivePanel.add(two_button);
+		two_button.addActionListener(e -> {
+    		addText("2");
+    		
+    	});
 		keyRowFivePanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFivePanel.add(new JButton(" 3 "));
+		JButton three_button = new JButton(" 3 ");
+		keyRowFivePanel.add(three_button);
+		three_button.addActionListener(e -> {
+    		addText("3");
+    		
+    	});
 		keyRowFivePanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFivePanel.add(new JButton(" 4 "));
+		JButton four_button = new JButton(" 4 ");
+		keyRowFivePanel.add(four_button);
+		four_button.addActionListener(e -> {
+    		addText("4");
+    		
+    	});
 		keyRowFivePanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFivePanel.add(new JButton(" 5 "));
+		JButton five_button = new JButton(" 5 ");
+		keyRowFivePanel.add(five_button);
+		five_button.addActionListener(e -> {
+    		addText("5");
+    		
+    	});
 		keyRowFivePanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFivePanel.add(new JButton(" 6 "));
+		JButton six_button = new JButton(" 6 ");
+		keyRowFivePanel.add(six_button);
+		six_button.addActionListener(e -> {
+    		addText("6");
+    		
+    	});
 		keyRowFivePanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFivePanel.add(new JButton(" 7 "));
+		JButton seven_button = new JButton(" 7 ");
+		keyRowFivePanel.add(seven_button);
+		seven_button.addActionListener(e -> {
+    		addText("7");
+    		
+    	});
 		keyRowFivePanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFivePanel.add(new JButton(" 8 "));
+		JButton eight_button = new JButton(" 8 ");
+		keyRowFivePanel.add(eight_button);
+		eight_button.addActionListener(e -> {
+    		addText("8");
+    		
+    	});
 		keyRowFivePanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFivePanel.add(new JButton(" 9 "));
+		JButton nine_button = new JButton(" 9 ");
+		keyRowFivePanel.add(nine_button);
+		nine_button.addActionListener(e -> {
+    		addText("9");
+    		
+    	});
 		keyRowFivePanel.add(Box.createRigidArea(new Dimension(5,0)));
-		keyRowFivePanel.add(new JButton(" 0 "));
+		JButton zero_button = new JButton(" 0 ");
+		keyRowFivePanel.add(zero_button);
+		zero_button.addActionListener(e -> {
+    		addText("0");
+    		
+    	});
 		
+		// attendant button row
 		keyRowSixPanel.add(Box.createRigidArea(new Dimension(0,50)));
-		keyRowSixPanel.add(new JButton(" ATTENDANT ASSISTANCE "));
+		JButton attend_button = new JButton(" ATTENDANT ASSISTANCE ");
+		keyRowSixPanel.add(attend_button);
+		period_button.addActionListener(e -> {
+    		// TODO: Implement Attendant Assistance
+    		
+    	});
 		keyRowSixPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
 		
 		// Build Text Box
@@ -262,9 +603,41 @@ public class KeyboardScreenGUI {
 		
 	}
 	
+	private void addText(String letter) {
+		if(searchText.equals("ENTER ITEM NAME OR CODE")) {
+			searchText = letter;
+    		textBar.setText(searchText);
+		}
+		else {
+			searchText += letter;
+			textBar.setText(searchText);
+		}	
+		
+	}
+	
+	private void deleteText() {
+		if(!searchText.equals("ENTER ITEM NAME OR CODE")) {
+			searchText = searchText.substring(0, searchText.length() - 1);
+		}
+		
+		if(searchText.equals("")) {
+			searchText = "ENTER ITEM NAME OR CODE";
+			textBar.setText(searchText);
+			
+		}
+		else {
+			textBar.setText(searchText);
+			
+		}
+		
+	}
+	
+	
 	// Just for testing screen.
 	public static void main(String[] args) {
 		KeyboardScreenGUI keyboardGUI = new KeyboardScreenGUI();
 	}
+	
+	
 }
 
