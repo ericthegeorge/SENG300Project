@@ -3,6 +3,7 @@ package com.thelocalmarketplace.software.gui;
 import javax.swing.*;
 import java.awt.*;
 
+
 public class KeyboardScreenGUI {
 	
 	// Variables for the screen
@@ -579,6 +580,7 @@ public class KeyboardScreenGUI {
 		keyRowSixPanel.add(attend_button);
 		attend_button.addActionListener(e -> {
     		// TODO: Implement Attendant Assistance
+			
     		
     	});
 		//keyRowSixPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
