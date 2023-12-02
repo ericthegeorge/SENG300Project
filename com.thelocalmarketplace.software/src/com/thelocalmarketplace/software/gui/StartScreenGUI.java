@@ -1,7 +1,18 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
+
+import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
+import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
+import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+
+import powerutility.PowerGrid;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author Camila Hernandez (30134911)
@@ -43,6 +54,8 @@ public class StartScreenGUI {
 	private JButton startSessionButton;
 	private JComboBox selectCheckoutStationComboBox;
 	private JComboBox selectLanguageComboBox;
+	private AbstractSelfCheckoutStation station;
+	private CentralStationLogic logic;
 	
 	public StartScreenGUI() {
 		startScreenFrame = new JFrame("TheLocalMarketplace Self-Checkout Station");
@@ -61,7 +74,7 @@ public class StartScreenGUI {
 		startScreenFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 		startScreenFrame.setVisible(true);
 	}
-	
+
 	private void addWidgets() {
 		startScreenPanel.setLayout(new BoxLayout(startScreenPanel, BoxLayout.Y_AXIS));
 		verticalPanel.setLayout(new BoxLayout(verticalPanel, BoxLayout.Y_AXIS));
@@ -162,13 +175,29 @@ public class StartScreenGUI {
 		startScreenPanel.add(verticalPanel);
 		startScreenPanel.add(Box.createVerticalStrut(-100));
 		startScreenPanel.add(horizontalPanel);
+		
+		//Events
+		startSessionButton.addActionListener(e -> {
+			String selectedStationType = selectCheckoutStationComboBox.getSelectedItem().toString();
+			PowerGrid.engageUninterruptiblePowerSource();
+			PowerGrid.instance().forcePowerRestore();
+			AbstractSelfCheckoutStation.resetConfigurationToDefaults();
+			System.out.println("reaches this");
+			if(selectedStationType.equals("Bronze")) {
+				station = new SelfCheckoutStationBronze();
+				System.out.println("does not reach this");
+			}
+			else if(selectedStationType.equals("Silver")) station = new SelfCheckoutStationSilver();
+			else if (selectedStationType.equals("Gold")) station = new SelfCheckoutStationGold();
+	        station.plugIn(PowerGrid.instance());
+	        station.turnOn();
+			logic = new CentralStationLogic(station);
+			logic.setBypassIssuePrediction(true);
+	        logic.startSession();
+		});
 	}
 	
 	public JPanel getPanel() {
 		return this.startScreenPanel;
-	}
-	
-	public static void main(String[] args) {
-		StartScreenGUI startScreen = new StartScreenGUI();
 	}
 }
