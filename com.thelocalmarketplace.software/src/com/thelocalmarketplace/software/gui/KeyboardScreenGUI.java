@@ -65,7 +65,7 @@ public class KeyboardScreenGUI {
 		
 	}
 	
-	// Adds all the buttons
+	// Adds all the buttons and organizes the layouts
 	private void addWidgets() {
 		// Create Layouts
 		keyboardScreenPanel.setLayout(new BoxLayout(keyboardScreenPanel, BoxLayout.Y_AXIS));
@@ -577,11 +577,20 @@ public class KeyboardScreenGUI {
 		keyRowSixPanel.add(Box.createRigidArea(new Dimension(0,50)));
 		JButton attend_button = new JButton(" ATTENDANT ASSISTANCE ");
 		keyRowSixPanel.add(attend_button);
-		period_button.addActionListener(e -> {
+		attend_button.addActionListener(e -> {
     		// TODO: Implement Attendant Assistance
     		
     	});
-		keyRowSixPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		//keyRowSixPanel.setAlignmentX(Component.RIGHT_ALIGNMENT);
+		
+		keyRowSixPanel.add(Box.createRigidArea(new Dimension(98,50)));
+		JButton bagItem_button = new JButton(" BAG ITEM ");
+		keyRowSixPanel.add(bagItem_button);
+		bagItem_button.addActionListener(e -> {
+    		// TODO: Implement Attendant Assistance
+    		
+    	});
+		//keyRowSixPanel.setAlignmentX(Component.LEFT_ALIGNMENT);
 		
 		// Build Text Box
 		textBar.setText(searchText);
