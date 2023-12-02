@@ -90,6 +90,14 @@ public class PaymentScreenGUI {
 
         centerPanel.add(buttonsPanel);
         
+        cashButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                paymentPageFrame.dispose();
+                CashScreenGUI cashscreen = new CashScreenGUI();
+            }
+        });
+        
         // notify attendant
         notifyAttendantButton.addActionListener(new ActionListener() {
             @Override
