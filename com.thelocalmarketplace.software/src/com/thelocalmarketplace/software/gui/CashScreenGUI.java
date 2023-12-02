@@ -8,6 +8,8 @@ import java.text.NumberFormat;
 import java.util.HashMap;
 import java.util.Map;
 
+// need help to connect the software to this
+
 public class CashScreenGUI {
     private JFrame cashPageFrame;
     private JPanel cashPagePanel;
