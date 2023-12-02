@@ -93,7 +93,23 @@ public class PaymentScreenGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
                 paymentPageFrame.dispose();
-                CashScreenGUI cashscreen = new CashScreenGUI();
+                CashScreenGUI cashScreen = new CashScreenGUI();
+            }
+        });
+        
+        debitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                paymentPageFrame.dispose();
+                DebitScreenGUI debitScreen = new DebitScreenGUI();
+            }
+        });
+        
+        creditButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                paymentPageFrame.dispose();
+                CreditScreenGUI creditScreen = new CreditScreenGUI();
             }
         });
         
@@ -134,6 +150,15 @@ public class PaymentScreenGUI {
         centerPanel.add(rightPanel);
 
         paymentPagePanel.add(centerPanel, BorderLayout.CENTER);
+        
+        finishCheckoutButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                paymentPageFrame.dispose();
+                CompletionScreenGUI completionScreen = new CompletionScreenGUI();
+            }
+        });
+       
     }
 
     private void notifyAttendant() {
