@@ -97,6 +97,8 @@ public class CashScreenGUI {
         currencyButtonsPanel.add(button);
     }
 
+    // i'm not sure if we should handle the cash inserted differently since this have any of the software in it
+    
     private void handleCurrencyInsertion(float value) {
         currencyCounts.put(value, currencyCounts.getOrDefault(value, 0) + 1);
         updateTotalCash();
