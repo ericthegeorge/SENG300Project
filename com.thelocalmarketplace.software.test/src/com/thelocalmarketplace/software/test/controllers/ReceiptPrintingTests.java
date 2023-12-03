@@ -58,7 +58,6 @@ public class ReceiptPrintingTests {
 		session.setBypassIssuePrediction(true);
         session.startSession();
         controller = new ReceiptPrintingController(session);
-              
     }
 
     @After

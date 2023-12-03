@@ -8,6 +8,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jjjwelectronics.Item;
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.scanner.Barcode;
@@ -58,14 +59,6 @@ public class WeightDiscrepencyTests {
 	public Numeral[] barcode_numeral;
 	public BarcodedProduct product;
 	
-	
-	//the following function was taken mainly from Angelina's tests for bulkyitems
-	public void scanUntilAdded(Product p, BarcodedItem b) {
-		while(!session.cartLogic.getCart().containsKey(p)) {
-			station.getHandheldScanner().scan(b);
-		}
-	}
-	
 	@Before public void setUp() {
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
@@ -96,16 +89,21 @@ public class WeightDiscrepencyTests {
 		bitem3 = new BarcodedItem(barcode, itemMass3);
 	}
 	
-	@After 
-	public void tearDown() {
-		PowerGrid.engageFaultyPowerSource();
-	}
-	
 	/** Ensures failures do not occur from scanner failing to scan item, thus isolating test cases */
 	public void scanUntilAdded(BarcodedItem item) {
+		Boolean itemAdded = false;
 		do {
 			station.getHandheldScanner().scan(item);
-		} while (!session.cartLogic.getCart().containsKey(product));
+			//check if item has been added to cart
+			for (Item i : session.cartLogic.getCart().keySet()) {
+				if (i instanceof BarcodedItem) {
+					BarcodedItem barcodedItem = (BarcodedItem) i;
+					if(barcodedItem.getBarcode().equals(item.getBarcode())) {
+						itemAdded = true;
+					}
+				}
+			}
+		} while (!itemAdded);
 	}
 	
 	
@@ -115,7 +113,7 @@ public class WeightDiscrepencyTests {
 		session = new CentralStationLogic(station);
 		session.setBypassIssuePrediction(true);
 		session.startSession();
-		this.scanUntilAdded(product, bitem);
+		this.scanUntilAdded(bitem);
 		station.getHandheldScanner().scan(bitem);
 		station.getBaggingArea().addAnItem(bitem);
 		
@@ -124,7 +122,7 @@ public class WeightDiscrepencyTests {
 		station.turnOn();
 		session = new CentralStationLogic(station);
 		session.setBypassIssuePrediction(true);
-		this.scanUntilAdded(product, bitem2);
+		this.scanUntilAdded(bitem2);
 		session.startSession();
 		station.getBaggingArea().addAnItem(bitem2);
 	}
@@ -134,7 +132,7 @@ public class WeightDiscrepencyTests {
 		session = new CentralStationLogic(station);
 		session.setBypassIssuePrediction(true);
 		session.startSession();
-		this.scanUntilAdded(product, bitem3);
+		this.scanUntilAdded(bitem3);
 		station.getBaggingArea().addAnItem(bitem3);
 		assertTrue("weight discrepency detected", !this.session.stateLogic.inState(States.BLOCKED));
 	}
@@ -150,7 +148,7 @@ public class WeightDiscrepencyTests {
 		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
-		this.scanUntilAdded(product, bitem2);
+		this.scanUntilAdded(bitem2);
 		station.getBaggingArea().addAnItem(bitem);
 
 		assertTrue("weight discrepancy not detected", session.weightLogic.checkWeightDiscrepancy());
@@ -181,7 +179,7 @@ public class WeightDiscrepencyTests {
 		Mass  sensativity = station.getBaggingArea().getSensitivityLimit();
 		Mass m = sensativity.sum(itemMass2);
 		BarcodedItem i= new BarcodedItem(barcode, m);
-		this.scanUntilAdded(product, bitem2);
+		this.scanUntilAdded(bitem2);
 		station.getBaggingArea().addAnItem(i);
 		assertTrue("weight discrepency tedected", !this.session.stateLogic.inState(States.BLOCKED));
 	}@Test public void testWeightDiscrepencyWithPowerTurnOnNoDiscrepencyWithinSensativity() {
@@ -196,7 +194,7 @@ public class WeightDiscrepencyTests {
 		Mass sensativity = station.getBaggingArea().getSensitivityLimit();
 		Mass m = sensativity.sum(itemMass2.difference(new Mass(1)).abs());
 		BarcodedItem i= new BarcodedItem(barcode, m);
-		this.scanUntilAdded(product, bitem2);
+		this.scanUntilAdded(bitem2);
 		
 		station.getBaggingArea().addAnItem(i);
 		assertTrue("weight discrepency tedected", !this.session.stateLogic.inState(States.BLOCKED));
@@ -211,9 +209,9 @@ public class WeightDiscrepencyTests {
 		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
-		this.scanUntilAdded(product, bitem2);
+		session.hardware.getHandheldScanner().scan(bitem2);
+		this.scanUntilAdded(bitem2);
 		station.getBaggingArea().addAnItem(bitem);
-
 		assertTrue("weight discrepancy detected", this.session.stateLogic.inState(States.BLOCKED));
 	}
 	
@@ -242,7 +240,7 @@ public class WeightDiscrepencyTests {
 		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
-		this.scanUntilAdded(product, bitem3);
+		this.scanUntilAdded(bitem3);
 		station.getBaggingArea().addAnItem(bitem);
 		station.getBaggingArea().removeAnItem(bitem);
 		station.getBaggingArea().addAnItem(bitem3);
@@ -257,8 +255,8 @@ public class WeightDiscrepencyTests {
 		session.setBypassIssuePrediction(true);
 		session.startSession();
 		
-		this.scanUntilAdded(product, bitem);
-		this.scanUntilAdded(product, bitem);
+		this.scanUntilAdded(bitem);
+		this.scanUntilAdded(bitem);
 		
 		assertEquals(1, session.cartLogic.getCart().size());
 	}

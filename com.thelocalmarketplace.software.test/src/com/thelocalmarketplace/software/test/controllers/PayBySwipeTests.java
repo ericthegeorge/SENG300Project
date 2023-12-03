@@ -66,7 +66,9 @@ public class PayBySwipeTests {
 
 
         session = new CentralStationLogic(station);
+        session.setBypassIssuePrediction(true);
         session.startSession();
+
 
         //set up bank details
         CardIssuer bank= new CardIssuer("Scotia Bank",3);

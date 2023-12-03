@@ -7,6 +7,7 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jjjwelectronics.Item;
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.scanner.Barcode;
@@ -43,12 +44,21 @@ public class HandleBulkyItemTests {
 	private BarcodedItem barcodedItem;
 	private BarcodedProduct product;
 	
-	
 	/** Ensures failures do not occur from scanner failing to scan item, thus isolating test cases */
-	public void scanUntilAdded() {
+	public void scanUntilAdded(BarcodedItem item) {
+		Boolean itemAdded = false;
 		do {
-			station.getHandheldScanner().scan(barcodedItem);
-		} while (!session.cartLogic.getCart().containsKey(product));
+			station.getHandheldScanner().scan(item);
+			//check if item has been added to cart
+			for (Item i : session.cartLogic.getCart().keySet()) {
+				if (i instanceof BarcodedItem) {
+					BarcodedItem barcodedItem = (BarcodedItem) i;
+					if(barcodedItem.getBarcode().equals(item.getBarcode())) {
+						itemAdded = true;
+					}
+				}
+			}
+		} while (!itemAdded);
 	}
 	
 	@Before
@@ -84,14 +94,14 @@ public class HandleBulkyItemTests {
 	public void testSkipBaggingNotifiesAttendant() {
 		AttendantLogicStub attendantLogic = new AttendantLogicStub(session);
 		session.attendantLogic = attendantLogic;
-		scanUntilAdded();
+		scanUntilAdded(barcodedItem);
 		session.weightLogic.skipBaggingRequest(barcodedItem.getBarcode());
 		assertTrue(attendantLogic.requestApprovalCalled);
 	}
 	
 	@Test
 	public void testSkipBaggingBlocksStation() {
-		scanUntilAdded();
+		scanUntilAdded(barcodedItem);
 		session.weightLogic.skipBaggingRequest(barcodedItem.getBarcode());
 		assertTrue(this.session.stateLogic.inState(States.BLOCKED));
 	}
@@ -104,7 +114,7 @@ public class HandleBulkyItemTests {
 	// Expected reaction not clear; we have therefore assumed unblocking when weight discrepancy removed is expected
 	@Test 
 	public void testSkipBaggingAddsAnyways() {
-		scanUntilAdded();
+		scanUntilAdded(barcodedItem);
 		session.weightLogic.skipBaggingRequest(barcodedItem.getBarcode());
 		station.getBaggingArea().addAnItem(barcodedItem);
 		assertFalse(this.session.stateLogic.inState(States.BLOCKED));
@@ -112,7 +122,7 @@ public class HandleBulkyItemTests {
 	
 	@Test
 	public void testAttendantApprovalReducesExceptedWeight() {
-		scanUntilAdded();
+		scanUntilAdded(barcodedItem);
 		session.weightLogic.skipBaggingRequest(barcodedItem.getBarcode());
 		session.attendantLogic.grantApprovalSkipBagging(barcodedItem.getBarcode());
 		assertFalse(session.weightLogic.checkWeightDiscrepancy());
@@ -120,7 +130,7 @@ public class HandleBulkyItemTests {
 	
 	@Test 
 	public void testAttendantApprovalUnblocksStation() {
-		scanUntilAdded();
+		scanUntilAdded(barcodedItem);
 		session.weightLogic.skipBaggingRequest(barcodedItem.getBarcode());
 		session.attendantLogic.grantApprovalSkipBagging(barcodedItem.getBarcode());
 		assertFalse(this.session.stateLogic.inState(States.BLOCKED)); // Ensures no longer blocked
@@ -128,7 +138,7 @@ public class HandleBulkyItemTests {
 	
 	@Test 
 	public void testAttendantApprovalStaysBlockedIfDiscrepancyRemains() {
-		scanUntilAdded();
+		scanUntilAdded(barcodedItem);
 		session.weightLogic.skipBaggingRequest(barcodedItem.getBarcode());
 		session.attendantLogic.grantApprovalSkipBagging(barcodedItem.getBarcode());
 	}
