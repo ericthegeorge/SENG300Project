@@ -94,5 +94,10 @@ public class SignalAttendantLogic extends AbstractLogicDependant{
         } else {
             throw new InvalidArgumentSimulationException("The provided customer station is not supervised by this attendant station.");
         }
-    }   
+    }
+
+	public AttendantStation getAttendantStation() {
+		// TODO Auto-generated method stub
+		return attendantStation; 
+	}   
 }
