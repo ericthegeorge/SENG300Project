@@ -83,8 +83,8 @@ public class CoinPaymentController extends AbstractLogicDependant implements Coi
 				try {
 					
 					// Attempt to emit a coin from specific coin dispenser
-					this.logic.hardware.getBanknoteDispensers().get(denomination).emit();
-					//this.logic.hardware.coinDispensers.get(denomination).emit();
+					//this.logic.hardware.getBanknoteDispensers().get(denomination).emit();
+					this.logic.hardware.getCoinDispensers().get(denomination).emit();
 				} catch (Exception e) {
 					missed = missed.add(denomination);
 					
