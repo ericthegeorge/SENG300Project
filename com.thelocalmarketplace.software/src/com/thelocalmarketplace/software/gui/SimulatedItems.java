@@ -11,6 +11,7 @@ import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
@@ -55,6 +56,71 @@ public class SimulatedItems {
 		PriceLookUpCode PLUyams = new PriceLookUpCode("1019");
 		PriceLookUpCode PLUwatermelon = new PriceLookUpCode("1020");
 		
+		// Create the PLU coded products
+		PLUCodedProduct apple_prod = new PLUCodedProduct(PLUapple, "apple", 6);
+		PLUCodedProduct avocado_prod = new PLUCodedProduct(PLUavocado, "avocado", 3);
+		PLUCodedProduct asparagus_prod = new PLUCodedProduct(PLUasparagus, "asparagus", 5);
+		PLUCodedProduct blueberries_prod = new PLUCodedProduct(PLUblueberries, "blueberries", 8);
+		PLUCodedProduct beets_prod = new PLUCodedProduct(PLUbeets, "beets", 2);
+		PLUCodedProduct celery_prod = new PLUCodedProduct(PLUcelery, "celery", 1);
+		PLUCodedProduct endive_prod = new PLUCodedProduct(PLUendive, "endive", 7);
+		PLUCodedProduct grapes_prod = new PLUCodedProduct(PLUgrapes, "grapes", 3);
+		PLUCodedProduct jicama_prod = new PLUCodedProduct(PLUjicama, "jicama", 2);
+		PLUCodedProduct kale_prod = new PLUCodedProduct(PLUkale, "kale", 6);
+		PLUCodedProduct lettuce_prod = new PLUCodedProduct(PLUlettuce, "lettuce", 2);
+		PLUCodedProduct mangos_prod = new PLUCodedProduct(PLUmangos, "mangos", 8);
+		PLUCodedProduct greenpeppers_prod = new PLUCodedProduct(PLUgreenpeppers, "green peppers", 5);
+		PLUCodedProduct onions_prod = new PLUCodedProduct(PLUonions, "onions", 2);
+		PLUCodedProduct redpeppers_prod = new PLUCodedProduct(PLUredpeppers, "red peppers", 6);
+		PLUCodedProduct radishes_prod = new PLUCodedProduct(PLUradishes, "radishes", 2);
+		PLUCodedProduct shallots_prod = new PLUCodedProduct(PLUshallots, "shallots", 3);
+		PLUCodedProduct spinach_prod = new PLUCodedProduct(PLUspinach, "spinach", 4);
+		PLUCodedProduct tomatoes_prod = new PLUCodedProduct(PLUtomatoes, "tomatoes", 5);
+		PLUCodedProduct yams_prod = new PLUCodedProduct(PLUyams, "yams", 2);
+		PLUCodedProduct watermelon_prod = new PLUCodedProduct(PLUwatermelon, "watermelon", 7);
+		
+		// add plu ccoded products to database and inventory
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUapple, apple_prod);
+		ProductDatabases.INVENTORY.put(apple_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUavocado, avocado_prod);
+		ProductDatabases.INVENTORY.put(avocado_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUasparagus, asparagus_prod);
+		ProductDatabases.INVENTORY.put(asparagus_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUblueberries, blueberries_prod);
+		ProductDatabases.INVENTORY.put(blueberries_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUbeets, beets_prod);
+		ProductDatabases.INVENTORY.put(beets_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUcelery, celery_prod);
+		ProductDatabases.INVENTORY.put(celery_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUendive, endive_prod);
+		ProductDatabases.INVENTORY.put(endive_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUgrapes, grapes_prod);
+		ProductDatabases.INVENTORY.put(grapes_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUjicama, jicama_prod);
+		ProductDatabases.INVENTORY.put(jicama_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUkale, kale_prod);
+		ProductDatabases.INVENTORY.put(kale_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUlettuce, lettuce_prod);
+		ProductDatabases.INVENTORY.put(lettuce_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUmangos, mangos_prod);
+		ProductDatabases.INVENTORY.put(mangos_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUgreenpeppers, greenpeppers_prod);
+		ProductDatabases.INVENTORY.put(greenpeppers_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUonions, onions_prod);
+		ProductDatabases.INVENTORY.put(onions_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUredpeppers, redpeppers_prod);
+		ProductDatabases.INVENTORY.put(redpeppers_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUradishes, radishes_prod);
+		ProductDatabases.INVENTORY.put(radishes_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUshallots, shallots_prod);
+		ProductDatabases.INVENTORY.put(shallots_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUspinach, tomatoes_prod);
+		ProductDatabases.INVENTORY.put(spinach_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUyams, yams_prod);
+		ProductDatabases.INVENTORY.put(yams_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUwatermelon, watermelon_prod);
+		ProductDatabases.INVENTORY.put(watermelon_prod, 50);
+				
 		// Create the PLU coded items
 		PLUCodedItem apple = new PLUCodedItem(PLUapple, new Mass(new BigDecimal(50)));
 		PLUCodedItem avocado = new PLUCodedItem(PLUavocado, new Mass(new BigDecimal(15)));
