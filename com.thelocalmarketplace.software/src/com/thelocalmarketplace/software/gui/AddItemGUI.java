@@ -20,6 +20,7 @@ public class AddItemGUI extends JFrame {
 	private MainGUI mainGUI;
 	private JPanel mainPanel;
 	DefaultListModel<String> cartList;
+	DefaultListModel<String> baggingAreaList;
 
     public AddItemGUI(MainGUI m, CentralStationLogic l) {
     	mainGUI = m;
@@ -172,18 +173,18 @@ public class AddItemGUI extends JFrame {
         // Add list element to the left
         cartList = new DefaultListModel<>();
         JList<String> cartListObjt = new JList<>(cartList);
-        System.out.println(mainGUI.getItemsInCart().size());
+       	int PLUItemsToGrab = 3;
         for(Item i : mainGUI.getItemsInCart()) {
         	if (i instanceof BarcodedItem) {
         		BarcodedItem bitem = (BarcodedItem) i;
             	BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
             	cartList.addElement(bproduct.getDescription());
-        	} else if (i instanceof PLUCodedItem) {
+        	} else if (i instanceof PLUCodedItem && PLUItemsToGrab > 0) {
         		PLUCodedItem pitem = (PLUCodedItem) i;
         		PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
         		cartList.addElement(pproduct.getDescription());
+        		PLUItemsToGrab--;
         	}
-        	
         }
         cartListObjt.setFont(new Font("Arial", Font.PLAIN, 26));
         cartListObjt.setBorder(BorderFactory.createCompoundBorder(
@@ -216,32 +217,68 @@ public class AddItemGUI extends JFrame {
             buttonPanel.add(button);
         }
         
+        JButton scanItemButton = (JButton) buttonPanel.getComponent(0);
+
+        scanItemButton.addActionListener(e -> {
+            String selectedItem = cartListObjt.getSelectedValue();
+			for(Item i : mainGUI.getItemsInCart()) {
+		       	if (i instanceof BarcodedItem) {
+	        		BarcodedItem bitem = (BarcodedItem) i;
+	            	BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
+	                System.out.println(selectedItem);
+	            	if(bproduct.getDescription().contentEquals(selectedItem)) logic.hardware.getMainScanner().scan(bitem);
+	        	} else if (i instanceof PLUCodedItem) {
+	        		//nothing happens
+	        		System.out.println("tried to scan a plu item");
+	        	}
+			}
+		});
+        
+        JButton PLUCodedButton = (JButton) buttonPanel.getComponent(1);
+        PLUCodedButton.addActionListener(e -> {
+			
+		});
+        
         
         JButton visualCatalogueButton = (JButton) buttonPanel.getComponent(2);
         visualCatalogueButton.addActionListener(e -> {
 			mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "keyboard");
 		});
         
-        JButton AddToBaggingAreaButton = (JButton) buttonPanel.getComponent(3);
-        AddToBaggingAreaButton.addActionListener(e -> {
-			
+        JButton addToBaggingAreaButton = (JButton) buttonPanel.getComponent(3);
+        addToBaggingAreaButton.addActionListener(e -> {
+            String selectedItem = cartListObjt.getSelectedValue();
+			for(Item i : mainGUI.getItemsInCart()) {
+		       	if (i instanceof BarcodedItem) {
+	        		BarcodedItem bitem = (BarcodedItem) i;
+	            	BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
+	                logic.hardware.getBaggingArea().addAnItem(bitem);
+	                // removecartListObjt
+	                baggingAreaList.addElement(bproduct.getDescription());
+	        	} else if (i instanceof PLUCodedItem) {
+	        		PLUCodedItem pitem = (PLUCodedItem) i;
+	        		PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
+	                logic.hardware.getBaggingArea().addAnItem(pitem);
+	                baggingAreaList.addElement(pproduct.getDescription());
+	        	}
+			}
+
+            
 		});
         
         // Add the button panel to the upper box
         upperInnerBox.add(buttonPanel);
 
         // Add another list element to the right
-        DefaultListModel<String> rightTopListModel = new DefaultListModel<>();
-        rightTopListModel.addElement("Item 3");
-        rightTopListModel.addElement("Item 4");
-        JList<String> rightTopList = new JList<>(rightTopListModel);
-        rightTopList.setBorder(BorderFactory.createCompoundBorder(
+        baggingAreaList = new DefaultListModel<>();
+        JList<String> baggingAreaObjt = new JList<>(baggingAreaList);
+        baggingAreaObjt.setBorder(BorderFactory.createCompoundBorder(
                 new EmptyBorder(20, 20, 20, 20),
                 BorderFactory.createLineBorder(Color.BLACK)
         ));
-        rightTopList.setFont(new Font("Arial", Font.PLAIN, 26));
+        baggingAreaObjt.setFont(new Font("Arial", Font.PLAIN, 26));
         
-        JScrollPane rightTopScrollPane = new JScrollPane(rightTopList);
+        JScrollPane rightTopScrollPane = new JScrollPane(baggingAreaObjt);
         upperInnerBox.add(upperRightBox);
         upperRightBox.add(rightTopScrollPane);
 

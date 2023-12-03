@@ -91,7 +91,6 @@ public class SimulatedItems {
 		simulatedItems.add(yams);
 		simulatedItems.add(watermelon);
 		
-		
 	}
 	
 	public static void instantiateBarcodedItems() {
@@ -112,6 +111,10 @@ public class SimulatedItems {
 		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcode_ham, product_ham);
 		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcode_milk, product_milk);
         ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcode_bread, product_bread);
+        
+		ProductDatabases.INVENTORY.put(product_ham, 50);
+		ProductDatabases.INVENTORY.put(product_milk, 50);
+        ProductDatabases.INVENTORY.put(product_bread, 50);
 		
 		//initialize barcoded item
 		Mass itemMass_ham = new Mass((double) 500.0);

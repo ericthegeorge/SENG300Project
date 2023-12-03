@@ -61,6 +61,8 @@ public class MainGUI {
     }
 
     public MainGUI(AbstractSelfCheckoutStation s) {
+        addItemsToCart();
+        
     	station = s;
     	logic = new CentralStationLogic(station);
     	logic.setGUI(this);
@@ -112,8 +114,6 @@ public class MainGUI {
         mainFrame.pack();
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.setVisible(true);
-        
-        addItemsToCart();
     }
     
     public void addItemsToCart() {
