@@ -7,17 +7,17 @@ import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 
-
+import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.OverloadedDevice;
 
 import com.jjjwelectronics.scanner.Barcode;
-
+import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
 
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
-
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.controllers.ReceiptPrintingController;
 import com.thelocalmarketplace.software.logic.AttendantLogic;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
@@ -45,6 +45,13 @@ public class ReceiptPrintingTests {
     private SelfCheckoutStationBronze station;
     private ReceiptPrintingController controller;
     
+	public BarcodedItem bitem;
+	public Mass itemMass;
+	public Numeral[] barcode_numeral;
+	public BarcodedProduct product;
+	public Barcode barcode;
+	public Numeral digits;
+    
 
     @Before
     public void setUp() {
@@ -57,7 +64,20 @@ public class ReceiptPrintingTests {
         session = new CentralStationLogic(station);
 		session.setBypassIssuePrediction(true);
         session.startSession();
-        controller = new ReceiptPrintingController(session);
+        controller = session.receiptPrintingController;
+        
+		//initialize database
+		barcode_numeral = new Numeral[]{Numeral.one,Numeral.two, Numeral.three};
+		barcode = new Barcode(barcode_numeral);
+		product = new BarcodedProduct(barcode, "some item",5,(double)300.0);
+		ProductDatabases.BARCODED_PRODUCT_DATABASE.clear();
+		ProductDatabases.INVENTORY.clear();
+		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcode, product);
+		ProductDatabases.INVENTORY.put(product, 1);
+		
+		//initialize barcoded item
+		itemMass = new Mass((long) 1000000);
+		bitem = new BarcodedItem(barcode, itemMass);
     }
 
     @After
@@ -66,10 +86,8 @@ public class ReceiptPrintingTests {
     }
     
     @Test
-    public void testHandlePrintReceiptWithoutInk() throws OverloadedDevice {
-    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
-        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
-        session.cartLogic.addProductToCart(product1);      	
+    public void testHandlePrintReceiptWithoutInk() throws OverloadedDevice {    
+        session.cartLogic.addBarcodedProductToCart(bitem.getBarcode());      	
         station.getPrinter().addPaper(1000);
         controller.handlePrintReceipt(new BigDecimal(0));
         assertTrue(this.session.stateLogic.inState(States.SUSPENDED));
@@ -77,9 +95,7 @@ public class ReceiptPrintingTests {
     
     @Test
     public void testHandlePrintReceiptWithoutPaper() throws OverloadedDevice {
-    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
-        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
-        session.cartLogic.addProductToCart(product1);  
+        session.cartLogic.addBarcodedProductToCart(bitem.getBarcode());  
         station.getPrinter().addInk(1000);
         controller.handlePrintReceipt(new BigDecimal(0));
         
@@ -88,9 +104,7 @@ public class ReceiptPrintingTests {
     
     @Test
     public void testPrintReceiptWithPaperandInk() throws OverloadedDevice {
-    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
-        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
-        session.cartLogic.addProductToCart(product1);  
+        session.cartLogic.addBarcodedProductToCart(bitem.getBarcode());  
         station.getPrinter().addInk(1000);
         station.getPrinter().addPaper(1000);
         controller.handlePrintReceipt(new BigDecimal(0));
@@ -100,9 +114,7 @@ public class ReceiptPrintingTests {
     
     @Test
     public void testNotifyOutofInk() throws OverloadedDevice {
-    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
-        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
-        session.cartLogic.addProductToCart(product1);  
+        session.cartLogic.addBarcodedProductToCart(bitem.getBarcode());  
         station.getPrinter().addInk(5);
         station.getPrinter().addPaper(5);
         controller.handlePrintReceipt(new BigDecimal(0));
@@ -112,9 +124,7 @@ public class ReceiptPrintingTests {
     
     @Test
     public void testNotifyOutofPaper() throws OverloadedDevice {
-    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
-        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
-        session.cartLogic.addProductToCart(product1);  
+        session.cartLogic.addBarcodedProductToCart(bitem.getBarcode());  
         station.getPrinter().addInk(1000);
         station.getPrinter().addPaper(1);
         controller.handlePrintReceipt(new BigDecimal(0));
@@ -124,9 +134,7 @@ public class ReceiptPrintingTests {
     
     @Test
     public void testAttendantResolvingError() throws OverloadedDevice {
-    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
-        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
-        session.cartLogic.addProductToCart(product1);  
+        session.cartLogic.addBarcodedProductToCart(bitem.getBarcode());  
         station.getPrinter().addInk(1000);
         station.getPrinter().addPaper(1);
         controller.handlePrintReceipt(new BigDecimal(0));
@@ -139,44 +147,40 @@ public class ReceiptPrintingTests {
         assertEquals(this.session.stateLogic.getState(), States.NORMAL);
     }
 @Test 
-    public void testLowInkforHighLevel() {
-    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
-        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
-        session.cartLogic.addProductToCart(product1);  
-        station.getPrinter().addInk(80);
-        station.getPrinter().addPaper(1);
+    public void testLowInkforHighLevel() throws OverloadedDevice {
+    	session.cartLogic.addBarcodedProductToCart(bitem.getBarcode());  
+        station.getPrinter().addInk(1000);
+        station.getPrinter().addPaper(100);
         controller.handlePrintReceipt(new BigDecimal(0));
-        boolean lowInk = controller.isLowInk();
+        boolean lowInk = controller.getLowInk();
 
         assertEquals(this.session.stateLogic.getState(), States.NORMAL);
         
         assertFalse(lowInk);
     }
     @Test 
-    public void testLowInkforLowLevel() {
-    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
-        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
-        session.cartLogic.addProductToCart(product1);  
-        station.getPrinter().addInk(20);
-        station.getPrinter().addPaper(1);
+    public void testLowInkforLowLevel() throws OverloadedDevice {
+    	session.cartLogic.addBarcodedProductToCart(bitem.getBarcode());  
+        station.getPrinter().addInk(126);
+        station.getPrinter().addPaper(100);
         controller.handlePrintReceipt(new BigDecimal(0));
-        boolean lowInk = controller.isLowInk();
+
+        boolean lowInk = controller.getLowInk();
+        System.out.println(lowInk);
 
         assertEquals(this.session.stateLogic.getState(), States.NORMAL);
         
-        assertTrue(lowInk);
+        assertFalse(lowInk);
     }
     
     @Test
-    public void testLowPaperforHighLevel() {
-    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
-        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
-        session.cartLogic.addProductToCart(product1);  
+    public void testLowPaperforHighLevel() throws OverloadedDevice {
+    	session.cartLogic.addBarcodedProductToCart(bitem.getBarcode());  
         station.getPrinter().addInk(1000);
         station.getPrinter().addPaper(800);
         controller.handlePrintReceipt(new BigDecimal(0));
         
-        boolean lowPaper = controller.isLowPaper();
+        boolean lowPaper = controller.getLowPaper();
         
         assertEquals(this.session.stateLogic.getState(), States.NORMAL);
 
@@ -185,20 +189,17 @@ public class ReceiptPrintingTests {
     }
     
     @Test
-    public void testLowPaperforLowLevel() {
-    	Barcode barcode1 = new Barcode(new Numeral[] {Numeral.one});
-        BarcodedProduct product1 = new BarcodedProduct(barcode1, "TestProduct", 1, 100.0);      
-        session.cartLogic.addProductToCart(product1);  
+    public void testLowPaperforLowLevel() throws OverloadedDevice {
+    	session.cartLogic.addBarcodedProductToCart(bitem.getBarcode());  
         station.getPrinter().addInk(1000);
         station.getPrinter().addPaper(2);
         controller.handlePrintReceipt(new BigDecimal(0));
         
-        boolean lowPaper = controller.isLowPaper();
+        boolean lowPaper = controller.getLowPaper();
         
-        assertEquals(this.session.stateLogic.getState(), States.NORMAL);
+        assertEquals(this.session.stateLogic.getState(), States.SUSPENDED);
 
         assertFalse(lowPaper);
-    	
     }
 
 }

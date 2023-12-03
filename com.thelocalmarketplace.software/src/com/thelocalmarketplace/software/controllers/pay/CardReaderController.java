@@ -78,7 +78,7 @@ public class CardReaderController extends AbstractLogicDependant implements Card
     public void theDataFromACardHasBeenRead(CardData data) {
       String type = data.getType();
     	PaymentMethods t = this.logic.cardPaymentLogic.getCardType(data.getType());
-    	CardMethods c = this.logic.cardPaymentLogic.setCardPaymentType(type);
+    	CardMethods c = this.logic.getSelectedCardPaymentMethod();
 
         this.logic.cardPaymentLogic.isDataRead(true);
 

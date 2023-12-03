@@ -54,6 +54,7 @@ public class PayByCardTest {
 
 
         session = new CentralStationLogic(station);
+        session.setBypassIssuePrediction(true);
         session.startSession();
 
         //set up bank details

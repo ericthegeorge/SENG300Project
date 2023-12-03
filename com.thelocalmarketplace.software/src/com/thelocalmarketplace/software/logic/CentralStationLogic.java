@@ -241,12 +241,20 @@ public class CentralStationLogic {
 		return this.paymentMethod;
 	}
 	
+	public CardMethods getSelectedCardPaymentMethod() {
+		return this.cardMethod;
+	}
+	
 	/**
 	 * Sets the desired payment method for the customer
 	 * @param method Is the payment method to use
 	 */
 	public void selectPaymentMethod(PaymentMethods method) {
 		this.paymentMethod = method;
+	}
+	
+	public void selectCardMethod(CardMethods method) {
+		this.cardMethod = method;
 	}
 
 	/**

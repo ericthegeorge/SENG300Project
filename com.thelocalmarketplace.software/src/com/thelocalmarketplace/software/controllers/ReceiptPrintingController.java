@@ -109,7 +109,6 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
      */
     public void handlePrintReceipt(BigDecimal change) {
         String receiptText = createPaymentRecord(change);
-        
         try {        	
         	this.printReceipt(receiptText);
         	this.finish();
