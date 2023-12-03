@@ -1,6 +1,9 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
+
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,13 +14,16 @@ import java.util.Map;
 public class AttendantStationGUI {
 
     private static JComboBox<StationObject> comboBox;
+    private JPanel mainPanel;
+    private CentralStationLogic logic;
+    
 
-    // Fake class to represent Station objects
+	// Fake class to represent Station objects
     // Updated StationObject class
-    static class StationObject {
+    private class StationObject {
         private int stationNumber;
         private Map<Character, Color> circleColors; // Map to store colors for circles
-
+        
         public StationObject(int stationNumber) {
             this.stationNumber = stationNumber;
             this.circleColors = new HashMap<>();
@@ -62,7 +68,7 @@ public class AttendantStationGUI {
         }
     }
 
-    private static void updateUIForSelectedStation(StationObject selectedStation) {
+    private void updateUIForSelectedStation(StationObject selectedStation) {
 
         // Change the colors based on any condition. Here I have them all set to red.
         selectedStation.setCircleColorRed('I');
@@ -74,7 +80,7 @@ public class AttendantStationGUI {
     }
 
 
-    static void createFrame(StationObject[] stationObjects) {
+    private void createFrame(StationObject[] stationObjects) {
 
         JFrame frame = new JFrame("Attendant Station");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -176,7 +182,7 @@ public class AttendantStationGUI {
         // Set the divider to be unchangeable
         splitPane.setEnabled(false);
 
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
         mainPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
 
         mainPanel.add(titlePanel, BorderLayout.NORTH);
@@ -199,12 +205,12 @@ public class AttendantStationGUI {
     }
 
     // Method to update JComboBox options based on the given number of squares
-    private static void updateComboBoxOptions(StationObject[] stationObjects) {
+    private void updateComboBoxOptions(StationObject[] stationObjects) {
         comboBox.setModel(new DefaultComboBoxModel<>(stationObjects));
     }
 
     // Method to create squares based on the given array of StationObjects
-    private static void createSquares(JPanel panel, StationObject[] stationObjects) {
+    private void createSquares(JPanel panel, StationObject[] stationObjects) {
         panel.removeAll(); // Clear existing components
 
         GridBagConstraints gbc = new GridBagConstraints();
@@ -228,7 +234,7 @@ public class AttendantStationGUI {
             GridLayout lightsLayout = new GridLayout(1, 4);
             lightsLayout.setHgap(10); // Set horizontal gap between lights
             lightsPanel.setLayout(lightsLayout);
-
+            
             for (char label : new char[]{'I', 'P', 'C', 'B'}) {
                 int finalI = i;
                 JPanel light = new JPanel(new GridBagLayout()) {
@@ -290,7 +296,7 @@ public class AttendantStationGUI {
     }
 
     // Method to create a window for maintaining paper
-    private static void createMaintainPaperWindow(JFrame mainFrame) {
+    private void createMaintainPaperWindow(JFrame mainFrame) {
         JFrame window = new JFrame("Maintain Paper");
         window.setSize(400, 200);
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -331,7 +337,7 @@ public class AttendantStationGUI {
     }
 
     // Method to create a window for maintaining ink
-    private static void createMaintainInkWindow(JFrame mainFrame) {
+    private void createMaintainInkWindow(JFrame mainFrame) {
         JFrame window = new JFrame("Maintain Ink");
         window.setSize(400, 200);
         window.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -372,7 +378,7 @@ public class AttendantStationGUI {
     }
 
     // Method to create a window for maintaining coins
-    private static void createMaintainCoinsWindow(JFrame mainFrame) {
+    private void createMaintainCoinsWindow(JFrame mainFrame) {
         JFrame coinsWindow = new JFrame("Maintain Coins");
         coinsWindow.setSize(600, 300);
         coinsWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -424,7 +430,7 @@ public class AttendantStationGUI {
     }
 
     // Method to create a window for maintaining banknotes
-    private static void createMaintainBanknotesWindow(JFrame mainFrame) {
+    private void createMaintainBanknotesWindow(JFrame mainFrame) {
         JFrame banknotesWindow = new JFrame("Maintain Banknotes");
         banknotesWindow.setSize(600, 300);
         banknotesWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -476,7 +482,7 @@ public class AttendantStationGUI {
     }
 
     // Method to create a window for text search
-    private static void createTextSearchWindow(JFrame mainFrame) {
+    private void createTextSearchWindow(JFrame mainFrame) {
         JFrame textSearchWindow = new JFrame("Add Item by Text Search");
         textSearchWindow.setSize(400, 200); // Increased window size
         textSearchWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
@@ -521,7 +527,7 @@ public class AttendantStationGUI {
 
 
     // Method to handle button click events
-    private static void handleButtonClick(String buttonLabel, JFrame frame) {
+    private void handleButtonClick(String buttonLabel, JFrame frame) {
 
         if ("Add Item by Text Search".equals(buttonLabel)) {
             // Handle the "Add Item by Text Search" button click
@@ -545,7 +551,7 @@ public class AttendantStationGUI {
     }
 
     // Method to handle entered quantities for coins or banknotes
-    private static void handleEnteredQuantities(String buttonLabel, String[] denominations, int[] quantities) {
+    private void handleEnteredQuantities(String buttonLabel, String[] denominations, int[] quantities) {
         // Add your logic here based on the buttonLabel, denominations, and quantities
         // For example, you can print the values for demonstration purposes
         System.out.println(buttonLabel + " - Quantities:");
@@ -554,20 +560,20 @@ public class AttendantStationGUI {
         }
     }
 
-    private static void handleEnteredQuantity(String buttonLabel, String quantity) {
+    private void handleEnteredQuantity(String buttonLabel, String quantity) {
         // Add your logic here based on the buttonLabel and entered quantity
         // For example, you can print the values for demonstration purposes
         System.out.println("Button: " + buttonLabel + ", Quantity: " + quantity);
     }
 
     // Method to handle entered text for text search
-    private static void handleEnteredText(String searchText) {
+    private void handleEnteredText(String searchText) {
         // Add your logic here based on the entered text
         // For example, you can print the entered text for demonstration purposes
         System.out.println("Search Text: " + searchText);
     }
 
-    private static void centerWindowOnFrame(JFrame window, JFrame mainFrame) {
+    private void centerWindowOnFrame(JFrame window, JFrame mainFrame) {
         // Center the window on the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
         int x = mainFrame.getX() + (mainFrame.getWidth() - window.getWidth()) / 2;
@@ -575,7 +581,8 @@ public class AttendantStationGUI {
         window.setLocation(x, y);
     }
 
-    public static void main(String[] args) {
+    public AttendantStationGUI(CentralStationLogic l) {
+    	logic = l;
         int numStations = 3; // Set the initial number of stations
 
         // Create an array of StationObject instances
@@ -585,8 +592,11 @@ public class AttendantStationGUI {
         }
 
         // Create an instance of AttendantStationGUI
-        AttendantStationGUI attendantStationGUI = new AttendantStationGUI();
-        attendantStationGUI.createFrame(stationObjects);
+        createFrame(stationObjects);
     }
+    
+    public JPanel getPanel() {
+		return mainPanel;
+	}
 
 }

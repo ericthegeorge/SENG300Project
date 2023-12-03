@@ -36,6 +36,8 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 
 	// A duplicate receipt that can be printed by the attendant.
 	String duplicateReceipt;
+	private Boolean lowInk = false;
+	private Boolean lowPaper = false;
 
 	/**
 	 * Base constructor
@@ -155,29 +157,6 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 			this.onPrintingFail();
 		}
 	}
-	/**
-     * Check if the printer has low ink.
-     * @return true if the ink level is low, false otherwise.
-     */
-    public boolean isLowInk() {
-        // Implementing logic to check the ink level and return true if it's low.
-    	int inkRemaining = this.logic.hardware.getPrinter().inkRemaining();
-    	// Adjust the threshold to 50 units
-        int threshold = 50;
-
-        // Check if the ink level is below the threshold
-        return inkRemaining < threshold;
-    }
-    public boolean isLowPaper() {
-        // Implementing logic to check the paper level and return true if it's low.
-        int paperRemaining = this.logic.hardware.getPrinter().paperRemaining();
-    	// Adjust the threshold to 10 units
-        int threshold = 10;
-        // Check if the paper level is below the threshold
-
-        return paperRemaining < threshold;
-     }
-      
     
 	/**
 	 * Executes after a receipt is successfully printed
@@ -238,30 +217,29 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 
 	@Override
 	public void thePrinterHasLowInk() {
-        if (isLowInk()) {
-            System.out.println("Warning: Low ink level detected!");
-        }
-
+		lowInk = true;
 	}
 
 	@Override
 	public void thePrinterHasLowPaper() {
-		if (isLowPaper()) {
-            System.out.println("Warning: Low paper level detected!");
-        }
+		lowPaper = true;
 	}
 
 	@Override
 	public void paperHasBeenAddedToThePrinter() {
-		System.out.println("Paper has been added");
-		// TODO Auto-generated method stub
-
+		lowPaper = false;
 	}
 
 	@Override
 	public void inkHasBeenAddedToThePrinter() {
-		System.out.println("Ink has been added");
-		// TODO Auto-generated method stub
+		lowInk = false;
+	}
 
+	public Boolean getLowInk() {
+		return lowInk;
+	}
+
+	public Boolean getLowPaper() {
+		return lowPaper;
 	}
 }

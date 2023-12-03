@@ -140,11 +140,9 @@ public class WeightLogic extends AbstractLogicDependant {
 	
 	/** Indicates that an item should not be bagged
 	 * @param barcode - barcode of item to skip bagging 
-	 * @throws InvalidArgumentSimulationException - when skipBagging is called on a product not in the cart */
+	 */
 	public void skipBaggingRequest(Barcode barcode) {
-		if (!this.logic.cartLogic.getCart().containsKey(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode))) throw new InvalidArgumentSimulationException("Cannot skip bagging an item that has not been added to cart");
 		logic.attendantLogic.requestApprovalSkipBagging(barcode);
-		
 	}
 	
 	/** Checks if there is a weight discrepancy 

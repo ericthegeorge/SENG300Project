@@ -40,8 +40,8 @@ import java.awt.event.ActionListener;
  * @author Zhenhui Ren
  */
 public class StartScreenGUI {
-	private JFrame startScreenFrame;
-	private JPanel startScreenPanel;
+	private JFrame frame;
+	private JPanel panel;
 	private JPanel verticalPanel;
 	private JPanel languageVerticalPanel;
 	private JPanel stationVerticalPanel;
@@ -52,14 +52,16 @@ public class StartScreenGUI {
 	private JLabel stationLabel;
 	private JButton membershipButton;
 	private JButton startSessionButton;
-	private JComboBox selectCheckoutStationComboBox;
+	//	private JComboBox selectCheckoutStationComboBox;
 	private JComboBox selectLanguageComboBox;
 	private AbstractSelfCheckoutStation station;
 	private CentralStationLogic logic;
+	private MainGUI mainGUI;
 	
-	public StartScreenGUI() {
-		startScreenFrame = new JFrame("TheLocalMarketplace Self-Checkout Station");
-		startScreenPanel = new JPanel();
+	public StartScreenGUI(CentralStationLogic l) {
+		logic = l;
+		frame = new JFrame("TheLocalMarketplace Self-Checkout Station");
+		panel = new JPanel();
 		verticalPanel = new JPanel();
 		languageVerticalPanel = new JPanel();
 		stationVerticalPanel = new JPanel();
@@ -67,16 +69,16 @@ public class StartScreenGUI {
 		
 		addWidgets();
 		
-		startScreenFrame.getContentPane().add(startScreenPanel, BorderLayout.CENTER);
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		
-		startScreenFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		startScreenFrame.pack();
-		startScreenFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		startScreenFrame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+		frame.setVisible(true);
 	}
 
 	private void addWidgets() {
-		startScreenPanel.setLayout(new BoxLayout(startScreenPanel, BoxLayout.Y_AXIS));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		verticalPanel.setLayout(new BoxLayout(verticalPanel, BoxLayout.Y_AXIS));
 		languageVerticalPanel.setLayout(new BoxLayout(languageVerticalPanel, BoxLayout.Y_AXIS));
 		stationVerticalPanel.setLayout(new BoxLayout(stationVerticalPanel, BoxLayout.Y_AXIS));
@@ -111,12 +113,12 @@ public class StartScreenGUI {
 		String[] stationChoices = { "Bronze", "Silver", "Gold" };
 				
 		// Create ComboBox
-		selectCheckoutStationComboBox = new JComboBox<String>(stationChoices);
+		//selectCheckoutStationComboBox = new JComboBox<String>(stationChoices);
 		selectLanguageComboBox = new JComboBox<String>(languageChoices);
 		
 		// Set preferred size for combo boxes
 		Dimension comboBoxSize = new Dimension(0, -100);
-		selectCheckoutStationComboBox.setPreferredSize(comboBoxSize);
+		//selectCheckoutStationComboBox.setPreferredSize(comboBoxSize);
 		selectLanguageComboBox.setPreferredSize(comboBoxSize);
 
 		// Set button alignment
@@ -160,7 +162,7 @@ public class StartScreenGUI {
 		// Add labels and buttons to the station vertical panel
 		stationVerticalPanel.add(Box.createVerticalGlue());
 		stationVerticalPanel.add(stationLabel);
-		stationVerticalPanel.add(selectCheckoutStationComboBox);
+		//stationVerticalPanel.add(selectCheckoutStationComboBox);
 		stationVerticalPanel.add(Box.createVerticalGlue());
 		
 		// Add glue to push labels to the center horizontally
@@ -172,32 +174,17 @@ public class StartScreenGUI {
 		horizontalPanel.add(Box.createHorizontalGlue());
 		
 		// Add all sub-panels to the main panel
-		startScreenPanel.add(verticalPanel);
-		startScreenPanel.add(Box.createVerticalStrut(-100));
-		startScreenPanel.add(horizontalPanel);
-		
-		//Events
-		startSessionButton.addActionListener(e -> {
-			String selectedStationType = selectCheckoutStationComboBox.getSelectedItem().toString();
-			PowerGrid.engageUninterruptiblePowerSource();
-			PowerGrid.instance().forcePowerRestore();
-			AbstractSelfCheckoutStation.resetConfigurationToDefaults();
-			System.out.println("reaches this");
-			if(selectedStationType.equals("Bronze")) {
-				station = new SelfCheckoutStationBronze();
-				System.out.println("does not reach this");
-			}
-			else if(selectedStationType.equals("Silver")) station = new SelfCheckoutStationSilver();
-			else if (selectedStationType.equals("Gold")) station = new SelfCheckoutStationGold();
-	        station.plugIn(PowerGrid.instance());
-	        station.turnOn();
-			logic = new CentralStationLogic(station);
-			logic.setBypassIssuePrediction(true);
-	        logic.startSession();
-		});
+		panel.add(verticalPanel);
+		panel.add(Box.createVerticalStrut(-100));
+		panel.add(horizontalPanel);
 	}
 	
-	public JPanel getPanel() {
-		return this.startScreenPanel;
+	public JButton getStartSessionButton() {
+		return startSessionButton;
 	}
+
+	public JPanel getPanel() {
+		return panel;
+	}
+
 }
