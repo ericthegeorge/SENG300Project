@@ -200,7 +200,10 @@ public class AddItemGUI extends JFrame {
         }
         
         
-
+        JButton visualCatalogueButton = (JButton) buttonPanel.getComponent(2);
+        visualCatalogueButton.addActionListener(e -> {
+			mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "keyboard");
+		});
         // Add the button panel to the upper box
         upperInnerBox.add(buttonPanel);
 

@@ -43,6 +43,8 @@ public class MainGUI {
 		PowerGrid.instance().forcePowerRestore();
 		station.plugIn(PowerGrid.instance());
 		station.turnOn();
+		
+		SimulatedItems.instantiateItems();
 
         SwingUtilities.invokeLater(new Runnable() {
             @Override
@@ -94,17 +96,18 @@ public class MainGUI {
             }
         });
         
-        mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        mainFrame.pack();
-        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-        mainFrame.setVisible(true);
-        
         attendantFrame.getContentPane().add(attendantPanel, BorderLayout.CENTER);
         attendantFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         attendantFrame.pack();
         attendantFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         attendantFrame.setVisible(true);
+        
+        mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
+        mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        mainFrame.pack();
+        mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        mainFrame.setVisible(true);
+       
     }
     
     public CardLayout getCardLayout() {
