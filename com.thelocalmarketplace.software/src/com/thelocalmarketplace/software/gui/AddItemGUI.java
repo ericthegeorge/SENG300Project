@@ -3,6 +3,12 @@ package com.thelocalmarketplace.software.gui;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
+import com.jjjwelectronics.Item;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
 import java.awt.*;
@@ -13,6 +19,7 @@ public class AddItemGUI extends JFrame {
 	private CentralStationLogic logic;
 	private MainGUI mainGUI;
 	private JPanel mainPanel;
+	DefaultListModel<String> cartList;
 
     public AddItemGUI(MainGUI m, CentralStationLogic l) {
     	mainGUI = m;
@@ -163,10 +170,21 @@ public class AddItemGUI extends JFrame {
         upperInnerBox.setBorder(new EmptyBorder(0, 0, 0, 0)); // 20px padding
 
         // Add list element to the left
-        DefaultListModel<String> cartList = new DefaultListModel<>();
-        cartList.addElement("Item 1");
-        cartList.addElement("Item 2");
+        cartList = new DefaultListModel<>();
         JList<String> cartListObjt = new JList<>(cartList);
+        System.out.println(mainGUI.getItemsInCart().size());
+        for(Item i : mainGUI.getItemsInCart()) {
+        	if (i instanceof BarcodedItem) {
+        		BarcodedItem bitem = (BarcodedItem) i;
+            	BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
+            	cartList.addElement(bproduct.getDescription());
+        	} else if (i instanceof PLUCodedItem) {
+        		PLUCodedItem pitem = (PLUCodedItem) i;
+        		PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
+        		cartList.addElement(pproduct.getDescription());
+        	}
+        	
+        }
         cartListObjt.setFont(new Font("Arial", Font.PLAIN, 26));
         cartListObjt.setBorder(BorderFactory.createCompoundBorder(
                 new EmptyBorder(20, 20, 20, 20),
@@ -178,7 +196,6 @@ public class AddItemGUI extends JFrame {
         // Create a panel for the buttons in the middle of the third section
         JPanel buttonPanel = new JPanel(new GridLayout(4, 1));
  	   	
-       
         List<String> stringList = new ArrayList<>();
         stringList.add("Scan");
         stringList.add("PLU Code");
@@ -204,6 +221,12 @@ public class AddItemGUI extends JFrame {
         visualCatalogueButton.addActionListener(e -> {
 			mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "keyboard");
 		});
+        
+        JButton AddToBaggingAreaButton = (JButton) buttonPanel.getComponent(3);
+        AddToBaggingAreaButton.addActionListener(e -> {
+			
+		});
+        
         // Add the button panel to the upper box
         upperInnerBox.add(buttonPanel);
 
@@ -254,7 +277,7 @@ public class AddItemGUI extends JFrame {
         // Add the main panel to the frame
         add(mainPanel);
     }
-
+    
 	public JPanel getPanel() {
 		return mainPanel;
 	}

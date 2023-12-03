@@ -15,14 +15,6 @@ import com.thelocalmarketplace.hardware.external.ProductDatabases;
 public class SimulatedItems {
 	static ArrayList<Item> simulatedItems = new ArrayList<Item>();
 	
-	public static void addItemsToProductDatabase() {
-		ProductDatabases.BARCODED_PRODUCT_DATABASE.clear();
-		
-		for (Item i : simulatedItems) {
-			//add to product database
-		}
-	}
-	
 	public static void instantiateItems() {
 		instantiatePLUCodedItems();
 		instantiateBarcodedItems();
@@ -46,6 +38,10 @@ public class SimulatedItems {
 		BarcodedProduct product_ham = new BarcodedProduct(barcode_ham, "some ham",(long)8.99,(double)500.0);
 		BarcodedProduct product_milk = new BarcodedProduct(barcode_milk, "some milk",(long)5.99,(double)400.0);
 		BarcodedProduct product_bread = new BarcodedProduct(barcode_bread, "some bread",(long)2.99,(double)300.0);
+		
+		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcode_ham, product_ham);
+		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcode_milk, product_milk);
+        ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcode_bread, product_bread);
 		
 		//initialize barcoded item
 		Mass itemMass_ham = new Mass((double) 500.0);

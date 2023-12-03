@@ -2,6 +2,7 @@ package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
 
+import com.jjjwelectronics.Item;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
@@ -15,6 +16,7 @@ import powerutility.PowerGrid;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.util.ArrayList;
 
 public class MainGUI {
     private JFrame mainFrame;
@@ -23,6 +25,8 @@ public class MainGUI {
     private JPanel attendantPanel;
     private CardLayout mainCardLayout;
     private CardLayout attendantCardLayout;
+    
+    private ArrayList<Item> itemsInCart = new ArrayList<Item>();
 
 	private StartScreenGUI startScreen;
     private CompletionScreenGUI completionScreen;
@@ -53,6 +57,7 @@ public class MainGUI {
                 gui.logic.setBypassIssuePrediction(true);
             }
         });
+        
     }
 
     public MainGUI(AbstractSelfCheckoutStation s) {
@@ -107,7 +112,14 @@ public class MainGUI {
         mainFrame.pack();
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.setVisible(true);
-       
+        
+        addItemsToCart();
+    }
+    
+    public void addItemsToCart() {
+    	for(Item i : SimulatedItems.simulatedItems) {
+    		itemsInCart.add(i);
+    	}
     }
     
     public CardLayout getCardLayout() {
@@ -128,6 +140,10 @@ public class MainGUI {
 
 	public JPanel getMainPanel() {
 		return mainPanel;
+	}
+
+	public ArrayList<Item> getItemsInCart() {
+		return itemsInCart;
 	}
 
 }
