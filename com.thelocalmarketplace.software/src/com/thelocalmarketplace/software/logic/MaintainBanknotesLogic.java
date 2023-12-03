@@ -47,6 +47,7 @@ public class MaintainBanknotesLogic extends AbstractLogicDependant {
 	
 	public void maintainBanknotesCheck() {
 		//TODO implement in GUI
+		this.logic.hardware.turnOn();
 		if ((this.logic.stateLogic.getState()== States.SUSPENDED) && this.logic.hardware.isSupervised())
 			if (this.logic.hardware.getBanknoteStorage().hasSpace()&& 
 				!this.logic.hardware.getBanknoteDispensers().isEmpty()&& 
