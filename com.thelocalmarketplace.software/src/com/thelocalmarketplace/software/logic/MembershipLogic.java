@@ -53,6 +53,9 @@ public class MembershipLogic extends AbstractLogicDependant{
 	 * and as a result, the membership was not in the database
 	 */
 	public boolean enterMembershipByCard(CardData cardData) {
+		if (cardData == null) {
+			return false;
+		}
 		this.code = Error.NO_ERROR;
 		this.setMemberData(cardData);
 		//If number is not a valid membership{return false;}
@@ -67,7 +70,7 @@ public class MembershipLogic extends AbstractLogicDependant{
 	 * Helper to validate membership based on its existence in the database.
 	 */
 	private boolean isValidMembership() {
-		if(MembershipDatabase.NUMBER_TO_CARDHOLDER.get(number).equals(null)) {
+		if(MembershipDatabase.NUMBER_TO_CARDHOLDER.get(number) == (null)) {
 			this.code = Error.NO_SUCH_MEMBER_FOUND;
 			return false;
 		}
@@ -93,7 +96,7 @@ public class MembershipLogic extends AbstractLogicDependant{
 	private void setMemberData(String number) {
 		this.number = number;
 		this.cardHolder = MembershipDatabase.NUMBER_TO_CARDHOLDER.get(number);
-		if (this.cardHolder.equals(null)) {
+		if (this.cardHolder == null) {
 			this.code = Error.NO_SUCH_MEMBER_FOUND;
 		}
 	}
