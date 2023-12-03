@@ -309,4 +309,35 @@ public class CentralStationLogicTest {
 		for (int i = 0; i < 5; i++) {inputBronze.coinAdded(stub, fiveCentCoin);}
 		assertFalse(session.issuePredicted());
 	}
+	
+	@Test
+    public void issuePredictedLowInk() {
+        // Initialize the station and session
+        SelfCheckoutStationBronze station = new SelfCheckoutStationBronze();
+        CentralStationLogic session = new CentralStationLogic(station);
+        session.setBypassIssuePrediction(false);
+
+        // Generate test double for ReceiptPrintingController
+        ReceiptPrintingControllerStub receiptPrintingControllerStub = new ReceiptPrintingControllerStub(session);
+        session.receiptPrintingController = receiptPrintingControllerStub;
+
+        // predict issue when low ink detected
+        assertTrue(session.issuePredicted());
+    }
+	
+	@Test
+    public void issuePredictedPaper() {
+        // Initialize the station and session
+        SelfCheckoutStationBronze station = new SelfCheckoutStationBronze();
+        CentralStationLogic session = new CentralStationLogic(station);
+        session.setBypassIssuePrediction(false);
+
+        // Generate test double for ReceiptPrintingController
+        ReceiptPrintingControllerStub receiptPrintingControllerStub = new ReceiptPrintingControllerStub(session);
+        session.receiptPrintingController = receiptPrintingControllerStub;
+
+        // predict issue when low paper detected
+        assertTrue(session.issuePredicted());
+    }
+	
 }
