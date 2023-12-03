@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.software.controllers.pay.CardReaderController;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
@@ -13,6 +14,9 @@ public class CreditScreenGUI {
     private JFrame creditPageFrame;
     private JPanel creditPagePanel;
     private CardReaderController cardReaderController;
+    private CardReaderController cardReaderController;
+    private CentralStationLogic logic;
+    private AbstractSelfCheckoutStation station;
     
     public CreditScreenGUI() {
         creditPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
