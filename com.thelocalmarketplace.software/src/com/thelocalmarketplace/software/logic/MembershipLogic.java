@@ -53,6 +53,9 @@ public class MembershipLogic extends AbstractLogicDependant{
 	 * and as a result, the membership was not in the database
 	 */
 	public boolean enterMembershipByCard(CardData cardData) {
+		if (cardData == null) {
+			return false;
+		}
 		this.code = Error.NO_ERROR;
 		this.setMemberData(cardData);
 		//If number is not a valid membership{return false;}

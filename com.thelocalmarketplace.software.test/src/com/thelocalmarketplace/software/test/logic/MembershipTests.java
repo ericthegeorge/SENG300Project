@@ -124,9 +124,10 @@ public class MembershipTests {
 		 assertFalse(membershipLogic.enterMembershipByNumber(null));
 	 }
 	 
-	 @Test (expected = NullPointerException.class) 
+	 //(expected = NullPointerException.class)
+	 @Test  
 	 public void testNullCard() throws Exception{
-		 assertTrue(membershipLogic.enterMembershipByCard(null));
+		 assertFalse(membershipLogic.enterMembershipByCard(null));
 	 }
 
 }
