@@ -73,29 +73,41 @@ public class PaymentScreenGUI {
 
         
         // right panel
-        JPanel rightPanel = new JPanel();
+	JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
 
         finishCheckoutButton = new JButton("Finish Checkout");
-        finishCheckoutButton.setFont(new Font("Arial", Font.BOLD, 16));
+        finishCheckoutButton.setFont(new Font("Arial", Font.BOLD, 15));
         finishCheckoutButton.setPreferredSize(new Dimension(150, 50));
         itemsInCartLabel = new JLabel("Items in cart:");
-        itemsInCartLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        itemsInCartLabel.setFont(new Font("Arial", Font.BOLD, 20));
 
-        cartItemList = new JList<>();
-        cartItemList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        cartItemList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        cartItemList.setVisibleRowCount(-1);
+        DefaultListModel<String> cartItemList = new DefaultListModel<>();
+        cartItemList.addElement("Item 1");
+        cartItemList.addElement("Item 2");
+        cartItemList.addElement("Item 3");
+ 
+        JList<String> cartListObjt = new JList<>(cartItemList);
+        cartListObjt.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        cartListObjt.setLayoutOrientation(JList.VERTICAL_WRAP); 
+        cartListObjt.setVisibleRowCount(-1);
+
+        cartListObjt.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        JScrollPane cartScrollPane = new JScrollPane(cartListObjt);
 
         JPanel listPanel = new JPanel(new BorderLayout());
-        listPanel.add(cartItemList, BorderLayout.CENTER);
         listPanel.add(itemsInCartLabel, BorderLayout.NORTH);
-
-        totalPriceLabel = new JLabel("Total Price:");
-        totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 15));
+        listPanel.add(cartScrollPane, BorderLayout.CENTER);
+        
+        float totalPrice = 0;
+        String totalPriceString = "Total Price ($): ";
+        JTextArea totalPriceText = new JTextArea(totalPriceString + String.valueOf(totalPrice));
+        totalPriceText.setEditable(false);
+        totalPriceText.setFont(new Font("Arial", Font.BOLD, 20));
 
         rightPanel.add(listPanel, BorderLayout.CENTER);
-        rightPanel.add(totalPriceLabel, BorderLayout.NORTH);
+        rightPanel.add(totalPriceText, BorderLayout.NORTH);
         rightPanel.add(finishCheckoutButton, BorderLayout.SOUTH);
 
         centerPanel.add(rightPanel);
