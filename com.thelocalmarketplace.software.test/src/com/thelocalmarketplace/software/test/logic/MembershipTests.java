@@ -69,7 +69,8 @@ public class MembershipTests {
 	    public String getCardholder() {
 	        return cardholder;
 	    }
-
+	    
+	    // Don't use this for membership. 
 	    @Override
 	    public String getCVV() {
 	        return cvv;
@@ -94,9 +95,8 @@ public class MembershipTests {
 		this.membershipLogic = new MembershipLogic(logic);
 		
 		MembershipDatabase.NUMBER_TO_CARDHOLDER.put("111222333", "Demo Member");
-		cardData = new CardDataStub ("Membership", "111222333", "Demo Member", "123");
-		falseCardData = new CardDataStub ("Membership", "111242333", "Non-Member", "123");
-	
+		cardData = new CardDataStub ("Membership", "111222333", "Demo Member", "no cvv");
+		falseCardData = new CardDataStub ("Membership", "111242333", "Non-Member", "no cvv");	
 	 }
 	 
 	 @Test
@@ -106,7 +106,7 @@ public class MembershipTests {
 	 
 	 @Test
 	 public void testIfNotMemberByNumber() {
-		 assertFalse(membershipLogic.enterMembershipByNumber("123"));
+		 assertFalse(membershipLogic.enterMembershipByNumber("392109"));
 	 }
 	 
 	 @Test
