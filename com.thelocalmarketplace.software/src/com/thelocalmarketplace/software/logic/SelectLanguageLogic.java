@@ -9,7 +9,7 @@ import java.util.Optional;
 public class SelectLanguageLogic extends AbstractLogicDependant {
 
     private List<String> supportedLanguages;
-    private String selectedLanguage;
+    private String selectedLanguage; 
     private String defaultLanguage;
 
     public SelectLanguageLogic(CentralStationLogic logic, String defaultLanguage) {
@@ -28,15 +28,19 @@ public class SelectLanguageLogic extends AbstractLogicDependant {
     public void displayLanguages() {
         // Code to display language options to the user.
         System.out.println("Please select a language:");
-        for (String language : supportedLanguages) {
+        for (String language : getSupportedLanguages()) {
             System.out.println(language);
         }
     }
 
     public boolean selectLanguage(String language) {
-        if (supportedLanguages.contains(language)) {
+        if (getSupportedLanguages().contains(language)) {
             this.selectedLanguage = language;
             return true;
+         } else if (language == defaultLanguage) {
+            	System.out.println("This is already selected");
+            	selectedLanguage = defaultLanguage; 
+            	return true;
         } else {
             System.out.println("Selected language is not supported.");
             return false;
@@ -50,5 +54,11 @@ public class SelectLanguageLogic extends AbstractLogicDependant {
     public void cancelLanguageSelection() {
         this.selectedLanguage = defaultLanguage;
       }
+
+
+	public List<String> getSupportedLanguages() {
+		return supportedLanguages;
+	}
+	
 
 }
