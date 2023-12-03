@@ -10,6 +10,8 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AttendantStationGUI {
 
@@ -17,6 +19,12 @@ public class AttendantStationGUI {
     private JPanel mainPanel;
     private CentralStationLogic logic;
     private MainGUI mainGUI;
+    private String[] data = {"Apples", "Avocado", "Asparagus", "Blueberries"
+			,"Beets", "Celery", "Endive", "Grapes","Jicama" , "Kale" 
+			,"Lettuce", "Manogos", "Green Peppers", "Onions"
+			,"Red Peppers", "Radishes", "Shallots", "Spinach"
+			,"Tomatoes", "Yams", "Watermelon"};
+    private DefaultListModel searchList = new DefaultListModel();
 
 	// Fake class to represent Station objects
     // Updated StationObject class
@@ -483,11 +491,19 @@ public class AttendantStationGUI {
     // Method to create a window for text search
     private void createTextSearchWindow(JFrame mainFrame) {
         JFrame textSearchWindow = new JFrame("Add Item by Text Search");
-        textSearchWindow.setSize(400, 200); // Increased window size
+        textSearchWindow.setSize(400, 300); // Increased window size
         textSearchWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-
+        
+        
         JPanel panel = new JPanel();
         panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
+        
+        
+        JList list = new JList(searchList);
+        JScrollPane scrollPane = new JScrollPane(list);
+        scrollPane.setPreferredSize(new Dimension(300, 300));
+        scrollPane.setAlignmentX(Component.CENTER_ALIGNMENT);
+        panel.add(scrollPane);
 
         JLabel label = new JLabel("Enter search text:");
         label.setAlignmentX(Component.CENTER_ALIGNMENT);
@@ -497,7 +513,12 @@ public class AttendantStationGUI {
         JTextField searchTextfield = new JTextField();
         searchTextfield.setAlignmentX(Component.CENTER_ALIGNMENT);
         searchTextfield.setMaximumSize(new Dimension(300, 40)); // Increased text field size
-
+        
+        JButton addItemButton = new JButton("Add Item To Order");
+        addItemButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+        addItemButton.setFont(new Font("Arial", Font.PLAIN, 20));
+        
+        
         JButton enterButton = new JButton("Enter");
         enterButton.setAlignmentX(Component.CENTER_ALIGNMENT);
         enterButton.setFont(new Font("Arial", Font.PLAIN, 20)); // Increased font size
@@ -506,8 +527,20 @@ public class AttendantStationGUI {
         enterButton.addActionListener(e -> {
             // Handle the entered text (you can use the text from searchTextfield)
             String searchText = searchTextfield.getText();
+            searchList.removeAllElements();
             // Perform actions based on the entered text
             handleEnteredText(searchText);
+
+            // Close the window after processing
+            //textSearchWindow.dispose();
+        });
+        
+     // Add action listener to the Add Item button
+        addItemButton.addActionListener(e -> {
+            // Handle the entered text (you can use the text from searchTextfield)
+            String itemText = (String) list.getSelectedValue();
+            // Perform actions based on the entered text
+            handleAddItemText(itemText);
 
             // Close the window after processing
             textSearchWindow.dispose();
@@ -517,6 +550,9 @@ public class AttendantStationGUI {
         panel.add(searchTextfield);
         panel.add(Box.createRigidArea(new Dimension(0, 10)));  // Increased spacing
         panel.add(enterButton);
+        panel.add(Box.createRigidArea(new Dimension(0,10)));
+        panel.add(addItemButton);
+        panel.add(Box.createRigidArea(new Dimension(0,10)));
 
         textSearchWindow.add(panel);
         centerWindowOnFrame(textSearchWindow, mainFrame);
@@ -568,10 +604,19 @@ public class AttendantStationGUI {
     // Method to handle entered text for text search
     private void handleEnteredText(String searchText) {
         // Add your logic here based on the entered text
+    	
+    	for(int i = 0; i < data.length; i++)
+    		if(data[i].toLowerCase().contains(searchText.toLowerCase())) {
+    			searchList.addElement(data[i]);
+    		}
         // For example, you can print the entered text for demonstration purposes
         System.out.println("Search Text: " + searchText);
     }
-
+    
+    private void handleAddItemText(String itemText) {
+    	System.out.println("Add to Order: " + itemText);
+    }
+    
     private void centerWindowOnFrame(JFrame window, JFrame mainFrame) {
         // Center the window on the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();

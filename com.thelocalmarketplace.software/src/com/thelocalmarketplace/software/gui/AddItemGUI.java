@@ -180,10 +180,10 @@ public class AddItemGUI extends JFrame {
  	   	
        
         List<String> stringList = new ArrayList<>();
-        stringList.add("Barcode Scan");
-        stringList.add("Handheld Scan");
+        stringList.add("Scan");
         stringList.add("PLU Code");
         stringList.add("Visual Catalouge");
+        stringList.add("Add to Bagging Area");
 
         // Add four buttons to the panel with 30px padding around each
         for (int i = 1; i <= 4; i++) {
