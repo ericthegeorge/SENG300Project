@@ -145,6 +145,11 @@ public class CentralStationLogic {
 	 * Instance of logic for attendant
 	 */
 	public AttendantLogic attendantLogic;
+	
+	/**
+	 * Instance of signaling attendant logic
+	 */
+	public SignalAttendantLogic signalAttendantLogic;
 
 	/**
 	 * Instance of logic for card payment via swipe
@@ -199,6 +204,8 @@ public class CentralStationLogic {
 		this.sessionStarted = false;
 		this.paymentMethod = PaymentMethods.NONE;
 		
+		
+		
 		// Initialize SelectLanguageLogic
         this.selectLanguageLogic = new SelectLanguageLogic(this, "English");
         
@@ -216,12 +223,16 @@ public class CentralStationLogic {
 		this.cardReaderController = new CardReaderController(this);
 		this.receiptPrintingController = new ReceiptPrintingController(this);
 		this.attendantLogic = new AttendantLogic(this);
+		
 		this.addBagsLogic = new AddBagsLogic(this);
 		this.removeItemLogic = new RemoveItemLogic(this);
 		this.membershipLogic = new MembershipLogic(this);
 		
 		this.coinCurrencyLogic = new CurrencyLogic(this.hardware.getCoinDenominations());
 		this.banknoteCurrencyLogic = new CurrencyLogic(this.hardware.getBanknoteDenominations());
+		
+		//Initialize signalAttendantLogic
+		this.signalAttendantLogic = new SignalAttendantLogic(this);
 		
 		this.setupCoinDispenserControllers(this.coinCurrencyLogic.getDenominationsAsList());
 		this.setupBanknoteDispenserControllers(this.banknoteCurrencyLogic.getDenominationsAsList());
