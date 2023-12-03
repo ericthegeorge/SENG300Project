@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.SwingUtilities;
+
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 import com.thelocalmarketplace.software.controllers.*;
 import com.thelocalmarketplace.software.controllers.pay.CardReaderController;
@@ -14,11 +17,13 @@ import com.thelocalmarketplace.software.controllers.pay.cash.BanknoteDispenserCo
 import com.thelocalmarketplace.software.controllers.pay.cash.CashPaymentController;
 import com.thelocalmarketplace.software.controllers.pay.cash.CoinDispenserController;
 import com.thelocalmarketplace.software.controllers.pay.cash.CoinPaymentController;
+import com.thelocalmarketplace.software.gui.MainGUI;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 import com.thelocalmarketplace.software.controllers.item.*;
 
 import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
+import powerutility.PowerGrid;
 
 /**
  * Represents the central session logic for the control software
@@ -187,7 +192,7 @@ public class CentralStationLogic {
 	 */
 	private boolean sessionStarted;
 	private boolean bypassIssuePrediction;
-
+	private MainGUI gui;
 
 
 	/**
@@ -198,7 +203,6 @@ public class CentralStationLogic {
 		if (hardware == null) {
 			throw new NullPointerException("Hardware");
 		}
-		
 		this.hardware = hardware;
 		
 		this.sessionStarted = false;
@@ -248,12 +252,20 @@ public class CentralStationLogic {
 		return this.paymentMethod;
 	}
 	
+	public CardMethods getSelectedCardPaymentMethod() {
+		return this.cardMethod;
+	}
+	
 	/**
 	 * Sets the desired payment method for the customer
 	 * @param method Is the payment method to use
 	 */
 	public void selectPaymentMethod(PaymentMethods method) {
 		this.paymentMethod = method;
+	}
+	
+	public void selectCardMethod(CardMethods method) {
+		this.cardMethod = method;
 	}
 
 	/**
@@ -345,7 +357,6 @@ public class CentralStationLogic {
 			this.stateLogic.gotoState(States.NORMAL);
 			this.sessionStarted = true;
 		}
-
 	}
 
 	/**
@@ -366,13 +377,13 @@ public class CentralStationLogic {
 		if (bypassIssuePrediction) return false;
 		boolean issueExists = false;
 		
-		boolean lowInk = receiptPrintingController.isLowInk();
+		boolean lowInk = receiptPrintingController.getLowInk();
 		if (lowInk) {
                 	// TODO: interact with attendant station UI for  for low ink warning
 			issueExists = true;
 		}
 		
-		boolean lowPaper = receiptPrintingController.isLowInk();
+		boolean lowPaper = receiptPrintingController.getLowPaper();
 		if (lowPaper) {
 			//TODO: interact with attendant station UI for low paper warning
 	        	issueExists = true;
@@ -384,7 +395,7 @@ public class CentralStationLogic {
 	        if(controller.shouldWarnEmpty()) {
 		        //TODO interact with attendant station UI
 	        	issueExists = true;
-	        }
+	        } 
 	        if(controller.shouldWarnFull()) {
 	        	//TODO interact with attendant station UI
 	        	issueExists = true;
@@ -411,5 +422,9 @@ public class CentralStationLogic {
 	 */
 	public void setBypassIssuePrediction(boolean bypassIssuePrediction) {
 		this.bypassIssuePrediction = bypassIssuePrediction;
+	}
+	
+	public void setGUI(MainGUI g) {
+		gui = g;
 	}
 }

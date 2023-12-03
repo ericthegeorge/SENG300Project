@@ -1,6 +1,9 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
+
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+
 import java.awt.*;
 
 /**
@@ -35,8 +38,10 @@ public class CompletionScreenGUI {
 	private JLabel collectBagsLabel;
 	private JLabel thankYouMessageLabel;
 	private JLabel kindMessageLabel;
+	private CentralStationLogic logic;
 	
-	public CompletionScreenGUI() {
+	public CompletionScreenGUI(CentralStationLogic l) {
+		logic = l;
 		completionScreenFrame = new JFrame("TheLocalMarketplace Self-Checkout Station");
 		completionScreenPanel = new JPanel();
 
@@ -89,7 +94,8 @@ public class CompletionScreenGUI {
 		return this.completionScreenPanel;
 	}
 	
-	public static void main(String[] args) {
-		CompletionScreenGUI completionScreen = new CompletionScreenGUI();
+	
+	public JPanel getCompletionScreenPanel() {
+		return completionScreenPanel;
 	}
 }
