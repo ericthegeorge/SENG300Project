@@ -4,6 +4,7 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.software.controllers.pay.CardReaderController;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
@@ -24,6 +25,8 @@ public class DebitScreenGUI {
         debitPageFrame.setSize(1000, 1000); 
         debitPageFrame.setContentPane(debitPagePanel);
         debitPageFrame.setVisible(true);
+
+        this.cardReaderController = new CardReaderController(logic);
     }
 
     private void addWidgets() {
