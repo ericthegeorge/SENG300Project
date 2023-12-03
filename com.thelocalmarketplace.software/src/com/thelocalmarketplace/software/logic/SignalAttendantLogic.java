@@ -73,7 +73,7 @@ public class SignalAttendantLogic extends AbstractLogicDependant{
 	 */
 	public synchronized void signalHelpNeeded(ISelfCheckoutStation station) {
 		if (attendantStation.supervisedStations().contains(station)) {
-			if (isHelpNeeded()) {
+			if (isHelpNeeded()) { 
 	               throw new IllegalStateException("Concurrent request: Help is already called.");
 	        }
 			getAssistance(station);
