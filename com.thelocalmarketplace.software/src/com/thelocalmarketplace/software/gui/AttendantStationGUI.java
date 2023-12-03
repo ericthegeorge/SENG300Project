@@ -16,7 +16,7 @@ public class AttendantStationGUI {
     private static JComboBox<StationObject> comboBox;
     private JPanel mainPanel;
     private CentralStationLogic logic;
-    
+    private MainGUI mainGUI;
 
 	// Fake class to represent Station objects
     // Updated StationObject class
@@ -198,7 +198,6 @@ public class AttendantStationGUI {
         frame.setSize(800, 600);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
 
         // Initial creation of squares (hardcoded)
         createSquares(leftPanel, stationObjects); // Pass the number of squares as a parameter
@@ -581,7 +580,8 @@ public class AttendantStationGUI {
         window.setLocation(x, y);
     }
 
-    public AttendantStationGUI(CentralStationLogic l) {
+    public AttendantStationGUI(MainGUI m, CentralStationLogic l) {
+    	mainGUI = m;
     	logic = l;
         int numStations = 3; // Set the initial number of stations
 

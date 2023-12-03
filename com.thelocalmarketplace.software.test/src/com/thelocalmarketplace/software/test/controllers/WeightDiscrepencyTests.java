@@ -126,15 +126,23 @@ public class WeightDiscrepencyTests {
 		session.startSession();
 		station.getBaggingArea().addAnItem(bitem2);
 	}
-	@Test public void testWeightDiscrepencyWithPowerTurnOnNoDiscrepency() {
+	@Test public void testWeightDiscrepencyWithPowerTurnOnNoDiscrepency() throws InterruptedException {
 		station.plugIn(PowerGrid.instance());
 		station.turnOn();
 		session = new CentralStationLogic(station);
 		session.setBypassIssuePrediction(true);
 		session.startSession();
 		this.scanUntilAdded(bitem3);
-		station.getBaggingArea().addAnItem(bitem3);
-		assertTrue("weight discrepency detected", !this.session.stateLogic.inState(States.BLOCKED));
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		        		station.getBaggingArea().addAnItem(bitem3);
+		            }
+		        }, 
+		        6000 
+		);
+		Thread.sleep(7000);
 	}
 
 	

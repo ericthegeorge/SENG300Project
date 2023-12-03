@@ -169,6 +169,7 @@ public class WeightLogic extends AbstractLogicDependant {
 		if (this.logic.weightLogic.checkWeightDiscrepancy()) {
 			if (!this.logic.stateLogic.inState(States.BLOCKED)) {
 				this.logic.stateLogic.gotoState(States.BLOCKED);
+				System.out.println("weight discrepancy");
 			}
 		} else {
 			this.logic.stateLogic.gotoState(States.NORMAL);
@@ -181,5 +182,23 @@ public class WeightLogic extends AbstractLogicDependant {
 		
 		
 		this.expectedWeight = this.actualWeight;
+	}
+	
+	/**Checks if the weight on the scale is different from the expected weight after a delay
+	 * @param miliseconds to delay the check
+	 */
+	public void delayedDiscrepancyCheck(int milliseconds) {
+		this.logic.stateLogic.gotoState(States.BLOCKED);
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		                if(logic.weightLogic.checkWeightDiscrepancy()) {
+		                	logic.weightLogic.handleWeightDiscrepancy();
+		                }
+		            }
+		        }, 
+		        milliseconds 
+		);
 	}
 }

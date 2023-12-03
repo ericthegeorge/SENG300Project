@@ -25,8 +25,11 @@ public class MainGUI {
     private CompletionScreenGUI completionScreen;
     private AttendantStationGUI attendantScreen;
     private CreditScreenGUI creditScreen;
-
-
+    private DebitScreenGUI debitScreen;
+    private KeyboardScreenGUI keyboardScreen;
+    private PaymentScreenGUI paymentScreen;
+    private AddItemGUI addItemScreen;
+    
 	private AbstractSelfCheckoutStation station;
     private CentralStationLogic logic;
     
@@ -58,21 +61,23 @@ public class MainGUI {
         mainPanel.setLayout(cardLayout);
 
         //initializing and adding Screens
-        startScreen = new StartScreenGUI(logic);
-        completionScreen = new CompletionScreenGUI(logic);
-        attendantScreen = new AttendantStationGUI(logic);
-        creditScreen = new CreditScreenGUI(logic);
+        startScreen = new StartScreenGUI(this, logic);
+        completionScreen = new CompletionScreenGUI(this, logic);
+        attendantScreen = new AttendantStationGUI(this, logic);
+        creditScreen = new CreditScreenGUI(this, logic);
+        debitScreen = new DebitScreenGUI(this, logic);
+        keyboardScreen = new KeyboardScreenGUI(this, logic);
+        paymentScreen = new PaymentScreenGUI(this, logic);
+        addItemScreen = new AddItemGUI(this, logic);
         mainPanel.add(startScreen.getPanel(), "start");
         mainPanel.add(completionScreen.getPanel(), "completion");
         mainPanel.add(attendantScreen.getPanel(), "attendant");
         mainPanel.add(creditScreen.getPanel(), "credit");
+        mainPanel.add(debitScreen.getPanel(), "debit");
+        mainPanel.add(keyboardScreen.getPanel(), "keyboard");
+        mainPanel.add(paymentScreen.getPanel(), "payment");
+        mainPanel.add(addItemScreen.getPanel(), "addItem");
         
-        //Initializing action listeners for all buttons
-		startScreen.getStartSessionButton().addActionListener(e -> {
-			logic.startSession();
-			getCardLayout().show(mainPanel, "credit");
-		});
-
         JButton switchButton = new JButton("Switch Screens");
         switchButton.addActionListener(new ActionListener() {
             @Override
@@ -80,6 +85,7 @@ public class MainGUI {
                 cardLayout.next(mainPanel);
             }
         });
+        
         mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
 //      mainFrame.getContentPane().add(switchButton, BorderLayout.SOUTH);
 
@@ -103,6 +109,10 @@ public class MainGUI {
 
 	public AttendantStationGUI getAttendantScreen() {
 		return attendantScreen;
+	}
+
+	public JPanel getMainPanel() {
+		return mainPanel;
 	}
 
 }

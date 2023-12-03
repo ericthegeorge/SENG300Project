@@ -20,10 +20,12 @@ public class CreditScreenGUI {
     private JFrame creditPageFrame;
     private JPanel creditPagePanel;
     private CentralStationLogic logic;
+    private MainGUI mainGUI;
     private AbstractSelfCheckoutStation station;
     private Card debit;
     
-    public CreditScreenGUI(CentralStationLogic l) {
+    public CreditScreenGUI(MainGUI m, CentralStationLogic l) {
+    	mainGUI = m;
     	logic = l;
         creditPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
         creditPagePanel = new JPanel();
@@ -40,7 +42,6 @@ public class CreditScreenGUI {
         creditPageFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         creditPageFrame.setSize(1000, 1000); 
         creditPageFrame.setContentPane(creditPagePanel);
-        creditPageFrame.setVisible(true);
     }
     
     private void addWidgets() {
@@ -82,7 +83,7 @@ public class CreditScreenGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
             	creditPageFrame.dispose();
-            	PaymentScreenGUI paymentScreen = new PaymentScreenGUI();
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
             }
         });
 

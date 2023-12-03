@@ -1,6 +1,9 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
+
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -18,8 +21,12 @@ public class PaymentScreenGUI {
     private JLabel itemsInCartLabel;
     private JLabel selectPaymentLabel;
     private JList<String> cartItemList;
+    private CentralStationLogic logic;
+    private MainGUI mainGUI;
 
-    public PaymentScreenGUI() {
+    public PaymentScreenGUI(MainGUI m, CentralStationLogic l) {
+    	mainGUI = m;
+    	logic = l;
         paymentPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
         paymentPagePanel = new JPanel();
 
@@ -28,7 +35,6 @@ public class PaymentScreenGUI {
         paymentPageFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         paymentPageFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         paymentPageFrame.setContentPane(paymentPagePanel);
-        paymentPageFrame.setVisible(true);
     }
     private void addWidgets() {
         paymentPagePanel.setLayout(new BorderLayout());
@@ -64,37 +70,7 @@ public class PaymentScreenGUI {
 
         centerPanel.add(buttonsPanel);
         
-        cashButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                CashScreenGUI cashScreen = new CashScreenGUI();
-            }
-        });
-        
-        debitButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                DebitScreenGUI debitScreen = new DebitScreenGUI();
-            }
-        });
-        
-        creditButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                CreditScreenGUI creditScreen = new CreditScreenGUI();
-            }
-        });
-        
-        // notify attendant
-        notifyAttendantButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                notifyAttendant();
-            }
-        });
+
         
         // right panel
         JPanel rightPanel = new JPanel();
@@ -126,20 +102,67 @@ public class PaymentScreenGUI {
 
         paymentPagePanel.add(centerPanel, BorderLayout.CENTER);
         
+        cashButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	getPaymentPageFrame().dispose();
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
+            }
+        });
+        
+        debitButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	getPaymentPageFrame().dispose();
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "debit");
+            }
+        });
+        
+        creditButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	getPaymentPageFrame().dispose();
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "credit");
+            }
+        });
+        
+        // notify attendant
+        notifyAttendantButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                //TODO attendantScreen.dosomething()
+            }
+        });
+        
         finishCheckoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 paymentPageFrame.dispose();
-                CompletionScreenGUI completionScreen = new CompletionScreenGUI();
+                mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "completion");
             }
         });
-       
     }
  
     private void notifyAttendant() {
         JOptionPane.showMessageDialog(paymentPageFrame, "Attendant notified. Please wait for assistance.");
     }
-    public static void main(String[] args) {
-        PaymentScreenGUI paymentScreen = new PaymentScreenGUI();
-    }
+
+	public JButton getCashButton() {
+		return cashButton;
+	}
+	public JButton getCreditButton() {
+		return creditButton;
+	}
+	public JButton getDebitButton() {
+		return debitButton;
+	}
+	public JButton getNotifyAttendantButton() {
+		return notifyAttendantButton;
+	}
+	public JFrame getPaymentPageFrame() {
+		return paymentPageFrame;
+	}
+	public JPanel getPanel() {
+		return paymentPagePanel;
+	}
 }

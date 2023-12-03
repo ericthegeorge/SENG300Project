@@ -1,6 +1,9 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
+
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -16,8 +19,15 @@ public class CashScreenGUI {
     private JTextField totalCashField;
     private Map<Float, Integer> currencyCounts;
     private JPanel currencyButtonsPanel;
+    private JButton goBackButton;
+    private MainGUI mainGUI;
+    private CentralStationLogic logic;
+    
 
-    public CashScreenGUI() {
+    public CashScreenGUI(MainGUI m, CentralStationLogic l) {
+    	mainGUI = m;
+    	logic = l;
+    	
         cashPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
         cashPagePanel = new JPanel();
         totalCashField = new JTextField(15);
@@ -29,7 +39,6 @@ public class CashScreenGUI {
         cashPageFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         cashPageFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         cashPageFrame.setContentPane(cashPagePanel);
-        cashPageFrame.setVisible(true);
     }
 
     private void addWidgets() {
@@ -58,19 +67,20 @@ public class CashScreenGUI {
         cashPagePanel.add(currencyButtonsPanel, BorderLayout.WEST);
         cashPagePanel.add(totalPanel, BorderLayout.CENTER);
 
-        JButton goBackButton = new JButton("Go back");
+        goBackButton = new JButton("Go back");
         goBackButton.setPreferredSize(new Dimension(500, 50));
-        goBackButton.addActionListener(new ActionListener() {
-            @Override
-            public void actionPerformed(ActionEvent e) {
-                cashPageFrame.dispose();
-                PaymentScreenGUI paymentScreen = new PaymentScreenGUI();
-            }
-        });
 
         // notify attendant
         JButton notifyButton = new JButton("Notify Attendant");
 
+        goBackButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                cashPageFrame.dispose();
+                mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
+            }
+        });
+        
         notifyButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -116,8 +126,8 @@ public class CashScreenGUI {
     private void notifyAttendant() {
         JOptionPane.showMessageDialog(cashPageFrame, "Attendant notified. Please wait for assistance.");
     }
-
-    public static void main(String[] args) {
-        CashScreenGUI cashScreen = new CashScreenGUI();
+    
+    public JPanel getPanel() {
+    	return cashPagePanel;
     }
 }

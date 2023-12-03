@@ -66,7 +66,7 @@ public class AddBarcodedItemController extends AbstractLogicDependant implements
     	this.logic.cartLogic.addBarcodedProductToCart(barcode);
     	this.logic.weightLogic.addExpectedWeight(barcode);
     	
-		this.logic.stateLogic.gotoState(States.BLOCKED);
+    	logic.weightLogic.delayedDiscrepancyCheck(5000);
 		System.out.println("Item added to cart. Please place scanned item in bagging area");
     }
     

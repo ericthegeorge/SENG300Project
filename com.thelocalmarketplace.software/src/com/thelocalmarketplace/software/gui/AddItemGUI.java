@@ -2,13 +2,21 @@ package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
+
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+
 import java.awt.*;
 import java.util.List;
 import java.util.ArrayList;
 
 public class AddItemGUI extends JFrame {
+	private CentralStationLogic logic;
+	private MainGUI mainGUI;
+	private JPanel mainPanel;
 
-    public AddItemGUI() {
+    public AddItemGUI(MainGUI m, CentralStationLogic l) {
+    	mainGUI = m;
+    	logic = l;
         // Set up the main frame
         setTitle("Checkout Station");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -21,7 +29,7 @@ public class AddItemGUI extends JFrame {
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
 
         // Create components
-        JPanel mainPanel = new JPanel(new BorderLayout());
+        mainPanel = new JPanel(new BorderLayout());
 
         // Define ratios for panel sizes
         double topBoxRatio = 1.0 / 10.0;
@@ -242,12 +250,9 @@ public class AddItemGUI extends JFrame {
 
         // Add the main panel to the frame
         add(mainPanel);
-
-        // Set the frame visibility
-        setVisible(true);
     }
 
-    public static void main(String[] args) {
-        SwingUtilities.invokeLater(() -> new AddItemGUI());
-    }
+	public JPanel getPanel() {
+		return mainPanel;
+	}
 }

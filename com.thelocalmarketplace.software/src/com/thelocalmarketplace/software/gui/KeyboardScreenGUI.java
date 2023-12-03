@@ -1,10 +1,15 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
+
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+
 import java.awt.*;
 
 
 public class KeyboardScreenGUI {
+	CentralStationLogic logic;
+	MainGUI mainGUI;
 	
 	// Variables for the screen
 	JFrame keyboardScreenFrame;
@@ -30,7 +35,9 @@ public class KeyboardScreenGUI {
 	
 	
 	// Constructor for the screen
-	public KeyboardScreenGUI() {
+	public KeyboardScreenGUI(MainGUI m, CentralStationLogic l) {
+		mainGUI = m;
+		logic = l;
 		keyboardScreenFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
 		keyboardScreenPanel = new JPanel();
 		keyRowOnePanel = new JPanel();
@@ -62,8 +69,6 @@ public class KeyboardScreenGUI {
 		keyboardScreenFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		keyboardScreenFrame.pack();
 		keyboardScreenFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		keyboardScreenFrame.setVisible(true);
-		
 	}
 	
 	// Adds all the buttons and organizes the layouts
@@ -642,13 +647,9 @@ public class KeyboardScreenGUI {
 		}
 		
 	}
-	
-	
-	// Just for testing screen.
-	public static void main(String[] args) {
-		KeyboardScreenGUI keyboardGUI = new KeyboardScreenGUI();
+
+	public JPanel getPanel() {
+		return keyboardScreenPanel;
 	}
-	
-	
 }
 
