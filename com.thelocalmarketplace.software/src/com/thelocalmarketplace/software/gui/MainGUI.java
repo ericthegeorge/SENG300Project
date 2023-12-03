@@ -18,8 +18,11 @@ import java.awt.event.ActionListener;
 
 public class MainGUI {
     private JFrame mainFrame;
+    private JFrame attendantFrame;
     private JPanel mainPanel;
-    private CardLayout cardLayout;
+    private JPanel attendantPanel;
+    private CardLayout mainCardLayout;
+    private CardLayout attendantCardLayout;
 
 	private StartScreenGUI startScreen;
     private CompletionScreenGUI completionScreen;
@@ -56,14 +59,12 @@ public class MainGUI {
     	logic.setGUI(this);
         mainFrame = new JFrame("Main GUI");
         mainPanel = new JPanel();
-        cardLayout = new CardLayout();
-
-        mainPanel.setLayout(cardLayout);
+        mainCardLayout = new CardLayout();
+        mainPanel.setLayout(mainCardLayout);
 
         //initializing and adding Screens
         startScreen = new StartScreenGUI(this, logic);
         completionScreen = new CompletionScreenGUI(this, logic);
-        attendantScreen = new AttendantStationGUI(this, logic);
         creditScreen = new CreditScreenGUI(this, logic);
         debitScreen = new DebitScreenGUI(this, logic);
         keyboardScreen = new KeyboardScreenGUI(this, logic);
@@ -71,32 +72,43 @@ public class MainGUI {
         addItemScreen = new AddItemGUI(this, logic);
         mainPanel.add(startScreen.getPanel(), "start");
         mainPanel.add(completionScreen.getPanel(), "completion");
-        mainPanel.add(attendantScreen.getPanel(), "attendant");
         mainPanel.add(creditScreen.getPanel(), "credit");
         mainPanel.add(debitScreen.getPanel(), "debit");
         mainPanel.add(keyboardScreen.getPanel(), "keyboard");
         mainPanel.add(paymentScreen.getPanel(), "payment");
         mainPanel.add(addItemScreen.getPanel(), "addItem");
         
+        attendantFrame = new JFrame("Attendant GUI");
+        attendantPanel = new JPanel();
+        attendantCardLayout = new CardLayout();
+        attendantPanel.setLayout(attendantCardLayout);
+        
+        attendantScreen = new AttendantStationGUI(this, logic);
+        attendantPanel.add(attendantScreen.getPanel(), "attendant");
+        
         JButton switchButton = new JButton("Switch Screens");
         switchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardLayout.next(mainPanel);
+                mainCardLayout.next(mainPanel);
             }
         });
         
         mainFrame.getContentPane().add(mainPanel, BorderLayout.CENTER);
-//      mainFrame.getContentPane().add(switchButton, BorderLayout.SOUTH);
-
         mainFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         mainFrame.pack();
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.setVisible(true);
+        
+        attendantFrame.getContentPane().add(attendantPanel, BorderLayout.CENTER);
+        attendantFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        attendantFrame.pack();
+        attendantFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+        attendantFrame.setVisible(true);
     }
     
     public CardLayout getCardLayout() {
-		return cardLayout;
+		return mainCardLayout;
 	}
 
 	public StartScreenGUI getStartScreen() {

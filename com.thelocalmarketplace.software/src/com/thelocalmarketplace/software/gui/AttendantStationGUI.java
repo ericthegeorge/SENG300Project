@@ -16,6 +16,7 @@ import java.util.Arrays;
 public class AttendantStationGUI {
 
     private static JComboBox<StationObject> comboBox;
+    private JFrame frame;
     private JPanel mainPanel;
     private CentralStationLogic logic;
     private MainGUI mainGUI;
@@ -87,10 +88,9 @@ public class AttendantStationGUI {
         SwingUtilities.invokeLater(() -> comboBox.repaint());
     }
 
-
     private void createFrame(StationObject[] stationObjects) {
 
-        JFrame frame = new JFrame("Attendant Station");
+        frame = new JFrame("Attendant Station");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
@@ -638,6 +638,7 @@ public class AttendantStationGUI {
 
         // Create an instance of AttendantStationGUI
         createFrame(stationObjects);
+        
     }
     
     public JPanel getPanel() {
