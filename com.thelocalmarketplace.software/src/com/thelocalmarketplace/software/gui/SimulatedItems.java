@@ -3,6 +3,7 @@ package com.thelocalmarketplace.software.gui;
 import java.util.ArrayList;
 import java.util.List;
 
+import java.math.BigDecimal;
 import com.jjjwelectronics.Item;
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
@@ -10,6 +11,7 @@ import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
 public class SimulatedItems {
@@ -29,6 +31,73 @@ public class SimulatedItems {
 	}
 	
 	public static void instantiatePLUCodedItems() {
+		// initialize database
+		// Create PLU codes for items
+		PriceLookUpCode PLUapple = new PriceLookUpCode("1000");
+		PriceLookUpCode PLUavocado = new PriceLookUpCode("1001");
+		PriceLookUpCode PLUasparagus = new PriceLookUpCode("1002");
+		PriceLookUpCode PLUblueberries = new PriceLookUpCode("1003");
+		PriceLookUpCode PLUbeets = new PriceLookUpCode("1004");
+		PriceLookUpCode PLUcelery = new PriceLookUpCode("1005");
+		PriceLookUpCode PLUendive = new PriceLookUpCode("1006");
+		PriceLookUpCode PLUgrapes = new PriceLookUpCode("1007");
+		PriceLookUpCode PLUjicama = new PriceLookUpCode("1008");
+		PriceLookUpCode PLUkale = new PriceLookUpCode("1009");
+		PriceLookUpCode PLUlettuce = new PriceLookUpCode("1010");
+		PriceLookUpCode PLUmangos = new PriceLookUpCode("1011");
+		PriceLookUpCode PLUgreenpeppers = new PriceLookUpCode("1012");
+		PriceLookUpCode PLUonions = new PriceLookUpCode("1013");
+		PriceLookUpCode PLUredpeppers = new PriceLookUpCode("1014");
+		PriceLookUpCode PLUradishes = new PriceLookUpCode("1015");
+		PriceLookUpCode PLUshallots = new PriceLookUpCode("1016");
+		PriceLookUpCode PLUspinach = new PriceLookUpCode("1017");
+		PriceLookUpCode PLUtomatoes = new PriceLookUpCode("1018");
+		PriceLookUpCode PLUyams = new PriceLookUpCode("1019");
+		PriceLookUpCode PLUwatermelon = new PriceLookUpCode("1020");
+		
+		// Create the PLU coded items
+		PLUCodedItem apple = new PLUCodedItem(PLUapple, new Mass(new BigDecimal(50)));
+		PLUCodedItem avocado = new PLUCodedItem(PLUavocado, new Mass(new BigDecimal(15)));
+		PLUCodedItem asparagus = new PLUCodedItem(PLUasparagus, new Mass(new BigDecimal(150)));
+		PLUCodedItem blueberries = new PLUCodedItem(PLUblueberries, new Mass(new BigDecimal(250)));
+		PLUCodedItem beets = new PLUCodedItem(PLUbeets, new Mass(new BigDecimal(450)));
+		PLUCodedItem celery = new PLUCodedItem(PLUcelery, new Mass(new BigDecimal(750)));
+		PLUCodedItem endive = new PLUCodedItem(PLUendive, new Mass(new BigDecimal(300)));
+		PLUCodedItem grapes = new PLUCodedItem(PLUgrapes, new Mass(new BigDecimal(425)));
+		PLUCodedItem jicama = new PLUCodedItem(PLUjicama, new Mass(new BigDecimal(600)));
+		PLUCodedItem kale = new PLUCodedItem(PLUkale, new Mass(new BigDecimal(125)));
+		PLUCodedItem lettuce = new PLUCodedItem(PLUlettuce, new Mass(new BigDecimal(325)));
+		PLUCodedItem mangos = new PLUCodedItem(PLUmangos, new Mass(new BigDecimal(800)));
+		PLUCodedItem greenpeppers = new PLUCodedItem(PLUgreenpeppers, new Mass(new BigDecimal(500)));
+		PLUCodedItem onions = new PLUCodedItem(PLUonions, new Mass(new BigDecimal(900)));
+		PLUCodedItem redpeppers = new PLUCodedItem(PLUredpeppers, new Mass(new BigDecimal(350)));
+		PLUCodedItem radishes = new PLUCodedItem(PLUradishes, new Mass(new BigDecimal(400)));
+		PLUCodedItem shallots = new PLUCodedItem(PLUshallots, new Mass(new BigDecimal(200)));
+		PLUCodedItem spinach = new PLUCodedItem(PLUspinach, new Mass(new BigDecimal(450)));
+		PLUCodedItem tomatoes = new PLUCodedItem(PLUtomatoes, new Mass(new BigDecimal(800)));
+		PLUCodedItem yams = new PLUCodedItem(PLUyams, new Mass(new BigDecimal(950)));
+		PLUCodedItem watermelon = new PLUCodedItem(PLUwatermelon, new Mass(new BigDecimal(2550)));
+		
+		simulatedItems.add(apple);
+		simulatedItems.add(avocado);
+		simulatedItems.add(asparagus);
+		simulatedItems.add(blueberries);
+		simulatedItems.add(beets);
+		simulatedItems.add(celery);
+		simulatedItems.add(endive);
+		simulatedItems.add(grapes);
+		simulatedItems.add(jicama);
+		simulatedItems.add(kale);
+		simulatedItems.add(lettuce);
+		simulatedItems.add(mangos);
+		simulatedItems.add(greenpeppers);
+		simulatedItems.add(onions);
+		simulatedItems.add(redpeppers);
+		simulatedItems.add(radishes);
+		simulatedItems.add(shallots);
+		simulatedItems.add(tomatoes);
+		simulatedItems.add(yams);
+		simulatedItems.add(watermelon);
 		
 		
 	}
@@ -39,6 +108,7 @@ public class SimulatedItems {
 		Numeral[] barcode_numeral_milk = new Numeral[] {Numeral.three, Numeral.two, Numeral.three};
 		Numeral[] barcode_numeral_bread = new Numeral[] {Numeral.three, Numeral.three, Numeral.three};
 
+		
 		Barcode barcode_ham = new Barcode(barcode_numeral_ham);
 		Barcode barcode_milk = new Barcode(barcode_numeral_milk);
 		Barcode barcode_bread = new Barcode(barcode_numeral_bread);
