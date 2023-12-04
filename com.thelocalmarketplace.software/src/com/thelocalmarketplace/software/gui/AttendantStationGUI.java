@@ -29,7 +29,8 @@ public class AttendantStationGUI {
     // Fake class to represent Station objects
     class StationObject {
         private int stationNumber;
-        private Map<Character, Color> circleColors; // Map to store colors for circles
+        private Map<Character, Color> circleColors; // Map to store colors for circles\
+
 
         private boolean isEnabled;
 
@@ -110,6 +111,125 @@ public class AttendantStationGUI {
         selectedStation.setCircleColorRed('H');
 
         SwingUtilities.invokeLater(() -> comboBox.repaint());
+    }
+    
+    private static void createSquares(JPanel panel, StationObject[] stationObjects) {
+
+        panel.removeAll(); // Clear existing components
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(20, 20, 20, 20); // Increased padding between components
+
+        int rows = (int) Math.ceil((double) stationObjects.length / 4);
+
+        for (int i = 0; i < stationObjects.length; i++) {
+            JPanel square = new JPanel(new BorderLayout());
+            square.setPreferredSize(new Dimension(260, 220)); // Increased size
+
+            // Set the default background color of the square to blue
+            square.setBackground(Color.BLUE);
+
+            // Add a switch to enable/disable the station
+            JToggleButton enableSwitch = new JToggleButton("Enable Station");
+            enableSwitch.setSelected(stationObjects[i].isEnabled());
+            int finalI1 = i;
+            enableSwitch.addActionListener(e -> {
+                stationObjects[finalI1].setEnabled(enableSwitch.isSelected());
+            });
+
+            // Add a "Solve" button below the square
+            JButton solveButton = new JButton("Solve Weight");
+            solveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    solveWeightDiscrepancy();
+                }
+            });
+
+            Font smallFont = new Font(solveButton.getFont().getName(), Font.BOLD, 11); // You can adjust the size (12 in this case)
+            solveButton.setFont(smallFont);
+
+            square.add(solveButton, BorderLayout.EAST);
+
+            // Add the enableSwitch to the top of the square
+            square.add(enableSwitch, BorderLayout.NORTH);
+
+            // Center the square in the panel using GridBagConstraints
+            gbc.gridx = i % 4;
+            gbc.gridy = i / 4;
+
+            // Add labeled lights under the square
+            JPanel lightsPanel = new JPanel();
+            GridLayout lightsLayout = new GridLayout(1, 4);
+            lightsLayout.setHgap(10); // Set horizontal gap between lights
+            lightsPanel.setLayout(lightsLayout);
+
+            for (char label : new char[]{'I', 'P', 'C', 'B', 'S', 'H'}) {
+                int finalI = i;
+                JPanel light = new JPanel(new GridBagLayout()) {
+                    @Override
+                    protected void paintComponent(Graphics g) {
+                        super.paintComponent(g);
+                        Graphics2D g2d = (Graphics2D) g.create();
+                        int diameter = Math.min(getWidth() - 4, getHeight() - 4); // Adjusted diameter
+                        int x = (getWidth() - diameter) / 2;
+                        int y = (getHeight() - diameter) / 2;
+                        Ellipse2D.Double ellipse = new Ellipse2D.Double(x, y, diameter, diameter);
+
+                        // Set the color of lights based on the color stored in the StationObject
+                        g2d.setColor(stationObjects[finalI].getCircleColor(label));
+
+                        g2d.fill(ellipse);
+                        g2d.dispose();
+                    }
+
+                    @Override
+                    public Dimension getPreferredSize() {
+                        return new Dimension(60, 30); // Increased size of lights
+                    }
+                };
+
+                JLabel lightLabel = new JLabel(String.valueOf(label));
+                lightLabel.setForeground(Color.BLACK); // Set text color to black
+
+                light.add(lightLabel, new GridBagConstraints());
+
+                lightsPanel.add(light);
+            }
+
+            square.add(lightsPanel, BorderLayout.SOUTH);
+
+            // Add a label with the text "Station #" and the current number
+            JLabel label = new JLabel("Station #" + stationObjects[i].getStationNumber());
+            label.setForeground(Color.WHITE); // Set text color to white
+            label.setHorizontalAlignment(JLabel.CENTER); // Center align the text
+
+            square.add(label, BorderLayout.CENTER);
+
+            // Set a custom font for the "Station #" text with a larger size
+            Font stationFont = new Font("Arial", Font.BOLD, 30); // Change font and size as needed
+            label.setFont(stationFont);
+
+            panel.add(square, gbc);
+        }
+
+        // Add empty panels to fill the remaining space
+        for (int i = stationObjects.length; i < rows * 4; i++) {
+            JPanel emptySquare = new JPanel();
+            emptySquare.setPreferredSize(new Dimension(260, 220)); // Adjusted for larger size
+            emptySquare.setBackground(Color.LIGHT_GRAY); // Set background color for empty squares
+            panel.add(emptySquare, gbc);
+        }
+
+        panel.revalidate(); // Refresh the panel
+        panel.repaint(); // Repaint the panel
+    }
+    
+    private static void solveWeightDiscrepancy() {
+        // Add your logic to solve the weight discrepancy for the given station
+        // You can access the station object and perform necessary actions
+        // For demonstration purposes, print a message
+        //System.out.println("Solving weight discrepancy for Station #" + station.getStationNumber());
     }
 
     private void createFrame(StationObject[] stationObjects) {
@@ -239,6 +359,7 @@ public class AttendantStationGUI {
     private static void updateComboBoxOptions(StationObject[] stationObjects) {
         comboBox.setModel(new DefaultComboBoxModel<>(stationObjects));
     }
+
 
     // Method to create squares based on the given array of StationObjects
     private void createSquares(JPanel panel, StationObject[] stationObjects) {
@@ -730,5 +851,6 @@ public class AttendantStationGUI {
 	public JPanel getPanel() {
 		return mainPanel;
 	}
+
 
 }
