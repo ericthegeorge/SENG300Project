@@ -3,6 +3,7 @@ package com.thelocalmarketplace.software.gui;
 import javax.swing.*;
 
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -73,7 +74,7 @@ public class PaymentScreenGUI {
 
         
         // right panel
-	JPanel rightPanel = new JPanel();
+        JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BorderLayout());
 
         finishCheckoutButton = new JButton("Finish Checkout");
@@ -118,7 +119,8 @@ public class PaymentScreenGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
             	getPaymentPageFrame().dispose();
-            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
+                logic.selectPaymentMethod(PaymentMethods.CASH);
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "cash");
             }
         });
         
@@ -126,6 +128,7 @@ public class PaymentScreenGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
             	getPaymentPageFrame().dispose();
+                logic.selectPaymentMethod(PaymentMethods.DEBIT);
             	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "debit");
             }
         });
@@ -134,7 +137,16 @@ public class PaymentScreenGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
             	getPaymentPageFrame().dispose();
+                logic.selectPaymentMethod(PaymentMethods.CREDIT);
             	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "credit");
+            }
+        });
+        
+        backToCartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	getPaymentPageFrame().dispose();
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "addItem");
             }
         });
         

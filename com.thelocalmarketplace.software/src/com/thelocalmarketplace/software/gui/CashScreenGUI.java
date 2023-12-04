@@ -2,12 +2,17 @@ package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
 
+import com.tdc.CashOverloadException;
+import com.tdc.DisabledException;
+import com.tdc.banknote.Banknote;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -48,7 +53,7 @@ public class CashScreenGUI {
         currencyButtonsPanel.setLayout(new GridLayout(0, 1));
 
         // buttons for bills and coins
-        float[] currencyValues = {100.0f, 50.0f, 20.0f, 10.0f, 5.0f, 2.0f, 1.0f, 0.25f, 0.10f, 0.05f};
+        float[] currencyValues = {100f, 50f, 20f, 10f, 5f, 2f, 1f, 0.25f, 0.10f, 0.05f};
         for (float value : currencyValues) {
             addButton(value);
         }
@@ -101,6 +106,14 @@ public class CashScreenGUI {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	if(value>=5) {
+            		try {
+            			System.out.println(value);
+						logic.hardware.getBanknoteInput().receive(new Banknote(Currency.getInstance("CAD"), new BigDecimal(value)));
+					} catch (DisabledException | CashOverloadException e1) {
+						e1.printStackTrace();
+					}
+            	}
                 handleCurrencyInsertion(value);
             }
         });

@@ -91,7 +91,6 @@ public class SimulatedItems {
 		 yams_description =  "yams (PLU:"+PLUyams+")";
 		 watermelon_description =  "watermelon (PLU:"+PLUwatermelon+")";
 
-
 		// Create the PLU coded products
 		PLUCodedProduct apple_prod = new PLUCodedProduct(PLUapple, apple_description, 6);
 		PLUCodedProduct avocado_prod = new PLUCodedProduct(PLUavocado, avocado_description, 3);

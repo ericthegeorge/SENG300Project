@@ -204,7 +204,7 @@ public class CentralStationLogic {
 			throw new NullPointerException("Hardware");
 		}
 		this.hardware = hardware;
-		
+
 		this.sessionStarted = false;
 		this.paymentMethod = PaymentMethods.NONE;
 		
@@ -212,7 +212,7 @@ public class CentralStationLogic {
         this.selectLanguageLogic = new SelectLanguageLogic(this, "English");
         
 		// Reference to logic objects
-		this.cartLogic = new CartLogic();
+		this.cartLogic = new CartLogic(this);
 		this.weightLogic = new WeightLogic(this);
 		this.stateLogic = new StateLogic(this);
 

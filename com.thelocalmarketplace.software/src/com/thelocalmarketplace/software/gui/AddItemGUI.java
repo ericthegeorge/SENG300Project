@@ -10,6 +10,7 @@ import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 import java.awt.*;
 import java.util.List;
@@ -20,6 +21,8 @@ public class AddItemGUI extends JFrame {
 	private MainGUI mainGUI;
 	private JPanel mainPanel;
 	private JTextArea errorTextArea;
+	private JTextArea weightTextArea;
+	private JTextArea costTextArea;
 	DefaultListModel<String> cartList;
 	DefaultListModel<String> baggingAreaList;
 
@@ -116,7 +119,7 @@ public class AddItemGUI extends JFrame {
        
 	   float totalCost = 0;
 	   String costTxt1 = "TOTAL COST ($): ";
-	   JTextArea costTextArea = new JTextArea(costTxt1 + String.valueOf(totalCost));
+	   costTextArea = new JTextArea(costTxt1 + String.valueOf(totalCost));
 	   costTextArea.setEditable(false);
 	   costTextArea.setFont(new Font("Arial", Font.PLAIN, 60));
 	   costTextArea.setBackground(Color.WHITE);
@@ -135,8 +138,9 @@ public class AddItemGUI extends JFrame {
 	   bottomLowLeftBox.add(errorTextArea);
 	   
 	   float totalWeight = 0;
-	   String weightTxt1 = "WEIGHT (kg): ";
-	   JTextArea weightTextArea = new JTextArea(weightTxt1 + String.valueOf(totalWeight));
+	   String weightTxt1 = "The weight of added PLU  Items will appear here.";
+	   weightTextArea = new JTextArea(weightTxt1);
+	   weightTextArea.setLineWrap(true);
 	   weightTextArea.setEditable(false);
 	   weightTextArea.setFont(new Font("Arial", Font.PLAIN, 35));
 	   weightTextArea.setBackground(Color.WHITE);
@@ -146,6 +150,10 @@ public class AddItemGUI extends JFrame {
 	   JButton payButton = new JButton("Pay");
 	   payButton.setFont(new Font("Arial", Font.PLAIN, 50)); // Set a larger font size
 	   bottomLowRightBox.add(payButton);
+       payButton.addActionListener(e -> {
+    	   logic.stateLogic.gotoState(States.CHECKOUT);
+    	   mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
+		});
 
         // Upper box split into 3 equally sized components
         JPanel upperInnerBox = new JPanel(new GridLayout(1, 3));
@@ -189,9 +197,17 @@ public class AddItemGUI extends JFrame {
     		//button.setPreferredSize(ButtonSize);
             buttonPanel.add(button);
         }
+
+         // Add another list element to the right
+         baggingAreaList = new DefaultListModel<>();
+         JList<String> baggingAreaObjt = new JList<>(baggingAreaList);
+         baggingAreaObjt.setBorder(BorderFactory.createCompoundBorder(
+                 new EmptyBorder(20, 20, 20, 20),
+                 BorderFactory.createLineBorder(Color.BLACK)
+         ));
+         baggingAreaObjt.setFont(new Font("Arial", Font.PLAIN, 26));
         
         JButton scanItemButton = (JButton) buttonPanel.getComponent(0);
-
         scanItemButton.addActionListener(e -> {
             String selectedItem = cartListObjt.getSelectedValue();
 			for(Item i : mainGUI.getItemsInCart()) {
@@ -220,25 +236,20 @@ public class AddItemGUI extends JFrame {
         JButton addToBaggingAreaButton = (JButton) buttonPanel.getComponent(3);
         addToBaggingAreaButton.addActionListener(e -> {
             String selectedItem = cartListObjt.getSelectedValue();
-			for(Item i : mainGUI.getItemsInCart()) {
-		       	if (i instanceof BarcodedItem) {
-	        		BarcodedItem bitem = (BarcodedItem) i;
-	            	BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
-	                if(bproduct.getDescription().equals(selectedItem)) {
-	                	((DefaultListModel) cartListObjt.getModel()).remove(cartListObjt.getSelectedIndex());
-		                logic.hardware.getBaggingArea().addAnItem(bitem);
-	                	baggingAreaList.addElement(bproduct.getDescription());
-	                }
-	        	} else if (i instanceof PLUCodedItem) {
-	        		PLUCodedItem pitem = (PLUCodedItem) i;
-	        		PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
-	                if(pproduct.getDescription().equals(selectedItem)) {
-	                	((DefaultListModel) cartListObjt.getModel()).remove(cartListObjt.getSelectedIndex());
-		                logic.hardware.getBaggingArea().addAnItem(pitem);
-	                	baggingAreaList.addElement(pproduct.getDescription());
-	                }
-	        	}
-			}
+        	((DefaultListModel) cartListObjt.getModel()).remove(cartListObjt.getSelectedIndex());
+        	baggingAreaList.addElement(selectedItem);
+        	mainGUI.getItemsInCart().remove(mainGUI.getItemFromDescription(selectedItem));
+        	mainGUI.getItemsInBaggingArea().add(mainGUI.getItemFromDescription(selectedItem));
+            logic.hardware.getBaggingArea().addAnItem(mainGUI.getItemFromDescription(selectedItem));
+		});
+        
+        JButton moveBackToCartButton = (JButton) buttonPanel.getComponent(4);
+        moveBackToCartButton.addActionListener(e -> {
+            String selectedItem = baggingAreaObjt.getSelectedValue();
+			((DefaultListModel) baggingAreaObjt.getModel()).remove(baggingAreaObjt.getSelectedIndex());
+			logic.hardware.getBaggingArea().removeAnItem(mainGUI.getItemFromDescription(selectedItem));
+			mainGUI.getItemsInCart().add(mainGUI.getItemFromDescription(selectedItem));
+			cartList.addElement(selectedItem);
 		});
         
         // Add panels to the bottomHighBox
@@ -248,7 +259,7 @@ public class AddItemGUI extends JFrame {
  	   bottomHighLeftBox.add(removeItemButton);
  	   
  	   removeItemButton.addActionListener(e -> {
-            String selectedItem = cartListObjt.getSelectedValue();
+            String selectedItem = baggingAreaObjt.getSelectedValue();
             ArrayList<Item> snapshotOfCart = new ArrayList<Item>(mainGUI.getItemsInCart());
  			for(Item i : snapshotOfCart) {
 	            if(mainGUI.getDescriptionOfItem(i).equals(selectedItem)) {
@@ -258,7 +269,7 @@ public class AddItemGUI extends JFrame {
  			}
  		});
 
- 	   JButton addOwnBagsButton = new JButton("Add own Bags");
+       JButton addOwnBagsButton = new JButton("Add own Bags");
  	   addOwnBagsButton.setFont(new Font("Arial", Font.PLAIN, 30)); // Set a larger font size
  	   bottomHighLeftBox.add(addOwnBagsButton);
          
@@ -270,14 +281,6 @@ public class AddItemGUI extends JFrame {
         // Add the button panel to the upper box
         upperInnerBox.add(buttonPanel);
 
-        // Add another list element to the right
-        baggingAreaList = new DefaultListModel<>();
-        JList<String> baggingAreaObjt = new JList<>(baggingAreaList);
-        baggingAreaObjt.setBorder(BorderFactory.createCompoundBorder(
-                new EmptyBorder(20, 20, 20, 20),
-                BorderFactory.createLineBorder(Color.BLACK)
-        ));
-        baggingAreaObjt.setFont(new Font("Arial", Font.PLAIN, 26));
         
         JScrollPane rightTopScrollPane = new JScrollPane(baggingAreaObjt);
         upperInnerBox.add(upperRightBox);
@@ -327,4 +330,12 @@ public class AddItemGUI extends JFrame {
 	private void createTextSearchWindow() {
 		KeypadScreenGUI keypad = new KeypadScreenGUI(mainGUI, logic);
     }
+
+	public JTextArea getWeightTextArea() {
+		return weightTextArea;
+	}
+
+	public JTextArea getCostTextArea() {
+		return costTextArea;
+	}
 }

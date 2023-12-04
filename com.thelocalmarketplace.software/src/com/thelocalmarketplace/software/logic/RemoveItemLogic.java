@@ -79,7 +79,8 @@ public class RemoveItemLogic extends AbstractLogicDependant{
 	    	this.logic.weightLogic.removeExpectedWeight(item.getBarcode());
 	    	this.logic.stateLogic.gotoState(States.BLOCKED);
 	    	System.out.println("Item removed from cart. Please remove the item from the bagging area");
-    	}	
+	    	logic.weightLogic.delayedDiscrepancyCheck(5000);
+    	}
 	}
 	
 	/**
@@ -159,6 +160,7 @@ public class RemoveItemLogic extends AbstractLogicDependant{
 	    	this.logic.weightLogic.removeExpectedWeight(pluItemForRemoval);
 	    	this.logic.stateLogic.gotoState(States.BLOCKED);
 	    	System.out.println("Item removed from cart. Please remove the item from the bagging area");
+	    	logic.weightLogic.delayedDiscrepancyCheck(5000);
     	}
 	}
 	

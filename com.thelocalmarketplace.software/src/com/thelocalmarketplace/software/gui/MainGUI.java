@@ -4,6 +4,7 @@ import javax.swing.*;
 
 import com.jjjwelectronics.Item;
 import com.jjjwelectronics.scanner.BarcodedItem;
+import com.tdc.banknote.Banknote;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
@@ -21,7 +22,9 @@ import powerutility.PowerGrid;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Currency;
 
 public class MainGUI {
     private JFrame mainFrame;
@@ -32,6 +35,7 @@ public class MainGUI {
     private CardLayout attendantCardLayout;
     
     private ArrayList<Item> itemsInCart = new ArrayList<Item>();
+    private ArrayList<Item> itemsInBaggingArea = new ArrayList<Item>();
 
 	private StartScreenGUI startScreen;
     private CompletionScreenGUI completionScreen;
@@ -41,13 +45,17 @@ public class MainGUI {
     private VisualCatalogueScreenGUI keyboardScreen;
     private PaymentScreenGUI paymentScreen;
     private AddItemGUI addItemScreen;
+    private CashScreenGUI cashScreen;
     
 	private AbstractSelfCheckoutStation station;
     private CentralStationLogic logic;
     
     public static void main(String[] args) {
     	AbstractSelfCheckoutStation.resetConfigurationToDefaults();
+        configureCurrency();
         AbstractSelfCheckoutStation station = new SelfCheckoutStationGold();
+
+        
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		station.plugIn(PowerGrid.instance());
@@ -84,6 +92,7 @@ public class MainGUI {
         keyboardScreen = new VisualCatalogueScreenGUI(this, logic);
         paymentScreen = new PaymentScreenGUI(this, logic);
         addItemScreen = new AddItemGUI(this, logic);
+        cashScreen = new CashScreenGUI(this, logic);
         mainPanel.add(startScreen.getPanel(), "start");
         mainPanel.add(completionScreen.getPanel(), "completion");
         mainPanel.add(creditScreen.getPanel(), "credit");
@@ -91,6 +100,7 @@ public class MainGUI {
         mainPanel.add(keyboardScreen.getPanel(), "keyboard");
         mainPanel.add(paymentScreen.getPanel(), "payment");
         mainPanel.add(addItemScreen.getPanel(), "addItem");
+        mainPanel.add(cashScreen.getPanel(), "cash");
         
         attendantFrame = new JFrame("Attendant GUI");
         attendantPanel = new JPanel();
@@ -119,6 +129,32 @@ public class MainGUI {
         mainFrame.pack();
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.setVisible(true);
+    }
+    
+    static public void configureCurrency() {
+		BigDecimal twoDollar = new BigDecimal(2);
+		BigDecimal dollar = new BigDecimal(1);
+		BigDecimal halfDollar = new BigDecimal(0.50);
+		BigDecimal quarter = new BigDecimal(0.25);
+		BigDecimal dime = new BigDecimal(0.10);
+		BigDecimal nickel = new BigDecimal(0.05);
+		BigDecimal fiveDollar = new BigDecimal(5);
+		BigDecimal tenDollar = new BigDecimal(10);
+		BigDecimal twentyDollar = new BigDecimal(20);
+		BigDecimal fiftyDollar = new BigDecimal(50);
+		BigDecimal hundredDollar = new BigDecimal(100);
+		BigDecimal[] coinList = new BigDecimal[] {nickel, dime, quarter, halfDollar, dollar, twoDollar};
+		BigDecimal[] noteList = new BigDecimal[] {fiveDollar, tenDollar, twentyDollar, fiftyDollar, hundredDollar};
+		
+		Currency cad = Currency.getInstance("CAD"); 
+		
+		AbstractSelfCheckoutStation.configureCurrency(cad);
+		AbstractSelfCheckoutStation.configureCoinDenominations(coinList);
+		AbstractSelfCheckoutStation.configureBanknoteDenominations(noteList);
+		AbstractSelfCheckoutStation.configureBanknoteStorageUnitCapacity(10);
+		AbstractSelfCheckoutStation.configureCoinStorageUnitCapacity(10);
+		AbstractSelfCheckoutStation.configureCoinTrayCapacity(5);
+		AbstractSelfCheckoutStation.configureCoinDispenserCapacity(5);
     }
     
     public void addItemsToCart() {
@@ -202,6 +238,10 @@ public class MainGUI {
 
 	public AddItemGUI getAddItemScreen() {
 		return addItemScreen;
+	}
+
+	public ArrayList<Item> getItemsInBaggingArea() {
+		return itemsInBaggingArea;
 	}
 
 }

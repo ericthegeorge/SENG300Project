@@ -1,5 +1,8 @@
 package com.thelocalmarketplace.software.controllers.item;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Mass.MassDifference;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
@@ -78,7 +81,6 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 		this.logic.stateLogic.gotoState(States.BLOCKED);
 		isAwaitingPLUMeasurement = true;
 		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Please place PLU item ("+priceLookUpCode+") in the bagging area.");
-		logic.weightLogic.delayedDiscrepancyCheck(5000);
 	}
 	
 	/**
@@ -101,9 +103,9 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 		
 		PLUCodedItem item = new PLUCodedItem(priceLookUpCode, itemMass);
 		
-		long itemPrice = getPLUCodedItemPrice(item);
-		
+		double itemPrice = getPLUCodedItemPrice(item);
 		this.logic.cartLogic.addPLUCodedItemToCart(item, itemPrice);
+		logic.getMainGUI().getAddItemScreen().getWeightTextArea().setText("Weight of added PLU Item ("+priceLookUpCode+"): "+itemMass.inGrams()+"g");
 		
 		// expected weight is updated so that checkWeightDiscrepancy() in WeightLogic does not incorrectly return true
 		this.logic.weightLogic.addExpectedWeight(itemMass);
@@ -114,9 +116,13 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 	 * @param item - PLU coded item to get price of
 	 * @return - price of the PLU coded item
 	 */
-	public long getPLUCodedItemPrice(PLUCodedItem item) {
+	public double getPLUCodedItemPrice(PLUCodedItem item) {
 		PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(item.getPLUCode());
-		long itemPrice = product.getPrice() * (item.getMass().inMicrograms().longValue() / 1000000000);
+		double itemPrice = (product.getPrice()*item.getMass().inGrams().doubleValue()) / 1000;
+	    BigDecimal bd = BigDecimal.valueOf(itemPrice);
+	    bd = bd.setScale(2, RoundingMode.HALF_UP);
+	    itemPrice = bd.doubleValue();
+	    System.out.println(itemPrice);
 		return itemPrice;
 	}
 

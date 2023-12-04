@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.software.controllers.pay.CardReaderController;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.CardMethods;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
 
 // need help to connect the software to this
 
@@ -41,7 +43,8 @@ public class DebitScreenGUI {
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardReaderController.aCardHasBeenInserted();
+
+
             }
         });
 

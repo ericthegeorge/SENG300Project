@@ -55,7 +55,6 @@ public class WeightDiscrepancyController extends AbstractLogicDependant implemen
 			else if (this.logic.removeItemLogic.getAwaitingPLURemoval()) {
 				this.logic.removeItemLogic.removePLUCodedItem(this.logic.weightLogic.getActualWeight(), mass);
 			}
-			
 			this.logic.weightLogic.updateActualWeight(mass);
 			this.logic.weightLogic.handleWeightDiscrepancy();
 		} else {
