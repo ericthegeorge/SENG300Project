@@ -134,7 +134,7 @@ public class RemoveItemLogic extends AbstractLogicDependant{
             
             if (item instanceof PLUCodedItem) {
             	PLUCodedItem PLUCodedItem = (PLUCodedItem) item;
-            	if (priceLookUpCode == PLUCodedItem.getPLUCode() && itemMass == PLUCodedItem.getMass()) {
+            	if (priceLookUpCode == PLUCodedItem.getPLUCode() && itemMass.equals(PLUCodedItem.getMass())) {
             		pluItemForRemoval = PLUCodedItem;
             		break;
             	}
