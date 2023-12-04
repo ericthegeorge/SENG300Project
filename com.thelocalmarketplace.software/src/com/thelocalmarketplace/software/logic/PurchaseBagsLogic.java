@@ -90,7 +90,7 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 		if (!logic.isSessionStarted()) throw new InvalidStateSimulationException("Session has not started");
 		if (!logic.stateLogic.inState(States.ADDBAGS)) throw new InvalidStateSimulationException("Cannot end ADDBAGS state when not in ADDBAGS state");
 		
-		Mass totalBagMass= null;  
+		Mass totalBagMass= new Mass(0);  
 		for (int i = 0;i<numberOfBags;i++ )
 			totalBagMass.sum(bagInstance.getMass());
 		
@@ -98,7 +98,7 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 		if (logic.weightLogic.getTotalBagMass().compareTo(totalBagMass) < 0 || this.approvedBagging) {
 			// If bag weight is under the allowed weight
 			this.logic.weightLogic.overrideDiscrepancy();
-			this.approvedBagging = false;
+			this.approvedBagging = true;
 			this.logic.attendantLogic.setBaggingDiscrepency(false);
 			
 			// TODO GUI: 
