@@ -5,19 +5,24 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jjjwelectronics.Item;
 import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
+import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
 import powerutility.PowerGrid;
 
@@ -83,6 +88,32 @@ public class CartLogicTests {
 		
 		logic = new CentralStationLogic(station);
 	}
+	
+	public BarcodedItem testMethodToFindBarcodedItemInCart(Barcode barcode) {
+		Map<Item, Integer> cartItems = this.logic.cartLogic.getCart();
+		
+		if (barcode == null) {
+			throw new NullPointerException("Price lookup code is null");
+		}
+		else if (!this.logic.isSessionStarted()) {
+			throw new InvalidStateSimulationException("The session has not been started");
+		}
+		
+		for (Entry<Item, Integer> entry : cartItems.entrySet()) {
+            Item item = entry.getKey();
+            
+            if (item instanceof BarcodedItem) {
+            	BarcodedItem barcodedItem = (BarcodedItem) item;
+            	if (barcode == barcodedItem.getBarcode()) {
+            		return barcodedItem;
+            	}
+            }
+		}
+		
+		throw new InvalidStateSimulationException("Product not in cart");
+		
+	}
+	
 	@Test public void updatePriceOfCartTest() {
 		BigDecimal price1 = new BigDecimal(50.0);
 		logic.cartLogic.updateBalance(price1);
@@ -101,7 +132,7 @@ public class CartLogicTests {
 		logic.cartLogic.addBarcodedProductToCart(barcode);
 		logic.cartLogic.addBarcodedProductToCart(barcode2);
 		assertTrue("price of cart was not updated correctly after adding to cart", logic.cartLogic.getBalanceOwed().equals(expected));
-	}@Test public void addMultipleProductToCartTestGetTotalPrice() {
+	}@Test public void addMultipleItemsToCartTestGetTotalPrice() {
 		BigDecimal price1 = new BigDecimal(5);
 		BigDecimal price2 = new BigDecimal((long)1.00);
 		BigDecimal expected = price1.add(price2);
@@ -111,16 +142,20 @@ public class CartLogicTests {
 	}
 	
 	@Test
-	public void testRemoveProductFromCart() {
+	public void testRemoveBarcodedItemFromCart() {
 		logic.cartLogic.addBarcodedProductToCart(barcode);
 		assertEquals(1, logic.cartLogic.getCart().size());
-		logic.cartLogic.removeProductFromCart(product);
+		
+		BarcodedItem bitem = testMethodToFindBarcodedItemInCart(barcode);
+		
+		logic.cartLogic.removeProductFromCart(bitem);
 		assertEquals(0, logic.cartLogic.getCart().size());
 	}
 	
 	@Test(expected = SimulationException.class)
-	public void testRemoveNonExistentProductFromCart() {
-		logic.cartLogic.removeProductFromCart(product);
+	public void testRemoveNonExistentBarcodedItemFromCart() {
+		BarcodedItem bitem = testMethodToFindBarcodedItemInCart(barcode);
+		logic.cartLogic.removeProductFromCart(bitem);
 	}
 	
 	@Test(expected = SimulationException.class)
