@@ -229,7 +229,7 @@ public class AddItemGUI extends JFrame {
         List<String> stringList = new ArrayList<>();
         stringList.add("Scan");
         stringList.add("PLU Code");
-        stringList.add("Visual Catalogue");
+        stringList.add("Visual Catalouge");
         stringList.add("Add to Bagging Area");
         stringList.add("Move back to Cart");
 
@@ -314,6 +314,15 @@ public class AddItemGUI extends JFrame {
 	        	}
  			}
  		});
+
+ 	   JButton addOwnBagsButton = new JButton("Add own Bags");
+ 	   addOwnBagsButton.setFont(new Font("Arial", Font.PLAIN, 30)); // Set a larger font size
+ 	   bottomHighLeftBox.add(addOwnBagsButton);
+         
+
+ 	   JButton dontBagItemButton = new JButton("Dont bag item");
+ 	   dontBagItemButton.setFont(new Font("Arial", Font.PLAIN, 30)); // Set a larger font size
+ 	   bottomHighLeftBox.add(dontBagItemButton);
         
         // Add the button panel to the upper box
         upperInnerBox.add(buttonPanel);

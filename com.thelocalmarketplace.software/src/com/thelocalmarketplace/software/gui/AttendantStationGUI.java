@@ -16,26 +16,26 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.ArrayList;
+import java.util.Arrays;
 
 public class AttendantStationGUI {
-	CentralStationLogic logic;
-	MainGUI mainGUI;
-	JPanel mainPanel;
+
+    private static JComboBox<StationObject> comboBox;
+    private JFrame frame;
+    private JPanel mainPanel;
+    private CentralStationLogic logic;
+    private MainGUI mainGUI;
     private String[] data;
     private DefaultListModel searchList = new DefaultListModel();
 
-    private static JComboBox<StationObject> comboBox;
-
-    // Fake class to represent Station objects
-    class StationObject {
+	// Fake class to represent Station objects
+    // Updated StationObject class
+    private class StationObject {
         private int stationNumber;
         private Map<Character, Color> circleColors; // Map to store colors for circles\
-
-
         private boolean isEnabled;
-
-        private double weight;
-
+        
         public StationObject(int stationNumber) {
             this.stationNumber = stationNumber;
             this.circleColors = new HashMap<>();
@@ -80,7 +80,7 @@ public class AttendantStationGUI {
         public String toString() {
             return "Station #" + stationNumber;
         }
-
+        
         // Add a getter and setter for isEnabled
         public boolean isEnabled() {
             return isEnabled;
@@ -89,15 +89,6 @@ public class AttendantStationGUI {
         public void setEnabled(boolean enabled) {
             isEnabled = enabled;
         }
-
-        public double getWeight() {
-            return weight;
-        }
-
-        public void setWeight(double weight) {
-            this.weight = weight;
-        }
-
     }
 
     private void updateUIForSelectedStation(StationObject selectedStation) {
@@ -107,8 +98,6 @@ public class AttendantStationGUI {
         selectedStation.setCircleColorRed('P');
         selectedStation.setCircleColorRed('C');
         selectedStation.setCircleColorRed('B');
-        selectedStation.setCircleColorRed('S');
-        selectedStation.setCircleColorRed('H');
 
         SwingUtilities.invokeLater(() -> comboBox.repaint());
     }
@@ -234,7 +223,7 @@ public class AttendantStationGUI {
 
     private void createFrame(StationObject[] stationObjects) {
 
-        JFrame frame = new JFrame("Attendant Station");
+        frame = new JFrame("Attendant Station");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
@@ -356,120 +345,8 @@ public class AttendantStationGUI {
     }
 
     // Method to update JComboBox options based on the given number of squares
-    private static void updateComboBoxOptions(StationObject[] stationObjects) {
+    private void updateComboBoxOptions(StationObject[] stationObjects) {
         comboBox.setModel(new DefaultComboBoxModel<>(stationObjects));
-    }
-
-
-    // Method to create squares based on the given array of StationObjects
-    private void createSquares(JPanel panel, StationObject[] stationObjects) {
-        panel.removeAll(); // Clear existing components
-
-        GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(20, 20, 20, 20); // Increased padding between components
-
-        int rows = (int) Math.ceil((double) stationObjects.length / 4);
-
-        for (int i = 0; i < stationObjects.length; i++) {
-            JPanel square = new JPanel(new BorderLayout());
-            square.setPreferredSize(new Dimension(260, 220)); // Increased size
-
-            // Set the default background color of the square to blue
-            square.setBackground(Color.BLUE);
-
-            // Add a switch to enable/disable the station
-            JToggleButton enableSwitch = new JToggleButton("Enable Station");
-            enableSwitch.setSelected(stationObjects[i].isEnabled());
-            int finalI1 = i;
-            enableSwitch.addActionListener(e -> {
-                stationObjects[finalI1].setEnabled(enableSwitch.isSelected());
-            });
-
-            // Add a "Solve" button below the square
-            JButton solveButton = new JButton("Solve Weight");
-            solveButton.addActionListener(new ActionListener() {
-                @Override
-                public void actionPerformed(ActionEvent e) {
-                    solveWeightDiscrepancy();
-                }
-            });
-
-            Font smallFont = new Font(solveButton.getFont().getName(), Font.BOLD, 11); // You can adjust the size (12 in this case)
-            solveButton.setFont(smallFont);
-
-            square.add(solveButton, BorderLayout.EAST);
-
-            // Add the enableSwitch to the top of the square
-            square.add(enableSwitch, BorderLayout.NORTH);
-
-            // Center the square in the panel using GridBagConstraints
-            gbc.gridx = i % 4;
-            gbc.gridy = i / 4;
-
-            // Add labeled lights under the square
-            JPanel lightsPanel = new JPanel();
-            GridLayout lightsLayout = new GridLayout(1, 4);
-            lightsLayout.setHgap(10); // Set horizontal gap between lights
-            lightsPanel.setLayout(lightsLayout);
-
-            for (char label : new char[]{'I', 'P', 'C', 'B', 'S', 'H'}) {
-                int finalI = i;
-                JPanel light = new JPanel(new GridBagLayout()) {
-                    @Override
-                    protected void paintComponent(Graphics g) {
-                        super.paintComponent(g);
-                        Graphics2D g2d = (Graphics2D) g.create();
-                        int diameter = Math.min(getWidth() - 4, getHeight() - 4); // Adjusted diameter
-                        int x = (getWidth() - diameter) / 2;
-                        int y = (getHeight() - diameter) / 2;
-                        Ellipse2D.Double ellipse = new Ellipse2D.Double(x, y, diameter, diameter);
-
-                        // Set the color of lights based on the color stored in the StationObject
-                        g2d.setColor(stationObjects[finalI].getCircleColor(label));
-
-                        g2d.fill(ellipse);
-                        g2d.dispose();
-                    }
-
-                    @Override
-                    public Dimension getPreferredSize() {
-                        return new Dimension(60, 30); // Increased size of lights
-                    }
-                };
-
-                JLabel lightLabel = new JLabel(String.valueOf(label));
-                lightLabel.setForeground(Color.BLACK); // Set text color to black
-
-                light.add(lightLabel, new GridBagConstraints());
-
-                lightsPanel.add(light);
-            }
-
-            square.add(lightsPanel, BorderLayout.SOUTH);
-
-            // Add a label with the text "Station #" and the current number
-            JLabel label = new JLabel("Station #" + stationObjects[i].getStationNumber());
-            label.setForeground(Color.WHITE); // Set text color to white
-            label.setHorizontalAlignment(JLabel.CENTER); // Center align the text
-            square.add(label, BorderLayout.CENTER);
-
-            // Set a custom font for the "Station #" text with a larger size
-            Font stationFont = new Font("Arial", Font.BOLD, 30); // Change font and size as needed
-            label.setFont(stationFont);
-
-            panel.add(square, gbc);
-        }
-
-        // Add empty panels to fill the remaining space
-        for (int i = stationObjects.length; i < rows * 4; i++) {
-            JPanel emptySquare = new JPanel();
-            emptySquare.setPreferredSize(new Dimension(220, 220)); // Adjusted for larger size
-            emptySquare.setBackground(Color.LIGHT_GRAY); // Set background color for empty squares
-            panel.add(emptySquare, gbc);
-        }
-
-        panel.revalidate(); // Refresh the panel
-        panel.repaint(); // Repaint the panel
     }
 
     // Method to create a window for maintaining paper
@@ -730,13 +607,6 @@ public class AttendantStationGUI {
         textSearchWindow.setVisible(true);
     }
 
-    private void solveWeightDiscrepancy() {
-        // Add your logic to solve the weight discrepancy for the given station
-        // You can access the station object and perform necessary actions
-        // For demonstration purposes, print a message
-        //System.out.println("Solving weight discrepancy for Station #" + station.getStationNumber());
-    }
-
 
     // Method to handle button click events
     private void handleButtonClick(String buttonLabel, JFrame frame) {
@@ -781,41 +651,37 @@ public class AttendantStationGUI {
     // Method to handle entered text for text search
     private void handleEnteredText(String searchText) {
         // Add your logic here based on the entered text
-        // For example, you can print the entered text for demonstration purposes
-        System.out.println("Search Text: " + searchText);
-        
-        for(int i = 0; i < data.length; i++)
-            if(data[i].toLowerCase().contains(searchText.toLowerCase())) {
-                searchList.addElement(data[i]);
-            }
+    	
+    	for(int i = 0; i < data.length; i++)
+    		if(data[i].toLowerCase().contains(searchText.toLowerCase())) {
+    			searchList.addElement(data[i]);
+    		}
         // For example, you can print the entered text for demonstration purposes
         System.out.println("Search Text: " + searchText);
     }
-    
-    
     
     private void handleAddItemText(String itemText) {
-        if(itemText == null) return;
+    	if(itemText == null) return;
 
-        for(Item i : mainGUI.getItemsInCart()) {
-            if (i instanceof BarcodedItem) {
-                BarcodedItem bitem = (BarcodedItem) i;
-                BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
+		for(Item i : mainGUI.getItemsInCart()) {
+	       	if (i instanceof BarcodedItem) {
+        		BarcodedItem bitem = (BarcodedItem) i;
+            	BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
                 if(bproduct.getDescription().equals(itemText)) {
-                    logic.addBarcodedProductController.addBarcode(bitem.getBarcode());
+	                logic.addBarcodedProductController.addBarcode(bitem.getBarcode());
                 }
-            } else if (i instanceof PLUCodedItem) {
-                PLUCodedItem pitem = (PLUCodedItem) i;
-                PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
+        	} else if (i instanceof PLUCodedItem) {
+        		PLUCodedItem pitem = (PLUCodedItem) i;
+        		PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
                 if(pproduct.getDescription().equals(itemText)) {
-                    logic.addPLUCodedProductController.addPLUCode(pitem.getPLUCode());
+                	logic.addPLUCodedProductController.addPLUCode(pitem.getPLUCode());
                 }
-            }
-        }
-
-        System.out.println("Added to Order: " + itemText);
+        	}
+		}
+		
+    	System.out.println("Added to Order: " + itemText);
     }
-
+    
     private void centerWindowOnFrame(JFrame window, JFrame mainFrame) {
         // Center the window on the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -825,19 +691,19 @@ public class AttendantStationGUI {
     }
 
     public AttendantStationGUI(MainGUI m, CentralStationLogic l) {
+    	mainGUI = m;
+    	logic = l;
+    	
+    	data = new String[SimulatedItems.simulatedItems.size()];
+    	int index = 0;
+    	for(Item i: SimulatedItems.simulatedItems) {
+    		data[index] = mainGUI.getDescriptionOfItem(i);
+    		System.out.println(mainGUI.getDescriptionOfItem(i));
+    		index++;
+    	}
+    	
         int numStations = 3; // Set the initial number of stations
-        comboBox = new JComboBox<StationObject>();
-        mainGUI = m;
-        logic = l;
 
-        data = new String[SimulatedItems.simulatedItems.size()];
-        int index = 0;
-        for(Item i: SimulatedItems.simulatedItems) {
-            data[index] = mainGUI.getDescriptionOfItem(i);
-            System.out.println(mainGUI.getDescriptionOfItem(i));
-            index++;
-        }
-        
         // Create an array of StationObject instances
         StationObject[] stationObjects = new StationObject[numStations];
         for (int i = 0; i < numStations; i++) {
@@ -847,10 +713,10 @@ public class AttendantStationGUI {
         // Create an instance of AttendantStationGUI
         createFrame(stationObjects);
     }
-
-	public JPanel getPanel() {
+    
+    public JPanel getPanel() {
 		return mainPanel;
 	}
-
+    
 
 }
