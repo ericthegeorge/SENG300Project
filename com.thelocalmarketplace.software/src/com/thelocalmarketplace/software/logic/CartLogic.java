@@ -218,6 +218,12 @@ public class CartLogic {
 		return this.balanceOwed;
 	}
 	
+	public double calculatePriceOfPLU(long price, Mass mass) {
+		double itemPrice = price * (mass.inGrams().doubleValue()/1000);
+		itemPrice = new BigDecimal(itemPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+		return itemPrice;
+	}
+	
 	/**
    * Increments/Decrements the customer's balance
    * @param amount Is the amount to increment/decrement by

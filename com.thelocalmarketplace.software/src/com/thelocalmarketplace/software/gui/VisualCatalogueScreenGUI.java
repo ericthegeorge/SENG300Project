@@ -275,6 +275,7 @@ public class VisualCatalogueScreenGUI {
 			PLUCodedItem pitem = (PLUCodedItem) mainGUI.getItemFromDescription(searchText);
 			logic.addPLUCodedProductController.addPLUCode(pitem.getPLUCode());
 			mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "addItem");
+			mainGUI.getAddItemScreen().updateReceipt();
     	});
 		
 		// attendant button row

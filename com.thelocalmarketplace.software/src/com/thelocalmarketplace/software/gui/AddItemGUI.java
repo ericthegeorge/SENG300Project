@@ -4,10 +4,12 @@ import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 
 import com.jjjwelectronics.Item;
+import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
@@ -23,6 +25,8 @@ public class AddItemGUI extends JFrame {
 	private JTextArea errorTextArea;
 	private JTextArea weightTextArea;
 	private JTextArea costTextArea;
+	DefaultListModel<String> leftReceiptModel;
+	DefaultListModel<String> rightReceiptModel;
 	DefaultListModel<String> cartList;
 	DefaultListModel<String> baggingAreaList;
 
@@ -119,7 +123,7 @@ public class AddItemGUI extends JFrame {
        
 	   float totalCost = 0;
 	   String costTxt1 = "TOTAL COST ($): ";
-	   JTextArea costTextArea = new JTextArea(costTxt1 + String.valueOf(totalCost));
+	   costTextArea = new JTextArea(costTxt1 + String.valueOf(totalCost));
 	   costTextArea.setEditable(false);
 	   costTextArea.setFont(new Font("Arial", Font.PLAIN, 60));
 	   costTextArea.setBackground(Color.WHITE);
@@ -138,8 +142,9 @@ public class AddItemGUI extends JFrame {
 	   bottomLowLeftBox.add(errorTextArea);
 	   
 	   float totalWeight = 0;
-	   String weightTxt1 = "WEIGHT (kg): ";
-	   JTextArea weightTextArea = new JTextArea(weightTxt1 + String.valueOf(totalWeight));
+	   String weightTxt1 = "The weight of added PLU  Items will appear here.";
+	   weightTextArea = new JTextArea(weightTxt1);
+	   weightTextArea.setLineWrap(true);
 	   weightTextArea.setEditable(false);
 	   weightTextArea.setFont(new Font("Arial", Font.PLAIN, 35));
 	   weightTextArea.setBackground(Color.WHITE);
@@ -149,6 +154,12 @@ public class AddItemGUI extends JFrame {
 	   JButton payButton = new JButton("Pay");
 	   payButton.setFont(new Font("Arial", Font.PLAIN, 50)); // Set a larger font size
 	   bottomLowRightBox.add(payButton);
+       payButton.addActionListener(e -> {
+    	   if(logic.cartLogic.getCart().size() != 0) {
+        	   logic.stateLogic.gotoState(States.CHECKOUT);
+        	   mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
+    	   }
+		});
 
        payButton.addActionListener(e -> {
     	   if(logic.cartLogic.getCart().size() != 0) {
@@ -187,16 +198,31 @@ public class AddItemGUI extends JFrame {
         
         JScrollPane rightScrollPane = new JScrollPane(baggingAreaObjt);
         
+        // Add another list element to the right (bottom)
+        leftReceiptModel = new DefaultListModel<>();
+        JList<String> leftReceiptList = new JList<>(leftReceiptModel);
+        leftReceiptList.setFont(new Font("Arial", Font.PLAIN, 26)); // Set the font size
+        leftReceiptList.setBorder(BorderFactory.createCompoundBorder(
+                new EmptyBorder(20, 20, 20, -1),
+                BorderFactory.createLineBorder(Color.BLACK)
+        ));
+        JScrollPane leftReceiptScrollPane = new JScrollPane(leftReceiptList);
 
-
+        // Add another list element to the right (bottom)
+        rightReceiptModel = new DefaultListModel<>();
+        JList<String> rightReceiptList = new JList<>(rightReceiptModel);
+        rightReceiptList.setFont(new Font("Arial", Font.PLAIN, 26)); // Set the font size
+        
+        rightReceiptList.setBorder(BorderFactory.createCompoundBorder(
+                new EmptyBorder(20, -1, 20, 20),
+                BorderFactory.createLineBorder(Color.BLACK)
+        ));
+        JScrollPane rightReceiptScrollPane = new JScrollPane(rightReceiptList);
 
         upperInnerBox.add(upperLeftBox);
         upperLeftBox.add(leftScrollPane);
         upperLeftBox.add(rightScrollPane);
-
-   
         
-
         // Create a panel for the buttons in the middle of the third section
         JPanel buttonPanel = new JPanel(new GridLayout(5, 1));
  	   	
@@ -229,11 +255,16 @@ public class AddItemGUI extends JFrame {
 		       	if (i instanceof BarcodedItem) {
 	        		BarcodedItem bitem = (BarcodedItem) i;
 	            	BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
-	            	if(bproduct.getDescription().contentEquals(selectedItem)) logic.hardware.getMainScanner().scan(bitem);
+	            	if(bproduct.getDescription().contentEquals(selectedItem)) {
+	            		logic.hardware.getMainScanner().scan(bitem);
+//		            	leftReceiptModel.addElement(mainGUI.getDescriptionOfItem(bitem));
+//		            	rightReceiptModel.addElement("$"+bproduct.getPrice());
+	            	}
 	        	} else if (i instanceof PLUCodedItem) {
 	        		//nothing happens
 	        	}
 			}
+			updateReceipt();
 		});
         
         JButton PLUCodedButton = (JButton) buttonPanel.getComponent(1);
@@ -242,34 +273,29 @@ public class AddItemGUI extends JFrame {
         	createTextSearchWindow();
 		});
         
-        
         JButton visualCatalogueButton = (JButton) buttonPanel.getComponent(2);
         visualCatalogueButton.addActionListener(e -> {
 			mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "keyboard");
 		});
         
         JButton addToBaggingAreaButton = (JButton) buttonPanel.getComponent(3);
-        addToBaggingAreaButton.addActionListener(e -> {
-            String selectedItem = cartListObjt.getSelectedValue();
-			for(Item i : mainGUI.getItemsInCart()) {
-		       	if (i instanceof BarcodedItem) {
-	        		BarcodedItem bitem = (BarcodedItem) i;
-	            	BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
-	                if(bproduct.getDescription().equals(selectedItem)) {
-	                	((DefaultListModel) cartListObjt.getModel()).remove(cartListObjt.getSelectedIndex());
-		                logic.hardware.getBaggingArea().addAnItem(bitem);
-	                	baggingAreaList.addElement(bproduct.getDescription());
-	                }
-	        	} else if (i instanceof PLUCodedItem) {
-	        		PLUCodedItem pitem = (PLUCodedItem) i;
-	        		PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
-	                if(pproduct.getDescription().equals(selectedItem)) {
-	                	((DefaultListModel) cartListObjt.getModel()).remove(cartListObjt.getSelectedIndex());
-		                logic.hardware.getBaggingArea().addAnItem(pitem);
-	                	baggingAreaList.addElement(pproduct.getDescription());
-	                }
-	        	}
-			}
+	        addToBaggingAreaButton.addActionListener(e -> {
+	        String selectedItem = cartListObjt.getSelectedValue();
+	    	baggingAreaList.addElement(selectedItem);
+	    	mainGUI.getItemsInCart().remove(mainGUI.getItemFromDescription(selectedItem));
+	    	mainGUI.getItemsInBaggingArea().add(mainGUI.getItemFromDescription(selectedItem));
+	        logic.hardware.getBaggingArea().addAnItem(mainGUI.getItemFromDescription(selectedItem));
+	        ((DefaultListModel) cartListObjt.getModel()).remove(cartListObjt.getSelectedIndex());
+	        updateReceipt();
+		});
+
+        JButton moveBackToCartButton = (JButton) buttonPanel.getComponent(4);
+	        moveBackToCartButton.addActionListener(e -> {
+	        String selectedItem = baggingAreaObjt.getSelectedValue();
+			logic.hardware.getBaggingArea().removeAnItem(mainGUI.getItemFromDescription(selectedItem));
+			mainGUI.getItemsInCart().add(mainGUI.getItemFromDescription(selectedItem));
+			cartList.addElement(selectedItem);
+			((DefaultListModel) baggingAreaObjt.getModel()).remove(baggingAreaObjt.getSelectedIndex());
 		});
         
         // Add panels to the bottomHighBox
@@ -304,34 +330,8 @@ public class AddItemGUI extends JFrame {
         // Add the upper inner box to the upper box
         upperBox.add(upperInnerBox, BorderLayout.CENTER);
 
-        // Add another list element to the right (bottom)
-        DefaultListModel<String> leftRecieptModel = new DefaultListModel<>();
-        leftRecieptModel.addElement("Item 5");
-        leftRecieptModel.addElement("Item 6");
-        JList<String> leftRecieptList = new JList<>(leftRecieptModel);
-        leftRecieptList.setFont(new Font("Arial", Font.PLAIN, 26)); // Set the font size
-        
-        leftRecieptList.setBorder(BorderFactory.createCompoundBorder(
-                new EmptyBorder(20, 20, 20, 20),
-                BorderFactory.createLineBorder(Color.BLACK)
-        ));
-        JScrollPane leftRecieptScrollPane = new JScrollPane(leftRecieptList);
-
-        // Add another list element to the right (bottom)
-        DefaultListModel<String> rightRecieptModel = new DefaultListModel<>();
-        rightRecieptModel.addElement("Item 5");
-        rightRecieptModel.addElement("Item 6");
-        JList<String> rightRecieptList = new JList<>(rightRecieptModel);
-        rightRecieptList.setFont(new Font("Arial", Font.PLAIN, 26)); // Set the font size
-        
-        rightRecieptList.setBorder(BorderFactory.createCompoundBorder(
-                new EmptyBorder(20, 20, 20, 20),
-                BorderFactory.createLineBorder(Color.BLACK)
-        ));
-        JScrollPane rightRecieptScrollPane = new JScrollPane(rightRecieptList);
-
-        upperRightBox.add(leftRecieptScrollPane);
-        upperRightBox.add(rightRecieptScrollPane);
+        upperRightBox.add(leftReceiptScrollPane);
+        upperRightBox.add(rightReceiptScrollPane);
         upperInnerBox.add(upperRightBox);
         
 
@@ -347,6 +347,27 @@ public class AddItemGUI extends JFrame {
 
         // Add the main panel to the frame
         add(mainPanel);
+    }
+
+    public void updateReceipt() {
+    	rightReceiptModel.clear();
+    	leftReceiptModel.clear();
+    	for(Item i : logic.cartLogic.getCart().keySet()) {
+    		leftReceiptModel.addElement(mainGUI.getDescriptionOfItem(i));
+    		
+    		double price = 0;
+    		if(i instanceof BarcodedItem) {
+    			BarcodedItem bitem = (BarcodedItem) i;
+    			price = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode()).getPrice();
+    		}
+    		if(i instanceof PLUCodedItem) {
+    			PLUCodedItem pitem = (PLUCodedItem) i;
+    			PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
+    			price = logic.cartLogic.calculatePriceOfPLU(pproduct.getPrice(), pitem.getMass());
+    		}
+    		rightReceiptModel.addElement("$"+price);
+    	}
+
     }
     
 	public JPanel getPanel() {

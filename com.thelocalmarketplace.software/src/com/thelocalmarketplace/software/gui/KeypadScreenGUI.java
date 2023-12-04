@@ -57,6 +57,7 @@ public class KeypadScreenGUI {
 		keyboardScreenFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		keyboardScreenFrame.setLocationRelativeTo(null);
 		keyboardScreenFrame.setVisible(true);
+		keyboardScreenFrame.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
 	}
 	
 	// Adds all the buttons and organizes the layouts
@@ -100,6 +101,7 @@ public class KeypadScreenGUI {
 			if(searchText.length()==4) {
 				if(ProductDatabases.PLU_PRODUCT_DATABASE.get(new PriceLookUpCode(searchText)) != null) {
 					logic.addPLUCodedProductController.addPLUCode(new PriceLookUpCode(searchText)); 
+					mainGUI.getAddItemScreen().updateReceipt();
 					keyboardScreenFrame.dispose();
 				} else {
 					searchText = "PLU NOT FOUND";
