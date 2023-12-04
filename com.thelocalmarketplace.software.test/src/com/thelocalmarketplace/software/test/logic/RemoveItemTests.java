@@ -209,6 +209,7 @@ public class RemoveItemTests {
 		 * Tests if method fails on a null item.
 		 */
 		
+		
 		@Test (expected = NullPointerException.class)
 		public void failOnNullItem() {
 			session.removeItemLogic.removeBarcodedItem(null);
