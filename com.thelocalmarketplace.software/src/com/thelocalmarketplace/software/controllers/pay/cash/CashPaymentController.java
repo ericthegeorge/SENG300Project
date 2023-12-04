@@ -32,6 +32,7 @@ import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
  * @author Farida Elogueil (30171114)
  */
 public class CashPaymentController extends AbstractLogicDependant implements BanknoteValidatorObserver {
+	BigDecimal missed = new BigDecimal(0);
 
 	public CashPaymentController(CentralStationLogic logic) throws NullPointerException {
 		super(logic);
@@ -109,16 +110,13 @@ public class CashPaymentController extends AbstractLogicDependant implements Ban
         if (pay.compareTo(BigDecimal.ZERO) <= 0) {
         	pay = pay.abs();
         	
-            BigDecimal missed = processCashChange(pay);
+            missed = processCashChange(pay);
             
             if (missed.compareTo(BigDecimal.ZERO) > 0) {
             	System.out.println("Not enough change available: " + missed +  " is unavailable");
             }
             else {
                 System.out.println("Payment complete. Change dispensed successfully");
-                
-                // Print receipt
-				this.logic.receiptPrintingController.handlePrintReceipt(pay.subtract(missed));
             }
         }
         else {
@@ -153,6 +151,10 @@ public class CashPaymentController extends AbstractLogicDependant implements Ban
 	public void turnedOff(IComponent<? extends IComponentObserver> component) {
 		// TODO Auto-generated method stub
 		
+	}
+
+	public BigDecimal getMissed() {
+		return missed;
 	}
 
 

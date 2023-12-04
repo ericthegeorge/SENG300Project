@@ -79,10 +79,10 @@ abstract class AbstractReceiptPrinter extends AbstractDevice<ReceiptPrinterListe
 		if(!Character.isWhitespace(c)) {
 			if(charactersOfInkRemaining == 0)
 				throw new EmptyDevice("There is no ink in the printer");
+				
 
 			charactersOfInkRemaining--;
 		}
-
 		sb.append(c);
 
 		if(charactersOfInkRemaining == 0)

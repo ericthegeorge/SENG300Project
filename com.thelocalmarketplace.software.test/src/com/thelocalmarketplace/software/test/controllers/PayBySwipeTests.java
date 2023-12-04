@@ -5,6 +5,7 @@ import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.CardMethods;
 import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
@@ -66,7 +67,9 @@ public class PayBySwipeTests {
 
 
         session = new CentralStationLogic(station);
+        session.setBypassIssuePrediction(true);
         session.startSession();
+
 
         //set up bank details
         CardIssuer bank= new CardIssuer("Scotia Bank",3);
@@ -78,6 +81,7 @@ public class PayBySwipeTests {
 
 
         this.session.selectPaymentMethod(PaymentMethods.DEBIT);
+        this.session.selectCardMethod(CardMethods.SWIPE);
     }
 
     @After

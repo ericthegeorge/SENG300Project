@@ -1,9 +1,21 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
+
+import com.jjjwelectronics.Item;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Map;
 
 public class PaymentScreenGUI {
     private JFrame paymentPageFrame;
@@ -17,9 +29,19 @@ public class PaymentScreenGUI {
     private JLabel totalPriceLabel;
     private JLabel itemsInCartLabel;
     private JLabel selectPaymentLabel;
+    private DefaultListModel<String> cartItemModel = new DefaultListModel<>();
     private JList<String> cartItemList;
+    private CentralStationLogic logic;
+    private MainGUI mainGUI;
+    private ArrayList<String> receiptListNames = new ArrayList<>();
+	private ArrayList<String> receiptListPrices = new ArrayList<>();
+    private JPanel listPanel = new JPanel(new BorderLayout());
+    JPanel rightPanel = new JPanel();
+    private float totalPrice = 0;
 
-    public PaymentScreenGUI() {
+    public PaymentScreenGUI(MainGUI m, CentralStationLogic l) { 
+    	mainGUI = m;
+    	logic = l;
         paymentPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
         paymentPagePanel = new JPanel();
 
@@ -28,9 +50,11 @@ public class PaymentScreenGUI {
         paymentPageFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         paymentPageFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         paymentPageFrame.setContentPane(paymentPagePanel);
-        paymentPageFrame.setVisible(true);
     }
+
     private void addWidgets() {
+
+
         paymentPagePanel.setLayout(new BorderLayout());
 
         // top panel
@@ -64,27 +88,63 @@ public class PaymentScreenGUI {
 
         centerPanel.add(buttonsPanel);
         
+
+        
+        // right panel
+        
+        rightPanel.setLayout(new BorderLayout());
+
+        finishCheckoutButton = new JButton("Finish Checkout");
+        finishCheckoutButton.setFont(new Font("Arial", Font.BOLD, 15));
+        finishCheckoutButton.setPreferredSize(new Dimension(150, 50));
+        itemsInCartLabel = new JLabel("Items in cart:");
+        itemsInCartLabel.setFont(new Font("Arial", Font.BOLD, 20));
+        
+        listPanel.add(itemsInCartLabel, BorderLayout.NORTH);
+        
+        
+        
+        
+
+        rightPanel.add(listPanel, BorderLayout.CENTER);
+        rightPanel.add(finishCheckoutButton, BorderLayout.SOUTH);
+
+        centerPanel.add(rightPanel);
+
+        paymentPagePanel.add(centerPanel, BorderLayout.CENTER);
+        
         cashButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                CashScreenGUI cashScreen = new CashScreenGUI();
+            	getPaymentPageFrame().dispose();
+                logic.selectPaymentMethod(PaymentMethods.CASH);
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "cash");
             }
         });
         
         debitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                DebitScreenGUI debitScreen = new DebitScreenGUI();
+            	getPaymentPageFrame().dispose();
+                logic.selectPaymentMethod(PaymentMethods.DEBIT);
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "debit");
             }
         });
         
         creditButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                CreditScreenGUI creditScreen = new CreditScreenGUI();
+            	getPaymentPageFrame().dispose();
+                logic.selectPaymentMethod(PaymentMethods.CREDIT);
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "credit");
+            }
+        });
+        
+        backToCartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	getPaymentPageFrame().dispose();
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "addItem");
             }
         });
         
@@ -92,54 +152,174 @@ public class PaymentScreenGUI {
         notifyAttendantButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                notifyAttendant();
+                //TODO attendantScreen.dosomething()
             }
         });
-        
-        // right panel
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BorderLayout());
-
-        finishCheckoutButton = new JButton("Finish Checkout");
-        finishCheckoutButton.setFont(new Font("Arial", Font.BOLD, 16));
-        finishCheckoutButton.setPreferredSize(new Dimension(150, 50));
-        itemsInCartLabel = new JLabel("Items in cart:");
-        itemsInCartLabel.setFont(new Font("Arial", Font.BOLD, 15));
-
-        cartItemList = new JList<>();
-        cartItemList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        cartItemList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        cartItemList.setVisibleRowCount(-1);
-
-        JPanel listPanel = new JPanel(new BorderLayout());
-        listPanel.add(cartItemList, BorderLayout.CENTER);
-        listPanel.add(itemsInCartLabel, BorderLayout.NORTH);
-
-        totalPriceLabel = new JLabel("Total Price:");
-        totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 15));
-
-        rightPanel.add(listPanel, BorderLayout.CENTER);
-        rightPanel.add(totalPriceLabel, BorderLayout.NORTH);
-        rightPanel.add(finishCheckoutButton, BorderLayout.SOUTH);
-
-        centerPanel.add(rightPanel);
-
-        paymentPagePanel.add(centerPanel, BorderLayout.CENTER);
         
         finishCheckoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                CompletionScreenGUI completionScreen = new CompletionScreenGUI();
+            	if(logic.cartLogic.getBalanceOwed().intValue() == 0) {
+                	BigDecimal missed = logic.coinPaymentController.getMissed().add(logic.cashPaymentController.getMissed());
+                	logic.receiptPrintingController.handlePrintReceipt(missed);
+                    paymentPageFrame.dispose();
+                    mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "completion");
+            	}
             }
         });
-       
+
+        
     }
- 
+
     private void notifyAttendant() {
         JOptionPane.showMessageDialog(paymentPageFrame, "Attendant notified. Please wait for assistance.");
     }
-    public static void main(String[] args) {
-        PaymentScreenGUI paymentScreen = new PaymentScreenGUI();
+
+	public JButton getCashButton() {
+		return cashButton;
+	}
+	public JButton getCreditButton() {
+		return creditButton;
+	}
+	public JButton getDebitButton() {
+		return debitButton;
+	}
+	public JButton getNotifyAttendantButton() {
+		return notifyAttendantButton;
+	}
+	public JFrame getPaymentPageFrame() {
+		return paymentPageFrame;
+	}
+	public JPanel getPanel() {
+		return paymentPagePanel;
+	}
+
+    public JList<String> getCartItemList() {
+        return cartItemList;
     }
+
+    // Getter for totalPrice
+    public float getTotalPrice() {
+        return this.totalPrice;
+    }
+
+    // Setter for totalPrice
+    public void setTotalPrice(float newTotalPrice) {
+        this.totalPrice = newTotalPrice;
+    }
+
+
+    // Setter for cartItemList
+    public void setCartItemList(ArrayList<String> names, ArrayList<String> prices) {
+        
+
+        // Ensure both lists have the same size
+        int minSize = Math.min(names.size(), prices.size());
+        DefaultListModel<String> newCartModel = new DefaultListModel<String>();
+
+        for (int i = 0; i < minSize; i++) {
+            String concatenatedItem = names.get(i) + " " + prices.get(i);
+            newCartModel.addElement(concatenatedItem);
+        }
+
+        setCartItemModel(newCartModel);
+
+
+    }
+
+    // Getter method for cartItemModel
+    public DefaultListModel<String> getCartItemModel() {
+        return this.cartItemModel;
+    }
+
+    // Setter method for cartItemModel
+    public void setCartItemModel(DefaultListModel<String> newModel) {
+        cartItemModel = newModel;
+        cartItemList = new JList<>(cartItemModel);
+    }
+
+    // Setter for updating receiptListNames with DefaultListModel
+    public void updateReceiptListNames(DefaultListModel<String> nameModel) {
+        getReceiptListNames().clear(); // Clear existing names
+        for (int i = 0; i < nameModel.getSize(); i++) {
+            this.receiptListNames.add(nameModel.getElementAt(i));
+        }
+		System.out.println("NAMES MAINGUI: ");
+		System.out.println(this.receiptListNames);
+    }
+
+    // Setter for updating receiptListPrices with DefaultListModel
+    public void updateReceiptListPrices(DefaultListModel<String> priceModel) {
+        getReceiptListPrices().clear(); // Clear existing prices
+        for (int i = 0; i < priceModel.getSize(); i++) {
+            this.receiptListPrices.add(priceModel.getElementAt(i));
+        }
+		System.out.println("PRICES MAINGUI: ");
+		System.out.println(this.receiptListPrices);
+    }
+
+    // Getter methods to access the lists
+    public ArrayList<String> getReceiptListNames() {
+        return this.receiptListNames;
+    }
+
+    public ArrayList<String> getReceiptListPrices() {
+        return this.receiptListPrices;
+    }
+
+    // Setter for updating cartItemList
+    public void updateCartItemList(DefaultListModel<String> newModel) {
+        getCartItemList().setModel(newModel); // set the cartItemList to the new model
+
+    }
+
+    // Getter for listPanel
+    public JPanel getListPanel() {
+        return this.listPanel;
+    }
+
+    // Setter for listPanel
+    public void setListPanel(JPanel newPanel) {
+        listPanel = newPanel;
+    }
+
+
+
+
+
+    public void updateCartScrollPanel(){
+        JList<String> cartListObjt = getCartItemList();
+        cartListObjt.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        cartListObjt.setLayoutOrientation(JList.VERTICAL_WRAP); 
+        cartListObjt.setVisibleRowCount(-1);
+
+        cartListObjt.setFont(new Font("Arial", Font.PLAIN, 20));
+        
+        JScrollPane cartScrollPane = new JScrollPane(cartListObjt);
+        getListPanel().add(cartScrollPane, BorderLayout.CENTER);
+
+    }
+
+    public void updateTotalPriceText() {
+        String totalPriceString = "Total Price ($): ";
+        JTextArea totalPriceText = new JTextArea(totalPriceString + String.valueOf(getTotalPrice()));
+
+        totalPriceText.setEditable(false);
+        totalPriceText.setFont(new Font("Arial", Font.BOLD, 20));
+        getRightPanel().add(totalPriceText, BorderLayout.NORTH);
+    }
+
+    // Getter for rightPanel
+    public JPanel getRightPanel() {
+        return rightPanel;
+    }
+
+    // Setter for rightPanel
+    public void setRightPanel(JPanel newPanel) {
+        rightPanel = newPanel;
+    }
+
+    
+
+
 }

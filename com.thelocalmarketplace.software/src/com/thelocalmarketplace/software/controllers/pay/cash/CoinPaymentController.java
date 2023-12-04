@@ -35,6 +35,7 @@ import ca.ucalgary.seng300.simulation.SimulationException;
  * @author Merick Parkinson (30196225)
  */
 public class CoinPaymentController extends AbstractLogicDependant implements CoinValidatorObserver {
+	BigDecimal missed = new BigDecimal(0);
 	
 	/**
 	 * Base constructor
@@ -83,8 +84,8 @@ public class CoinPaymentController extends AbstractLogicDependant implements Coi
 				try {
 					
 					// Attempt to emit a coin from specific coin dispenser
-					this.logic.hardware.getBanknoteDispensers().get(denomination).emit();
-					//this.logic.hardware.coinDispensers.get(denomination).emit();
+					//this.logic.hardware.getBanknoteDispensers().get(denomination).emit();
+					this.logic.hardware.getCoinDispensers().get(denomination).emit();
 				} catch (Exception e) {
 					missed = missed.add(denomination);
 					
@@ -121,7 +122,7 @@ public class CoinPaymentController extends AbstractLogicDependant implements Coi
 			pay = pay.abs();
 			
 			// Process change
-			BigDecimal missed = this.processCoinChange(pay);
+			missed = this.processCoinChange(pay);
 			
 			// Check if some change failed to dispense
 			if (missed.compareTo(BigDecimal.ZERO) > 0) {
@@ -134,9 +135,6 @@ public class CoinPaymentController extends AbstractLogicDependant implements Coi
 			}
 			else {
 				System.out.println("Payment complete. Change dispensed successfully");
-				
-				// Print receipt
-				this.logic.receiptPrintingController.handlePrintReceipt(pay.subtract(missed));
 			}
 		}
 		else {
@@ -165,5 +163,9 @@ public class CoinPaymentController extends AbstractLogicDependant implements Coi
 	
 	@Override
 	public void turnedOff(IComponent<? extends IComponentObserver> component) {
+	}
+
+	public BigDecimal getMissed() {
+		return missed;
 	}
 }

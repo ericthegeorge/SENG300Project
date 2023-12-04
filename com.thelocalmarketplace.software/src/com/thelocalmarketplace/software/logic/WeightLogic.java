@@ -9,6 +9,7 @@ import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
+import com.thelocalmarketplace.software.gui.MainGUI;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
@@ -140,11 +141,9 @@ public class WeightLogic extends AbstractLogicDependant {
 	
 	/** Indicates that an item should not be bagged
 	 * @param barcode - barcode of item to skip bagging 
-	 * @throws InvalidArgumentSimulationException - when skipBagging is called on a product not in the cart */
+	 */
 	public void skipBaggingRequest(Barcode barcode) {
-		if (!this.logic.cartLogic.getCart().containsKey(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode))) throw new InvalidArgumentSimulationException("Cannot skip bagging an item that has not been added to cart");
 		logic.attendantLogic.requestApprovalSkipBagging(barcode);
-		
 	}
 	
 	/** Checks if there is a weight discrepancy 
@@ -152,6 +151,7 @@ public class WeightLogic extends AbstractLogicDependant {
 	 * @throws SimulationException If session not started
 	 * @throws SimulationException If the scale is not operational */
 	public boolean checkWeightDiscrepancy() {
+		if (logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Add an item or pay for the order.");
 		// Handles exceptions 
 		if (!this.logic.isSessionStarted()) throw new InvalidStateSimulationException("Session not started");
 		 else if (!this.scaleOperational) throw new InvalidStateSimulationException("Scale not operational");
@@ -183,5 +183,23 @@ public class WeightLogic extends AbstractLogicDependant {
 		
 		
 		this.expectedWeight = this.actualWeight;
+	}
+	
+	/**Checks if the weight on the scale is different from the expected weight after a delay
+	 * @param miliseconds to delay the check
+	 */
+	public void delayedDiscrepancyCheck(int milliseconds) {
+		this.logic.stateLogic.gotoState(States.BLOCKED);
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		                if(logic.weightLogic.checkWeightDiscrepancy()) {
+		                	logic.weightLogic.handleWeightDiscrepancy();
+		                }
+		            }
+		        }, 
+		        milliseconds 
+		);
 	}
 }

@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.SwingUtilities;
+
+import com.jjjwelectronics.Mass;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 import com.thelocalmarketplace.software.controllers.*;
 import com.thelocalmarketplace.software.controllers.pay.CardReaderController;
@@ -14,11 +18,13 @@ import com.thelocalmarketplace.software.controllers.pay.cash.BanknoteDispenserCo
 import com.thelocalmarketplace.software.controllers.pay.cash.CashPaymentController;
 import com.thelocalmarketplace.software.controllers.pay.cash.CoinDispenserController;
 import com.thelocalmarketplace.software.controllers.pay.cash.CoinPaymentController;
+import com.thelocalmarketplace.software.gui.MainGUI;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 import com.thelocalmarketplace.software.controllers.item.*;
 
 import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
+import powerutility.PowerGrid;
 
 /**
  * Represents the central session logic for the control software
@@ -145,6 +151,11 @@ public class CentralStationLogic {
 	 * Instance of logic for attendant
 	 */
 	public AttendantLogic attendantLogic;
+	
+	/**
+	 * Instance of signaling attendant logic
+	 */
+	public SignalAttendantLogic signalAttendantLogic;
 
 	/**
 	 * Instance of logic for card payment via swipe
@@ -182,7 +193,11 @@ public class CentralStationLogic {
 	 */
 	private boolean sessionStarted;
 	private boolean bypassIssuePrediction;
-
+	private MainGUI mainGUI;
+	/**
+	 * Maximum allowable bag mass in grams (can be configured)
+	 */
+	private BigDecimal maximumBagMass = new BigDecimal(1000); //default
 
 
 	/**
@@ -193,17 +208,18 @@ public class CentralStationLogic {
 		if (hardware == null) {
 			throw new NullPointerException("Hardware");
 		}
-		
 		this.hardware = hardware;
-		
+
 		this.sessionStarted = false;
 		this.paymentMethod = PaymentMethods.NONE;
+		
+		
 		
 		// Initialize SelectLanguageLogic
         this.selectLanguageLogic = new SelectLanguageLogic(this, "English");
         
 		// Reference to logic objects
-		this.cartLogic = new CartLogic();
+		this.cartLogic = new CartLogic(this);
 		this.weightLogic = new WeightLogic(this);
 		this.stateLogic = new StateLogic(this);
 
@@ -216,12 +232,16 @@ public class CentralStationLogic {
 		this.cardReaderController = new CardReaderController(this);
 		this.receiptPrintingController = new ReceiptPrintingController(this);
 		this.attendantLogic = new AttendantLogic(this);
+		
 		this.addBagsLogic = new AddBagsLogic(this);
 		this.removeItemLogic = new RemoveItemLogic(this);
 		this.membershipLogic = new MembershipLogic(this);
 		
 		this.coinCurrencyLogic = new CurrencyLogic(this.hardware.getCoinDenominations());
 		this.banknoteCurrencyLogic = new CurrencyLogic(this.hardware.getBanknoteDenominations());
+		
+		//Initialize signalAttendantLogic
+		this.signalAttendantLogic = new SignalAttendantLogic(this);
 		
 		this.setupCoinDispenserControllers(this.coinCurrencyLogic.getDenominationsAsList());
 		this.setupBanknoteDispenserControllers(this.banknoteCurrencyLogic.getDenominationsAsList());
@@ -237,12 +257,20 @@ public class CentralStationLogic {
 		return this.paymentMethod;
 	}
 	
+	public CardMethods getSelectedCardPaymentMethod() {
+		return this.cardMethod;
+	}
+	
 	/**
 	 * Sets the desired payment method for the customer
 	 * @param method Is the payment method to use
 	 */
 	public void selectPaymentMethod(PaymentMethods method) {
 		this.paymentMethod = method;
+	}
+	
+	public void selectCardMethod(CardMethods method) {
+		this.cardMethod = method;
 	}
 
 	/**
@@ -334,7 +362,6 @@ public class CentralStationLogic {
 			this.stateLogic.gotoState(States.NORMAL);
 			this.sessionStarted = true;
 		}
-
 	}
 
 	/**
@@ -355,13 +382,13 @@ public class CentralStationLogic {
 		if (bypassIssuePrediction) return false;
 		boolean issueExists = false;
 		
-		boolean lowInk = receiptPrintingController.isLowInk();
+		boolean lowInk = receiptPrintingController.getLowInk();
 		if (lowInk) {
                 	// TODO: interact with attendant station UI for  for low ink warning
 			issueExists = true;
 		}
 		
-		boolean lowPaper = receiptPrintingController.isLowInk();
+		boolean lowPaper = receiptPrintingController.getLowPaper();
 		if (lowPaper) {
 			//TODO: interact with attendant station UI for low paper warning
 	        	issueExists = true;
@@ -373,7 +400,7 @@ public class CentralStationLogic {
 	        if(controller.shouldWarnEmpty()) {
 		        //TODO interact with attendant station UI
 	        	issueExists = true;
-	        }
+	        } 
 	        if(controller.shouldWarnFull()) {
 	        	//TODO interact with attendant station UI
 	        	issueExists = true;
@@ -400,5 +427,27 @@ public class CentralStationLogic {
 	 */
 	public void setBypassIssuePrediction(boolean bypassIssuePrediction) {
 		this.bypassIssuePrediction = bypassIssuePrediction;
+	}
+	
+	public void setGUI(MainGUI g) {
+		mainGUI = g;
+	}
+
+	public MainGUI getMainGUI() {
+		return mainGUI;
+	}
+
+	/**
+	 * @return the maximumBagMass
+	 */
+	public BigDecimal getMaximumBagMass() {
+		return maximumBagMass;
+	}
+
+	/**
+	 * @param maximumBagMass the maximumBagMass to set
+	 */
+	public void setMaximumBagMass(BigDecimal maximumBagMass) {
+		this.maximumBagMass = maximumBagMass;
 	}
 }

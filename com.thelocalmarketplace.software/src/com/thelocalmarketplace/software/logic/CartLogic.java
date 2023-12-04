@@ -2,6 +2,7 @@ package com.thelocalmarketplace.software.logic;
 
 import java.math.BigDecimal;
 import java.math.BigInteger;
+import java.math.RoundingMode;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -18,6 +19,7 @@ import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.Utilities;
+import com.thelocalmarketplace.software.gui.MainGUI;
 
 import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
@@ -53,12 +55,13 @@ public class CartLogic {
 	 * Tracks how much money the customer owes
 	 */
 	private BigDecimal balanceOwed;
+	private CentralStationLogic logic;
 	
 	/**
 	 * Constructor for a new CartLogic instance
 	 */
-	public CartLogic() {
-		
+	public CartLogic(CentralStationLogic l) {
+		logic = l;
 		// Initialization
 		this.cart = new HashMap<Item, Integer>();
 		
@@ -93,7 +96,7 @@ public class CartLogic {
 	 * @param item - PLU coded item to add the cart
 	 * @param itemPrice - price of the PLU coded item
 	 */
-	public void addProductToCart(PLUCodedItem item, long itemPrice) {
+	public void addProductToCart(PLUCodedItem item, double itemPrice) {
 		Utilities.modifyCountMapping(cart, item, 1);
 		
 		// Update balance owed
@@ -107,16 +110,22 @@ public class CartLogic {
 	 * @throws SimulationException If the item is not in the cart
 	 */
 	public void removeProductFromCart(BarcodedItem item) throws SimulationException {
-		if (!this.getCart().containsKey(item)) {
-			throw new InvalidStateSimulationException("Product not in cart");
+		BarcodedProduct bproductToRemove = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
+		for (Item i : logic.cartLogic.getCart().keySet()) {
+			if(i instanceof BarcodedItem) {
+				BarcodedItem bitem = (BarcodedItem)i;
+				BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
+				if(bproductToRemove.equals(bproduct)) {
+					Utilities.modifyCountMapping(cart, bitem, -1);
+					// Update balance owed
+					BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
+					BigDecimal newPrice = this.balanceOwed.subtract(new BigDecimal(product.getPrice()));
+					this.updateBalance(newPrice);
+					return;
+				}
+			}
 		}
-		
-		Utilities.modifyCountMapping(cart, item, -1);
-		
-		// Update balance owed
-		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
-		BigDecimal newPrice = this.balanceOwed.subtract(new BigDecimal(product.getPrice()));
-		this.updateBalance(newPrice);
+		System.out.println("no item was removed");
 	}
 	
 	/**
@@ -133,7 +142,8 @@ public class CartLogic {
 		
 		// Update balance owed
 		PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(item.getPLUCode());
-		long itemPrice = product.getPrice() * (item.getMass().inMicrograms().longValue() / 1000000000);
+		double itemPrice = product.getPrice() * (item.getMass().inGrams().doubleValue() / 1000);
+		itemPrice = new BigDecimal(itemPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
 		BigDecimal newPrice = this.balanceOwed.subtract(new BigDecimal(itemPrice));
 		this.updateBalance(newPrice);
 	}
@@ -166,7 +176,7 @@ public class CartLogic {
 	 * @param item The PLU coded item to add
 	 * @param itemPrice the price of the item (already calculated based on weight and price per kg)
 	 */
-	public void addPLUCodedItemToCart(PLUCodedItem item, long itemPrice) throws SimulationException {
+	public void addPLUCodedItemToCart(PLUCodedItem item, double itemPrice) throws SimulationException {
 		this.addProductToCart(item, itemPrice);
 	}
 	
@@ -199,11 +209,11 @@ public class CartLogic {
 			else if (item instanceof PLUCodedItem) {
 				PLUCodedItem pluCodedItem = (PLUCodedItem) item;
 				PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(pluCodedItem.getPLUCode());
-				long itemPrice = product.getPrice() * (item.getMass().inMicrograms().longValue() / 1000000000);
+				double itemPrice = product.getPrice() * (item.getMass().inGrams().doubleValue()/1000);
+				itemPrice = new BigDecimal(itemPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
 				balance += itemPrice * count;
 			}
 		}
-		
 		return new BigDecimal(balance);
 	}
 	
@@ -215,13 +225,18 @@ public class CartLogic {
 		return this.balanceOwed;
 	}
 	
+	public double calculatePriceOfPLU(long price, Mass mass) {
+		double itemPrice = price * (mass.inGrams().doubleValue()/1000);
+		itemPrice = new BigDecimal(itemPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
+		return itemPrice;
+	}
+	
 	/**
    * Increments/Decrements the customer's balance
    * @param amount Is the amount to increment/decrement by
    */
   public void modifyBalance(BigDecimal amount) {
     this.balanceOwed = this.balanceOwed.add(amount);
-
     if (this.balanceOwed.compareTo(BigDecimal.ZERO) < 0) {
       this.balanceOwed = BigDecimal.ZERO;
     }
@@ -233,5 +248,8 @@ public class CartLogic {
 	 */
 	public void updateBalance(BigDecimal balance) {
 		this.balanceOwed = balance;
+		double balanceRounded = balance.setScale(3, RoundingMode.HALF_UP).doubleValue();
+		String balanceToShow = String.format("%.2f", balanceRounded);
+		if(logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getCostTextArea().setText("$"+balanceToShow);
 	}
 }

@@ -78,7 +78,7 @@ public class CardReaderController extends AbstractLogicDependant implements Card
     public void theDataFromACardHasBeenRead(CardData data) {
       String type = data.getType();
     	PaymentMethods t = this.logic.cardPaymentLogic.getCardType(data.getType());
-    	CardMethods c = this.logic.cardPaymentLogic.setCardPaymentType(type);
+    	CardMethods c = this.logic.getSelectedCardPaymentMethod();
 
         this.logic.cardPaymentLogic.isDataRead(true);
 
@@ -94,34 +94,34 @@ public class CardReaderController extends AbstractLogicDependant implements Card
         
         if (CardMethods.TAP.equals(c))
         	System.out.println("Tap payment has been processed");
-			if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
+		//	if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
 				//check if transaction successful
 				if(this.logic.cardPaymentLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
 			
 				   //if successful reduce amount owed by customer otherwise do nothing
 				   this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
 				   }
-			}
+		//	}
         
         else if (CardMethods.INSERT.equals(c)) {
-        	if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
+        //	if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
         	        //check if transaction successful
         	        if(this.logic.cardPaymentLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
 
         	            //if successful reduce amount owed by customer otherwise do nothing
         	            this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
         	        } 
-        	}
+        //	}
         }
         else if (CardMethods.SWIPE.equals(c)) {
-        	 if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
+        //	 if (this.logic.cardPaymentLogic.validateSignature()) { // Open a signature input UI here
         	      	//check if transaction successful
         	        if(this.logic.cardPaymentLogic.approveTransaction(data.getNumber(),this.logic.cartLogic.getBalanceOwed().doubleValue())){
 
         	        	//if successful reduce amount owed by customer otherwise do nothing
         	        	this.logic.cartLogic.modifyBalance(logic.cartLogic.getBalanceOwed().negate());
         	        }
-        	 }       
+        //	 }       
         }	        			
         else
         	throw new InvalidStateSimulationException("Invalid card payment method");
