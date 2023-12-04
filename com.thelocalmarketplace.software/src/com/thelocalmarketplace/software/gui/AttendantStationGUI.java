@@ -230,7 +230,6 @@ public class AttendantStationGUI {
         frame.setSize(800, 600);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
 
         // Initial creation of squares (hardcoded)
         createSquares(leftPanel, stationObjects); // Pass the number of squares as a parameter
