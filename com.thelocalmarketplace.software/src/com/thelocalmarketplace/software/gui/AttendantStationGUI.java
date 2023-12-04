@@ -13,7 +13,6 @@ public class AttendantStationGUI {
     private static JComboBox<StationObject> comboBox;
 
     // Fake class to represent Station objects
-    // Updated StationObject class
     static class StationObject {
         private int stationNumber;
         private Map<Character, Color> circleColors; // Map to store colors for circles
