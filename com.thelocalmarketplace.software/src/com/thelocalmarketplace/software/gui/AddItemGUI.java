@@ -161,13 +161,6 @@ public class AddItemGUI extends JFrame {
     	   }
 		});
 
-       payButton.addActionListener(e -> {
-    	   if(logic.cartLogic.getCart().size() != 0) {
-        	   logic.stateLogic.gotoState(States.CHECKOUT);
-        	   mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
-    	   }
-		});
-
         // Upper box split into 3 equally sized components
         JPanel upperInnerBox = new JPanel(new GridLayout(1, 3));
         JPanel upperRightBox = new JPanel(new GridLayout(1, 2));
