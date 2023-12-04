@@ -2,6 +2,12 @@ package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
 
+import com.jjjwelectronics.Item;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
 import java.awt.*;
@@ -10,29 +16,53 @@ import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.ArrayList;
-import java.util.Arrays;
+
+/**
+ * GUI for the Attendant Station
+ * 
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
+ * @author Maheen Nizmani (30172615)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
+ */
 
 public class AttendantStationGUI {
-
-    private static JComboBox<StationObject> comboBox;
-    private JFrame frame;
-    private JPanel mainPanel;
-    private CentralStationLogic logic;
-    private MainGUI mainGUI;
-    private String[] data = {"Apples", "Avocado", "Asparagus", "Blueberries"
-			,"Beets", "Celery", "Endive", "Grapes","Jicama" , "Kale" 
-			,"Lettuce", "Manogos", "Green Peppers", "Onions"
-			,"Red Peppers", "Radishes", "Shallots", "Spinach"
-			,"Tomatoes", "Yams", "Watermelon"};
+	CentralStationLogic logic;
+	MainGUI mainGUI;
+	JPanel mainPanel;
+    private String[] data;
     private DefaultListModel searchList = new DefaultListModel();
 
-	// Fake class to represent Station objects
-    // Updated StationObject class
-    private class StationObject {
+    private static JComboBox<StationObject> comboBox;
+
+    // Fake class to represent Station objects
+    class StationObject {
         private int stationNumber;
-        private Map<Character, Color> circleColors; // Map to store colors for circles
-        
+        private Map<Character, Color> circleColors; // Map to store colors for circles\
+
+
+        private boolean isEnabled;
+
+        private double weight;
+
         public StationObject(int stationNumber) {
             this.stationNumber = stationNumber;
             this.circleColors = new HashMap<>();
@@ -45,6 +75,8 @@ public class AttendantStationGUI {
             circleColors.put('P', Color.YELLOW);
             circleColors.put('C', Color.YELLOW);
             circleColors.put('B', Color.YELLOW);
+            circleColors.put('S', Color.YELLOW);
+            circleColors.put('H', Color.YELLOW);
         }
 
         public int getStationNumber() {
@@ -75,6 +107,24 @@ public class AttendantStationGUI {
         public String toString() {
             return "Station #" + stationNumber;
         }
+
+        // Add a getter and setter for isEnabled
+        public boolean isEnabled() {
+            return isEnabled;
+        }
+
+        public void setEnabled(boolean enabled) {
+            isEnabled = enabled;
+        }
+
+        public double getWeight() {
+            return weight;
+        }
+
+        public void setWeight(double weight) {
+            this.weight = weight;
+        }
+
     }
 
     private void updateUIForSelectedStation(StationObject selectedStation) {
@@ -84,13 +134,22 @@ public class AttendantStationGUI {
         selectedStation.setCircleColorRed('P');
         selectedStation.setCircleColorRed('C');
         selectedStation.setCircleColorRed('B');
+        selectedStation.setCircleColorRed('S');
+        selectedStation.setCircleColorRed('H');
 
         SwingUtilities.invokeLater(() -> comboBox.repaint());
+    }
+    
+    private void solveWeightDiscrepancy() {
+        // Add your logic to solve the weight discrepancy for the given station
+        // You can access the station object and perform necessary actions
+        // For demonstration purposes, print a message
+        //System.out.println("Solving weight discrepancy for Station #" + station.getStationNumber());
     }
 
     private void createFrame(StationObject[] stationObjects) {
 
-        frame = new JFrame("Attendant Station");
+        JFrame frame = new JFrame("Attendant Station");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.setResizable(false);
 
@@ -212,9 +271,10 @@ public class AttendantStationGUI {
     }
 
     // Method to update JComboBox options based on the given number of squares
-    private void updateComboBoxOptions(StationObject[] stationObjects) {
+    private static void updateComboBoxOptions(StationObject[] stationObjects) {
         comboBox.setModel(new DefaultComboBoxModel<>(stationObjects));
     }
+
 
     // Method to create squares based on the given array of StationObjects
     private void createSquares(JPanel panel, StationObject[] stationObjects) {
@@ -227,10 +287,35 @@ public class AttendantStationGUI {
 
         for (int i = 0; i < stationObjects.length; i++) {
             JPanel square = new JPanel(new BorderLayout());
-            square.setPreferredSize(new Dimension(220, 220)); // Increased size
+            square.setPreferredSize(new Dimension(260, 220)); // Increased size
 
             // Set the default background color of the square to blue
             square.setBackground(Color.BLUE);
+
+            // Add a switch to enable/disable the station
+            JToggleButton enableSwitch = new JToggleButton("Enable Station");
+            enableSwitch.setSelected(stationObjects[i].isEnabled());
+            int finalI1 = i;
+            enableSwitch.addActionListener(e -> {
+                stationObjects[finalI1].setEnabled(enableSwitch.isSelected());
+            });
+
+            // Add a "Solve" button below the square
+            JButton solveButton = new JButton("Solve Weight");
+            solveButton.addActionListener(new ActionListener() {
+                @Override
+                public void actionPerformed(ActionEvent e) {
+                    solveWeightDiscrepancy();
+                }
+            });
+
+            Font smallFont = new Font(solveButton.getFont().getName(), Font.BOLD, 11); // You can adjust the size (12 in this case)
+            solveButton.setFont(smallFont);
+
+            square.add(solveButton, BorderLayout.EAST);
+
+            // Add the enableSwitch to the top of the square
+            square.add(enableSwitch, BorderLayout.NORTH);
 
             // Center the square in the panel using GridBagConstraints
             gbc.gridx = i % 4;
@@ -241,8 +326,8 @@ public class AttendantStationGUI {
             GridLayout lightsLayout = new GridLayout(1, 4);
             lightsLayout.setHgap(10); // Set horizontal gap between lights
             lightsPanel.setLayout(lightsLayout);
-            
-            for (char label : new char[]{'I', 'P', 'C', 'B'}) {
+
+            for (char label : new char[]{'I', 'P', 'C', 'B', 'S', 'H'}) {
                 int finalI = i;
                 JPanel light = new JPanel(new GridBagLayout()) {
                     @Override
@@ -541,7 +626,7 @@ public class AttendantStationGUI {
             String itemText = (String) list.getSelectedValue();
             // Perform actions based on the entered text
             handleAddItemText(itemText);
-
+            
             // Close the window after processing
             textSearchWindow.dispose();
         });
@@ -604,19 +689,41 @@ public class AttendantStationGUI {
     // Method to handle entered text for text search
     private void handleEnteredText(String searchText) {
         // Add your logic here based on the entered text
-    	
-    	for(int i = 0; i < data.length; i++)
-    		if(data[i].toLowerCase().contains(searchText.toLowerCase())) {
-    			searchList.addElement(data[i]);
-    		}
+        // For example, you can print the entered text for demonstration purposes
+        System.out.println("Search Text: " + searchText);
+        
+        for(int i = 0; i < data.length; i++)
+            if(data[i].toLowerCase().contains(searchText.toLowerCase())) {
+                searchList.addElement(data[i]);
+            }
         // For example, you can print the entered text for demonstration purposes
         System.out.println("Search Text: " + searchText);
     }
     
-    private void handleAddItemText(String itemText) {
-    	System.out.println("Add to Order: " + itemText);
-    }
     
+    
+    private void handleAddItemText(String itemText) {
+        if(itemText == null) return;
+
+        for(Item i : mainGUI.getItemsInCart()) {
+            if (i instanceof BarcodedItem) {
+                BarcodedItem bitem = (BarcodedItem) i;
+                BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
+                if(bproduct.getDescription().equals(itemText)) {
+                    logic.addBarcodedProductController.addBarcode(bitem.getBarcode());
+                }
+            } else if (i instanceof PLUCodedItem) {
+                PLUCodedItem pitem = (PLUCodedItem) i;
+                PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
+                if(pproduct.getDescription().equals(itemText)) {
+                    logic.addPLUCodedProductController.addPLUCode(pitem.getPLUCode());
+                }
+            }
+        }
+
+        System.out.println("Added to Order: " + itemText);
+    }
+
     private void centerWindowOnFrame(JFrame window, JFrame mainFrame) {
         // Center the window on the screen
         Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
@@ -626,10 +733,19 @@ public class AttendantStationGUI {
     }
 
     public AttendantStationGUI(MainGUI m, CentralStationLogic l) {
-    	mainGUI = m;
-    	logic = l;
         int numStations = 3; // Set the initial number of stations
+        comboBox = new JComboBox<StationObject>();
+        mainGUI = m;
+        logic = l;
 
+        data = new String[SimulatedItems.simulatedItems.size()];
+        int index = 0;
+        for(Item i: SimulatedItems.simulatedItems) {
+            data[index] = mainGUI.getDescriptionOfItem(i);
+            System.out.println(mainGUI.getDescriptionOfItem(i));
+            index++;
+        }
+        
         // Create an array of StationObject instances
         StationObject[] stationObjects = new StationObject[numStations];
         for (int i = 0; i < numStations; i++) {
@@ -638,11 +754,10 @@ public class AttendantStationGUI {
 
         // Create an instance of AttendantStationGUI
         createFrame(stationObjects);
-        
     }
-    
-    public JPanel getPanel() {
+
+	public JPanel getPanel() {
 		return mainPanel;
 	}
-
 }
+

@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import javax.swing.SwingUtilities;
 
+import com.jjjwelectronics.Mass;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
@@ -34,17 +35,27 @@ import powerutility.PowerGrid;
  * @author Christopher Lo (30113400)
  * added CardMethods enumeration and changed method names to fit Insert/Tap Use Cases
  * -----------------------------------
- * @author Connell Reffo (10186960)
- * @author Tara Strickland (10105877)
- * @author Angelina Rochon (30087177)
- * @author Julian Fan (30235289)
- * @author Braden Beler (30084941)
- * @author Samyog Dahal (30194624)
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
  * @author Maheen Nizmani (30172615)
- * @author Phuong Le (30175125)
- * @author Daniel Yakimenka (10185055)
- * @author Merick Parkinson (30196225)
- * @author Farida Elogueil (30171114)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
 public class CentralStationLogic {
 	
@@ -150,6 +161,11 @@ public class CentralStationLogic {
 	 * Instance of logic for attendant
 	 */
 	public AttendantLogic attendantLogic;
+	
+	/**
+	 * Instance of signaling attendant logic
+	 */
+	public SignalAttendantLogic signalAttendantLogic;
 
 	/**
 	 * Instance of logic for card payment via swipe
@@ -187,7 +203,11 @@ public class CentralStationLogic {
 	 */
 	private boolean sessionStarted;
 	private boolean bypassIssuePrediction;
-	private MainGUI gui;
+	private MainGUI mainGUI;
+	/**
+	 * Maximum allowable bag mass in grams (can be configured)
+	 */
+	private BigDecimal maximumBagMass = new BigDecimal(1000); //default
 
 
 	/**
@@ -199,15 +219,17 @@ public class CentralStationLogic {
 			throw new NullPointerException("Hardware");
 		}
 		this.hardware = hardware;
-		
+
 		this.sessionStarted = false;
 		this.paymentMethod = PaymentMethods.NONE;
+		
+		
 		
 		// Initialize SelectLanguageLogic
         this.selectLanguageLogic = new SelectLanguageLogic(this, "English");
         
 		// Reference to logic objects
-		this.cartLogic = new CartLogic();
+		this.cartLogic = new CartLogic(this);
 		this.weightLogic = new WeightLogic(this);
 		this.stateLogic = new StateLogic(this);
 
@@ -220,12 +242,16 @@ public class CentralStationLogic {
 		this.cardReaderController = new CardReaderController(this);
 		this.receiptPrintingController = new ReceiptPrintingController(this);
 		this.attendantLogic = new AttendantLogic(this);
+		
 		this.addBagsLogic = new AddBagsLogic(this);
 		this.removeItemLogic = new RemoveItemLogic(this);
 		this.membershipLogic = new MembershipLogic(this);
 		
 		this.coinCurrencyLogic = new CurrencyLogic(this.hardware.getCoinDenominations());
 		this.banknoteCurrencyLogic = new CurrencyLogic(this.hardware.getBanknoteDenominations());
+		
+		//Initialize signalAttendantLogic
+		this.signalAttendantLogic = new SignalAttendantLogic(this);
 		
 		this.setupCoinDispenserControllers(this.coinCurrencyLogic.getDenominationsAsList());
 		this.setupBanknoteDispenserControllers(this.banknoteCurrencyLogic.getDenominationsAsList());
@@ -414,6 +440,24 @@ public class CentralStationLogic {
 	}
 	
 	public void setGUI(MainGUI g) {
-		gui = g;
+		mainGUI = g;
+	}
+
+	public MainGUI getMainGUI() {
+		return mainGUI;
+	}
+
+	/**
+	 * @return the maximumBagMass
+	 */
+	public BigDecimal getMaximumBagMass() {
+		return maximumBagMass;
+	}
+
+	/**
+	 * @param maximumBagMass the maximumBagMass to set
+	 */
+	public void setMaximumBagMass(BigDecimal maximumBagMass) {
+		this.maximumBagMass = maximumBagMass;
 	}
 }

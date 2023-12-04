@@ -1,5 +1,8 @@
 package com.thelocalmarketplace.software.controllers.item;
 
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Mass.MassDifference;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
@@ -15,28 +18,28 @@ import ca.ucalgary.seng300.simulation.SimulationException;
 
 /**
  * Represents the software controller for adding an item via PLU code
- * 
- * @author Ian Beler (30174903)
- * --------------------------------
- * @author 
- * @author 
- * @author 
- * @author 
- * @author 
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
  * @author Maheen Nizmani (30172615)
- * @author 
- * @author 
- * @author
- * @author 
- * @author 
- * @author 
- * @author 
- * @author 
- * @author 
- * @author
- * @author 
- * @author 
- * @author
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
 
 public class AddPLUCodedItemController extends AbstractLogicDependant {
@@ -77,8 +80,7 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 		// blocks the station
 		this.logic.stateLogic.gotoState(States.BLOCKED);
 		isAwaitingPLUMeasurement = true;
-		System.out.println("Please place item on scale to determine price");
-		logic.weightLogic.delayedDiscrepancyCheck(5000);
+		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Please place PLU item ("+priceLookUpCode+") in the bagging area.");
 	}
 	
 	/**
@@ -101,9 +103,9 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 		
 		PLUCodedItem item = new PLUCodedItem(priceLookUpCode, itemMass);
 		
-		long itemPrice = getPLUCodedItemPrice(item);
-		
+		double itemPrice = getPLUCodedItemPrice(item);
 		this.logic.cartLogic.addPLUCodedItemToCart(item, itemPrice);
+		logic.getMainGUI().getAddItemScreen().getWeightTextArea().setText("Weight of added PLU Item ("+priceLookUpCode+"): "+itemMass.inGrams()+"g");
 		
 		// expected weight is updated so that checkWeightDiscrepancy() in WeightLogic does not incorrectly return true
 		this.logic.weightLogic.addExpectedWeight(itemMass);
@@ -114,9 +116,13 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 	 * @param item - PLU coded item to get price of
 	 * @return - price of the PLU coded item
 	 */
-	public long getPLUCodedItemPrice(PLUCodedItem item) {
+	public double getPLUCodedItemPrice(PLUCodedItem item) {
 		PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(item.getPLUCode());
-		long itemPrice = product.getPrice() * (item.getMass().inMicrograms().longValue() / 1000000000);
+		double itemPrice = (product.getPrice()*item.getMass().inGrams().doubleValue()) / 1000;
+	    BigDecimal bd = BigDecimal.valueOf(itemPrice);
+	    bd = bd.setScale(2, RoundingMode.HALF_UP);
+	    itemPrice = bd.doubleValue();
+	    System.out.println(itemPrice);
 		return itemPrice;
 	}
 

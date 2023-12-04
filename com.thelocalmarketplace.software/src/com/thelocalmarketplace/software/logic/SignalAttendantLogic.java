@@ -1,63 +1,70 @@
 package com.thelocalmarketplace.software.logic;
 
-import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.AttendantStation;
 import com.thelocalmarketplace.hardware.ISelfCheckoutStation;
-import com.thelocalmarketplace.software.logic.AttendantLogic;
-
+import com.thelocalmarketplace.software.AbstractLogicDependant;
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
 
 /**
  * @author Camila Hernandez (30134911)
  * --------------------------------
- * @author Adrian Brisebois
- * @author Alan Yong
- * @author Ananya jain
- * @author Andrew Matti
- * @author Atique Muhammad
- * @author Christopher Lo
- * @author Danny Ly
- * @author Eric George
- * @author Gareth Jenkins
- * @author Ian Beler
- * @author Jahnissi Nwakanma
- * @author Jenny Dang
- * @author Maheen Nizamani
- * @author Michael Svoboda
- * @author Olivia Crosby
- * @author Rico Manalastas
- * @author Ryan Korsrud
- * @author Shanza Raza
- * @author Sukhnaaz Sidhu
- * @author Tanmay Mishra
- * @author Zhenhui Ren
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
+ * @author Maheen Nizmani (30172615)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
 
-public class SignalAttendantLogic {
+public class SignalAttendantLogic extends AbstractLogicDependant{
 	private AttendantStation attendantStation;
-	private AttendantLogic attendantLogic;
 	private boolean helpNeeded; //flag for attendant
 	
+	/** 
+	 * Used to indicate to attendant that helpNeeded flag is set to True
+	 * @param station
+	 */
 	public void getAssistance(ISelfCheckoutStation station) {
 		helpNeeded = true;
 	}
 	
+	/** 
+	 * Used to for attendant to indicate that helpNeeded flag is set to False - i.e. no longer needed
+	 * @param station
+	 */
 	public void clearAssistanceRequest(ISelfCheckoutStation station) {
 		helpNeeded = false;
 	}
-	
+	/**
+	 * Just a getter for helpNeeded flag
+	 * @return
+	 */
 	public boolean isHelpNeeded() { 
 		return helpNeeded;
 	}
 	
-	/** Tracks AttendantLogic and AttendantStation hardware 
+	/** Tracks AttendantLogic and central logic 
 	 * a customerSelfCheckoutStation can be supervised by at most one attendant station
-	 * @param attendantStation
-	 * @param attendantLogic
+	 * @param logic
 	 */ 
-	public SignalAttendantLogic(AttendantStation attendantStation, AttendantLogic attendantLogic) {
-		this.attendantStation = attendantStation;
-	    this.attendantLogic = attendantLogic;
+	public SignalAttendantLogic(CentralStationLogic logic) {
+		super(logic);
+		//TODO ?CAUSES PROJECT TO HALT this.attendantStation = new AttendantStation();
 	    this.helpNeeded = false;
 	}
 	/** Method signals to the system that help is needed at a customer station
@@ -66,7 +73,7 @@ public class SignalAttendantLogic {
 	 */
 	public synchronized void signalHelpNeeded(ISelfCheckoutStation station) {
 		if (attendantStation.supervisedStations().contains(station)) {
-			if (isHelpNeeded()) {
+			if (isHelpNeeded()) { 
 	               throw new IllegalStateException("Concurrent request: Help is already called.");
 	        }
 			getAssistance(station);

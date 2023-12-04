@@ -2,16 +2,48 @@ package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
 
+import com.tdc.CashOverloadException;
+import com.tdc.DisabledException;
+import com.tdc.banknote.Banknote;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 import java.text.NumberFormat;
+import java.util.Currency;
 import java.util.HashMap;
 import java.util.Map;
 
 // need help to connect the software to this
+
+/**
+ * GUI for the cash transactions 
+ * 
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
+ * @author Maheen Nizmani (30172615)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
+ */
 
 public class CashScreenGUI {
     private JFrame cashPageFrame;
@@ -48,7 +80,7 @@ public class CashScreenGUI {
         currencyButtonsPanel.setLayout(new GridLayout(0, 1));
 
         // buttons for bills and coins
-        float[] currencyValues = {100.0f, 50.0f, 20.0f, 10.0f, 5.0f, 2.0f, 1.0f, 0.25f, 0.10f, 0.05f};
+        float[] currencyValues = {100f, 50f, 20f, 10f, 5f, 2f, 1f, 0.25f, 0.10f, 0.05f};
         for (float value : currencyValues) {
             addButton(value);
         }
@@ -101,6 +133,14 @@ public class CashScreenGUI {
         button.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	if(value>=5) {
+            		try {
+            			System.out.println(value);
+						logic.hardware.getBanknoteInput().receive(new Banknote(Currency.getInstance("CAD"), new BigDecimal(value)));
+					} catch (DisabledException | CashOverloadException e1) {
+						e1.printStackTrace();
+					}
+            	}
                 handleCurrencyInsertion(value);
             }
         });

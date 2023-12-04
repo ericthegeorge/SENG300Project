@@ -12,9 +12,35 @@ import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 import com.thelocalmarketplace.software.controllers.pay.CardReaderController;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.CardMethods;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 // need help to connect the software to this
+
+/**
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
+ * @author Maheen Nizmani (30172615)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
+ */
 
 public class CreditScreenGUI {
     private JFrame creditPageFrame;
@@ -22,7 +48,7 @@ public class CreditScreenGUI {
     private CentralStationLogic logic;
     private MainGUI mainGUI;
     private AbstractSelfCheckoutStation station;
-    private Card debit;
+    private Card creditCard;
     
     public CreditScreenGUI(MainGUI m, CentralStationLogic l) {
     	mainGUI = m;
@@ -30,12 +56,12 @@ public class CreditScreenGUI {
         creditPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
         creditPagePanel = new JPanel();
         
-        CardIssuer bank= new CardIssuer("Scotia Bank",3);
+        CardIssuer bank = new CardIssuer("Scotia Bank",3);
         logic.setupBankDetails(bank);
-        this.debit = new Card("DEBIT", "123456789", "John", "329", "1234", true, true);
+        this.creditCard = new Card("CREDIT", "123456789", "John", "329", "1234", true, true);
         Calendar expiry = Calendar.getInstance();
         expiry.set(2025,Calendar.JANUARY,24);
-        bank.addCardData("123456789", "John",expiry,"329",32.00);
+        bank.addCardData("123456789", "John", expiry,"329",32.00);
 
         addWidgets();
  
@@ -55,9 +81,9 @@ public class CreditScreenGUI {
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	logic.selectCardMethod(CardMethods.INSERT);
                 try {
-                	logic.stateLogic.gotoState(States.CHECKOUT);
-					logic.hardware.getCardReader().insert(debit, "1234");
+					logic.hardware.getCardReader().insert(creditCard, "1234");
 				} catch (IOException e1) {
 					// TODO Auto-generated catch block
 					e1.printStackTrace();
@@ -68,14 +94,24 @@ public class CreditScreenGUI {
         tapButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //cardReaderController.aCardHasBeenTapped();
+            	logic.selectCardMethod(CardMethods.TAP);
+                try {
+					logic.hardware.getCardReader().tap(creditCard);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
             }
         });
         
         swipeButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                //cardReaderController.aCardHasBeenSwiped();
+            	logic.selectCardMethod(CardMethods.SWIPE);
+                try {
+					logic.hardware.getCardReader().swipe(creditCard);
+				} catch (IOException e1) {
+					e1.printStackTrace();
+				}
             }
         });
 
