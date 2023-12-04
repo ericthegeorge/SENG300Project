@@ -54,12 +54,13 @@ public class MaintainCoinsLogic extends AbstractLogicDependant {
 			{	
 				this.logic.stateLogic.gotoState(States.NORMAL);
 				System.out.println("Maintenance of Coin done make sure the hardware is closed");
-			}
-			else {
-			System.out.println("Error detected going to suspended state");
-			this.logic.stateLogic.gotoState(States.SUSPENDED);
+			}else {
+				System.out.println("Error detected going to suspended state");
+				this.logic.stateLogic.gotoState(States.SUSPENDED);
 			}
 	}
+	
+	
 	
 	
 
