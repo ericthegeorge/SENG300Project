@@ -101,7 +101,7 @@ public class AttendantLogic {
 	}
 
 	/**
-	 * Attendant addds paper to the printer with amount specified
+	 * Attendant adds paper to the printer with amount specified
 	 * @param amount	the amount of paper to add
 	 * @throws OverloadedDevice if too much paper is added
 	 */

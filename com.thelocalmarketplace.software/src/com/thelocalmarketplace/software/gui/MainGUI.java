@@ -3,6 +3,7 @@ package com.thelocalmarketplace.software.gui;
 import javax.swing.*;
 
 import com.jjjwelectronics.Item;
+import com.jjjwelectronics.card.Card;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.tdc.banknote.Banknote;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
@@ -12,6 +13,7 @@ import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
+import com.thelocalmarketplace.hardware.external.CardIssuer;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.gui.CompletionScreenGUI;
 import com.thelocalmarketplace.software.gui.StartScreenGUI;
@@ -24,6 +26,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Currency;
 
 public class MainGUI {

@@ -8,6 +8,7 @@ import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 public class PaymentScreenGUI {
     private JFrame paymentPageFrame;
@@ -161,8 +162,12 @@ public class PaymentScreenGUI {
         finishCheckoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "completion");
+            	if(logic.cartLogic.getBalanceOwed().intValue() == 0) {
+                	BigDecimal missed = logic.coinPaymentController.getMissed().add(logic.cashPaymentController.getMissed());
+                	logic.receiptPrintingController.handlePrintReceipt(missed);
+                    paymentPageFrame.dispose();
+                    mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "completion");
+            	}
             }
         });
     }

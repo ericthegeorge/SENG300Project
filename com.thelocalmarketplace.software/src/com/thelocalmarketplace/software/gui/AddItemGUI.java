@@ -151,8 +151,10 @@ public class AddItemGUI extends JFrame {
 	   payButton.setFont(new Font("Arial", Font.PLAIN, 50)); // Set a larger font size
 	   bottomLowRightBox.add(payButton);
        payButton.addActionListener(e -> {
-    	   logic.stateLogic.gotoState(States.CHECKOUT);
-    	   mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
+    	   if(logic.cartLogic.getCart().size() != 0) {
+        	   logic.stateLogic.gotoState(States.CHECKOUT);
+        	   mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
+    	   }
 		});
 
         // Upper box split into 3 equally sized components
