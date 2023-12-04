@@ -80,7 +80,7 @@ public class AddItemGUI extends JFrame {
 	    addItemTextArea.setBorder(new EmptyBorder(30, 30, 50, 30));
 	    topGrid.add(addItemTextArea);
 	    
-	    String baggingLabelString = "            Reciept: ";
+	    String baggingLabelString = "            Receipt: ";
 	    JTextArea baggingTextArea = new JTextArea(baggingLabelString);
 	    baggingTextArea.setEditable(false);
 	    baggingTextArea.setFont(new Font("Arial", Font.PLAIN, 55));
@@ -156,12 +156,6 @@ public class AddItemGUI extends JFrame {
 	   JButton payButton = new JButton("Pay");
 	   payButton.setFont(new Font("Arial", Font.PLAIN, 50)); // Set a larger font size
 	   bottomLowRightBox.add(payButton);
-    //    payButton.addActionListener(e -> {
-    // 	   if(logic.cartLogic.getCart().size() != 0) {
-    //     	   logic.stateLogic.gotoState(States.CHECKOUT);
-    //     	   mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
-    // 	   }
-	// 	});
 
        payButton.addActionListener(e -> {
     	   if(logic.cartLogic.getCart().size() != 0) {
@@ -240,7 +234,7 @@ public class AddItemGUI extends JFrame {
         List<String> stringList = new ArrayList<>();
         stringList.add("Scan");
         stringList.add("PLU Code");
-        stringList.add("Visual Catalouge");
+        stringList.add("Visual Catalogue");
         stringList.add("Add to Bagging Area");
         stringList.add("Move back to Cart");
 
@@ -307,6 +301,7 @@ public class AddItemGUI extends JFrame {
 			mainGUI.getItemsInCart().add(mainGUI.getItemFromDescription(selectedItem));
 			cartList.addElement(selectedItem);
 			((DefaultListModel) baggingAreaObjt.getModel()).remove(baggingAreaObjt.getSelectedIndex());
+            updateReceipt();
 		});
         
         // Add panels to the bottomHighBox
@@ -314,26 +309,22 @@ public class AddItemGUI extends JFrame {
        JButton removeItemButton = new JButton("Remove Item");
  	   removeItemButton.setFont(new Font("Arial", Font.PLAIN, 30)); // Set a larger font size
  	   bottomHighLeftBox.add(removeItemButton);
- 	   
  	   removeItemButton.addActionListener(e -> {
-            String selectedItem = cartListObjt.getSelectedValue();
-            ArrayList<Item> snapshotOfCart = new ArrayList<Item>(mainGUI.getItemsInCart());
- 			for(Item i : snapshotOfCart) {
+            String selectedItem = leftReceiptList.getSelectedValue();
+ 			for(Item i : logic.cartLogic.getCart().keySet()) {
 	            if(mainGUI.getDescriptionOfItem(i).equals(selectedItem)) {
-	            	((DefaultListModel) cartListObjt.getModel()).remove(cartListObjt.getSelectedIndex());
-	            	mainGUI.getItemsInCart().remove(i);
+	            	if(i instanceof BarcodedItem) {
+	            		BarcodedItem bitem = (BarcodedItem) i;
+	            		logic.removeItemLogic.removeBarcodedItem(bitem);
+	            	} else if (i instanceof PLUCodedItem ) {
+	            		PLUCodedItem pitem = (PLUCodedItem) i;
+	            		logic.removeItemLogic.checkCartForPLUCodedItemToRemove(pitem.getPLUCode());
+	            		getErrorTextArea().setText("Remove the PLU Item from the bagging area.");
+	            	}
 	        	}
+	            updateReceipt();
  			}
  		});
-
- 	   JButton addOwnBagsButton = new JButton("Add own Bags");
- 	   addOwnBagsButton.setFont(new Font("Arial", Font.PLAIN, 30)); // Set a larger font size
- 	   bottomHighLeftBox.add(addOwnBagsButton);
-         
-
- 	   JButton dontBagItemButton = new JButton("Dont bag item");
- 	   dontBagItemButton.setFont(new Font("Arial", Font.PLAIN, 30)); // Set a larger font size
- 	   bottomHighLeftBox.add(dontBagItemButton);
         
         // Add the button panel to the upper box
         upperInnerBox.add(buttonPanel);

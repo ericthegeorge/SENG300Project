@@ -133,16 +133,7 @@ public class WeightDiscrepencyTests {
 		session.setBypassIssuePrediction(true);
 		session.startSession();
 		this.scanUntilAdded(bitem3);
-		new java.util.Timer().schedule( 
-		        new java.util.TimerTask() {
-		            @Override
-		            public void run() {
-		        		station.getBaggingArea().addAnItem(bitem3);
-		            }
-		        }, 
-		        6000 
-		);
-		Thread.sleep(7000);
+		station.getBaggingArea().addAnItem(bitem3);
 	}
 
 	

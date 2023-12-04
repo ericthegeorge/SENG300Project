@@ -78,7 +78,7 @@ public class RemoveItemLogic extends AbstractLogicDependant{
     		this.logic.cartLogic.removeProductFromCart(item);
 	    	this.logic.weightLogic.removeExpectedWeight(item.getBarcode());
 	    	this.logic.stateLogic.gotoState(States.BLOCKED);
-	    	System.out.println("Item removed from cart. Please remove the item from the bagging area");
+			if(logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Please remove the item from the bagging area");
 	    	logic.weightLogic.delayedDiscrepancyCheck(5000);
     	}
 	}
@@ -134,7 +134,7 @@ public class RemoveItemLogic extends AbstractLogicDependant{
             
             if (item instanceof PLUCodedItem) {
             	PLUCodedItem PLUCodedItem = (PLUCodedItem) item;
-            	if (priceLookUpCode == PLUCodedItem.getPLUCode() && itemMass == PLUCodedItem.getMass()) {
+            	if (priceLookUpCode == PLUCodedItem.getPLUCode() && itemMass.equals(PLUCodedItem.getMass())) {
             		pluItemForRemoval = PLUCodedItem;
             		break;
             	}

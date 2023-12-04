@@ -29,7 +29,8 @@ public class AttendantStationGUI {
     // Fake class to represent Station objects
     class StationObject {
         private int stationNumber;
-        private Map<Character, Color> circleColors; // Map to store colors for circles
+        private Map<Character, Color> circleColors; // Map to store colors for circles\
+
 
         private boolean isEnabled;
 
@@ -110,6 +111,13 @@ public class AttendantStationGUI {
         selectedStation.setCircleColorRed('H');
 
         SwingUtilities.invokeLater(() -> comboBox.repaint());
+    }
+    
+    private void solveWeightDiscrepancy() {
+        // Add your logic to solve the weight discrepancy for the given station
+        // You can access the station object and perform necessary actions
+        // For demonstration purposes, print a message
+        //System.out.println("Solving weight discrepancy for Station #" + station.getStationNumber());
     }
 
     private void createFrame(StationObject[] stationObjects) {
@@ -230,7 +238,6 @@ public class AttendantStationGUI {
         frame.setSize(800, 600);
         frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         frame.setLocationRelativeTo(null);
-        frame.setVisible(true);
 
         // Initial creation of squares (hardcoded)
         createSquares(leftPanel, stationObjects); // Pass the number of squares as a parameter
@@ -240,6 +247,7 @@ public class AttendantStationGUI {
     private static void updateComboBoxOptions(StationObject[] stationObjects) {
         comboBox.setModel(new DefaultComboBoxModel<>(stationObjects));
     }
+
 
     // Method to create squares based on the given array of StationObjects
     private void createSquares(JPanel panel, StationObject[] stationObjects) {
@@ -610,13 +618,6 @@ public class AttendantStationGUI {
         textSearchWindow.setVisible(true);
     }
 
-    private void solveWeightDiscrepancy() {
-        // Add your logic to solve the weight discrepancy for the given station
-        // You can access the station object and perform necessary actions
-        // For demonstration purposes, print a message
-        //System.out.println("Solving weight discrepancy for Station #" + station.getStationNumber());
-    }
-
 
     // Method to handle button click events
     private void handleButtonClick(String buttonLabel, JFrame frame) {
@@ -731,5 +732,5 @@ public class AttendantStationGUI {
 	public JPanel getPanel() {
 		return mainPanel;
 	}
-
 }
+
