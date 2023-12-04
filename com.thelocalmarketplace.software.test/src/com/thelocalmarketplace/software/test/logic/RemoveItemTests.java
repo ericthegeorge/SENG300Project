@@ -128,24 +128,13 @@ public class RemoveItemTests {
 		}
 		
 		//the following function was taken mainly from Angelina's tests for bulkyitems
-		/*public void scanUntilAdded(Product p, BarcodedItem b) {
+		public void scanUntilAdded(Product p, BarcodedItem b) {
 			int cnt = 0;
 			
 			while(cnt< 10000 && !session.cartLogic.getCart().containsKey(p)) {
 				station.getHandheldScanner().scan(b);
 				cnt++;
 			}
-		}*/
-		
-		public void putTestBarcodedItemInCart(BarcodedItem item) {
-			long itemPrice;
-			if (item.getBarcode() == product.getBarcode()) {
-				itemPrice = product.getPrice();
-			}
-			else { //if (item.getBarcode() == product2.getBarcode()) {
-				itemPrice = product2.getPrice();
-			}
-			session.cartLogic.addProductToCart(item, itemPrice);
 		}
 		
 		/** Tests if the method actually removes an item from the cart when called
@@ -153,13 +142,12 @@ public class RemoveItemTests {
 		 */
 		@Test
 		public void testSuccessfulRemoval() {
-			//this.scanUntilAdded(product, bitem);
-			this.putTestBarcodedItemInCart(bitem);
+			this.scanUntilAdded(product, bitem);
 			assertTrue(session.cartLogic.getCart().size() == 1);
 			
 			station.getBaggingArea().addAnItem(bitem);
 			
-			session.removeItemLogic.removeBarcodedItem(bitem);
+			session.removeItemLogic.removeBarcodedItem(product);
 			assertEquals(0, session.cartLogic.getCart().size());
 			
 			System.out.println("Test 1 end\n");
@@ -170,11 +158,10 @@ public class RemoveItemTests {
 		 */
 		@Test
 		public void testPostRemovalBlock() {
-			//this.scanUntilAdded(product, bitem);
-			this.putTestBarcodedItemInCart(bitem);
+			this.scanUntilAdded(product, bitem);
 			station.getBaggingArea().addAnItem(bitem);
 			
-			session.removeItemLogic.removeBarcodedItem(bitem);
+			session.removeItemLogic.removeBarcodedItem(product);
 			assertTrue(session.stateLogic.getState() == States.BLOCKED);
 			
 			station.getBaggingArea().removeAnItem(bitem);
@@ -186,15 +173,14 @@ public class RemoveItemTests {
 		 */
 		@Test
 		public void testIncorrectRemoval() {
-			//this.scanUntilAdded(product, bitem);
-			this.putTestBarcodedItemInCart(bitem);
+			this.scanUntilAdded(product, bitem);
 			station.getBaggingArea().addAnItem(bitem);
 			
-			//this.scanUntilAdded(product2, bitem2);
-			this.putTestBarcodedItemInCart(bitem2);
+			
+			this.scanUntilAdded(product2, bitem2);
 			station.getBaggingArea().addAnItem(bitem2);
 			
-			session.removeItemLogic.removeBarcodedItem(bitem);
+			session.removeItemLogic.removeBarcodedItem(product);
 			
 			station.getBaggingArea().removeAnItem(bitem2);
 			assertTrue(session.stateLogic.getState() == States.BLOCKED);
@@ -223,7 +209,7 @@ public class RemoveItemTests {
 		 */
 		@Test (expected = InvalidStateSimulationException.class)
 		public void failOnItemNotInCart() {
-			session.removeItemLogic.removeBarcodedItem(bitem);
+			session.removeItemLogic.removeBarcodedItem(product);
 			
 			System.out.println("Test 5 end\n");
 		}
@@ -233,11 +219,10 @@ public class RemoveItemTests {
 		 */
 		@Test
 		public void resolveWeightDescrepancyByRemoval() {
-			//this.scanUntilAdded(product, bitem);
-			this.putTestBarcodedItemInCart(bitem);
+			this.scanUntilAdded(product, bitem);
 			assertTrue(session.stateLogic.getState() == States.BLOCKED);
 
-			session.removeItemLogic.removeBarcodedItem(bitem);
+			session.removeItemLogic.removeBarcodedItem(product);
 			assertTrue(session.stateLogic.getState() == States.NORMAL);	
 			
 			System.out.println("Test 6 end\n");
@@ -250,6 +235,6 @@ public class RemoveItemTests {
 		@Test (expected = InvalidStateSimulationException.class)
 		public void failOnNullSession() {
 			session.stopSession();
-			session.removeItemLogic.removeBarcodedItem(bitem);
+			session.removeItemLogic.removeBarcodedItem(product);
 		}
 }

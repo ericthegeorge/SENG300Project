@@ -1,10 +1,8 @@
 package com.thelocalmarketplace.software.logic;
 
-import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.AttendantStation;
 import com.thelocalmarketplace.hardware.ISelfCheckoutStation;
-import com.thelocalmarketplace.software.logic.AttendantLogic;
-
+import com.thelocalmarketplace.software.AbstractLogicDependant;
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
 
 /**
@@ -33,31 +31,40 @@ import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
  * @author Zhenhui Ren
  */
 
-public class SignalAttendantLogic {
+public class SignalAttendantLogic extends AbstractLogicDependant{
 	private AttendantStation attendantStation;
-	private AttendantLogic attendantLogic;
 	private boolean helpNeeded; //flag for attendant
 	
+	/** 
+	 * Used to indicate to attendant that helpNeeded flag is set to True
+	 * @param station
+	 */
 	public void getAssistance(ISelfCheckoutStation station) {
 		helpNeeded = true;
 	}
 	
+	/** 
+	 * Used to for attendant to indicate that helpNeeded flag is set to False - i.e. no longer needed
+	 * @param station
+	 */
 	public void clearAssistanceRequest(ISelfCheckoutStation station) {
 		helpNeeded = false;
 	}
-	
+	/**
+	 * Just a getter for helpNeeded flag
+	 * @return
+	 */
 	public boolean isHelpNeeded() { 
 		return helpNeeded;
 	}
 	
-	/** Tracks AttendantLogic and AttendantStation hardware 
+	/** Tracks AttendantLogic and central logic 
 	 * a customerSelfCheckoutStation can be supervised by at most one attendant station
-	 * @param attendantStation
-	 * @param attendantLogic
+	 * @param logic
 	 */ 
-	public SignalAttendantLogic(AttendantStation attendantStation, AttendantLogic attendantLogic) {
-		this.attendantStation = attendantStation;
-	    this.attendantLogic = attendantLogic;
+	public SignalAttendantLogic(CentralStationLogic logic) {
+		super(logic);
+		//TODO ?CAUSES PROJECT TO HALT this.attendantStation = new AttendantStation();
 	    this.helpNeeded = false;
 	}
 	/** Method signals to the system that help is needed at a customer station
@@ -66,7 +73,7 @@ public class SignalAttendantLogic {
 	 */
 	public synchronized void signalHelpNeeded(ISelfCheckoutStation station) {
 		if (attendantStation.supervisedStations().contains(station)) {
-			if (isHelpNeeded()) {
+			if (isHelpNeeded()) { 
 	               throw new IllegalStateException("Concurrent request: Help is already called.");
 	        }
 			getAssistance(station);
