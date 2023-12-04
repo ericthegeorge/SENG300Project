@@ -25,8 +25,10 @@ public class AddItemGUI extends JFrame {
 	private JTextArea errorTextArea;
 	private JTextArea weightTextArea;
 	private JTextArea costTextArea;
-	DefaultListModel<String> leftReceiptModel;
-	DefaultListModel<String> rightReceiptModel;
+	DefaultListModel<String> leftReceiptModel = new DefaultListModel<>();
+	DefaultListModel<String> rightReceiptModel = new DefaultListModel<>();
+	JList<String> rightReceiptList = new JList<>(rightReceiptModel);
+	JList<String> leftReceiptList = new JList<>(leftReceiptModel);
 	DefaultListModel<String> cartList;
 	DefaultListModel<String> baggingAreaList;
 
@@ -51,7 +53,7 @@ public class AddItemGUI extends JFrame {
         double topBoxRatio = 1.0 / 10.0;
         double upperBoxRatio = 7.0 / 10.0;
         double bottomBoxRatio = 3.0 / 10.0;
-        
+
        
         // Split the page into two boxes horizontally
         JPanel topBox = new JPanel(new GridLayout(1, 1));
@@ -154,18 +156,27 @@ public class AddItemGUI extends JFrame {
 	   JButton payButton = new JButton("Pay");
 	   payButton.setFont(new Font("Arial", Font.PLAIN, 50)); // Set a larger font size
 	   bottomLowRightBox.add(payButton);
-       payButton.addActionListener(e -> {
-    	   if(logic.cartLogic.getCart().size() != 0) {
-        	   logic.stateLogic.gotoState(States.CHECKOUT);
-        	   mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
-    	   }
-		});
+    //    payButton.addActionListener(e -> {
+    // 	   if(logic.cartLogic.getCart().size() != 0) {
+    //     	   logic.stateLogic.gotoState(States.CHECKOUT);
+    //     	   mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
+    // 	   }
+	// 	});
 
        payButton.addActionListener(e -> {
     	   if(logic.cartLogic.getCart().size() != 0) {
         	   logic.stateLogic.gotoState(States.CHECKOUT);
         	   mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
     	   }
+		   mainGUI.paymentScreen.updateReceiptListNames(getLeftReceiptModel());
+		   mainGUI.paymentScreen.updateReceiptListPrices(getRightReceiptModel());
+		   mainGUI.paymentScreen.setCartItemList(mainGUI.paymentScreen.getReceiptListNames(), mainGUI.paymentScreen.getReceiptListPrices());
+		   mainGUI.paymentScreen.updateCartItemList(mainGUI.paymentScreen.getCartItemModel());
+		   mainGUI.paymentScreen.updateCartScrollPanel();
+
+		   mainGUI.paymentScreen.setTotalPrice(logic.cartLogic.calculateTotalCost().floatValue());
+		   mainGUI.paymentScreen.updateTotalPriceText();
+
 		});
 
         // Upper box split into 3 equally sized components
@@ -199,24 +210,24 @@ public class AddItemGUI extends JFrame {
         JScrollPane rightScrollPane = new JScrollPane(baggingAreaObjt);
         
         // Add another list element to the right (bottom)
-        leftReceiptModel = new DefaultListModel<>();
-        JList<String> leftReceiptList = new JList<>(leftReceiptModel);
-        leftReceiptList.setFont(new Font("Arial", Font.PLAIN, 26)); // Set the font size
+        getLeftReceiptList().setFont(new Font("Arial", Font.PLAIN, 26)); // Set the font size
         leftReceiptList.setBorder(BorderFactory.createCompoundBorder(
                 new EmptyBorder(20, 20, 20, -1),
                 BorderFactory.createLineBorder(Color.BLACK)
         ));
+
         JScrollPane leftReceiptScrollPane = new JScrollPane(leftReceiptList);
 
         // Add another list element to the right (bottom)
-        rightReceiptModel = new DefaultListModel<>();
-        JList<String> rightReceiptList = new JList<>(rightReceiptModel);
-        rightReceiptList.setFont(new Font("Arial", Font.PLAIN, 26)); // Set the font size
+        // rightReceiptModel = new DefaultListModel<>();
+        // JList<String> rightReceiptList = new JList<>(rightReceiptModel);
+        getRightReceiptList().setFont(new Font("Arial", Font.PLAIN, 26)); // Set the font size
         
         rightReceiptList.setBorder(BorderFactory.createCompoundBorder(
                 new EmptyBorder(20, -1, 20, 20),
                 BorderFactory.createLineBorder(Color.BLACK)
         ));
+		
         JScrollPane rightReceiptScrollPane = new JScrollPane(rightReceiptList);
 
         upperInnerBox.add(upperLeftBox);
@@ -352,6 +363,8 @@ public class AddItemGUI extends JFrame {
     public void updateReceipt() {
     	rightReceiptModel.clear();
     	leftReceiptModel.clear();
+		
+
     	for(Item i : logic.cartLogic.getCart().keySet()) {
     		leftReceiptModel.addElement(mainGUI.getDescriptionOfItem(i));
     		
@@ -367,8 +380,19 @@ public class AddItemGUI extends JFrame {
     		}
     		rightReceiptModel.addElement("$"+price);
     	}
-
     }
+
+	// Getter methods to access the JLists
+    public JList<String> getRightReceiptList() {
+        return rightReceiptList;
+    }
+
+    public JList<String> getLeftReceiptList() {
+        return leftReceiptList;
+    }
+
+
+
     
 	public JPanel getPanel() {
 		return mainPanel;
@@ -389,4 +413,32 @@ public class AddItemGUI extends JFrame {
 	public JTextArea getCostTextArea() {
 		return costTextArea;
 	}
+
+	// Getter for leftReceiptModel
+    public DefaultListModel<String> getLeftReceiptModel() {
+        return leftReceiptModel;
+    }
+
+    // Setter for leftReceiptModel
+    public void setLeftReceiptModel(List<String> items) {
+        leftReceiptModel.clear(); // Clear existing items
+
+        for (String item : items) {
+            leftReceiptModel.addElement(item);
+        }
+    }
+
+    // Getter for rightReceiptModel
+    public DefaultListModel<String> getRightReceiptModel() {
+        return rightReceiptModel;
+    }
+
+    // Setter for rightReceiptModel
+    public void setRightReceiptModel(List<String> items) {
+        rightReceiptModel.clear(); // Clear existing items
+
+        for (String item : items) {
+            rightReceiptModel.addElement(item);
+        }
+    }
 }

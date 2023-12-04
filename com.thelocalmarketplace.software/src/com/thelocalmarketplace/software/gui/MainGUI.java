@@ -46,12 +46,14 @@ public class MainGUI {
     private CreditScreenGUI creditScreen;
     private DebitScreenGUI debitScreen;
     private VisualCatalogueScreenGUI keyboardScreen;
-    private PaymentScreenGUI paymentScreen;
+    public PaymentScreenGUI paymentScreen;
     private AddItemGUI addItemScreen;
     private CashScreenGUI cashScreen;
     
 	private AbstractSelfCheckoutStation station;
     private CentralStationLogic logic;
+
+
     
     public static void main(String[] args) {
     	AbstractSelfCheckoutStation.resetConfigurationToDefaults();
@@ -198,7 +200,8 @@ public class MainGUI {
 		}
 		return null;	
 	}
-    
+
+
     public CardLayout getCardLayout() {
 		return mainCardLayout;
 	}
@@ -235,10 +238,6 @@ public class MainGUI {
 		return keyboardScreen;
 	}
 
-	public PaymentScreenGUI getPaymentScreen() {
-		return paymentScreen;
-	}
-
 	public AddItemGUI getAddItemScreen() {
 		return addItemScreen;
 	}
@@ -246,5 +245,17 @@ public class MainGUI {
 	public ArrayList<Item> getItemsInBaggingArea() {
 		return itemsInBaggingArea;
 	}
+
+
+
+	// Getter for paymentScreen
+    public PaymentScreenGUI getPaymentScreen() {
+        return paymentScreen;
+    }
+
+    // Setter for paymentScreen
+    public void setPaymentScreen(PaymentScreenGUI paymentScreen) {
+        this.paymentScreen = paymentScreen;
+    }
 
 }
