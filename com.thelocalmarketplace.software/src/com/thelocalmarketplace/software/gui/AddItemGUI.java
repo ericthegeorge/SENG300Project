@@ -124,7 +124,7 @@ public class AddItemGUI extends JFrame {
 	   costTextArea.setAlignmentY(Component.CENTER_ALIGNMENT);
 	   bottomHighRightBox.add(costTextArea);
 	   
-	   String errorText = "Please scan an item or enter a PLU code.";
+	   String errorText = "Scan an item, enter a PLU code, or use the visual catalogue.";
 	   errorTextArea = new JTextArea(errorText);
 	   errorTextArea.setEditable(false);
 	   errorTextArea.setFont(new Font("Arial", Font.PLAIN, 55));

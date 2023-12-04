@@ -8,6 +8,7 @@ import java.util.Map.Entry;
 
 import javax.swing.SwingUtilities;
 
+import com.jjjwelectronics.Mass;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
@@ -188,6 +189,10 @@ public class CentralStationLogic {
 	private boolean sessionStarted;
 	private boolean bypassIssuePrediction;
 	private MainGUI mainGUI;
+	/**
+	 * Maximum allowable bag mass in grams (can be configured)
+	 */
+	private BigDecimal maximumBagMass = new BigDecimal(1000); //default
 
 
 	/**
@@ -419,5 +424,19 @@ public class CentralStationLogic {
 
 	public MainGUI getMainGUI() {
 		return mainGUI;
+	}
+
+	/**
+	 * @return the maximumBagMass
+	 */
+	public BigDecimal getMaximumBagMass() {
+		return maximumBagMass;
+	}
+
+	/**
+	 * @param maximumBagMass the maximumBagMass to set
+	 */
+	public void setMaximumBagMass(BigDecimal maximumBagMass) {
+		this.maximumBagMass = maximumBagMass;
 	}
 }
