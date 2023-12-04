@@ -98,6 +98,11 @@ public class MembershipTests {
 		cardData = new CardDataStub ("Membership", "111222333", "Demo Member", "no cvv");
 		falseCardData = new CardDataStub ("Membership", "111242333", "Non-Member", "no cvv");	
 	 }
+	
+	@After
+	public void tearDown() {
+		PowerGrid.engageUninterruptiblePowerSource();
+	}
 	 
 	 @Test
 	 public void testIfMemberByNumber() {
@@ -118,16 +123,17 @@ public class MembershipTests {
 	 public void testIfNotMemberByCard() {
 		 assertFalse(membershipLogic.enterMembershipByCard(falseCardData));
 	 }
-	 //(expected = NullPointerException.class) 
+
 	 @Test 
 	 public void testNullNumber() throws Exception{
 		 assertFalse(membershipLogic.enterMembershipByNumber(null));
 	 }
 	 
-	 //(expected = NullPointerException.class)
 	 @Test  
 	 public void testNullCard() throws Exception{
 		 assertFalse(membershipLogic.enterMembershipByCard(null));
 	 }
+	 
+	 
 
 }
