@@ -78,7 +78,7 @@ public class RemoveItemLogic extends AbstractLogicDependant{
     		this.logic.cartLogic.removeProductFromCart(item);
 	    	this.logic.weightLogic.removeExpectedWeight(item.getBarcode());
 	    	this.logic.stateLogic.gotoState(States.BLOCKED);
-	    	System.out.println("Item removed from cart. Please remove the item from the bagging area");
+			logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Please remove the item from the bagging area");
 	    	logic.weightLogic.delayedDiscrepancyCheck(5000);
     	}
 	}

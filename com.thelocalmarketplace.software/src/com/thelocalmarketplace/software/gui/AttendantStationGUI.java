@@ -730,5 +730,4 @@ public class AttendantStationGUI {
 	public JPanel getPanel() {
 		return mainPanel;
 	}
-
 }

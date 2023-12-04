@@ -78,7 +78,7 @@ public class AddItemGUI extends JFrame {
 	    addItemTextArea.setBorder(new EmptyBorder(30, 30, 50, 30));
 	    topGrid.add(addItemTextArea);
 	    
-	    String baggingLabelString = "            Reciept: ";
+	    String baggingLabelString = "            Receipt: ";
 	    JTextArea baggingTextArea = new JTextArea(baggingLabelString);
 	    baggingTextArea.setEditable(false);
 	    baggingTextArea.setFont(new Font("Arial", Font.PLAIN, 55));
@@ -303,15 +303,20 @@ public class AddItemGUI extends JFrame {
        JButton removeItemButton = new JButton("Remove Item");
  	   removeItemButton.setFont(new Font("Arial", Font.PLAIN, 30)); // Set a larger font size
  	   bottomHighLeftBox.add(removeItemButton);
- 	   
  	   removeItemButton.addActionListener(e -> {
-            String selectedItem = cartListObjt.getSelectedValue();
-            ArrayList<Item> snapshotOfCart = new ArrayList<Item>(mainGUI.getItemsInCart());
- 			for(Item i : snapshotOfCart) {
+            String selectedItem = leftReceiptList.getSelectedValue();
+ 			for(Item i : logic.cartLogic.getCart().keySet()) {
 	            if(mainGUI.getDescriptionOfItem(i).equals(selectedItem)) {
-	            	((DefaultListModel) cartListObjt.getModel()).remove(cartListObjt.getSelectedIndex());
-	            	mainGUI.getItemsInCart().remove(i);
+	            	if(i instanceof BarcodedItem) {
+	            		BarcodedItem bitem = (BarcodedItem) i;
+	            		logic.removeItemLogic.removeBarcodedItem(bitem);
+	            	} else if (i instanceof PLUCodedItem ) {
+	            		PLUCodedItem pitem = (PLUCodedItem) i;
+	            		logic.removeItemLogic.checkCartForPLUCodedItemToRemove(pitem.getPLUCode());
+	            		getErrorTextArea().setText("Remove the PLU Item from the bagging area.");
+	            	}
 	        	}
+	            updateReceipt();
  			}
  		});
         
