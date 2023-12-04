@@ -58,7 +58,7 @@ public class AddItemGUI extends JFrame {
         JPanel topGrid = new JPanel(new GridLayout(1, 3));
         topBox.add(topGrid);
         
-        String cartLabelString = "Cart: ";
+        String cartLabelString = "Cart:         Bagging Area:";
  	    JTextArea cartTextArea = new JTextArea(cartLabelString);
  	    cartTextArea.setEditable(false);
  	    cartTextArea.setFont(new Font("Arial", Font.PLAIN, 55));
@@ -66,7 +66,7 @@ public class AddItemGUI extends JFrame {
  	    cartTextArea.setBorder(new EmptyBorder(30, 30, 50, 30));
  	    topGrid.add(cartTextArea);
         
-        String addLabelString = "Add Item By: ";
+        String addLabelString = "          Add Item By: ";
 	    JTextArea addItemTextArea = new JTextArea(addLabelString);
 	    addItemTextArea.setEditable(false);
 	    addItemTextArea.setFont(new Font("Arial", Font.PLAIN, 55));
@@ -74,7 +74,7 @@ public class AddItemGUI extends JFrame {
 	    addItemTextArea.setBorder(new EmptyBorder(30, 30, 50, 30));
 	    topGrid.add(addItemTextArea);
 	    
-	    String baggingLabelString = "Bagging Area: ";
+	    String baggingLabelString = "            Reciept: ";
 	    JTextArea baggingTextArea = new JTextArea(baggingLabelString);
 	    baggingTextArea.setEditable(false);
 	    baggingTextArea.setFont(new Font("Arial", Font.PLAIN, 55));
@@ -119,7 +119,7 @@ public class AddItemGUI extends JFrame {
        
 	   float totalCost = 0;
 	   String costTxt1 = "TOTAL COST ($): ";
-	   costTextArea = new JTextArea(costTxt1 + String.valueOf(totalCost));
+	   JTextArea costTextArea = new JTextArea(costTxt1 + String.valueOf(totalCost));
 	   costTextArea.setEditable(false);
 	   costTextArea.setFont(new Font("Arial", Font.PLAIN, 60));
 	   costTextArea.setBackground(Color.WHITE);
@@ -138,9 +138,8 @@ public class AddItemGUI extends JFrame {
 	   bottomLowLeftBox.add(errorTextArea);
 	   
 	   float totalWeight = 0;
-	   String weightTxt1 = "The weight of added PLU  Items will appear here.";
-	   weightTextArea = new JTextArea(weightTxt1);
-	   weightTextArea.setLineWrap(true);
+	   String weightTxt1 = "WEIGHT (kg): ";
+	   JTextArea weightTextArea = new JTextArea(weightTxt1 + String.valueOf(totalWeight));
 	   weightTextArea.setEditable(false);
 	   weightTextArea.setFont(new Font("Arial", Font.PLAIN, 35));
 	   weightTextArea.setBackground(Color.WHITE);
@@ -150,6 +149,7 @@ public class AddItemGUI extends JFrame {
 	   JButton payButton = new JButton("Pay");
 	   payButton.setFont(new Font("Arial", Font.PLAIN, 50)); // Set a larger font size
 	   bottomLowRightBox.add(payButton);
+
        payButton.addActionListener(e -> {
     	   if(logic.cartLogic.getCart().size() != 0) {
         	   logic.stateLogic.gotoState(States.CHECKOUT);
@@ -160,6 +160,7 @@ public class AddItemGUI extends JFrame {
         // Upper box split into 3 equally sized components
         JPanel upperInnerBox = new JPanel(new GridLayout(1, 3));
         JPanel upperRightBox = new JPanel(new GridLayout(1, 2));
+        JPanel upperLeftBox = new JPanel(new GridLayout(1, 2));
         upperInnerBox.setBorder(new EmptyBorder(0, 0, 0, 0)); // 20px padding
 
         // Add list element to the left
@@ -174,7 +175,27 @@ public class AddItemGUI extends JFrame {
                 BorderFactory.createLineBorder(Color.BLACK)
         ));
         JScrollPane leftScrollPane = new JScrollPane(cartListObjt);
-        upperInnerBox.add(leftScrollPane);
+
+        // Add another list element to the right
+        baggingAreaList = new DefaultListModel<>();
+        JList<String> baggingAreaObjt = new JList<>(baggingAreaList);
+        baggingAreaObjt.setBorder(BorderFactory.createCompoundBorder(
+                new EmptyBorder(20, 20, 20, 20),
+                BorderFactory.createLineBorder(Color.BLACK)
+        ));
+        baggingAreaObjt.setFont(new Font("Arial", Font.PLAIN, 26));
+        
+        JScrollPane rightScrollPane = new JScrollPane(baggingAreaObjt);
+        
+
+
+
+        upperInnerBox.add(upperLeftBox);
+        upperLeftBox.add(leftScrollPane);
+        upperLeftBox.add(rightScrollPane);
+
+   
+        
 
         // Create a panel for the buttons in the middle of the third section
         JPanel buttonPanel = new JPanel(new GridLayout(5, 1));
@@ -199,17 +220,9 @@ public class AddItemGUI extends JFrame {
     		//button.setPreferredSize(ButtonSize);
             buttonPanel.add(button);
         }
-
-         // Add another list element to the right
-         baggingAreaList = new DefaultListModel<>();
-         JList<String> baggingAreaObjt = new JList<>(baggingAreaList);
-         baggingAreaObjt.setBorder(BorderFactory.createCompoundBorder(
-                 new EmptyBorder(20, 20, 20, 20),
-                 BorderFactory.createLineBorder(Color.BLACK)
-         ));
-         baggingAreaObjt.setFont(new Font("Arial", Font.PLAIN, 26));
         
         JButton scanItemButton = (JButton) buttonPanel.getComponent(0);
+
         scanItemButton.addActionListener(e -> {
             String selectedItem = cartListObjt.getSelectedValue();
 			for(Item i : mainGUI.getItemsInCart()) {
@@ -238,20 +251,25 @@ public class AddItemGUI extends JFrame {
         JButton addToBaggingAreaButton = (JButton) buttonPanel.getComponent(3);
         addToBaggingAreaButton.addActionListener(e -> {
             String selectedItem = cartListObjt.getSelectedValue();
-        	((DefaultListModel) cartListObjt.getModel()).remove(cartListObjt.getSelectedIndex());
-        	baggingAreaList.addElement(selectedItem);
-        	mainGUI.getItemsInCart().remove(mainGUI.getItemFromDescription(selectedItem));
-        	mainGUI.getItemsInBaggingArea().add(mainGUI.getItemFromDescription(selectedItem));
-            logic.hardware.getBaggingArea().addAnItem(mainGUI.getItemFromDescription(selectedItem));
-		});
-        
-        JButton moveBackToCartButton = (JButton) buttonPanel.getComponent(4);
-        moveBackToCartButton.addActionListener(e -> {
-            String selectedItem = baggingAreaObjt.getSelectedValue();
-			((DefaultListModel) baggingAreaObjt.getModel()).remove(baggingAreaObjt.getSelectedIndex());
-			logic.hardware.getBaggingArea().removeAnItem(mainGUI.getItemFromDescription(selectedItem));
-			mainGUI.getItemsInCart().add(mainGUI.getItemFromDescription(selectedItem));
-			cartList.addElement(selectedItem);
+			for(Item i : mainGUI.getItemsInCart()) {
+		       	if (i instanceof BarcodedItem) {
+	        		BarcodedItem bitem = (BarcodedItem) i;
+	            	BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
+	                if(bproduct.getDescription().equals(selectedItem)) {
+	                	((DefaultListModel) cartListObjt.getModel()).remove(cartListObjt.getSelectedIndex());
+		                logic.hardware.getBaggingArea().addAnItem(bitem);
+	                	baggingAreaList.addElement(bproduct.getDescription());
+	                }
+	        	} else if (i instanceof PLUCodedItem) {
+	        		PLUCodedItem pitem = (PLUCodedItem) i;
+	        		PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
+	                if(pproduct.getDescription().equals(selectedItem)) {
+	                	((DefaultListModel) cartListObjt.getModel()).remove(cartListObjt.getSelectedIndex());
+		                logic.hardware.getBaggingArea().addAnItem(pitem);
+	                	baggingAreaList.addElement(pproduct.getDescription());
+	                }
+	        	}
+			}
 		});
         
         // Add panels to the bottomHighBox
@@ -261,7 +279,7 @@ public class AddItemGUI extends JFrame {
  	   bottomHighLeftBox.add(removeItemButton);
  	   
  	   removeItemButton.addActionListener(e -> {
-            String selectedItem = baggingAreaObjt.getSelectedValue();
+            String selectedItem = cartListObjt.getSelectedValue();
             ArrayList<Item> snapshotOfCart = new ArrayList<Item>(mainGUI.getItemsInCart());
  			for(Item i : snapshotOfCart) {
 	            if(mainGUI.getDescriptionOfItem(i).equals(selectedItem)) {
@@ -271,7 +289,7 @@ public class AddItemGUI extends JFrame {
  			}
  		});
 
-       JButton addOwnBagsButton = new JButton("Add own Bags");
+ 	   JButton addOwnBagsButton = new JButton("Add own Bags");
  	   addOwnBagsButton.setFont(new Font("Arial", Font.PLAIN, 30)); // Set a larger font size
  	   bottomHighLeftBox.add(addOwnBagsButton);
          
@@ -283,28 +301,38 @@ public class AddItemGUI extends JFrame {
         // Add the button panel to the upper box
         upperInnerBox.add(buttonPanel);
 
-        
-        JScrollPane rightTopScrollPane = new JScrollPane(baggingAreaObjt);
-        upperInnerBox.add(upperRightBox);
-        upperRightBox.add(rightTopScrollPane);
-
         // Add the upper inner box to the upper box
         upperBox.add(upperInnerBox, BorderLayout.CENTER);
 
         // Add another list element to the right (bottom)
-        DefaultListModel<String> rightRightListModel = new DefaultListModel<>();
-        rightRightListModel.addElement("Item 5");
-        rightRightListModel.addElement("Item 6");
-        JList<String> rightBottomList = new JList<>(rightRightListModel);
-        rightBottomList.setFont(new Font("Arial", Font.PLAIN, 26)); // Set the font size
+        DefaultListModel<String> leftRecieptModel = new DefaultListModel<>();
+        leftRecieptModel.addElement("Item 5");
+        leftRecieptModel.addElement("Item 6");
+        JList<String> leftRecieptList = new JList<>(leftRecieptModel);
+        leftRecieptList.setFont(new Font("Arial", Font.PLAIN, 26)); // Set the font size
         
-        rightBottomList.setBorder(BorderFactory.createCompoundBorder(
+        leftRecieptList.setBorder(BorderFactory.createCompoundBorder(
                 new EmptyBorder(20, 20, 20, 20),
                 BorderFactory.createLineBorder(Color.BLACK)
         ));
-        JScrollPane rightBottomScrollPane = new JScrollPane(rightBottomList);
+        JScrollPane leftRecieptScrollPane = new JScrollPane(leftRecieptList);
 
-        upperRightBox.add(rightBottomScrollPane);
+        // Add another list element to the right (bottom)
+        DefaultListModel<String> rightRecieptModel = new DefaultListModel<>();
+        rightRecieptModel.addElement("Item 5");
+        rightRecieptModel.addElement("Item 6");
+        JList<String> rightRecieptList = new JList<>(rightRecieptModel);
+        rightRecieptList.setFont(new Font("Arial", Font.PLAIN, 26)); // Set the font size
+        
+        rightRecieptList.setBorder(BorderFactory.createCompoundBorder(
+                new EmptyBorder(20, 20, 20, 20),
+                BorderFactory.createLineBorder(Color.BLACK)
+        ));
+        JScrollPane rightRecieptScrollPane = new JScrollPane(rightRecieptList);
+
+        upperRightBox.add(leftRecieptScrollPane);
+        upperRightBox.add(rightRecieptScrollPane);
+        upperInnerBox.add(upperRightBox);
         
 
         // Set sizes based on ratios
