@@ -38,8 +38,9 @@ public class PaymentScreenGUI {
     private JPanel listPanel = new JPanel(new BorderLayout());
     JPanel rightPanel = new JPanel();
     private float totalPrice = 0;
+    private JTextArea totalPriceText;
 
-    public PaymentScreenGUI(MainGUI m, CentralStationLogic l) { 
+	public PaymentScreenGUI(MainGUI m, CentralStationLogic l) { 
     	mainGUI = m;
     	logic = l;
         paymentPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
@@ -53,7 +54,7 @@ public class PaymentScreenGUI {
     }
 
     private void addWidgets() {
-
+    	
 
         paymentPagePanel.setLayout(new BorderLayout());
 
@@ -168,7 +169,8 @@ public class PaymentScreenGUI {
             }
         });
 
-        
+        totalPriceText = new JTextArea("");
+        getRightPanel().add(totalPriceText, BorderLayout.NORTH);
     }
 
     private void notifyAttendant() {
@@ -283,10 +285,6 @@ public class PaymentScreenGUI {
         listPanel = newPanel;
     }
 
-
-
-
-
     public void updateCartScrollPanel(){
         JList<String> cartListObjt = getCartItemList();
         cartListObjt.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
@@ -300,13 +298,12 @@ public class PaymentScreenGUI {
 
     }
 
-    public void updateTotalPriceText() {
+    public void updateTotalPriceText(String price) {
         String totalPriceString = "Total Price ($): ";
-        JTextArea totalPriceText = new JTextArea(totalPriceString + String.valueOf(getTotalPrice()));
-
         totalPriceText.setEditable(false);
         totalPriceText.setFont(new Font("Arial", Font.BOLD, 20));
-        getRightPanel().add(totalPriceText, BorderLayout.NORTH);
+        totalPriceText.setText(totalPriceString + price);
+
     }
 
     // Getter for rightPanel
@@ -319,7 +316,14 @@ public class PaymentScreenGUI {
         rightPanel = newPanel;
     }
 
-    
+
+    public JTextArea getTotalPriceText() {
+		return totalPriceText;
+	}
+
+	public void setTotalPriceText(JTextArea totalPriceText) {
+		this.totalPriceText = totalPriceText;
+	}
 
 
 }

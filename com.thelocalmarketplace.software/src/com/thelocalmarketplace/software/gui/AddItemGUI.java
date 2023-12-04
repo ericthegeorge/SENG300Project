@@ -167,9 +167,7 @@ public class AddItemGUI extends JFrame {
 		   mainGUI.paymentScreen.setCartItemList(mainGUI.paymentScreen.getReceiptListNames(), mainGUI.paymentScreen.getReceiptListPrices());
 		   mainGUI.paymentScreen.updateCartItemList(mainGUI.paymentScreen.getCartItemModel());
 		   mainGUI.paymentScreen.updateCartScrollPanel();
-
-		   mainGUI.paymentScreen.setTotalPrice(logic.cartLogic.calculateTotalCost().floatValue());
-		   mainGUI.paymentScreen.updateTotalPriceText();
+		   mainGUI.paymentScreen.updateTotalPriceText(""+logic.cartLogic.calculateTotalCost().floatValue());
 
 		});
 
