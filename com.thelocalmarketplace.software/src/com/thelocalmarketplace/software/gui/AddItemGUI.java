@@ -296,6 +296,7 @@ public class AddItemGUI extends JFrame {
 			mainGUI.getItemsInCart().add(mainGUI.getItemFromDescription(selectedItem));
 			cartList.addElement(selectedItem);
 			((DefaultListModel) baggingAreaObjt.getModel()).remove(baggingAreaObjt.getSelectedIndex());
+            updateReceipt();
 		});
         
         // Add panels to the bottomHighBox

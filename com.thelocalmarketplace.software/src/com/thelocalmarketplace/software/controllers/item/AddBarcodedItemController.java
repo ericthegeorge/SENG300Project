@@ -65,13 +65,13 @@ public class AddBarcodedItemController extends AbstractLogicDependant implements
     	
     	this.logic.cartLogic.addBarcodedProductToCart(barcode);
     	this.logic.weightLogic.addExpectedWeight(barcode);
-		logic.getMainGUI().getAddItemScreen().getWeightTextArea().setText("");
+		if(logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getWeightTextArea().setText("");
     	logic.weightLogic.delayedDiscrepancyCheck(5000);
     }
     
     @Override
 	public void aBarcodeHasBeenScanned(IBarcodeScanner barcodeScanner, Barcode barcode) throws SimulationException, NullPointerException {
-		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Item added to cart. Please place scanned item in bagging area");
+		if(logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Item added to cart. Please place scanned item in bagging area");
     	this.addBarcode(barcode);
 	}
     

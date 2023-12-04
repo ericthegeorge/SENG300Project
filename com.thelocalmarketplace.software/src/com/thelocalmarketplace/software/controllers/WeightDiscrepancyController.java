@@ -83,13 +83,13 @@ public class WeightDiscrepancyController extends AbstractLogicDependant implemen
 	
 	/** Triggered when actual weight is over expected weight */
 	public void notifyOverload() {
-		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Weight discrepancy detected");
+		if (logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Weight discrepancy detected");
 		System.out.println("Weight discrepancy detected. Please remove item(s)");
 	}
 	
 	/** Triggered when actual weight is under expected weight */
 	public void notifyUnderload() {
-		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Weight discrepancy detected");
+		if (logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Weight discrepancy detected");
 		System.out.println("Weight discrepancy detected. Please add item(s)");
 	}
 	

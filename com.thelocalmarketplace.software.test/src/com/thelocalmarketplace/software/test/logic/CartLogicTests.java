@@ -20,6 +20,7 @@ import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
+import com.thelocalmarketplace.software.gui.MainGUI;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
 import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
@@ -87,6 +88,8 @@ public class CartLogicTests {
 		station.turnOn();
 		
 		logic = new CentralStationLogic(station);
+		logic.setBypassIssuePrediction(true);
+		logic.startSession();
 	}
 	
 	public BarcodedItem testMethodToFindBarcodedItemInCart(Barcode barcode) {

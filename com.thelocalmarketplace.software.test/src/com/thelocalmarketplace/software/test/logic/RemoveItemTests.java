@@ -111,6 +111,14 @@ public class RemoveItemTests {
 			itemMass5 = new Mass((double) 300.0);
 			bitem5 = new BarcodedItem(barcode2,itemMass5);
 			
+			BarcodedProduct bproduct = new BarcodedProduct(bitem.getBarcode(), "bitem", 1, 400.0);
+			ProductDatabases.BARCODED_PRODUCT_DATABASE.put(bitem.getBarcode(), bproduct);
+			ProductDatabases.INVENTORY.put(bproduct, 10);
+			
+			BarcodedProduct bproduct2 = new BarcodedProduct(bitem2.getBarcode(), "bitem2", 2, 300.0);
+			ProductDatabases.BARCODED_PRODUCT_DATABASE.put(bitem2.getBarcode(), bproduct2);
+			ProductDatabases.INVENTORY.put(bproduct2, 10);
+			
 			//Initialize station
 			station.plugIn(PowerGrid.instance());
 			station.turnOn();
@@ -145,7 +153,7 @@ public class RemoveItemTests {
 			else { //if (item.getBarcode() == product2.getBarcode()) {
 				itemPrice = product2.getPrice();
 			}
-			session.cartLogic.addProductToCart(item, itemPrice);
+			session.addBarcodedProductController.addBarcode(item.getBarcode());
 		}
 		
 		/** Tests if the method actually removes an item from the cart when called
@@ -158,7 +166,6 @@ public class RemoveItemTests {
 			assertTrue(session.cartLogic.getCart().size() == 1);
 			
 			station.getBaggingArea().addAnItem(bitem);
-			
 			session.removeItemLogic.removeBarcodedItem(bitem);
 			assertEquals(0, session.cartLogic.getCart().size());
 			
@@ -195,8 +202,8 @@ public class RemoveItemTests {
 			station.getBaggingArea().addAnItem(bitem2);
 			
 			session.removeItemLogic.removeBarcodedItem(bitem);
-			
 			station.getBaggingArea().removeAnItem(bitem2);
+			
 			assertTrue(session.stateLogic.getState() == States.BLOCKED);
 			
 			station.getBaggingArea().addAnItem(bitem2);

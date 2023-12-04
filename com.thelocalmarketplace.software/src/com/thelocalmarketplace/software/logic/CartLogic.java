@@ -19,6 +19,7 @@ import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.Utilities;
+import com.thelocalmarketplace.software.gui.MainGUI;
 
 import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
@@ -109,16 +110,22 @@ public class CartLogic {
 	 * @throws SimulationException If the item is not in the cart
 	 */
 	public void removeProductFromCart(BarcodedItem item) throws SimulationException {
-		if (!this.getCart().containsKey(item)) {
-			throw new InvalidStateSimulationException("Product not in cart");
+		BarcodedProduct bproductToRemove = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
+		for (Item i : logic.cartLogic.getCart().keySet()) {
+			if(i instanceof BarcodedItem) {
+				BarcodedItem bitem = (BarcodedItem)i;
+				BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
+				if(bproductToRemove.equals(bproduct)) {
+					Utilities.modifyCountMapping(cart, bitem, -1);
+					// Update balance owed
+					BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
+					BigDecimal newPrice = this.balanceOwed.subtract(new BigDecimal(product.getPrice()));
+					this.updateBalance(newPrice);
+					return;
+				}
+			}
 		}
-		
-		Utilities.modifyCountMapping(cart, item, -1);
-		
-		// Update balance owed
-		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
-		BigDecimal newPrice = this.balanceOwed.subtract(new BigDecimal(product.getPrice()));
-		this.updateBalance(newPrice);
+		System.out.println("no item was removed");
 	}
 	
 	/**
@@ -243,6 +250,6 @@ public class CartLogic {
 		this.balanceOwed = balance;
 		double balanceRounded = balance.setScale(3, RoundingMode.HALF_UP).doubleValue();
 		String balanceToShow = String.format("%.2f", balanceRounded);
-		logic.getMainGUI().getAddItemScreen().getCostTextArea().setText("$"+balanceToShow);
+		if(logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getCostTextArea().setText("$"+balanceToShow);
 	}
 }

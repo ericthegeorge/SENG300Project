@@ -151,7 +151,7 @@ public class WeightLogic extends AbstractLogicDependant {
 	 * @throws SimulationException If session not started
 	 * @throws SimulationException If the scale is not operational */
 	public boolean checkWeightDiscrepancy() {
-		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Add an item or pay for the order.");
+		if (logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Add an item or pay for the order.");
 		// Handles exceptions 
 		if (!this.logic.isSessionStarted()) throw new InvalidStateSimulationException("Session not started");
 		 else if (!this.scaleOperational) throw new InvalidStateSimulationException("Scale not operational");
