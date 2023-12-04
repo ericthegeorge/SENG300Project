@@ -3,10 +3,15 @@ package com.thelocalmarketplace.software.gui;
 import javax.swing.*;
 
 import com.jjjwelectronics.Item;
+import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.gui.CompletionScreenGUI;
 import com.thelocalmarketplace.software.gui.StartScreenGUI;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
@@ -33,7 +38,7 @@ public class MainGUI {
     private AttendantStationGUI attendantScreen;
     private CreditScreenGUI creditScreen;
     private DebitScreenGUI debitScreen;
-    private KeyboardScreenGUI keyboardScreen;
+    private VisualCatalogueScreenGUI keyboardScreen;
     private PaymentScreenGUI paymentScreen;
     private AddItemGUI addItemScreen;
     
@@ -76,7 +81,7 @@ public class MainGUI {
         completionScreen = new CompletionScreenGUI(this, logic);
         creditScreen = new CreditScreenGUI(this, logic);
         debitScreen = new DebitScreenGUI(this, logic);
-        keyboardScreen = new KeyboardScreenGUI(this, logic);
+        keyboardScreen = new VisualCatalogueScreenGUI(this, logic);
         paymentScreen = new PaymentScreenGUI(this, logic);
         addItemScreen = new AddItemGUI(this, logic);
         mainPanel.add(startScreen.getPanel(), "start");
@@ -117,10 +122,43 @@ public class MainGUI {
     }
     
     public void addItemsToCart() {
+    	int PLUCodedItemsToAdd = 3;
     	for(Item i : SimulatedItems.simulatedItems) {
-    		itemsInCart.add(i);
+    		//Only add three of the PLUCoded Items
+    		if (i instanceof PLUCodedItem) {
+    			if(PLUCodedItemsToAdd > 0) {
+    				itemsInCart.add(i);
+        			PLUCodedItemsToAdd--;
+    			}
+    		//Add every barcoded item
+    		} else {
+        		itemsInCart.add(i);
+    		}
+    		
     	}
     }
+    
+	public String getDescriptionOfItem(Item item) {
+		if(item instanceof BarcodedItem) {
+			BarcodedItem bitem = (BarcodedItem) item;
+			BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
+			return bproduct.getDescription();
+		} else if (item instanceof PLUCodedItem) {
+			PLUCodedItem pitem = (PLUCodedItem) item;
+			PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
+			return pproduct.getDescription();
+		}
+		return null;
+	}
+	
+	public Item getItemFromDescription(String description) {
+		for (Item i : SimulatedItems.simulatedItems) {
+			if (getDescriptionOfItem(i).equals(description)) {
+				return i;
+			}
+		}
+		return null;	
+	}
     
     public CardLayout getCardLayout() {
 		return mainCardLayout;
@@ -144,6 +182,26 @@ public class MainGUI {
 
 	public ArrayList<Item> getItemsInCart() {
 		return itemsInCart;
+	}
+
+	public CreditScreenGUI getCreditScreen() {
+		return creditScreen;
+	}
+
+	public DebitScreenGUI getDebitScreen() {
+		return debitScreen;
+	}
+
+	public VisualCatalogueScreenGUI getKeyboardScreen() {
+		return keyboardScreen;
+	}
+
+	public PaymentScreenGUI getPaymentScreen() {
+		return paymentScreen;
+	}
+
+	public AddItemGUI getAddItemScreen() {
+		return addItemScreen;
 	}
 
 }

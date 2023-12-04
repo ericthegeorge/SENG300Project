@@ -78,6 +78,7 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 		this.logic.stateLogic.gotoState(States.BLOCKED);
 		isAwaitingPLUMeasurement = true;
 		System.out.println("Please place item on scale to determine price");
+		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Please place PLU item ("+priceLookUpCode+") in the bagging area.");
 		logic.weightLogic.delayedDiscrepancyCheck(5000);
 	}
 	

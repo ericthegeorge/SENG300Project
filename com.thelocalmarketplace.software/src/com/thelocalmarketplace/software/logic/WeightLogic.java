@@ -9,6 +9,7 @@ import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
+import com.thelocalmarketplace.software.gui.MainGUI;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
@@ -169,7 +170,6 @@ public class WeightLogic extends AbstractLogicDependant {
 		if (this.logic.weightLogic.checkWeightDiscrepancy()) {
 			if (!this.logic.stateLogic.inState(States.BLOCKED)) {
 				this.logic.stateLogic.gotoState(States.BLOCKED);
-				System.out.println("weight discrepancy");
 			}
 		} else {
 			this.logic.stateLogic.gotoState(States.NORMAL);

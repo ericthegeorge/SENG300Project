@@ -2,6 +2,12 @@ package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
 
+import com.jjjwelectronics.Item;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
 import java.awt.*;
@@ -20,11 +26,7 @@ public class AttendantStationGUI {
     private JPanel mainPanel;
     private CentralStationLogic logic;
     private MainGUI mainGUI;
-    private String[] data = {"Apples", "Avocado", "Asparagus", "Blueberries"
-			,"Beets", "Celery", "Endive", "Grapes","Jicama" , "Kale" 
-			,"Lettuce", "Manogos", "Green Peppers", "Onions"
-			,"Red Peppers", "Radishes", "Shallots", "Spinach"
-			,"Tomatoes", "Yams", "Watermelon"};
+    private String[] data;
     private DefaultListModel searchList = new DefaultListModel();
 
 	// Fake class to represent Station objects
@@ -541,7 +543,7 @@ public class AttendantStationGUI {
             String itemText = (String) list.getSelectedValue();
             // Perform actions based on the entered text
             handleAddItemText(itemText);
-
+            
             // Close the window after processing
             textSearchWindow.dispose();
         });
@@ -614,7 +616,25 @@ public class AttendantStationGUI {
     }
     
     private void handleAddItemText(String itemText) {
-    	System.out.println("Add to Order: " + itemText);
+    	if(itemText == null) return;
+
+		for(Item i : mainGUI.getItemsInCart()) {
+	       	if (i instanceof BarcodedItem) {
+        		BarcodedItem bitem = (BarcodedItem) i;
+            	BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
+                if(bproduct.getDescription().equals(itemText)) {
+	                logic.addBarcodedProductController.addBarcode(bitem.getBarcode());
+                }
+        	} else if (i instanceof PLUCodedItem) {
+        		PLUCodedItem pitem = (PLUCodedItem) i;
+        		PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
+                if(pproduct.getDescription().equals(itemText)) {
+                	logic.addPLUCodedProductController.addPLUCode(pitem.getPLUCode());
+                }
+        	}
+		}
+		
+    	System.out.println("Added to Order: " + itemText);
     }
     
     private void centerWindowOnFrame(JFrame window, JFrame mainFrame) {
@@ -628,6 +648,15 @@ public class AttendantStationGUI {
     public AttendantStationGUI(MainGUI m, CentralStationLogic l) {
     	mainGUI = m;
     	logic = l;
+    	
+    	data = new String[SimulatedItems.simulatedItems.size()];
+    	int index = 0;
+    	for(Item i: SimulatedItems.simulatedItems) {
+    		data[index] = mainGUI.getDescriptionOfItem(i);
+    		System.out.println(mainGUI.getDescriptionOfItem(i));
+    		index++;
+    	}
+    	
         int numStations = 3; // Set the initial number of stations
 
         // Create an array of StationObject instances
@@ -638,11 +667,9 @@ public class AttendantStationGUI {
 
         // Create an instance of AttendantStationGUI
         createFrame(stationObjects);
-        
     }
     
     public JPanel getPanel() {
 		return mainPanel;
 	}
-
 }

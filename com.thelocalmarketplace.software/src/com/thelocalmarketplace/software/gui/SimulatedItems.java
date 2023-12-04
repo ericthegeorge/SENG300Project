@@ -17,7 +17,28 @@ import com.thelocalmarketplace.hardware.external.ProductDatabases;
 
 public class SimulatedItems {
 	static ArrayList<Item> simulatedItems = new ArrayList<Item>();
-	
+	public static String apple_description;
+	public static String avocado_description;
+	public static String asparagus_description; 
+	public static String blueberries_description;
+	public static String beets_description;
+	public static String celery_description;
+	public static String endive_description; 
+	public static String grapes_description;
+	public static String jicama_description;
+	public static String kale_description; 
+	public static String lettuce_description;
+	public static String mangos_description;
+	public static String greenpeppers_description;
+	public static String onions_description;
+	public static String redpeppers_description;
+	public static String radishes_description;
+	public static String shallots_description;
+	public static String spinach_description;
+	public static String tomatoes_description;
+	public static String yams_description;
+	public static String watermelon_description;
+
 	public static void instantiateItems() {
 		instantiatePLUCodedItems();
 		instantiateBarcodedItems();
@@ -48,28 +69,51 @@ public class SimulatedItems {
 		PriceLookUpCode PLUyams = new PriceLookUpCode("1019");
 		PriceLookUpCode PLUwatermelon = new PriceLookUpCode("1020");
 		
+		 apple_description =  "apple (PLU:"+PLUapple+")";
+		 avocado_description =  "avocado (PLU:"+PLUavocado+")";
+		 asparagus_description =  "asparagus (PLU:"+PLUasparagus+")";
+		 blueberries_description =  "blueberries (PLU:"+PLUblueberries+")";
+		 beets_description =  "beets (PLU:"+PLUbeets+")";
+		 celery_description =  "celery (PLU:"+PLUcelery+")";
+		 endive_description =  "endive (PLU:"+PLUendive+")";
+		 grapes_description =  "grapes (PLU:"+PLUgrapes+")";
+		 jicama_description =  "jicama (PLU:"+PLUjicama+")";
+		 kale_description =  "kale (PLU:"+PLUkale+")";
+		 lettuce_description =  "lettuce (PLU:"+PLUlettuce+")";
+		 mangos_description =  "mangos (PLU:"+PLUmangos+")";
+		 greenpeppers_description =  "green peppers (PLU:"+PLUgreenpeppers+")";
+		 onions_description =  "onions (PLU:"+PLUonions+")";
+		 redpeppers_description =  "red peppers :"+PLUredpeppers+")";
+		 radishes_description =  "radishes (PLU:"+PLUradishes+")";
+		 shallots_description =  "shallots (PLU:"+PLUshallots+")";
+		 spinach_description =  "spinach (PLU:"+PLUspinach+")";
+		 tomatoes_description =  "tomatoes (PLU:"+PLUtomatoes+")";
+		 yams_description =  "yams (PLU:"+PLUyams+")";
+		 watermelon_description =  "watermelon (PLU:"+PLUwatermelon+")";
+
+
 		// Create the PLU coded products
-		PLUCodedProduct apple_prod = new PLUCodedProduct(PLUapple, "apple", 6);
-		PLUCodedProduct avocado_prod = new PLUCodedProduct(PLUavocado, "avocado", 3);
-		PLUCodedProduct asparagus_prod = new PLUCodedProduct(PLUasparagus, "asparagus", 5);
-		PLUCodedProduct blueberries_prod = new PLUCodedProduct(PLUblueberries, "blueberries", 8);
-		PLUCodedProduct beets_prod = new PLUCodedProduct(PLUbeets, "beets", 2);
-		PLUCodedProduct celery_prod = new PLUCodedProduct(PLUcelery, "celery", 1);
-		PLUCodedProduct endive_prod = new PLUCodedProduct(PLUendive, "endive", 7);
-		PLUCodedProduct grapes_prod = new PLUCodedProduct(PLUgrapes, "grapes", 3);
-		PLUCodedProduct jicama_prod = new PLUCodedProduct(PLUjicama, "jicama", 2);
-		PLUCodedProduct kale_prod = new PLUCodedProduct(PLUkale, "kale", 6);
-		PLUCodedProduct lettuce_prod = new PLUCodedProduct(PLUlettuce, "lettuce", 2);
-		PLUCodedProduct mangos_prod = new PLUCodedProduct(PLUmangos, "mangos", 8);
-		PLUCodedProduct greenpeppers_prod = new PLUCodedProduct(PLUgreenpeppers, "green peppers", 5);
-		PLUCodedProduct onions_prod = new PLUCodedProduct(PLUonions, "onions", 2);
-		PLUCodedProduct redpeppers_prod = new PLUCodedProduct(PLUredpeppers, "red peppers", 6);
-		PLUCodedProduct radishes_prod = new PLUCodedProduct(PLUradishes, "radishes", 2);
-		PLUCodedProduct shallots_prod = new PLUCodedProduct(PLUshallots, "shallots", 3);
-		PLUCodedProduct spinach_prod = new PLUCodedProduct(PLUspinach, "spinach", 4);
-		PLUCodedProduct tomatoes_prod = new PLUCodedProduct(PLUtomatoes, "tomatoes", 5);
-		PLUCodedProduct yams_prod = new PLUCodedProduct(PLUyams, "yams", 2);
-		PLUCodedProduct watermelon_prod = new PLUCodedProduct(PLUwatermelon, "watermelon", 7);
+		PLUCodedProduct apple_prod = new PLUCodedProduct(PLUapple, apple_description, 6);
+		PLUCodedProduct avocado_prod = new PLUCodedProduct(PLUavocado, avocado_description, 3);
+		PLUCodedProduct asparagus_prod = new PLUCodedProduct(PLUasparagus, asparagus_description, 5);
+		PLUCodedProduct blueberries_prod = new PLUCodedProduct(PLUblueberries, blueberries_description, 8);
+		PLUCodedProduct beets_prod = new PLUCodedProduct(PLUbeets, beets_description, 2);
+		PLUCodedProduct celery_prod = new PLUCodedProduct(PLUcelery, celery_description, 1);
+		PLUCodedProduct endive_prod = new PLUCodedProduct(PLUendive, endive_description, 7);
+		PLUCodedProduct grapes_prod = new PLUCodedProduct(PLUgrapes, grapes_description, 3);
+		PLUCodedProduct jicama_prod = new PLUCodedProduct(PLUjicama, jicama_description, 2);
+		PLUCodedProduct kale_prod = new PLUCodedProduct(PLUkale, kale_description, 6);
+		PLUCodedProduct lettuce_prod = new PLUCodedProduct(PLUlettuce, lettuce_description, 2);
+		PLUCodedProduct mangos_prod = new PLUCodedProduct(PLUmangos, mangos_description, 8);
+		PLUCodedProduct greenpeppers_prod = new PLUCodedProduct(PLUgreenpeppers, greenpeppers_description, 5);
+		PLUCodedProduct onions_prod = new PLUCodedProduct(PLUonions, onions_description, 2);
+		PLUCodedProduct redpeppers_prod = new PLUCodedProduct(PLUredpeppers, redpeppers_description, 6);
+		PLUCodedProduct radishes_prod = new PLUCodedProduct(PLUradishes, radishes_description, 2);
+		PLUCodedProduct shallots_prod = new PLUCodedProduct(PLUshallots, shallots_description, 3);
+		PLUCodedProduct spinach_prod = new PLUCodedProduct(PLUspinach, spinach_description, 4);
+		PLUCodedProduct tomatoes_prod = new PLUCodedProduct(PLUtomatoes, tomatoes_description, 5);
+		PLUCodedProduct yams_prod = new PLUCodedProduct(PLUyams, yams_description, 2);
+		PLUCodedProduct watermelon_prod = new PLUCodedProduct(PLUwatermelon, watermelon_description, 7);
 		
 		// add plu ccoded products to database and inventory
 		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUapple, apple_prod);
@@ -106,8 +150,10 @@ public class SimulatedItems {
 		ProductDatabases.INVENTORY.put(radishes_prod, 50);
 		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUshallots, shallots_prod);
 		ProductDatabases.INVENTORY.put(shallots_prod, 50);
-		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUspinach, tomatoes_prod);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUspinach, spinach_prod);
 		ProductDatabases.INVENTORY.put(spinach_prod, 50);
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUtomatoes, tomatoes_prod);
+		ProductDatabases.INVENTORY.put(tomatoes_prod, 50);
 		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUyams, yams_prod);
 		ProductDatabases.INVENTORY.put(yams_prod, 50);
 		ProductDatabases.PLU_PRODUCT_DATABASE.put(PLUwatermelon, watermelon_prod);
@@ -153,6 +199,7 @@ public class SimulatedItems {
 		simulatedItems.add(redpeppers);
 		simulatedItems.add(radishes);
 		simulatedItems.add(shallots);
+		simulatedItems.add(spinach);
 		simulatedItems.add(tomatoes);
 		simulatedItems.add(yams);
 		simulatedItems.add(watermelon);
@@ -170,9 +217,9 @@ public class SimulatedItems {
 		Barcode barcode_milk = new Barcode(barcode_numeral_milk);
 		Barcode barcode_bread = new Barcode(barcode_numeral_bread);
 
-		BarcodedProduct product_ham = new BarcodedProduct(barcode_ham, "some ham",(long)8.99,(double)500.0);
-		BarcodedProduct product_milk = new BarcodedProduct(barcode_milk, "some milk",(long)5.99,(double)400.0);
-		BarcodedProduct product_bread = new BarcodedProduct(barcode_bread, "some bread",(long)2.99,(double)300.0);
+		BarcodedProduct product_ham = new BarcodedProduct(barcode_ham, "Ham (Barcoded)",(long)8.99,(double)500.0);
+		BarcodedProduct product_milk = new BarcodedProduct(barcode_milk, "Milk (Barcoded)",(long)5.99,(double)400.0);
+		BarcodedProduct product_bread = new BarcodedProduct(barcode_bread, "Bread (Barcoded)",(long)2.99,(double)300.0);
 		
 		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcode_ham, product_ham);
 		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(barcode_milk, product_milk);

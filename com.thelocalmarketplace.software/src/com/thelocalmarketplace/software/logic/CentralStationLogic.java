@@ -187,7 +187,7 @@ public class CentralStationLogic {
 	 */
 	private boolean sessionStarted;
 	private boolean bypassIssuePrediction;
-	private MainGUI gui;
+	private MainGUI mainGUI;
 
 
 	/**
@@ -414,6 +414,10 @@ public class CentralStationLogic {
 	}
 	
 	public void setGUI(MainGUI g) {
-		gui = g;
+		mainGUI = g;
+	}
+
+	public MainGUI getMainGUI() {
+		return mainGUI;
 	}
 }

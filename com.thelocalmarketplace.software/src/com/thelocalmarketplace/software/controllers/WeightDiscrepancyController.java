@@ -50,6 +50,7 @@ public class WeightDiscrepancyController extends AbstractLogicDependant implemen
 			if (this.logic.addPLUCodedProductController.getAwaitingPLUMeasurement()) {
 				// passes in the previous mass and the new mass as parameters to calculate the mass of the item
 				this.logic.addPLUCodedProductController.addPLUCodedItem(this.logic.weightLogic.getActualWeight(), mass);
+				System.out.println("PLU Coded item added to bagging area");
 			}
 			
 			this.logic.weightLogic.updateActualWeight(mass);
@@ -78,11 +79,13 @@ public class WeightDiscrepancyController extends AbstractLogicDependant implemen
 	
 	/** Triggered when actual weight is over expected weight */
 	public void notifyOverload() {
+		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Weight discrepancy detected");
 		System.out.println("Weight discrepancy detected. Please remove item(s)");
 	}
 	
 	/** Triggered when actual weight is under expected weight */
 	public void notifyUnderload() {
+		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Weight discrepancy detected");
 		System.out.println("Weight discrepancy detected. Please add item(s)");
 	}
 	
