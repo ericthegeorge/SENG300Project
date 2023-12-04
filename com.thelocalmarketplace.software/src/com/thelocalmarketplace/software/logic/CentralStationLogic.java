@@ -65,7 +65,6 @@ public class CentralStationLogic {
 		SWIPE
 	}
 	
-	
 	/**
 	 * Reference to physical hardware
 	 */

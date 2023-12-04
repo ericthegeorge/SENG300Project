@@ -138,7 +138,7 @@ public class AttendantStationGUI {
                 "Maintain Ink",
                 "Maintain Paper",
                 "Maintain Coins",
-                "Maintain Banknotes"
+                "Maintain Banknotes"						
         };
 
         // Set fixed size for all buttons
@@ -525,7 +525,7 @@ public class AttendantStationGUI {
         textSearchWindow.setVisible(true);
     }
 
-
+    
     // Method to handle button click events
     private void handleButtonClick(String buttonLabel, JFrame frame) {
 
@@ -547,7 +547,6 @@ public class AttendantStationGUI {
 
             createMaintainPaperWindow(frame);
         }
-
     }
 
     // Method to handle entered quantities for coins or banknotes
