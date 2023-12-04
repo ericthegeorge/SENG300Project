@@ -1,10 +1,17 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
+
+import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+
 import java.awt.*;
 
 
 public class KeyboardScreenGUI {
+	CentralStationLogic logic;
+	MainGUI mainGUI;
 	
 	// Variables for the screen
 	JFrame keyboardScreenFrame;
@@ -30,7 +37,9 @@ public class KeyboardScreenGUI {
 	
 	
 	// Constructor for the screen
-	public KeyboardScreenGUI() {
+	public KeyboardScreenGUI(MainGUI m, CentralStationLogic l) {
+		mainGUI = m;
+		logic = l;
 		keyboardScreenFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
 		keyboardScreenPanel = new JPanel();
 		keyRowOnePanel = new JPanel();
@@ -62,8 +71,6 @@ public class KeyboardScreenGUI {
 		keyboardScreenFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		keyboardScreenFrame.pack();
 		keyboardScreenFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		keyboardScreenFrame.setVisible(true);
-		
 	}
 	
 	// Adds all the buttons and organizes the layouts
@@ -90,21 +97,21 @@ public class KeyboardScreenGUI {
 		// Build Tab Layout
 		
 		item_A.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton apple_button = new JButton(" Apples ");
+		JButton apple_button = new JButton(SimulatedItems.apple_description);
 		item_A.add(apple_button);
 		apple_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_A.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton avocado_button = new JButton(" Avocado ");
+		JButton avocado_button = new JButton(SimulatedItems.avocado_description);
 		item_A.add(avocado_button);
 		avocado_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_A.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton asparagus_button = new JButton(" Asparagus ");
+		JButton asparagus_button = new JButton(SimulatedItems.asparagus_description);
 		item_A.add(asparagus_button);
 		asparagus_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
@@ -112,21 +119,21 @@ public class KeyboardScreenGUI {
     	});
 		item_A.add(Box.createRigidArea(new Dimension(5,0)));
 		item_BtoC.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton blueberries_button = new JButton(" Blueberries ");
+		JButton blueberries_button = new JButton(SimulatedItems.blueberries_description);
 		item_BtoC.add(blueberries_button);
 		blueberries_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_BtoC.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton beets_button = new JButton(" Beets ");
+		JButton beets_button = new JButton(SimulatedItems.beets_description);
 		item_BtoC.add(beets_button);
 		beets_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_BtoC.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton celery_button = new JButton(" Celery ");
+		JButton celery_button = new JButton(SimulatedItems.celery_description);
 		item_BtoC.add(celery_button);
 		celery_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
@@ -134,21 +141,21 @@ public class KeyboardScreenGUI {
     	});
 		item_BtoC.add(Box.createRigidArea(new Dimension(5,0)));
 		item_DtoJ.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton endive_button = new JButton(" Endive ");
+		JButton endive_button = new JButton(SimulatedItems.endive_description);
 		item_DtoJ.add(endive_button);
 		endive_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_DtoJ.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton grapes_button = new JButton(" Grapes ");
+		JButton grapes_button = new JButton(SimulatedItems.grapes_description);
 		item_DtoJ.add(grapes_button);
 		grapes_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_DtoJ.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton jicama_button = new JButton(" Jicama ");
+		JButton jicama_button = new JButton(SimulatedItems.jicama_description);
 		item_DtoJ.add(jicama_button);
 		jicama_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
@@ -156,21 +163,21 @@ public class KeyboardScreenGUI {
     	});
 		item_DtoJ.add(Box.createRigidArea(new Dimension(5,0)));
 		item_KtoM.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton kale_button = new JButton(" Kale ");
+		JButton kale_button = new JButton(SimulatedItems.kale_description);
 		item_KtoM.add(kale_button);
 		kale_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_KtoM.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton lettuce_button = new JButton(" Lettuce ");
+		JButton lettuce_button = new JButton(SimulatedItems.lettuce_description);
 		item_KtoM.add(lettuce_button);
 		lettuce_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_KtoM.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton mango_button = new JButton(" Mangos ");
+		JButton mango_button = new JButton(SimulatedItems.mangos_description);
 		item_KtoM.add(mango_button);
 		mango_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
@@ -178,21 +185,21 @@ public class KeyboardScreenGUI {
     	});
 		item_KtoM.add(Box.createRigidArea(new Dimension(5,0)));
 		item_NtoP.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton grnpeppers_button = new JButton(" Green Peppers ");
+		JButton grnpeppers_button = new JButton(SimulatedItems.greenpeppers_description);
 		item_NtoP.add(grnpeppers_button);
 		grnpeppers_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_NtoP.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton onions_button = new JButton(" Onions ");
+		JButton onions_button = new JButton(SimulatedItems.onions_description);
 		item_NtoP.add(onions_button);
 		onions_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_NtoP.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton redpeppers_button = new JButton(" Red Peppers ");
+		JButton redpeppers_button = new JButton(SimulatedItems.radishes_description);
 		item_NtoP.add(redpeppers_button);
 		redpeppers_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
@@ -200,43 +207,45 @@ public class KeyboardScreenGUI {
     	});
 		item_NtoP.add(Box.createRigidArea(new Dimension(5,0)));
 		item_QtoS.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton radish_button = new JButton(" Radishes ");
+		JButton radish_button = new JButton(SimulatedItems.radishes_description);
 		item_QtoS.add(radish_button);
 		radish_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_QtoS.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton shallot_button = new JButton(" Shallots ");
+		JButton shallot_button = new JButton(SimulatedItems.shallots_description);
 		item_QtoS.add(shallot_button);
 		shallot_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_QtoS.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton spinach_button = new JButton(" Spinach ");
+		JButton spinach_button = new JButton(SimulatedItems.spinach_description);
 		item_QtoS.add(spinach_button);
 		spinach_button.addActionListener(e -> {
+			PLUCodedItem pitem = (PLUCodedItem) mainGUI.getItemFromDescription(spinach_button.getText());
+			logic.addPLUCodedProductController.addPLUCode(pitem.getPLUCode());
     		// TODO: Implement visual catalog
     		
     	});
 		item_QtoS.add(Box.createRigidArea(new Dimension(5,0)));
 		item_TtoZ.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton tomato_button = new JButton(" Tomatoes ");
+		JButton tomato_button = new JButton(SimulatedItems.tomatoes_description);
 		item_TtoZ.add(tomato_button);
 		tomato_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_TtoZ.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton yam_button = new JButton(" Yams ");
+		JButton yam_button = new JButton(SimulatedItems.yams_description);
 		item_TtoZ.add(yam_button);
 		yam_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
     		
     	});
 		item_TtoZ.add(Box.createRigidArea(new Dimension(5,0)));
-		JButton watermelon_button = new JButton(" Watermelon ");
+		JButton watermelon_button = new JButton(SimulatedItems.watermelon_description);
 		item_TtoZ.add(watermelon_button);
 		watermelon_button.addActionListener(e -> {
     		// TODO: Implement visual catalog
@@ -275,6 +284,7 @@ public class KeyboardScreenGUI {
     		addText("E");
     		
     	});
+		
 		keyRowOnePanel.add(Box.createRigidArea(new Dimension(5,50)));
 		JButton r_button = new JButton(" R ");
 		keyRowOnePanel.add(r_button);
@@ -642,13 +652,9 @@ public class KeyboardScreenGUI {
 		}
 		
 	}
-	
-	
-	// Just for testing screen.
-	public static void main(String[] args) {
-		KeyboardScreenGUI keyboardGUI = new KeyboardScreenGUI();
+
+	public JPanel getPanel() {
+		return keyboardScreenPanel;
 	}
-	
-	
 }
 

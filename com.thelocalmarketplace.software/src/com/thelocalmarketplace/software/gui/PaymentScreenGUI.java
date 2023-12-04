@@ -1,9 +1,14 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
+
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.math.BigDecimal;
 
 public class PaymentScreenGUI {
     private JFrame paymentPageFrame;
@@ -18,8 +23,12 @@ public class PaymentScreenGUI {
     private JLabel itemsInCartLabel;
     private JLabel selectPaymentLabel;
     private JList<String> cartItemList;
+    private CentralStationLogic logic;
+    private MainGUI mainGUI;
 
-    public PaymentScreenGUI() {
+    public PaymentScreenGUI(MainGUI m, CentralStationLogic l) {
+    	mainGUI = m;
+    	logic = l;
         paymentPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
         paymentPagePanel = new JPanel();
 
@@ -28,7 +37,6 @@ public class PaymentScreenGUI {
         paymentPageFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         paymentPageFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         paymentPageFrame.setContentPane(paymentPagePanel);
-        paymentPageFrame.setVisible(true);
     }
     private void addWidgets() {
         paymentPagePanel.setLayout(new BorderLayout());
@@ -64,27 +72,82 @@ public class PaymentScreenGUI {
 
         centerPanel.add(buttonsPanel);
         
+
+        
+        // right panel
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BorderLayout());
+
+        finishCheckoutButton = new JButton("Finish Checkout");
+        finishCheckoutButton.setFont(new Font("Arial", Font.BOLD, 15));
+        finishCheckoutButton.setPreferredSize(new Dimension(150, 50));
+        itemsInCartLabel = new JLabel("Items in cart:");
+        itemsInCartLabel.setFont(new Font("Arial", Font.BOLD, 20));
+
+        DefaultListModel<String> cartItemList = new DefaultListModel<>();
+        cartItemList.addElement("Item 1");
+        cartItemList.addElement("Item 2");
+        cartItemList.addElement("Item 3");
+ 
+        JList<String> cartListObjt = new JList<>(cartItemList);
+        cartListObjt.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        cartListObjt.setLayoutOrientation(JList.VERTICAL_WRAP); 
+        cartListObjt.setVisibleRowCount(-1);
+
+        cartListObjt.setFont(new Font("Arial", Font.PLAIN, 20));
+
+        JScrollPane cartScrollPane = new JScrollPane(cartListObjt);
+
+        JPanel listPanel = new JPanel(new BorderLayout());
+        listPanel.add(itemsInCartLabel, BorderLayout.NORTH);
+        listPanel.add(cartScrollPane, BorderLayout.CENTER);
+        
+        float totalPrice = 0;
+        String totalPriceString = "Total Price ($): ";
+        JTextArea totalPriceText = new JTextArea(totalPriceString + String.valueOf(totalPrice));
+        totalPriceText.setEditable(false);
+        totalPriceText.setFont(new Font("Arial", Font.BOLD, 20));
+
+        rightPanel.add(listPanel, BorderLayout.CENTER);
+        rightPanel.add(totalPriceText, BorderLayout.NORTH);
+        rightPanel.add(finishCheckoutButton, BorderLayout.SOUTH);
+
+        centerPanel.add(rightPanel);
+
+        paymentPagePanel.add(centerPanel, BorderLayout.CENTER);
+        
         cashButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                CashScreenGUI cashScreen = new CashScreenGUI();
+            	getPaymentPageFrame().dispose();
+                logic.selectPaymentMethod(PaymentMethods.CASH);
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "cash");
             }
         });
         
         debitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                DebitScreenGUI debitScreen = new DebitScreenGUI();
+            	getPaymentPageFrame().dispose();
+                logic.selectPaymentMethod(PaymentMethods.DEBIT);
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "debit");
             }
         });
         
         creditButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                CreditScreenGUI creditScreen = new CreditScreenGUI();
+            	getPaymentPageFrame().dispose();
+                logic.selectPaymentMethod(PaymentMethods.CREDIT);
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "credit");
+            }
+        });
+        
+        backToCartButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+            	getPaymentPageFrame().dispose();
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "addItem");
             }
         });
         
@@ -92,54 +155,43 @@ public class PaymentScreenGUI {
         notifyAttendantButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                notifyAttendant();
+                //TODO attendantScreen.dosomething()
             }
         });
-        
-        // right panel
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BorderLayout());
-
-        finishCheckoutButton = new JButton("Finish Checkout");
-        finishCheckoutButton.setFont(new Font("Arial", Font.BOLD, 16));
-        finishCheckoutButton.setPreferredSize(new Dimension(150, 50));
-        itemsInCartLabel = new JLabel("Items in cart:");
-        itemsInCartLabel.setFont(new Font("Arial", Font.BOLD, 15));
-
-        cartItemList = new JList<>();
-        cartItemList.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        cartItemList.setLayoutOrientation(JList.HORIZONTAL_WRAP);
-        cartItemList.setVisibleRowCount(-1);
-
-        JPanel listPanel = new JPanel(new BorderLayout());
-        listPanel.add(cartItemList, BorderLayout.CENTER);
-        listPanel.add(itemsInCartLabel, BorderLayout.NORTH);
-
-        totalPriceLabel = new JLabel("Total Price:");
-        totalPriceLabel.setFont(new Font("Arial", Font.BOLD, 15));
-
-        rightPanel.add(listPanel, BorderLayout.CENTER);
-        rightPanel.add(totalPriceLabel, BorderLayout.NORTH);
-        rightPanel.add(finishCheckoutButton, BorderLayout.SOUTH);
-
-        centerPanel.add(rightPanel);
-
-        paymentPagePanel.add(centerPanel, BorderLayout.CENTER);
         
         finishCheckoutButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                paymentPageFrame.dispose();
-                CompletionScreenGUI completionScreen = new CompletionScreenGUI();
+            	if(logic.cartLogic.getBalanceOwed().intValue() == 0) {
+                	BigDecimal missed = logic.coinPaymentController.getMissed().add(logic.cashPaymentController.getMissed());
+                	logic.receiptPrintingController.handlePrintReceipt(missed);
+                    paymentPageFrame.dispose();
+                    mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "completion");
+            	}
             }
         });
-       
     }
  
     private void notifyAttendant() {
         JOptionPane.showMessageDialog(paymentPageFrame, "Attendant notified. Please wait for assistance.");
     }
-    public static void main(String[] args) {
-        PaymentScreenGUI paymentScreen = new PaymentScreenGUI();
-    }
+
+	public JButton getCashButton() {
+		return cashButton;
+	}
+	public JButton getCreditButton() {
+		return creditButton;
+	}
+	public JButton getDebitButton() {
+		return debitButton;
+	}
+	public JButton getNotifyAttendantButton() {
+		return notifyAttendantButton;
+	}
+	public JFrame getPaymentPageFrame() {
+		return paymentPageFrame;
+	}
+	public JPanel getPanel() {
+		return paymentPagePanel;
+	}
 }

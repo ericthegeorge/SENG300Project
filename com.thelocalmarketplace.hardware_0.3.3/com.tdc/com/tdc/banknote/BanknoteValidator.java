@@ -97,7 +97,6 @@ public final class BanknoteValidator extends AbstractComponent<BanknoteValidator
 			for(BigDecimal denomination : denominations)
 				if(denomination.equals(banknote.getDenomination()))
 					return pseudoRandomNumberGenerator.nextInt(100) >= PROBABILITY_OF_FALSE_REJECTION;
-
 		return false;
 	}
 

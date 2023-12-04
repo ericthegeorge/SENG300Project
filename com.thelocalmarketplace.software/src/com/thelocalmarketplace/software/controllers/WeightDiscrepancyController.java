@@ -46,15 +46,17 @@ public class WeightDiscrepancyController extends AbstractLogicDependant implemen
 		// Weight discrepancies are ignored when in ADDBAGS state
 		if (!this.logic.stateLogic.inState(States.ADDBAGS)) {
 			
-			// Adds a PLU coded item if the station is expecting that to be the next thing on the scale
+			// calls the method to add a PLU coded item if the station is expecting that to be the next thing on the scale
 			if (this.logic.addPLUCodedProductController.getAwaitingPLUMeasurement()) {
 				// passes in the previous mass and the new mass as parameters to calculate the mass of the item
 				this.logic.addPLUCodedProductController.addPLUCodedItem(this.logic.weightLogic.getActualWeight(), mass);
 			}
-			
+			// calls the method to remove a PLU coded item if the station is waiting for one (of a specific PLU code) to be removed
+			else if (this.logic.removeItemLogic.getAwaitingPLURemoval()) {
+				this.logic.removeItemLogic.removePLUCodedItem(this.logic.weightLogic.getActualWeight(), mass);
+			}
 			this.logic.weightLogic.updateActualWeight(mass);
 			this.logic.weightLogic.handleWeightDiscrepancy();
-			
 		} else {
 			
 			// The actual mass now is whatever was on the scale before this change
@@ -63,8 +65,11 @@ public class WeightDiscrepancyController extends AbstractLogicDependant implemen
 			if (mass.compareTo(this.logic.weightLogic.getActualWeight()) > 0) {
 				
 				// Add the bag to the bag mass
+				if (one_bag.inGrams().compareTo(logic.getMaximumBagMass()) >= 1) {
+					logic.stateLogic.gotoState(States.BLOCKED);
+					logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Bag is too heavy. Please wait for an attendant.");
+				}
 				this.logic.weightLogic.updateTotalBagMass(this.logic.weightLogic.getTotalBagMass().sum(one_bag));
-
 			} else {
 				
 				// Remove the bag from the bag mass
@@ -78,11 +83,13 @@ public class WeightDiscrepancyController extends AbstractLogicDependant implemen
 	
 	/** Triggered when actual weight is over expected weight */
 	public void notifyOverload() {
+		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Weight discrepancy detected");
 		System.out.println("Weight discrepancy detected. Please remove item(s)");
 	}
 	
 	/** Triggered when actual weight is under expected weight */
 	public void notifyUnderload() {
+		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Weight discrepancy detected");
 		System.out.println("Weight discrepancy detected. Please add item(s)");
 	}
 	

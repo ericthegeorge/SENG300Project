@@ -58,7 +58,8 @@ public class StartScreenGUI {
 	private CentralStationLogic logic;
 	private MainGUI mainGUI;
 	
-	public StartScreenGUI(CentralStationLogic l) {
+	public StartScreenGUI(MainGUI m, CentralStationLogic l) {
+		mainGUI = m;
 		logic = l;
 		frame = new JFrame("TheLocalMarketplace Self-Checkout Station");
 		panel = new JPanel();
@@ -74,7 +75,6 @@ public class StartScreenGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		frame.setVisible(true);
 	}
 
 	private void addWidgets() {
@@ -177,6 +177,12 @@ public class StartScreenGUI {
 		panel.add(verticalPanel);
 		panel.add(Box.createVerticalStrut(-100));
 		panel.add(horizontalPanel);
+		
+        //Initializing action listeners for all buttons
+		getStartSessionButton().addActionListener(e -> {
+			logic.startSession();
+			mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "addItem");
+		});
 	}
 	
 	public JButton getStartSessionButton() {

@@ -39,8 +39,10 @@ public class CompletionScreenGUI {
 	private JLabel thankYouMessageLabel;
 	private JLabel kindMessageLabel;
 	private CentralStationLogic logic;
+	private MainGUI mainGUI;
 	
-	public CompletionScreenGUI(CentralStationLogic l) {
+	public CompletionScreenGUI(MainGUI m, CentralStationLogic l) {
+		mainGUI = m;
 		logic = l;
 		completionScreenFrame = new JFrame("TheLocalMarketplace Self-Checkout Station");
 		completionScreenPanel = new JPanel();
@@ -52,7 +54,6 @@ public class CompletionScreenGUI {
 		completionScreenFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		completionScreenFrame.pack();
 		completionScreenFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		completionScreenFrame.setVisible(true);
 	}
 	
 	private void addWidgets() {

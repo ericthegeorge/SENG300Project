@@ -7,6 +7,8 @@ import java.awt.event.ActionListener;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.software.controllers.pay.CardReaderController;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.CardMethods;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
 
 // need help to connect the software to this
 
@@ -14,8 +16,12 @@ public class DebitScreenGUI {
     private JFrame debitPageFrame;
     private JPanel debitPagePanel;
     private CardReaderController cardReaderController;
+    private CentralStationLogic logic;
+    private MainGUI mainGUI;
     
-    public DebitScreenGUI() {
+    public DebitScreenGUI(MainGUI m, CentralStationLogic l) {
+    	mainGUI = m;
+    	logic = l;
         debitPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
         debitPagePanel = new JPanel();
 
@@ -24,8 +30,6 @@ public class DebitScreenGUI {
         debitPageFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         debitPageFrame.setSize(1000, 1000); 
         debitPageFrame.setContentPane(debitPagePanel);
-        debitPageFrame.setVisible(true);
-
         this.cardReaderController = new CardReaderController(logic);
     }
 
@@ -39,7 +43,8 @@ public class DebitScreenGUI {
         insertButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
-                cardReaderController.aCardHasBeenInserted();
+
+
             }
         });
 
@@ -61,7 +66,7 @@ public class DebitScreenGUI {
             @Override
             public void actionPerformed(ActionEvent e) {
             	debitPageFrame.dispose();
-            	PaymentScreenGUI paymentScreen = new PaymentScreenGUI();
+            	mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
             }
         });
 
@@ -72,8 +77,8 @@ public class DebitScreenGUI {
         debitPagePanel.add(swipeButton);
         debitPagePanel.add(goBackButton);
     }
-    
-    public static void main(String[] args) throws NullPointerException {
-        DebitScreenGUI debitScreen = new DebitScreenGUI();
-    }
+
+	public JPanel getPanel() {
+		return debitPagePanel;
+	}
 }
