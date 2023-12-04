@@ -95,7 +95,7 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 			totalBagMass.sum(bagInstance.getMass());
 		
 		logic.weightLogic.updateTotalBagMass(totalBagMass);
-		if (logic.weightLogic.getTotalBagMass().compareTo(totalBagMass) < 0 || this.approvedBagging) {
+		if (logic.weightLogic.getTotalBagMass().compareTo(totalBagMass) <= 0 || this.approvedBagging) {
 			// If bag weight is under the allowed weight
 			this.logic.weightLogic.overrideDiscrepancy();
 			this.approvedBagging = true;
