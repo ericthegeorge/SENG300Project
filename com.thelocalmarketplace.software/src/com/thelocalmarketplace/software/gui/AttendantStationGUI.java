@@ -48,6 +48,8 @@ public class AttendantStationGUI {
             circleColors.put('P', Color.YELLOW);
             circleColors.put('C', Color.YELLOW);
             circleColors.put('B', Color.YELLOW);
+            circleColors.put('S', Color.YELLOW);
+            circleColors.put('H', Color.YELLOW);
         }
 
         public int getStationNumber() {
