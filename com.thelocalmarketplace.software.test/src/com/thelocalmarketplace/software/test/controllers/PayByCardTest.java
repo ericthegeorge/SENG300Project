@@ -70,10 +70,9 @@ public class PayByCardTest {
 
         AbstractSelfCheckoutStation.resetConfigurationToDefaults();
 
-        station=new SelfCheckoutStationGold();
+        station = new SelfCheckoutStationGold();
         station.plugIn(PowerGrid.instance());
         station.turnOn();
-
 
         session = new CentralStationLogic(station);
         session.setBypassIssuePrediction(true);
@@ -95,11 +94,6 @@ public class PayByCardTest {
 
 
         this.session.selectPaymentMethod(PaymentMethods.DEBIT);
-    }
-
-    @After
-    public void tearDown() {
-        PowerGrid.engageFaultyPowerSource();
     }
     
     @Test

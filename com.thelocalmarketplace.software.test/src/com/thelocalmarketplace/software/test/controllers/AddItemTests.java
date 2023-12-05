@@ -51,7 +51,7 @@ import powerutility.PowerGrid;
  * @author Ryan Korsrud (30173204)
  */
 
-public class AddBarcodedItemTests {
+public class AddItemTests {
 	//TODO redo like all of this?
 	SelfCheckoutStationBronze station;
 	CentralStationLogic session;
