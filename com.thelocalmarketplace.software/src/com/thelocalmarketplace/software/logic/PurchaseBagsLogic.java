@@ -71,7 +71,7 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
         	try {
 				logic.hardware.getReusableBagDispenser().dispense();
 			} catch (EmptyDevice e) {
-				throw new EmptyDevice("test");
+				throw new EmptyDevice("Bag dispenser is empty");
 			}
         }
 	}

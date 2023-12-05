@@ -194,6 +194,18 @@ public class PaymentScreenGUI {
                 	logic.receiptPrintingController.handlePrintReceipt(missed);
                     paymentPageFrame.dispose();
                     mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "completion");
+                    
+            		new java.util.Timer().schedule( 
+            		        new java.util.TimerTask() {
+            		            @Override
+            		            public void run() {
+            		            	MainGUI.restartGUI();
+            		            	mainGUI.getMainFrame().dispose();
+            		            	mainGUI.getAttendantFrame().dispose();
+            		            }
+            		        }, 
+            		        7000 
+            		);
             	}
             	// TODO: Implement Receipt popup
             	JFrame receiptWindow = new JFrame("Customer Receipt");
@@ -240,7 +252,7 @@ public class PaymentScreenGUI {
 	}
 	public JButton getDebitButton() {
 		return debitButton;
-	}
+	}	
 	public JButton getNotifyAttendantButton() {
 		return notifyAttendantButton;
 	}
