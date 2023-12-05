@@ -95,7 +95,7 @@ public class MainGUI {
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		station.plugIn(PowerGrid.instance());
-		station.turnOn();
+		station.turnOn();	
 		
 		SimulatedItems.instantiateItems();
 

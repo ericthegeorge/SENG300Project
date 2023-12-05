@@ -6,6 +6,7 @@ import com.tdc.CashOverloadException;
 import com.tdc.DisabledException;
 import com.tdc.banknote.Banknote;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -108,6 +109,12 @@ public class CashScreenGUI {
         goBackButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
+            	BigDecimal cash = new BigDecimal(Double.parseDouble(totalCashField.getText().substring(1)));
+            	logic.cartLogic.modifyBalance(cash.negate());
+//            	System.out.println("cash paying with amount " + cash);
+            	logic.receiptPrintingController.addAmountPaid(PaymentMethods.CASH, cash);
+//            	logic.cartLogic.modifyBalance(cash.negate());
+            	
                 cashPageFrame.dispose();
                 mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "payment");
             }
