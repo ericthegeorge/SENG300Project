@@ -2,6 +2,11 @@ package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
 
+import com.jjjwelectronics.Item;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
 
@@ -9,6 +14,35 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Map;
+
+/**
+ * 
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
+ * @author Maheen Nizmani (30172615)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
+ */
+
 
 public class PaymentScreenGUI {
     private JFrame paymentPageFrame;
@@ -22,11 +56,18 @@ public class PaymentScreenGUI {
     private JLabel totalPriceLabel;
     private JLabel itemsInCartLabel;
     private JLabel selectPaymentLabel;
+    private DefaultListModel<String> cartItemModel = new DefaultListModel<>();
     private JList<String> cartItemList;
     private CentralStationLogic logic;
     private MainGUI mainGUI;
+    private ArrayList<String> receiptListNames = new ArrayList<>();
+	private ArrayList<String> receiptListPrices = new ArrayList<>();
+    private JPanel listPanel = new JPanel(new BorderLayout());
+    JPanel rightPanel = new JPanel();
+    private float totalPrice = 0;
+    private JTextArea totalPriceText;
 
-    public PaymentScreenGUI(MainGUI m, CentralStationLogic l) {
+	public PaymentScreenGUI(MainGUI m, CentralStationLogic l) { 
     	mainGUI = m;
     	logic = l;
         paymentPageFrame = new JFrame("The LocalMarketplace Self-Checkout Station");
@@ -38,7 +79,10 @@ public class PaymentScreenGUI {
         paymentPageFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         paymentPageFrame.setContentPane(paymentPagePanel);
     }
+
     private void addWidgets() {
+    	
+
         paymentPagePanel.setLayout(new BorderLayout());
 
         // top panel
@@ -75,7 +119,7 @@ public class PaymentScreenGUI {
 
         
         // right panel
-        JPanel rightPanel = new JPanel();
+        
         rightPanel.setLayout(new BorderLayout());
 
         finishCheckoutButton = new JButton("Finish Checkout");
@@ -83,33 +127,14 @@ public class PaymentScreenGUI {
         finishCheckoutButton.setPreferredSize(new Dimension(150, 50));
         itemsInCartLabel = new JLabel("Items in cart:");
         itemsInCartLabel.setFont(new Font("Arial", Font.BOLD, 20));
-
-        DefaultListModel<String> cartItemList = new DefaultListModel<>();
-        cartItemList.addElement("Item 1");
-        cartItemList.addElement("Item 2");
-        cartItemList.addElement("Item 3");
- 
-        JList<String> cartListObjt = new JList<>(cartItemList);
-        cartListObjt.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
-        cartListObjt.setLayoutOrientation(JList.VERTICAL_WRAP); 
-        cartListObjt.setVisibleRowCount(-1);
-
-        cartListObjt.setFont(new Font("Arial", Font.PLAIN, 20));
-
-        JScrollPane cartScrollPane = new JScrollPane(cartListObjt);
-
-        JPanel listPanel = new JPanel(new BorderLayout());
-        listPanel.add(itemsInCartLabel, BorderLayout.NORTH);
-        listPanel.add(cartScrollPane, BorderLayout.CENTER);
         
-        float totalPrice = 0;
-        String totalPriceString = "Total Price ($): ";
-        JTextArea totalPriceText = new JTextArea(totalPriceString + String.valueOf(totalPrice));
-        totalPriceText.setEditable(false);
-        totalPriceText.setFont(new Font("Arial", Font.BOLD, 20));
+        listPanel.add(itemsInCartLabel, BorderLayout.NORTH);
+        
+        
+        
+        
 
         rightPanel.add(listPanel, BorderLayout.CENTER);
-        rightPanel.add(totalPriceText, BorderLayout.NORTH);
         rightPanel.add(finishCheckoutButton, BorderLayout.SOUTH);
 
         centerPanel.add(rightPanel);
@@ -170,8 +195,11 @@ public class PaymentScreenGUI {
             	}
             }
         });
+
+        totalPriceText = new JTextArea("");
+        getRightPanel().add(totalPriceText, BorderLayout.NORTH);
     }
- 
+
     private void notifyAttendant() {
         JOptionPane.showMessageDialog(paymentPageFrame, "Attendant notified. Please wait for assistance.");
     }
@@ -194,4 +222,135 @@ public class PaymentScreenGUI {
 	public JPanel getPanel() {
 		return paymentPagePanel;
 	}
+
+    public JList<String> getCartItemList() {
+        return cartItemList;
+    }
+
+    // Getter for totalPrice
+    public float getTotalPrice() {
+        return this.totalPrice;
+    }
+
+    // Setter for totalPrice
+    public void setTotalPrice(float newTotalPrice) {
+        this.totalPrice = newTotalPrice;
+    }
+
+
+    // Setter for cartItemList
+    public void setCartItemList(ArrayList<String> names, ArrayList<String> prices) {
+        
+
+        // Ensure both lists have the same size
+        int minSize = Math.min(names.size(), prices.size());
+        DefaultListModel<String> newCartModel = new DefaultListModel<String>();
+
+        for (int i = 0; i < minSize; i++) {
+            String concatenatedItem = names.get(i) + " " + prices.get(i);
+            newCartModel.addElement(concatenatedItem);
+        }
+
+        setCartItemModel(newCartModel);
+
+
+    }
+
+    // Getter method for cartItemModel
+    public DefaultListModel<String> getCartItemModel() {
+        return this.cartItemModel;
+    }
+
+    // Setter method for cartItemModel
+    public void setCartItemModel(DefaultListModel<String> newModel) {
+        cartItemModel = newModel;
+        cartItemList = new JList<>(cartItemModel);
+    }
+
+    // Setter for updating receiptListNames with DefaultListModel
+    public void updateReceiptListNames(DefaultListModel<String> nameModel) {
+        getReceiptListNames().clear(); // Clear existing names
+        for (int i = 0; i < nameModel.getSize(); i++) {
+            this.receiptListNames.add(nameModel.getElementAt(i));
+        }
+		System.out.println("NAMES MAINGUI: ");
+		System.out.println(this.receiptListNames);
+    }
+
+    // Setter for updating receiptListPrices with DefaultListModel
+    public void updateReceiptListPrices(DefaultListModel<String> priceModel) {
+        getReceiptListPrices().clear(); // Clear existing prices
+        for (int i = 0; i < priceModel.getSize(); i++) {
+            this.receiptListPrices.add(priceModel.getElementAt(i));
+        }
+		System.out.println("PRICES MAINGUI: ");
+		System.out.println(this.receiptListPrices);
+    }
+
+    // Getter methods to access the lists
+    public ArrayList<String> getReceiptListNames() {
+        return this.receiptListNames;
+    }
+
+    public ArrayList<String> getReceiptListPrices() {
+        return this.receiptListPrices;
+    }
+
+    // Setter for updating cartItemList
+    public void updateCartItemList(DefaultListModel<String> newModel) {
+        getCartItemList().setModel(newModel); // set the cartItemList to the new model
+
+    }
+
+    // Getter for listPanel
+    public JPanel getListPanel() {
+        return this.listPanel;
+    }
+
+    // Setter for listPanel
+    public void setListPanel(JPanel newPanel) {
+        listPanel = newPanel;
+    }
+
+    public void updateCartScrollPanel(){
+        JList<String> cartListObjt = getCartItemList();
+        cartListObjt.setSelectionMode(ListSelectionModel.SINGLE_INTERVAL_SELECTION);
+        cartListObjt.setLayoutOrientation(JList.VERTICAL_WRAP); 
+        cartListObjt.setVisibleRowCount(-1);
+
+        cartListObjt.setFont(new Font("Arial", Font.PLAIN, 20));
+        
+        JScrollPane cartScrollPane = new JScrollPane(cartListObjt);
+        getListPanel().add(cartScrollPane, BorderLayout.CENTER);
+
+    }
+
+    public void updateTotalPriceText(String price) {
+        String totalPriceString = "Total Price ($): ";
+        totalPriceText.setEditable(false);
+        totalPriceText.setFont(new Font("Arial", Font.BOLD, 20));
+        totalPriceText.setText(totalPriceString + price);
+
+    }
+
+    // Getter for rightPanel
+    public JPanel getRightPanel() {
+        return rightPanel;
+    }
+
+    // Setter for rightPanel
+    public void setRightPanel(JPanel newPanel) {
+        rightPanel = newPanel;
+    }
+
+
+    public JTextArea getTotalPriceText() {
+		return totalPriceText;
+	}
+
+	public void setTotalPriceText(JTextArea totalPriceText) {
+		this.totalPriceText = totalPriceText;
+	}
+
+
 }

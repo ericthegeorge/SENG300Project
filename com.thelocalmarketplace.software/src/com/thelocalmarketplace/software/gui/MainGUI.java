@@ -29,6 +29,33 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Currency;
 
+/**
+ * 
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
+ * @author Maheen Nizmani (30172615)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
+ */
+
+
 public class MainGUI {
     private JFrame mainFrame;
     private JFrame attendantFrame;
@@ -46,12 +73,14 @@ public class MainGUI {
     private CreditScreenGUI creditScreen;
     private DebitScreenGUI debitScreen;
     private VisualCatalogueScreenGUI keyboardScreen;
-    private PaymentScreenGUI paymentScreen;
+    public PaymentScreenGUI paymentScreen;
     private AddItemGUI addItemScreen;
     private CashScreenGUI cashScreen;
     
 	private AbstractSelfCheckoutStation station;
     private CentralStationLogic logic;
+
+
     
     public static void main(String[] args) {
     	AbstractSelfCheckoutStation.resetConfigurationToDefaults();
@@ -198,7 +227,8 @@ public class MainGUI {
 		}
 		return null;	
 	}
-    
+
+
     public CardLayout getCardLayout() {
 		return mainCardLayout;
 	}
@@ -235,10 +265,6 @@ public class MainGUI {
 		return keyboardScreen;
 	}
 
-	public PaymentScreenGUI getPaymentScreen() {
-		return paymentScreen;
-	}
-
 	public AddItemGUI getAddItemScreen() {
 		return addItemScreen;
 	}
@@ -246,5 +272,17 @@ public class MainGUI {
 	public ArrayList<Item> getItemsInBaggingArea() {
 		return itemsInBaggingArea;
 	}
+
+
+
+	// Getter for paymentScreen
+    public PaymentScreenGUI getPaymentScreen() {
+        return paymentScreen;
+    }
+
+    // Setter for paymentScreen
+    public void setPaymentScreen(PaymentScreenGUI paymentScreen) {
+        this.paymentScreen = paymentScreen;
+    }
 
 }

@@ -5,36 +5,53 @@ import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.Map;
+import java.util.Map.Entry;
 
 import org.junit.Before;
 import org.junit.Test;
 
+import com.jjjwelectronics.Item;
 import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
+import com.thelocalmarketplace.software.gui.MainGUI;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
+import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
 import powerutility.PowerGrid;
 
 /**
- * @author Tara Strickland (10105877)
- * ----------------------------------
- * @author Angelina Rochon (30087177)
- * @author Connell Reffo (10186960)
- * @author Julian Fan (30235289)
- * @author Braden Beler (30084941)
- * @author Samyog Dahal (30194624)
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
  * @author Maheen Nizmani (30172615)
- * @author Phuong Le (30175125)
- * @author Daniel Yakimenka (10185055)
- * @author Merick Parkinson (30196225)
- * @author Farida Elogueil (30171114)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
+
 public class CartLogicTests {
 	
 	SelfCheckoutStationBronze station;
@@ -82,7 +99,35 @@ public class CartLogicTests {
 		station.turnOn();
 		
 		logic = new CentralStationLogic(station);
+		logic.setBypassIssuePrediction(true);
+		logic.startSession();
 	}
+	
+	public BarcodedItem testMethodToFindBarcodedItemInCart(Barcode barcode) {
+		Map<Item, Integer> cartItems = this.logic.cartLogic.getCart();
+		
+		if (barcode == null) {
+			throw new NullPointerException("Price lookup code is null");
+		}
+		else if (!this.logic.isSessionStarted()) {
+			throw new InvalidStateSimulationException("The session has not been started");
+		}
+		
+		for (Entry<Item, Integer> entry : cartItems.entrySet()) {
+            Item item = entry.getKey();
+            
+            if (item instanceof BarcodedItem) {
+            	BarcodedItem barcodedItem = (BarcodedItem) item;
+            	if (barcode == barcodedItem.getBarcode()) {
+            		return barcodedItem;
+            	}
+            }
+		}
+		
+		throw new InvalidStateSimulationException("Product not in cart");
+		
+	}
+	
 	@Test public void updatePriceOfCartTest() {
 		BigDecimal price1 = new BigDecimal(50.0);
 		logic.cartLogic.updateBalance(price1);
@@ -101,7 +146,7 @@ public class CartLogicTests {
 		logic.cartLogic.addBarcodedProductToCart(barcode);
 		logic.cartLogic.addBarcodedProductToCart(barcode2);
 		assertTrue("price of cart was not updated correctly after adding to cart", logic.cartLogic.getBalanceOwed().equals(expected));
-	}@Test public void addMultipleProductToCartTestGetTotalPrice() {
+	}@Test public void addMultipleItemsToCartTestGetTotalPrice() {
 		BigDecimal price1 = new BigDecimal(5);
 		BigDecimal price2 = new BigDecimal((long)1.00);
 		BigDecimal expected = price1.add(price2);
@@ -111,16 +156,20 @@ public class CartLogicTests {
 	}
 	
 	@Test
-	public void testRemoveProductFromCart() {
+	public void testRemoveBarcodedItemFromCart() {
 		logic.cartLogic.addBarcodedProductToCart(barcode);
 		assertEquals(1, logic.cartLogic.getCart().size());
-		logic.cartLogic.removeProductFromCart(product);
+		
+		BarcodedItem bitem = testMethodToFindBarcodedItemInCart(barcode);
+		
+		logic.cartLogic.removeProductFromCart(bitem);
 		assertEquals(0, logic.cartLogic.getCart().size());
 	}
 	
 	@Test(expected = SimulationException.class)
-	public void testRemoveNonExistentProductFromCart() {
-		logic.cartLogic.removeProductFromCart(product);
+	public void testRemoveNonExistentBarcodedItemFromCart() {
+		BarcodedItem bitem = testMethodToFindBarcodedItemInCart(barcode);
+		logic.cartLogic.removeProductFromCart(bitem);
 	}
 	
 	@Test(expected = SimulationException.class)

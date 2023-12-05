@@ -14,31 +14,31 @@ import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
 
 
 /**
+ * Logic for Purchasing Bags 
  * @author Tanmay Mishra (30127407)
  * -------------------------------------------
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
+ * @author Maheen Nizmani (30172615)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
  * @author Camila Hernandez (30134911)
- * @author Adrian Brisebois
- * @author Alan Yong
- * @author Ananya jain
- * @author Andrew Matti
- * @author Atique Muhammad
- * @author Christopher Lo
- * @author Danny Ly
- * @author Eric George
- * @author Gareth Jenkins
- * @author Ian Beler
- * @author Jahnissi Nwakanma
- * @author Jenny Dang
- * @author Maheen Nizamani
- * @author Michael Svoboda
- * @author Olivia Crosby
- * @author Rico Manalastas
- * @author Ryan Korsrud
- * @author Shanza Raza
- * @author Sukhnaaz Sidhu
- * @author Zhenhui Ren
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
-
 
 public class PurchaseBagsLogic extends AbstractLogicDependant{
 	
@@ -59,23 +59,17 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 		super(logic);
 	}
 	
-	public void startPurchaseBags() {
+	public void startPurchaseBags(int numberOfBags) {
 		//TODO GUI: please place bags on scale and asks how many bags does the user need. 
 		if (!logic.isSessionStarted()) throw new InvalidStateSimulationException("Session has not started");
 		
 		this.logic.stateLogic.gotoState(States.ADDBAGS);
-		Scanner scanner = new Scanner(System.in);
-		
-		//TODO in GUI 
-	    System.out.println("Enter the number of bags you need: ");
-	        
-        numberOfBags = scanner.nextInt();
-        scanner.close();
-        bagInstance = new ReusableBag();
-//        ReusableBag bagInstance = new ReusableBagDispenserBronze(numberOfBags);
-        //Adding the number of bags to the cart
-        for (int i = 0;i<numberOfBags;i++ )
-        	logic.cartLogic.addProductToCart(bagInstance);
+        	this.numberOfBags = numberOfBags;
+        	bagInstance = new ReusableBag();
+		//ReusableBag bagInstance = new ReusableBagDispenserBronze(numberOfBags);
+		//Adding the number of bags to the cart
+        	for (int i = 0;i<numberOfBags;i++ )
+        		logic.cartLogic.addProductToCart(bagInstance);
         //TODO in GUI 
 		System.out.println("Bag added to order please place bags on the scale");
 	}

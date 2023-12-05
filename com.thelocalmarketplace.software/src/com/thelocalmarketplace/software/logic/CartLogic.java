@@ -19,6 +19,7 @@ import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.Utilities;
+import com.thelocalmarketplace.software.gui.MainGUI;
 
 import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
@@ -26,21 +27,30 @@ import ca.ucalgary.seng300.simulation.SimulationException;
 /**
  * Handles all logical operations on the customer's cart
  * 
- * Combined from Tara's and Angelina's seperate projects
- * 
- * @author Connell Reffo (10186960)
- * @author Tara Strickland (10105877)
- * @author Angelina Rochon (30087177)
- * @author Julian Fan (30235289)
- * @author Braden Beler (30084941)
- * @author Samyog Dahal (30194624)
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
  * @author Maheen Nizmani (30172615)
- * @author Phuong Le (30175125)
- * @author Daniel Yakimenka (10185055)
- * @author Merick Parkinson (30196225)
- * @author Farida Elogueil (30171114)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
  * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
+
 public class CartLogic {
 	
 	/**
@@ -109,16 +119,22 @@ public class CartLogic {
 	 * @throws SimulationException If the item is not in the cart
 	 */
 	public void removeProductFromCart(BarcodedItem item) throws SimulationException {
-		if (!this.getCart().containsKey(item)) {
-			throw new InvalidStateSimulationException("Product not in cart");
+		BarcodedProduct bproductToRemove = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
+		for (Item i : logic.cartLogic.getCart().keySet()) {
+			if(i instanceof BarcodedItem) {
+				BarcodedItem bitem = (BarcodedItem)i;
+				BarcodedProduct bproduct = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode());
+				if(bproductToRemove.equals(bproduct)) {
+					Utilities.modifyCountMapping(cart, bitem, -1);
+					// Update balance owed
+					BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
+					BigDecimal newPrice = this.balanceOwed.subtract(new BigDecimal(product.getPrice()));
+					this.updateBalance(newPrice);
+					return;
+				}
+			}
 		}
-		
-		Utilities.modifyCountMapping(cart, item, -1);
-		
-		// Update balance owed
-		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(item.getBarcode());
-		BigDecimal newPrice = this.balanceOwed.subtract(new BigDecimal(product.getPrice()));
-		this.updateBalance(newPrice);
+		System.out.println("no item was removed");
 	}
 	
 	/**
@@ -243,6 +259,6 @@ public class CartLogic {
 		this.balanceOwed = balance;
 		double balanceRounded = balance.setScale(3, RoundingMode.HALF_UP).doubleValue();
 		String balanceToShow = String.format("%.2f", balanceRounded);
-		logic.getMainGUI().getAddItemScreen().getCostTextArea().setText("$"+balanceToShow);
+		if(logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getCostTextArea().setText("$"+balanceToShow);
 	}
 }
