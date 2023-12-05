@@ -45,6 +45,7 @@ import com.thelocalmarketplace.software.logic.PurchaseBagsLogic;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
+import powerutility.NoPowerException;
 import powerutility.PowerGrid;
 
 public class PurchaseBagTests {
@@ -125,15 +126,6 @@ public class PurchaseBagTests {
 		session.purchaseBagsLogic.purchaseBags(4);	
 	}
 	
-	@Test
-    public void bagsTooHeavyTest() throws EmptyDevice, OverloadedDevice {
-        station.getReusableBagDispenser().load(new ReusableBag());
-		session.stateLogic.gotoState(States.ADDBAGS);
-		session.purchaseBagsLogic.purchaseBags(1);
-		station.getBaggingArea().addAnItem(new ReusableBag());
-
-    }
-	
 	@Test(expected = InvalidStateSimulationException.class)
 	public void sessionNotStarted() throws OverloadedDevice, EmptyDevice {
 		session.stopSession();
@@ -158,6 +150,12 @@ public class PurchaseBagTests {
 		session.purchaseBagsLogic.purchaseBags(1);
 	}
 	
-	// do a test for no power
+	@Test(expected = NoPowerException.class)
+	public void noPowerTest() throws OverloadedDevice, EmptyDevice {
+		station.turnOff();
+		station.getReusableBagDispenser().load(new ReusableBag());
+		session.stateLogic.gotoState(States.ADDBAGS);
+		session.purchaseBagsLogic.purchaseBags(1);
+	}
 	
 }
