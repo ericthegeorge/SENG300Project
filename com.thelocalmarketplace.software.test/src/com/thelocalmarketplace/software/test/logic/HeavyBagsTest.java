@@ -19,6 +19,7 @@ import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
+import com.thelocalmarketplace.software.logic.AttendantLogic;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
@@ -194,8 +195,35 @@ public class HeavyBagsTest {
 		assertTrue(this.session.stateLogic.inState(States.BLOCKED));
 	}
 	
+	@Test
+	public void testNotifyAttendant() {
+		AttendantLogicStub attendantLogic = new AttendantLogicStub(session);
+		session.attendantLogic = attendantLogic;
+			
+		Mass sensitivity = station.getBaggingArea().getSensitivityLimit();
+		Mass currentItemMass = sensitivity.sum(itemMass5);
+		
+		BarcodedItem currentItem= new BarcodedItem(barcode, currentItemMass);
+		
+		this.putTestBarcodedItemInCart(currentItem);
+		station.getBaggingArea().addAnItem(currentItem);
+		
+		session.weightLogic.skipBaggingRequest(currentItem.getBarcode());
+		assertTrue(attendantLogic.requestApprovalCalled);
+		
+	}
 	
+	//the following stub was taken from HandleBulkyItemTests
+	public class AttendantLogicStub extends AttendantLogic {
+		public boolean requestApprovalCalled = false;
+		
+		public AttendantLogicStub(CentralStationLogic l) {super(l);}
+		@Override 
+		public void requestApprovalSkipBagging(Barcode barcode) {
+			requestApprovalCalled = true;
+		}
+		
+	}
 
-	
-	
+
 }
