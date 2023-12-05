@@ -353,6 +353,12 @@ public class AddItemGUI extends JFrame {
  			}
  		});
  	   
+       JButton attendantButton = new JButton("Call Attendant");
+       attendantButton.setFont(new Font("Arial", Font.PLAIN, 30)); // Set a larger font size
+ 	   bottomHighLeftBox.add(attendantButton);
+ 	   attendantButton.addActionListener(e -> {
+ 		   mainGUI.getAttendantScreen().getStationObjects(0).getSquare().setBackground(Color.red);
+ 		});
  	   
         
         // Add the button panel to the upper box

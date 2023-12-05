@@ -50,6 +50,7 @@ public class AttendantStationGUI {
 	private JFrame mainFrame;
     private String[] data;
     private DefaultListModel searchList = new DefaultListModel();
+    StationObject[] stationObjects;
 
     private static JComboBox<StationObject> comboBox;
 
@@ -59,6 +60,7 @@ public class AttendantStationGUI {
     class StationObject {
         private int stationNumber;
         private Map<Character, Color> circleColors; // Map to store colors for circles\
+        private JPanel square;
 
 
         private boolean isEnabled;
@@ -127,6 +129,10 @@ public class AttendantStationGUI {
         public void setWeight(double weight) {
             this.weight = weight;
         }
+
+		public JPanel getSquare() {
+			return square;
+		}
 
     }
 
@@ -282,11 +288,11 @@ public class AttendantStationGUI {
         int rows = (int) Math.ceil((double) stationObjects.length / 4);
 
         for (int i = 0; i < stationObjects.length; i++) {
-            JPanel square = new JPanel(new BorderLayout());
-            square.setPreferredSize(new Dimension(260, 220)); // Increased size
+            stationObjects[i].square = new JPanel(new BorderLayout());
+            stationObjects[i].square.setPreferredSize(new Dimension(260, 220)); // Increased size
 
             // Set the default background color of the square to blue
-            square.setBackground(Color.BLUE);
+            stationObjects[i].square.setBackground(Color.BLUE);
 
             // Add a switch to enable/disable the station
             JToggleButton enableSwitch = new JToggleButton("Enable Station");
@@ -308,10 +314,10 @@ public class AttendantStationGUI {
             Font smallFont = new Font(solveButton.getFont().getName(), Font.BOLD, 11); // You can adjust the size (12 in this case)
             solveButton.setFont(smallFont);
 
-            square.add(solveButton, BorderLayout.EAST);
+            stationObjects[i].square.add(solveButton, BorderLayout.EAST);
 
             // Add the enableSwitch to the top of the square
-            square.add(enableSwitch, BorderLayout.NORTH);
+            stationObjects[i].square.add(enableSwitch, BorderLayout.NORTH);
 
             // Center the square in the panel using GridBagConstraints
             gbc.gridx = i % 4;
@@ -356,19 +362,19 @@ public class AttendantStationGUI {
                 lightsPanel.add(light);
             }
 
-            square.add(lightsPanel, BorderLayout.SOUTH);
+            stationObjects[i].square.add(lightsPanel, BorderLayout.SOUTH);
 
             // Add a label with the text "Station #" and the current number
             JLabel label = new JLabel("Station #" + stationObjects[i].getStationNumber());
             label.setForeground(Color.WHITE); // Set text color to white
             label.setHorizontalAlignment(JLabel.CENTER); // Center align the text
-            square.add(label, BorderLayout.CENTER);
+            stationObjects[i].square.add(label, BorderLayout.CENTER);
 
             // Set a custom font for the "Station #" text with a larger size
             Font stationFont = new Font("Arial", Font.BOLD, 30); // Change font and size as needed
             label.setFont(stationFont);
 
-            panel.add(square, gbc);
+            panel.add(stationObjects[i].square, gbc);
         }
 
         // Add empty panels to fill the remaining space
@@ -748,7 +754,7 @@ public class AttendantStationGUI {
         }
         
         // Create an array of StationObject instances
-        StationObject[] stationObjects = new StationObject[numStations];
+        stationObjects = new StationObject[numStations];
         for (int i = 0; i < numStations; i++) {
             stationObjects[i] = new StationObject(i + 1);
         }
@@ -759,6 +765,10 @@ public class AttendantStationGUI {
 
 	public JPanel getPanel() {
 		return mainPanel;
+	}
+
+	public StationObject getStationObjects(int i) {
+		return stationObjects[i];
 	}
 }
 
