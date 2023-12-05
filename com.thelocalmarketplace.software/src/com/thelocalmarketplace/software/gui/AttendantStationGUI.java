@@ -8,8 +8,10 @@ import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 import java.awt.*;
+import java.awt.Taskbar.State;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.geom.Ellipse2D;
@@ -647,7 +649,9 @@ public class AttendantStationGUI {
         textSearchWindow.setVisible(true);
     }
 
-    private static void solveWeightDiscrepancy() {
+    private void solveWeightDiscrepancy() {
+    	logic.weightLogic.setExpectedWeight(logic.weightLogic.getActualWeight());
+    	logic.stateLogic.gotoState(States.NORMAL);
         // Add your logic to solve the weight discrepancy for the given station
         // You can access the station object and perform necessary actions
         // For demonstration purposes, print a message

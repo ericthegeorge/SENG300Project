@@ -95,7 +95,7 @@ public class SimulatedItems {
 		PriceLookUpCode PLUyams = new PriceLookUpCode("1019");
 		PriceLookUpCode PLUwatermelon = new PriceLookUpCode("1020");
 		
-		 apple_description =  "apple (PLU:"+PLUapple+")";
+		 apple_description =  "apple";
 		 avocado_description =  "avocado (PLU:"+PLUavocado+")";
 		 asparagus_description =  "asparagus (PLU:"+PLUasparagus+")";
 		 blueberries_description =  "blueberries (PLU:"+PLUblueberries+")";

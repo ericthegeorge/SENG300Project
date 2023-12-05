@@ -213,4 +213,8 @@ public class WeightLogic extends AbstractLogicDependant {
 		        milliseconds 
 		);
 	}
+
+	public void setExpectedWeight(Mass expectedWeight) {
+		this.expectedWeight = expectedWeight;
+	}
 }

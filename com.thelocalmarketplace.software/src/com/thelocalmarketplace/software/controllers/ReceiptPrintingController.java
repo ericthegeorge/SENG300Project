@@ -115,9 +115,9 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 			paymentRecord.append(" - Qty: ");
 			paymentRecord.append(quantity);
 			paymentRecord.append(", Unit Price: $");
-			paymentRecord.append(price);
+			paymentRecord.append(String.format("%.2f", price));
 			paymentRecord.append(", Total: $");
-			paymentRecord.append(totalItemCost);
+			paymentRecord.append(String.format("%.2f",totalItemCost));
 			paymentRecord.append("\n");
 		}
 
@@ -129,7 +129,7 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 		for (PaymentMethods pm : PaymentMethods.values()) {
 			BigDecimal paidAmt = methods.get(pm);
 			if(!paidAmt.equals(BigDecimal.ZERO))
-			paymentRecord.append(pm.name()+ ": $" + paidAmt + "\n");
+			paymentRecord.append(pm.name()+ ": $" + String.format("%.2f", paidAmt) + "\n");
 		}
 		
 		if (!change.equals(BigDecimal.ZERO))

@@ -81,10 +81,12 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 		this.logic.stateLogic.gotoState(States.BLOCKED);
 		isAwaitingPLUMeasurement = true;
 		if(logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Please place PLU item ("+priceLookUpCode+") in the bagging area.");
+		Mass currentWeight = logic.weightLogic.getActualWeight();
 		new java.util.Timer().schedule( 
 		        new java.util.TimerTask() {
 		            @Override
 		            public void run() {
+		            	if(logic.weightLogic.getActualWeight().equals(currentWeight))
 		            	logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Weight discrepancy detected. Place PLU ("+priceLookUpCode+") in bagging area.");
 		            }
 		        }, 
