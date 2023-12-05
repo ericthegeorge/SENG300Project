@@ -56,6 +56,8 @@ public class PaymentScreenGUI {
     private JLabel totalPriceLabel;
     private JLabel itemsInCartLabel;
     private JLabel selectPaymentLabel;
+	private JLabel receiptLabel;
+	private String receipt = "This is a receipt";
     private DefaultListModel<String> cartItemModel = new DefaultListModel<>();
     private JList<String> cartItemList;
     private CentralStationLogic logic;
@@ -205,13 +207,39 @@ public class PaymentScreenGUI {
             		        7000 
             		);
             	}
+            	// TODO: Implement Receipt popup
+            	JFrame receiptWindow = new JFrame("Customer Receipt");
+                receiptWindow.setSize(400, 300); // Increased window size
+                receiptWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+            	
+                JPanel receiptPanel = new JPanel();
+                receiptPanel.setLayout(new BoxLayout(receiptPanel, BoxLayout.Y_AXIS));
+            	
+                JLabel label = new JLabel(receipt);
+                label.setAlignmentX(Component.CENTER_ALIGNMENT);
+                label.setFont(new Font("Arial", Font.BOLD, 24)); // Increased font size
+                receiptPanel.add(label);
+                
+                //label.setText(receipt);
+                receiptWindow.add(receiptPanel);
+                centerWindowOnFrame(receiptWindow, paymentPageFrame);
+
+                receiptWindow.setVisible(true);
+            	
             }
         });
 
         totalPriceText = new JTextArea("");
         getRightPanel().add(totalPriceText, BorderLayout.NORTH);
     }
-
+    
+    public void setReceiptText(String receiptText) {
+    	receipt = receiptText;
+    	
+    }
+    
+    
+    
     private void notifyAttendant() {
         JOptionPane.showMessageDialog(paymentPageFrame, "Attendant notified. Please wait for assistance.");
     }
@@ -267,6 +295,8 @@ public class PaymentScreenGUI {
 
 
     }
+    
+    
 
     // Getter method for cartItemModel
     public DefaultListModel<String> getCartItemModel() {
@@ -363,6 +393,14 @@ public class PaymentScreenGUI {
 	public void setTotalPriceText(JTextArea totalPriceText) {
 		this.totalPriceText = totalPriceText;
 	}
-
+	
+	private void centerWindowOnFrame(JFrame window, JFrame frame) {
+        // Center the window on the screen
+        Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = frame.getX() + (frame.getWidth() - window.getWidth()) / 2;
+        int y = frame.getY() + (frame.getHeight() - window.getHeight()) / 2;
+        window.setLocation(x, y);
+    }
+	
 
 }
