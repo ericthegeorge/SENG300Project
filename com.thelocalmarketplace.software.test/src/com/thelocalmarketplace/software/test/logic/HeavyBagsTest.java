@@ -193,6 +193,8 @@ public class HeavyBagsTest {
 		
 		assertTrue(this.session.stateLogic.inState(States.BLOCKED));
 	}
+	
+	
 
 	
 	
