@@ -122,7 +122,7 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 		}
 
 		paymentRecord.append("=========================\n");
-		paymentRecord.append("Total Cost: $").append(logic.cartLogic.calculateTotalCost()).append("\n");
+		paymentRecord.append("Total Cost: $").append(String.format("%.2f", logic.cartLogic.calculateTotalCost())).append("\n");
 		if (!change.equals(BigDecimal.ZERO))
 		paymentRecord.append("Change Given: $").append(change.toString()).append("\n");
 		
