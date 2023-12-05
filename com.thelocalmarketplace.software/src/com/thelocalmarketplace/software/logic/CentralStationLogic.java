@@ -212,7 +212,7 @@ public class CentralStationLogic {
     public void setCircleColor(char label, Color color) {
         circleColors.put(label, color);
     }
-
+    
     public void setCircleColorYellow(char label) {
         setCircleColor(label, Color.YELLOW);
     }
@@ -224,6 +224,9 @@ public class CentralStationLogic {
     public void setCircleColorGreen(char label) {
         setCircleColor(label, Color.GREEN);
     }
+
+
+
 
     @Override
     public String toString() {
@@ -297,7 +300,7 @@ public class CentralStationLogic {
 	
 		//_________________________________---
 		
-		this.stationNumber = stationNumber;
+		//this.stationNumber = stationNumber;
 		this.circleColors = new HashMap<>();
         initializeCircleColors();
 		
@@ -434,61 +437,52 @@ public class CentralStationLogic {
 	public boolean issuePredicted() {
 		if (bypassIssuePrediction) return false;
 		boolean issueExists = false;
-		
+
 		boolean lowInk = receiptPrintingController.getLowInk();
 		if (lowInk) {
-            // TODO: interact with attendant station UI for  for low ink warning
-				//open panel
-			//attendantStationGUI.handleButtonClick("Maintain Ink", );
-			setCircleColorYellow('I');
+			attendantStationGUI.logic.setCircleColorYellow('I');
 			issueExists = true;
 		}
 		boolean lowPaper = receiptPrintingController.getLowPaper();
 		if (lowPaper) {
-			//TODO: interact with attendant station UI for low paper warning
-			//initialize panel then retreive/open
-			//attendantStationGUI.handleButtonClick("Maintain Paper", );  //Initialize frame?
-			setCircleColorYellow('P');
+			attendantStationGUI.logic.setCircleColorYellow('P');
 			issueExists = true;
-	  	  }
-		
+		}
+
 		//Banknote dispenser checks
-	    for (Entry<BigDecimal, BanknoteDispenserController> entry : this.banknoteDispenserControllers.entrySet()) {
-	        final BanknoteDispenserController controller = entry.getValue();
-	        if(controller.shouldWarnEmpty()) {
-		      //TODO interact with attendant station UI
-	        	//attendantStationGUI.handleButtonClick("Maintain Banknotes", );  //Initialize frame?
-	        	setCircleColorRed('B');
-	        	issueExists = true;
-	        } 
-	        if(controller.shouldWarnFull()) {
-	        	//TODO interact with attendant station UI
-	        	//open panel
-	        	//attendantStationGUI.handleButtonClick("Maintain Banknotes", );  //Initialize frame?
-	        	setCircleColorGreen('B');
-	        	issueExists = true;
-	        }
-	    }
-	    
-	    //Coin dispenser checks
-	    for (Entry<BigDecimal, CoinDispenserController> entry : this.coinDispenserControllers.entrySet()) {
-	        final CoinDispenserController controller = entry.getValue();
-	        if(controller.shouldWarnEmpty()) {
-		        //TODO interact with attendant station UI
-	        	//open panel
-	        	//AttendantStationGUI.handleButtonClick("Maintain Coins", frame );  //Initialize frame?
-	        	setCircleColorRed('C');
-	        	issueExists = true;
-	        }
-	        if(controller.shouldWarnFull()) {
-	        	//TODO interact with attendant station UI
-	        		//open panel
-	        	//attendantStationGUI.handleButtonClick("Maintain Coins", );  //Initialize frame?
-	        	setCircleColorGreen('C');
-	        	issueExists = true;
-	        }
-	    }
-	    return issueExists;
+		for (Entry<BigDecimal, BanknoteDispenserController> entry : this.banknoteDispenserControllers.entrySet()) {
+			final BanknoteDispenserController controller = entry.getValue();
+			if(controller.shouldWarnEmpty()) {
+				attendantStationGUI.logic.setCircleColorRed('B');
+				issueExists = true;
+			}
+			if(controller.shouldWarnFull()) {
+				attendantStationGUI.logic.setCircleColorGreen('B');
+				issueExists = true;
+			}
+		}
+
+		//Coin dispenser checks
+		for (Entry<BigDecimal, CoinDispenserController> entry : this.coinDispenserControllers.entrySet()) {
+			final CoinDispenserController controller = entry.getValue();
+			if(controller.shouldWarnEmpty()) {
+				attendantStationGUI.logic.setCircleColorRed('C');
+				issueExists = true;
+			}
+			if(controller.shouldWarnFull()) {
+				attendantStationGUI.logic.setCircleColorGreen('C');
+				issueExists = true;
+			}
+			else {
+				attendantStationGUI.logic.setCircleColorYellow('I');
+				attendantStationGUI.logic.setCircleColorYellow('P');
+				attendantStationGUI.logic.setCircleColorYellow('S');
+				attendantStationGUI.logic.setCircleColorYellow('C');
+				attendantStationGUI.logic.setCircleColorYellow('H');
+				attendantStationGUI.logic.setCircleColorYellow('B');
+			}
+		}
+		return issueExists;
 	}
 	
 	/**Toggles checking of issuePrediction, allowing legacy test cases to perform

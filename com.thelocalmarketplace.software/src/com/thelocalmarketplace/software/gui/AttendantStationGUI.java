@@ -14,6 +14,7 @@ import java.util.Map;
 public class AttendantStationGUI {
 
     private static JComboBox<StationObject> comboBox;
+    public CentralStationLogic logic;
     
     
     // Fake class to represent Station objects
@@ -65,6 +66,7 @@ public class AttendantStationGUI {
             setCircleColor(label, Color.GREEN);
         }
 
+     
         @Override
         public String toString() {
             return "Station #" + stationNumber;
