@@ -4,6 +4,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigDecimal;
+import java.math.BigInteger;
 import java.math.RoundingMode;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -12,12 +13,14 @@ import org.junit.Before;
 import org.junit.Test;
 
 import com.jjjwelectronics.Item;
+import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.gui.MainGUI;
@@ -203,5 +206,13 @@ public class CartLogicTests {
 		logic.cartLogic.modifyBalance(new BigDecimal(-5));
 		
 		assertEquals(new BigDecimal(0).setScale(5, RoundingMode.HALF_DOWN), logic.cartLogic.getBalanceOwed().setScale(5, RoundingMode.HALF_DOWN));
+	}
+	
+	@Test
+	public void testCalculatePriceOfPLU() {
+		BigInteger micrograms = new BigInteger("5000000000");
+		Mass mass = new Mass(micrograms);
+		double price = logic.cartLogic.calculatePriceOfPLU(5, mass);
+		assertTrue(25 == price);
 	}
 }
