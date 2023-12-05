@@ -15,6 +15,9 @@ import com.jjjwelectronics.scanner.Barcode;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
@@ -83,6 +86,13 @@ public class RemoveItemTests {
 		public BarcodedProduct product3;
 		public BarcodedProduct nullProduct;
 		
+		public PriceLookUpCode plucode1;
+		public PriceLookUpCode plucode2;
+		public PLUCodedItem pluitem1;
+		public PLUCodedItem pluitem2;
+		public PLUCodedProduct pluProduct1;
+		public PLUCodedProduct pluProduct2;
+		
 		@Before public void setUp() {
 			PowerGrid.engageUninterruptiblePowerSource();
 			PowerGrid.instance().forcePowerRestore();
@@ -98,10 +108,14 @@ public class RemoveItemTests {
 			barcode = new Barcode(barcode_numeral);
 			barcode2 = new Barcode(barcode_numeral2);
 			barcode3 = new Barcode(barcode_numeral3);
+			plucode1 = new PriceLookUpCode("1234");
+			plucode2 = new PriceLookUpCode("1235");
 
 			
 			product = new BarcodedProduct(barcode, "some item",(long)5.99,(double)400.0);
 			product2 = new BarcodedProduct(barcode2, "some item 2",(long)1.00,(double)300.0);
+			pluProduct1 = new PLUCodedProduct(plucode1, "some plu item 1", (long)3.00);
+			pluProduct2 = new PLUCodedProduct(plucode2, "some plu item 2", (long)5.00);
 
 			ProductDatabases.BARCODED_PRODUCT_DATABASE.clear();
 			ProductDatabases.INVENTORY.clear();
@@ -124,11 +138,22 @@ public class RemoveItemTests {
 			
 			BarcodedProduct bproduct = new BarcodedProduct(bitem.getBarcode(), "bitem", 1, 400.0);
 			ProductDatabases.BARCODED_PRODUCT_DATABASE.put(bitem.getBarcode(), bproduct);
-			ProductDatabases.INVENTORY.put(bproduct, 10);
+			ProductDatabases.INVENTORY.put(bproduct, 5);
 			
 			BarcodedProduct bproduct2 = new BarcodedProduct(bitem2.getBarcode(), "bitem2", 2, 300.0);
 			ProductDatabases.BARCODED_PRODUCT_DATABASE.put(bitem2.getBarcode(), bproduct2);
-			ProductDatabases.INVENTORY.put(bproduct2, 10);
+			ProductDatabases.INVENTORY.put(bproduct2, 5);
+			
+			pluitem1 = new PLUCodedItem(plucode1, itemMass);
+			pluitem2 = new PLUCodedItem(plucode2, itemMass2);
+			
+			ProductDatabases.PLU_PRODUCT_DATABASE.clear();
+			
+			ProductDatabases.PLU_PRODUCT_DATABASE.put(plucode1, pluProduct1);
+			ProductDatabases.INVENTORY.put(pluProduct1, 5);
+			
+			ProductDatabases.PLU_PRODUCT_DATABASE.put(plucode2, pluProduct2);
+			ProductDatabases.INVENTORY.put(pluProduct2, 5);
 			
 			//Initialize station
 			station.plugIn(PowerGrid.instance());
@@ -166,18 +191,40 @@ public class RemoveItemTests {
 			}
 			session.addBarcodedProductController.addBarcode(item.getBarcode());
 		}
+		public void putTestPLUCodedItemInCart(PLUCodedItem item) {
+			session.addPLUCodedProductController.addPLUCode(item.getPLUCode());
+			station.getBaggingArea().addAnItem(item);
+		}
+		public void removeTestPLUCodedItemFromCart(PLUCodedItem item) {
+			session.removeItemLogic.checkCartForPLUCodedItemToRemove(item.getPLUCode());
+			station.getBaggingArea().removeAnItem(item);
+		}
 		
 		/** Tests if the method actually removes an item from the cart when called
 		 * 
 		 */
 		@Test
-		public void testSuccessfulRemoval() {
+		public void testSuccessfulBarcodeItemRemoval() {
 			//this.scanUntilAdded(product, bitem);
 			this.putTestBarcodedItemInCart(bitem);
 			assertTrue(session.cartLogic.getCart().size() == 1);
 			
 			station.getBaggingArea().addAnItem(bitem);
 			session.removeItemLogic.removeBarcodedItem(bitem);
+			assertEquals(0, session.cartLogic.getCart().size());
+			
+			System.out.println("Test 1 end\n");
+			
+		}
+		/** Tests if the method actually removes a plu item from the cart when called
+		 * 
+		 */
+		@Test
+		public void testSuccessfulPLUItemRemoval() {
+			this.putTestPLUCodedItemInCart(pluitem1);
+			assertTrue(session.cartLogic.getCart().size() == 1);
+			
+			this.removeTestPLUCodedItemFromCart(pluitem1);
 			assertEquals(0, session.cartLogic.getCart().size());
 			
 			System.out.println("Test 1 end\n");
@@ -199,11 +246,12 @@ public class RemoveItemTests {
 			assertTrue(session.stateLogic.getState() == States.NORMAL);
 			System.out.println("Test 2 end\n");
 		}
+
 		/**
 		 * Tests if removing the wrong item from bagging area causes a weight discrepancy
 		 */
 		@Test
-		public void testIncorrectRemoval() {
+		public void testIncorrectRemovalBarcode() {
 			//this.scanUntilAdded(product, bitem);
 			this.putTestBarcodedItemInCart(bitem);
 			station.getBaggingArea().addAnItem(bitem);
@@ -224,13 +272,32 @@ public class RemoveItemTests {
 			System.out.println("Test 3 end\n");
 		}
 		/**
+		 * Tests that you can't remove the wrong PLU coded item from the bagging area
+		 */
+		@Test (expected = InvalidStateSimulationException.class)
+		public void testIncorrectRemovalPLU() {
+			this.putTestPLUCodedItemInCart(pluitem1);
+			this.putTestPLUCodedItemInCart(pluitem2);
+			
+			session.removeItemLogic.checkCartForPLUCodedItemToRemove(pluitem1.getPLUCode());
+			station.getBaggingArea().removeAnItem(pluitem2);
+		}
+		/**
 		 * Tests if method fails on a null item.
 		 */
 		
 		
 		@Test (expected = NullPointerException.class)
-		public void failOnNullItem() {
+		public void failOnNullItemBarcode() {
 			session.removeItemLogic.removeBarcodedItem(null);
+			
+			System.out.println("Test 4 end\n");
+			
+		}
+		
+		@Test (expected = NullPointerException.class)
+		public void failOnNullItemPLU() {
+			session.removeItemLogic.checkCartForPLUCodedItemToRemove(null);
 			
 			System.out.println("Test 4 end\n");
 			
@@ -247,10 +314,24 @@ public class RemoveItemTests {
 		}
 		
 		/**
+		 * Tests if method fails on removal request of an item of a product not in database.
+		 */
+		@Test (expected = InvalidStateSimulationException.class)
+		public void failOnItemNotInDatabasePLU() {
+			this.putTestPLUCodedItemInCart(pluitem1);
+			
+			ProductDatabases.PLU_PRODUCT_DATABASE.clear();
+			
+			this.removeTestPLUCodedItemFromCart(pluitem1);
+			
+			System.out.println("Test 5 end\n");
+		}
+		
+		/**
 		 * Tests if method can resolve a weight discrepancy event caused by not putting an added item into the bagging area
 		 */
 		@Test
-		public void resolveWeightDescrepancyByRemoval() {
+		public void resolveWeightDescrepancyByRemovalBarcode() {
 			//this.scanUntilAdded(product, bitem);
 			this.putTestBarcodedItemInCart(bitem);
 			assertTrue(session.stateLogic.getState() == States.BLOCKED);
@@ -261,13 +342,36 @@ public class RemoveItemTests {
 			System.out.println("Test 6 end\n");
 			
 		}
+		/**
+		 * Tests if method can resolve a weight discrepancy event
+		 */
+		@Test
+		public void resolveWeightDescrepancyByRemovalPLU() {
+			this.putTestPLUCodedItemInCart(pluitem1);
+			session.stateLogic.gotoState(States.BLOCKED);
+
+			this.removeTestPLUCodedItemFromCart(pluitem1);
+			assertTrue(session.stateLogic.getState() == States.NORMAL);	
+			
+			System.out.println("Test 6 end\n");
+			
+		}
 		
 		/**
 		 * Tests if the method fails when a session hasn't been started
 		 */
 		@Test (expected = InvalidStateSimulationException.class)
-		public void failOnNullSession() {
+		public void failOnNullSessionBarcode() {
 			session.stopSession();
 			session.removeItemLogic.removeBarcodedItem(bitem);
+		}
+		
+		/**
+		 * Tests if the method fails when a session hasn't been started
+		 */
+		@Test (expected = InvalidStateSimulationException.class)
+		public void failOnNullSessionPLU() {
+			session.stopSession();
+			session.removeItemLogic.checkCartForPLUCodedItemToRemove(pluitem1.getPLUCode());
 		}
 }
