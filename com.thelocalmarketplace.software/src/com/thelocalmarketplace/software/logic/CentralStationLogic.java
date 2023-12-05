@@ -6,7 +6,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.SwingUtilities;
+
+import com.jjjwelectronics.Mass;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 import com.thelocalmarketplace.software.controllers.*;
 import com.thelocalmarketplace.software.controllers.pay.CardReaderController;
@@ -14,11 +18,13 @@ import com.thelocalmarketplace.software.controllers.pay.cash.BanknoteDispenserCo
 import com.thelocalmarketplace.software.controllers.pay.cash.CashPaymentController;
 import com.thelocalmarketplace.software.controllers.pay.cash.CoinDispenserController;
 import com.thelocalmarketplace.software.controllers.pay.cash.CoinPaymentController;
+import com.thelocalmarketplace.software.gui.MainGUI;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 import com.thelocalmarketplace.software.controllers.item.*;
 
 import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
+import powerutility.PowerGrid;
 
 /**
  * Represents the central session logic for the control software
@@ -26,17 +32,30 @@ import ca.ucalgary.seng300.simulation.SimulationException;
  * Codebase originated from Connell's project
  * Combined idea of having session handling part of central logic unit from Braden's project
  * 
- * @author Connell Reffo (10186960)
- * @author Tara Strickland (10105877)
- * @author Angelina Rochon (30087177)
- * @author Julian Fan (30235289)
- * @author Braden Beler (30084941)
- * @author Samyog Dahal (30194624)
+ * @author Christopher Lo (30113400)
+ * added CardMethods enumeration and changed method names to fit Insert/Tap Use Cases
+ * -----------------------------------
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
  * @author Maheen Nizmani (30172615)
- * @author Phuong Le (30175125)
- * @author Daniel Yakimenka (10185055)
- * @author Merick Parkinson (30196225)
- * @author Farida Elogueil (30171114)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
 public class CentralStationLogic {
 	
@@ -48,6 +67,13 @@ public class CentralStationLogic {
 		CREDIT,
 		DEBIT,
 		CASH
+	}
+	
+	public enum CardMethods {
+		NONE, // Default
+		TAP,
+		INSERT,
+		SWIPE
 	}
 	
 	
@@ -96,6 +122,11 @@ public class CentralStationLogic {
 	 */
 	public AddBarcodedItemController addBarcodedProductController;
 	
+	/**
+	 * Instance of the controller that handles adding PLU coded product
+	 */
+	public AddPLUCodedItemController addPLUCodedProductController;
+	
 	/** 
 	 * Instance of weight logic 
 	 */
@@ -110,7 +141,10 @@ public class CentralStationLogic {
 	 * Instance of logic that handles item removal
 	 */
 	public RemoveItemLogic removeItemLogic;
-	
+	/**
+	 * Instance of logic that handles purchasing bags
+	 */
+	public PurchaseBagsLogic purchaseBagsLogic;
 	/**
 	 * Instance of the controller that handles weight discrepancy detected
 	 */
@@ -130,11 +164,16 @@ public class CentralStationLogic {
 	 * Instance of logic for attendant
 	 */
 	public AttendantLogic attendantLogic;
+	
+	/**
+	 * Instance of signaling attendant logic
+	 */
+	public SignalAttendantLogic signalAttendantLogic;
 
-  /**
-   * Instance of logic for card payment via swipe
-   */
-	public CardSwipeLogic cardLogic;
+	/**
+	 * Instance of logic for card payment via swipe
+	 */
+	public CardPaymentLogic cardPaymentLogic;
 	
 	/**
 	 * Instance of logic for states
@@ -147,15 +186,32 @@ public class CentralStationLogic {
 	private PaymentMethods paymentMethod;
 	
 	/**
+	 * Current selected payment method
+	 */
+	private CardMethods cardMethod;
+	
+	/**
      * Instance of logic for selecting a language
      */
     public SelectLanguageLogic selectLanguageLogic;
+    
+    /**
+     * Instance of logic for handling memberships
+     */
+    public MembershipLogic membershipLogic;
 	
+    
 	/**
 	 * Tracks if the customer session is active
 	 */
 	private boolean sessionStarted;
 	private boolean bypassIssuePrediction;
+	private MainGUI mainGUI;
+	/**
+	 * Maximum allowable bag mass in grams (can be configured)
+	 */
+	private BigDecimal maximumBagMass = new BigDecimal(1000); //default
+
 
 	/**
 	 * Base constructor for a new CentralStationLogic instance
@@ -165,36 +221,46 @@ public class CentralStationLogic {
 		if (hardware == null) {
 			throw new NullPointerException("Hardware");
 		}
-		
 		this.hardware = hardware;
-		
+
 		this.sessionStarted = false;
 		this.paymentMethod = PaymentMethods.NONE;
+		
+		
 		
 		// Initialize SelectLanguageLogic
         this.selectLanguageLogic = new SelectLanguageLogic(this, "English");
         
 		// Reference to logic objects
-		this.cartLogic = new CartLogic();
+		this.cartLogic = new CartLogic(this);
 		this.weightLogic = new WeightLogic(this);
 		this.stateLogic = new StateLogic(this);
+		this.purchaseBagsLogic = new PurchaseBagsLogic(this);
 
 		// Instantiate each controller
 		this.coinPaymentController = new CoinPaymentController(this);
 		this.cashPaymentController = new CashPaymentController(this);
 		this.addBarcodedProductController = new AddBarcodedItemController(this);
+		this.addPLUCodedProductController = new AddPLUCodedItemController(this);
 		this.weightDiscrepancyController = new WeightDiscrepancyController(this);
 		this.cardReaderController = new CardReaderController(this);
 		this.receiptPrintingController = new ReceiptPrintingController(this);
 		this.attendantLogic = new AttendantLogic(this);
+		
 		this.addBagsLogic = new AddBagsLogic(this);
 		this.removeItemLogic = new RemoveItemLogic(this);
+		this.membershipLogic = new MembershipLogic(this);
 		
 		this.coinCurrencyLogic = new CurrencyLogic(this.hardware.getCoinDenominations());
 		this.banknoteCurrencyLogic = new CurrencyLogic(this.hardware.getBanknoteDenominations());
 		
+		//Initialize signalAttendantLogic
+		this.signalAttendantLogic = new SignalAttendantLogic(this);
+		
 		this.setupCoinDispenserControllers(this.coinCurrencyLogic.getDenominationsAsList());
 		this.setupBanknoteDispenserControllers(this.banknoteCurrencyLogic.getDenominationsAsList());
+	
+		initializeMembershipDatabase();
 	}
 	
 	/**
@@ -205,6 +271,10 @@ public class CentralStationLogic {
 		return this.paymentMethod;
 	}
 	
+	public CardMethods getSelectedCardPaymentMethod() {
+		return this.cardMethod;
+	}
+	
 	/**
 	 * Sets the desired payment method for the customer
 	 * @param method Is the payment method to use
@@ -212,7 +282,10 @@ public class CentralStationLogic {
 	public void selectPaymentMethod(PaymentMethods method) {
 		this.paymentMethod = method;
 	}
-
+	
+	public void selectCardMethod(CardMethods method) {
+		this.cardMethod = method;
+	}
 
 	/**
 	 * Helper method to setup coin dispenser controllers
@@ -228,7 +301,7 @@ public class CentralStationLogic {
 	 * @param bank is the details of the customer's bank
 	 */
 	public void setupBankDetails(CardIssuer bank) {
-		this.cardLogic=new CardSwipeLogic(this,bank);
+		this.cardPaymentLogic = new CardPaymentLogic(this, bank);
 	}
 	
 	/**
@@ -275,6 +348,10 @@ public class CentralStationLogic {
 	    
 	    return available;
 	}
+	
+	private void initializeMembershipDatabase() {
+		MembershipDatabase.NUMBER_TO_CARDHOLDER.put("111222333", "Demo Member");
+	}
 
 	/**
 	 * Checks if the session is started
@@ -299,9 +376,8 @@ public class CentralStationLogic {
 			this.stateLogic.gotoState(States.NORMAL);
 			this.sessionStarted = true;
 		}
-
 	}
-	
+
 	/**
 	 * Marks the current self checkout session as inactive
 	 */
@@ -319,7 +395,18 @@ public class CentralStationLogic {
 	public boolean issuePredicted() {
 		if (bypassIssuePrediction) return false;
 		boolean issueExists = false;
-		//TODO put printer and ink warning checks in here
+		
+		boolean lowInk = receiptPrintingController.getLowInk();
+		if (lowInk) {
+                	// TODO: interact with attendant station UI for  for low ink warning
+			issueExists = true;
+		}
+		
+		boolean lowPaper = receiptPrintingController.getLowPaper();
+		if (lowPaper) {
+			//TODO: interact with attendant station UI for low paper warning
+	        	issueExists = true;
+	  	  }
 		
 		//Banknote dispenser checks
 	    for (Entry<BigDecimal, BanknoteDispenserController> entry : this.banknoteDispenserControllers.entrySet()) {
@@ -327,7 +414,7 @@ public class CentralStationLogic {
 	        if(controller.shouldWarnEmpty()) {
 		        //TODO interact with attendant station UI
 	        	issueExists = true;
-	        }
+	        } 
 	        if(controller.shouldWarnFull()) {
 	        	//TODO interact with attendant station UI
 	        	issueExists = true;
@@ -354,5 +441,27 @@ public class CentralStationLogic {
 	 */
 	public void setBypassIssuePrediction(boolean bypassIssuePrediction) {
 		this.bypassIssuePrediction = bypassIssuePrediction;
+	}
+	
+	public void setGUI(MainGUI g) {
+		mainGUI = g;
+	}
+
+	public MainGUI getMainGUI() {
+		return mainGUI;
+	}
+
+	/**
+	 * @return the maximumBagMass
+	 */
+	public BigDecimal getMaximumBagMass() {
+		return maximumBagMass;
+	}
+
+	/**
+	 * @param maximumBagMass the maximumBagMass to set
+	 */
+	public void setMaximumBagMass(BigDecimal maximumBagMass) {
+		this.maximumBagMass = maximumBagMass;
 	}
 }

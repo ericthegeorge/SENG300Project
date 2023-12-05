@@ -14,17 +14,30 @@ import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
 /**
  * Banknote Dispensing
- * @author Phuong Le (30175125)
- * @author Connell Reffo (10186960)
- * --------------------------------
- * @author Tara Strickland (10105877)
- * @author Angelina Rochon (30087177)
- * @author Julian Fan (30235289)
- * @author Braden Beler (30084941)
- * @author Samyog Dahal (30194624)
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
  * @author Maheen Nizmani (30172615)
- * @author Daniel Yakimenka (10185055)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
+
 public class BanknoteDispenserController extends AbstractLogicDependant implements BanknoteDispenserObserver {
 	/** 
 	 * Percentage full/empty to trigger respective warnings.
@@ -32,7 +45,7 @@ public class BanknoteDispenserController extends AbstractLogicDependant implemen
 	 * will be triggered when there >= 8 or <= 2 banknotes respectively 
 	 * in a dispenser with a maximum capacity of 10. 
 	 */
-	static double warnAtPercentage = 20; //this can be modified by the customer as needed
+	static double warnAtPercentage = 20 / 100.0; //this can be modified by the customer as needed
 	IBanknoteDispenser dispenser;
 	private List<Banknote> available;
 
@@ -53,7 +66,7 @@ public class BanknoteDispenserController extends AbstractLogicDependant implemen
 	}
 	
 	public boolean shouldWarnFull() {
-		if(dispenser.getCapacity() - available.size() >= dispenser.getCapacity() * warnAtPercentage) return true;
+		if(dispenser.getCapacity() - available.size() <= dispenser.getCapacity() * warnAtPercentage) return true;
 		return false;
 	}
 	

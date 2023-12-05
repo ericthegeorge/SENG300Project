@@ -4,8 +4,12 @@ import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Mass.MassDifference;
 import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
+import com.thelocalmarketplace.hardware.PriceLookUpCode;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
+import com.thelocalmarketplace.software.gui.MainGUI;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
@@ -14,19 +18,30 @@ import ca.ucalgary.seng300.simulation.SimulationException;
 
 /**
  * Handles all logic operations related to weight for a self checkout station
- * @author Angelina Rochon (30087177)
- * ----------------------------------
- * @author Connell Reffo (10186960)
- * @author Tara Strickland (10105877)
- * @author Julian Fan (30235289)
- * @author Braden Beler (30084941)
- * @author Samyog Dahal (30194624)
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
  * @author Maheen Nizmani (30172615)
- * @author Phuong Le (30175125)
- * @author Daniel Yakimenka (10185055)
- * @author Merick Parkinson (30196225)
- * @author Farida Elogueil (30171114)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
+
 public class WeightLogic extends AbstractLogicDependant {
 	
 	/** expected weight change on software side */
@@ -95,7 +110,15 @@ public class WeightLogic extends AbstractLogicDependant {
 		this.expectedWeight = this.expectedWeight.sum(mass);
 	}
 	
-	/** Removes the weight of the product given from expectedWeight
+	/** Updates the expected weight by adding the weight of a PLU coded item to expected weight
+	 * The expected weight will be the same as the actual weight since the actual weight measurement is used to determine cost
+	 * the expected weight is merely updated in case someone removes the item or adds more items to the scale
+	 * @param massPLUCodedItem the mass of the PLU coded item */
+	public void addExpectedWeight(Mass massPLUCodedItem) {
+		this.expectedWeight = this.expectedWeight.sum(massPLUCodedItem);
+	}
+	
+	/** Removes the weight of the barcode product given from expectedWeight
 	 * @param barcode - barcode of item to remove weight of */
 	public void removeExpectedWeight(Barcode barcode) {
 		if (!ProductDatabases.BARCODED_PRODUCT_DATABASE.containsKey(barcode)) {
@@ -103,6 +126,19 @@ public class WeightLogic extends AbstractLogicDependant {
 		}
 		BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode);
 		Mass mass = new Mass(product.getExpectedWeight());
+		MassDifference difference = this.expectedWeight.difference(mass);
+		if (difference.compareTo(Mass.ZERO) < 0) throw new InvalidStateSimulationException("Expected weight cannot be negative");
+		this.expectedWeight = difference.abs();
+	}
+	
+	/** Removes the weight of the PLU coded item given from expectedWeight
+	 * @param item - the PLU coded item to remove the weight of */
+	public void removeExpectedWeight(PLUCodedItem item) {
+		if (!ProductDatabases.PLU_PRODUCT_DATABASE.containsKey(item.getPLUCode())) {
+			throw new InvalidStateSimulationException("price-lookup code not registered to product database");
+		}
+		PLUCodedProduct product = ProductDatabases.PLU_PRODUCT_DATABASE.get(item.getPLUCode());
+		Mass mass = item.getMass();
 		MassDifference difference = this.expectedWeight.difference(mass);
 		if (difference.compareTo(Mass.ZERO) < 0) throw new InvalidStateSimulationException("Expected weight cannot be negative");
 		this.expectedWeight = difference.abs();
@@ -116,11 +152,9 @@ public class WeightLogic extends AbstractLogicDependant {
 	
 	/** Indicates that an item should not be bagged
 	 * @param barcode - barcode of item to skip bagging 
-	 * @throws InvalidArgumentSimulationException - when skipBagging is called on a product not in the cart */
+	 */
 	public void skipBaggingRequest(Barcode barcode) {
-		if (!this.logic.cartLogic.getCart().containsKey(ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcode))) throw new InvalidArgumentSimulationException("Cannot skip bagging an item that has not been added to cart");
 		logic.attendantLogic.requestApprovalSkipBagging(barcode);
-		
 	}
 	
 	/** Checks if there is a weight discrepancy 
@@ -128,6 +162,7 @@ public class WeightLogic extends AbstractLogicDependant {
 	 * @throws SimulationException If session not started
 	 * @throws SimulationException If the scale is not operational */
 	public boolean checkWeightDiscrepancy() {
+		if (logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Add an item or pay for the order.");
 		// Handles exceptions 
 		if (!this.logic.isSessionStarted()) throw new InvalidStateSimulationException("Session not started");
 		 else if (!this.scaleOperational) throw new InvalidStateSimulationException("Scale not operational");
@@ -159,5 +194,23 @@ public class WeightLogic extends AbstractLogicDependant {
 		
 		
 		this.expectedWeight = this.actualWeight;
+	}
+	
+	/**Checks if the weight on the scale is different from the expected weight after a delay
+	 * @param miliseconds to delay the check
+	 */
+	public void delayedDiscrepancyCheck(int milliseconds) {
+		this.logic.stateLogic.gotoState(States.BLOCKED);
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		                if(logic.weightLogic.checkWeightDiscrepancy()) {
+		                	logic.weightLogic.handleWeightDiscrepancy();
+		                }
+		            }
+		        }, 
+		        milliseconds 
+		);
 	}
 }

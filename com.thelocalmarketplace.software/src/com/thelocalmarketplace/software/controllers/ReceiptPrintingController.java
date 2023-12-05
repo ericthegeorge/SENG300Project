@@ -7,39 +7,56 @@ import java.util.Map.Entry;
 import com.jjjwelectronics.EmptyDevice;
 import com.jjjwelectronics.IDevice;
 import com.jjjwelectronics.IDeviceListener;
+import com.jjjwelectronics.Item;
 import com.jjjwelectronics.OverloadedDevice;
 import com.jjjwelectronics.printer.ReceiptPrinterListener;
+import com.jjjwelectronics.scanner.BarcodedItem;
+import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.Product;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 /**
- * @author Phuong Le (30175125)
- * @author Farida Elogueil (30171114)
- * @author Connell Reffo (10186960)
- * -----------------------------------
- * @author Tara Strickland (10105877)
- * @author Angelina Rochon (30087177)
- * @author Julian Fan (30235289)
- * @author Braden Beler (30084941)
- * @author Samyog Dahal (30194624)
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
  * @author Maheen Nizmani (30172615)
- * @author Daniel Yakimenka (10185055)
- * @author Merick Parkinson (30196225)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
 public class ReceiptPrintingController extends AbstractLogicDependant implements ReceiptPrinterListener {
-	
+
 	// A duplicate receipt that can be printed by the attendant.
 	String duplicateReceipt;
-	
+	private Boolean lowInk = false;
+	private Boolean lowPaper = false;
+
 	/**
 	 * Base constructor
 	 */
-    public ReceiptPrintingController(CentralStationLogic logic) throws NullPointerException {
-    	super(logic);
-    	
-    	this.duplicateReceipt = "";
+	public ReceiptPrintingController(CentralStationLogic logic) throws NullPointerException {
+		super(logic);
+
+		this.duplicateReceipt = "";
 		this.logic.hardware.getPrinter().register(this);
     	//this.logic.hardware.printer.register(this);
     }
@@ -50,19 +67,32 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
      */
     public String createPaymentRecord(BigDecimal change) {
         StringBuilder paymentRecord = new StringBuilder();
-        Map<Product, Integer> cartItems = this.logic.cartLogic.getCart();
+        Map<Item, Integer> cartItems = this.logic.cartLogic.getCart();
         BigDecimal totalCost = BigDecimal.ZERO; 
         //Begin the receipt.
         paymentRecord.append("Customer Receipt\n");
+      	if (logic.membershipLogic.getCardHolder() != null) {
+			    paymentRecord.append("Member Name: " + logic.membershipLogic.getCardHolder() + "\n" + "Member Number: "
+					    + logic.membershipLogic.getNumber() + "\n");
+		    }
         paymentRecord.append("=========================\n");
         
         int i = 0;
         // Iterate through each item in the cart, adding printing them on the receipt.
-        for (Entry<Product, Integer> entry : cartItems.entrySet()) {
-            Product product = entry.getKey();
+        for (Entry<Item, Integer> entry : cartItems.entrySet()) {
+            Item item = entry.getKey();
             Integer quantity = entry.getValue();
+            BigDecimal price = new BigDecimal(logic.cartLogic.getReusableBagPrice());
             
-            BigDecimal price = new BigDecimal(product.getPrice());
+            if (item instanceof BarcodedItem) {
+            	BarcodedItem barcodedItem = (BarcodedItem) item;
+            	BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode());
+            	price = new BigDecimal(product.getPrice());
+            } else if (item instanceof PLUCodedItem) {
+            	PLUCodedItem barcodedItem = (PLUCodedItem) item;
+            	price = new BigDecimal(this.logic.addPLUCodedProductController.getPLUCodedItemPrice(barcodedItem));
+            } 
+            
             BigDecimal totalItemCost = price.multiply(new BigDecimal(quantity));
             totalCost.add(totalItemCost);
             paymentRecord.append("Item " + ++i + ":\n");
@@ -89,45 +119,45 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
      */
     public void handlePrintReceipt(BigDecimal change) {
         String receiptText = createPaymentRecord(change);
-        
         try {        	
         	this.printReceipt(receiptText);
         	this.finish();
-        }
-        catch (Exception e) {
+        } catch (Exception e) {
         	this.onPrintingFail();
         	this.duplicateReceipt = receiptText;
         	
         }
     }
+    
 
-    /**
-     * Helper method for printing receipt
-     * @param receiptText Is the string to print
-     * @throws OverloadedDevice 
-     * @throws EmptyDevice 
-     */
+  /**
+   * Helper method for printing receipt
+   * @param receiptText Is the string to print
+   * @throws OverloadedDevice 
+   * @throws EmptyDevice 
+   */
 	private void printReceipt(String receiptText) throws EmptyDevice, OverloadedDevice {
 		for (char c : receiptText.toCharArray()) {
 
 			this.logic.hardware.getPrinter().print(c);
-	    	//this.logic.hardware.printer.print(c);
-	    }
+			// this.logic.hardware.printer.print(c);
+		}
 
 		this.logic.hardware.getPrinter().cutPaper();
-	    //this.logic.hardware.printer.cutPaper();
+		// this.logic.hardware.printer.cutPaper();
 	}
-	
-	
+
 	/**
 	 * Prints out a duplicate receipt. Only meant to be used by the attendant.
-	 * Returns the machine to normal as there is no longer a receipt that hasn't been printed.
+	 * Returns the machine to normal as there is no longer a receipt that hasn't
+	 * been printed.
 	 */
 	public void printDuplicateReceipt() {
 		try {
 			// Try to print out the receipt once more.
 			this.printReceipt(duplicateReceipt);
-			// Returns the machine to normal as the receipt is printed and the machine can resume.
+			// Returns the machine to normal as the receipt is printed and the machine can
+			// resume.
 			this.logic.stateLogic.gotoState(States.NORMAL);
 			// Removes the receipts as it is no longer needed.
 			this.duplicateReceipt = "";
@@ -136,29 +166,30 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 			this.onPrintingFail();
 		}
 	}
-	
+    
 	/**
 	 * Executes after a receipt is successfully printed
 	 */
 	private void finish() {
-		
+
 		// Thank customer
-        System.out.println("Thank you for your business with The Local Marketplace");
-        
-        // End session
-        this.logic.stopSession();
-    }
-	
+		System.out.println("Thank you for your business with The Local Marketplace");
+
+		// End session
+		this.logic.stopSession();
+	}
+
 	/**
-	 * Executes if a receipt fails to print. Prints message to console and sets the state control software to suspended.
+	 * Executes if a receipt fails to print. Prints message to console and sets the
+	 * state control software to suspended.
 	 */
 	private void onPrintingFail() {
 		System.out.println("Failed to print receipt");
-		
+
 		// Suspend station
 		this.logic.stateLogic.gotoState(States.SUSPENDED);
 	}
-	
+
 	@Override
 	public void thePrinterIsOutOfPaper() {
 		this.onPrintingFail();
@@ -172,48 +203,52 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 	@Override
 	public void aDeviceHasBeenEnabled(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void aDeviceHasBeenDisabled(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void aDeviceHasBeenTurnedOn(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void aDeviceHasBeenTurnedOff(IDevice<? extends IDeviceListener> device) {
 		// TODO Auto-generated method stub
-		
+
 	}
 
 	@Override
 	public void thePrinterHasLowInk() {
-		// TODO Auto-generated method stub
-		
+		lowInk = true;
 	}
 
 	@Override
 	public void thePrinterHasLowPaper() {
-		// TODO Auto-generated method stub
-		
+		lowPaper = true;
 	}
 
 	@Override
 	public void paperHasBeenAddedToThePrinter() {
-		// TODO Auto-generated method stub
-		
+		lowPaper = false;
 	}
 
 	@Override
 	public void inkHasBeenAddedToThePrinter() {
-		// TODO Auto-generated method stub
-		
+		lowInk = false;
+	}
+
+	public Boolean getLowInk() {
+		return lowInk;
+	}
+
+	public Boolean getLowPaper() {
+		return lowPaper;
 	}
 }

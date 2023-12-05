@@ -1,36 +1,48 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
+
+import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
+import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
+import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
+import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+
+import powerutility.PowerGrid;
+
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 /**
  * @author Camila Hernandez (30134911)
  * --------------------------------
- * @author Adrian Brisebois
- * @author Alan Yong
- * @author Ananya jain
- * @author Andrew Matti
- * @author Atique Muhammad
- * @author Christopher Lo
- * @author Danny Ly
- * @author Eric George
- * @author Gareth Jenkins
- * @author Ian Beler
- * @author Jahnissi Nwakanma
- * @author Jenny Dang
- * @author Maheen Nizamani
- * @author Michael Svoboda
- * @author Olivia Crosby
- * @author Rico Manalastas
- * @author Ryan Korsrud
- * @author Shanza Raza
- * @author Sukhnaaz Sidhu
- * @author Tanmay Mishra
- * @author Zhenhui Ren
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
+ * @author Maheen Nizmani (30172615)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
+
 public class StartScreenGUI {
-	private JFrame startScreenFrame;
-	private JPanel startScreenPanel;
+	private JFrame frame;
+	private JPanel panel;
 	private JPanel verticalPanel;
 	private JPanel languageVerticalPanel;
 	private JPanel stationVerticalPanel;
@@ -41,12 +53,17 @@ public class StartScreenGUI {
 	private JLabel stationLabel;
 	private JButton membershipButton;
 	private JButton startSessionButton;
-	private JComboBox selectCheckoutStationComboBox;
+	//	private JComboBox selectCheckoutStationComboBox;
 	private JComboBox selectLanguageComboBox;
+	private AbstractSelfCheckoutStation station;
+	private CentralStationLogic logic;
+	private MainGUI mainGUI;
 	
-	public StartScreenGUI() {
-		startScreenFrame = new JFrame("TheLocalMarketplace Self-Checkout Station");
-		startScreenPanel = new JPanel();
+	public StartScreenGUI(MainGUI m, CentralStationLogic l) {
+		mainGUI = m;
+		logic = l;
+		frame = new JFrame("TheLocalMarketplace Self-Checkout Station");
+		panel = new JPanel();
 		verticalPanel = new JPanel();
 		languageVerticalPanel = new JPanel();
 		stationVerticalPanel = new JPanel();
@@ -54,16 +71,15 @@ public class StartScreenGUI {
 		
 		addWidgets();
 		
-		startScreenFrame.getContentPane().add(startScreenPanel, BorderLayout.CENTER);
+		frame.getContentPane().add(panel, BorderLayout.CENTER);
 		
-		startScreenFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-		startScreenFrame.pack();
-		startScreenFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
-		startScreenFrame.setVisible(true);
+		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+		frame.pack();
+		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
 	}
-	
+
 	private void addWidgets() {
-		startScreenPanel.setLayout(new BoxLayout(startScreenPanel, BoxLayout.Y_AXIS));
+		panel.setLayout(new BoxLayout(panel, BoxLayout.Y_AXIS));
 		verticalPanel.setLayout(new BoxLayout(verticalPanel, BoxLayout.Y_AXIS));
 		languageVerticalPanel.setLayout(new BoxLayout(languageVerticalPanel, BoxLayout.Y_AXIS));
 		stationVerticalPanel.setLayout(new BoxLayout(stationVerticalPanel, BoxLayout.Y_AXIS));
@@ -98,12 +114,12 @@ public class StartScreenGUI {
 		String[] stationChoices = { "Bronze", "Silver", "Gold" };
 				
 		// Create ComboBox
-		selectCheckoutStationComboBox = new JComboBox<String>(stationChoices);
+		//selectCheckoutStationComboBox = new JComboBox<String>(stationChoices);
 		selectLanguageComboBox = new JComboBox<String>(languageChoices);
 		
 		// Set preferred size for combo boxes
 		Dimension comboBoxSize = new Dimension(0, -100);
-		selectCheckoutStationComboBox.setPreferredSize(comboBoxSize);
+		//selectCheckoutStationComboBox.setPreferredSize(comboBoxSize);
 		selectLanguageComboBox.setPreferredSize(comboBoxSize);
 
 		// Set button alignment
@@ -147,7 +163,7 @@ public class StartScreenGUI {
 		// Add labels and buttons to the station vertical panel
 		stationVerticalPanel.add(Box.createVerticalGlue());
 		stationVerticalPanel.add(stationLabel);
-		stationVerticalPanel.add(selectCheckoutStationComboBox);
+		//stationVerticalPanel.add(selectCheckoutStationComboBox);
 		stationVerticalPanel.add(Box.createVerticalGlue());
 		
 		// Add glue to push labels to the center horizontally
@@ -159,16 +175,23 @@ public class StartScreenGUI {
 		horizontalPanel.add(Box.createHorizontalGlue());
 		
 		// Add all sub-panels to the main panel
-		startScreenPanel.add(verticalPanel);
-		startScreenPanel.add(Box.createVerticalStrut(-100));
-		startScreenPanel.add(horizontalPanel);
+		panel.add(verticalPanel);
+		panel.add(Box.createVerticalStrut(-100));
+		panel.add(horizontalPanel);
+		
+        //Initializing action listeners for all buttons
+		getStartSessionButton().addActionListener(e -> {
+			logic.startSession();
+			mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "addItem");
+		});
 	}
 	
+	public JButton getStartSessionButton() {
+		return startSessionButton;
+	}
+
 	public JPanel getPanel() {
-		return this.startScreenPanel;
+		return panel;
 	}
-	
-	public static void main(String[] args) {
-		StartScreenGUI startScreen = new StartScreenGUI();
-	}
+
 }

@@ -5,6 +5,7 @@ import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationGold;
 import com.thelocalmarketplace.hardware.external.CardIssuer;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.CardMethods;
 import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
@@ -23,17 +24,29 @@ import static org.junit.Assert.assertEquals;
 /**
  * @author Maheen Nizmani (30172615)
  * ---------------------------------
- * @author Angelina Rochon (30087177)
- * @author Connell Reffo (10186960)
- * @author Tara Strickland (10105877)
- * @author Julian Fan (30235289)
- * @author Braden Beler (30084941)
- * @author Samyog Dahal (30194624)
- * @author Phuong Le (30175125)
- * @author Daniel Yakimenka (10185055)
- * @author Merick Parkinson (30196225)
- * @author Farida Elogueil (30171114)
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
  */
+
 public class PayBySwipeTests {
 
     SelfCheckoutStationGold station;
@@ -49,7 +62,7 @@ public class PayBySwipeTests {
 
         do{
             session.hardware.getCardReader().swipe(this.card);
-        } while(!session.cardLogic.isDataRead());
+        } while(!session.cardPaymentLogic.isDataRead());
 
     }
     @Before
@@ -66,18 +79,21 @@ public class PayBySwipeTests {
 
 
         session = new CentralStationLogic(station);
+        session.setBypassIssuePrediction(true);
         session.startSession();
+
 
         //set up bank details
         CardIssuer bank= new CardIssuer("Scotia Bank",3);
         session.setupBankDetails(bank);
-        this.card = new Card("DEBIT","123456789","John","329");
+        this.card = new Card("DEBIT", "123456789", "John", "329", null, false, false);
         Calendar expiry = Calendar.getInstance();
         expiry.set(2025,Calendar.JANUARY,24);
         bank.addCardData("123456789", "John",expiry,"329",32.00);
 
 
         this.session.selectPaymentMethod(PaymentMethods.DEBIT);
+        this.session.selectCardMethod(CardMethods.SWIPE);
     }
 
     @After
@@ -147,22 +163,22 @@ public class PayBySwipeTests {
     
     @Test
     public void testGetCardPaymentTypeDebit() {
-    	Card c = new Card("deBiT","123456789","John","329");
+    	Card c = new Card("deBiT","123456789","John","329", null, false, false);
     	
-    	assertEquals(PaymentMethods.DEBIT, session.cardLogic.getCardPaymentType(c.kind));
+    	assertEquals(PaymentMethods.DEBIT, session.cardPaymentLogic.getCardType(c.kind));
     }
     
     @Test
     public void testGetCardPaymentTypeCredit() {
-    	Card c = new Card("CreDIt","123456789","John","329");
+    	Card c = new Card("CreDIt","123456789","John","329", null, false, false);
     	
-    	assertEquals(PaymentMethods.CREDIT, session.cardLogic.getCardPaymentType(c.kind));
+    	assertEquals(PaymentMethods.CREDIT, session.cardPaymentLogic.getCardType(c.kind));
     }
     
     @Test
     public void testGetCardPaymentTypeNone() {
-    	Card c = new Card("fdsgds","123456789","John","329");
+    	Card c = new Card("fdsgds","123456789","John","329", null, false, false);
     	
-    	assertEquals(PaymentMethods.NONE, session.cardLogic.getCardPaymentType(c.kind));
+    	assertEquals(PaymentMethods.NONE, session.cardPaymentLogic.getCardType(c.kind));
     }
 }

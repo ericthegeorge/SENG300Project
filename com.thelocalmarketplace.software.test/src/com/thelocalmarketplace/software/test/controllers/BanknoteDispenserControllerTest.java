@@ -17,6 +17,32 @@ import com.thelocalmarketplace.hardware.SelfCheckoutStationSilver;
 import com.thelocalmarketplace.software.controllers.pay.cash.BanknoteDispenserController;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
+/**
+ * Tests for Bank Note Dispenser
+ * @author Alan Yong (30105707)
+ * @author Andrew Matti (30182547)
+ * @author Olivia Crosby (30099224)
+ * @author Rico Manalastas (30164386)
+ * @author Shanza Raza (30192765)
+ * @author Danny Ly (30127144)
+ * @author Maheen Nizmani (30172615)
+ * @author Christopher Lo (30113400)
+ * @author Michael Svoboda (30039040)
+ * @author Sukhnaaz Sidhu (30161587)
+ * @author Ian Beler (30174903)
+ * @author Gareth Jenkins (30102127)
+ * @author Jahnissi Nwakanma (30174827)
+ * @author Camila Hernandez (30134911)
+ * @author Ananya Jain (30196069)
+ * @author Zhenhui Ren (30139966)
+ * @author Eric George (30173268)
+ * @author Jenny Dang (30153821)
+ * @author Tanmay Mishra (30127407)
+ * @author Adrian Brisebois (30170764)
+ * @author Atique Muhammad (30038650)
+ * @author Ryan Korsrud (30173204)
+ */
+
 public class BanknoteDispenserControllerTest {
 	private BanknoteDispenserController inputBronze;
 	private BanknoteDispenserController inputSilver;
@@ -231,4 +257,84 @@ public class BanknoteDispenserControllerTest {
 		inputSilver.moneyFull(stub);
 		inputGold.moneyFull(stub);
 	}
+	// for the test cases could not change the capacity of banknote dispenser, foreverever set at 1000
+		@Test
+		public void shouldWarnNotEmptyTest() {
+			// should not warn if dispenser banknote > 200 
+			
+			
+			
+			for (int i = 0; i < 200; i++) {
+				inputBronze.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 200; i++) {
+				inputSilver.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 200; i++) {
+				inputGold.banknoteAdded(stub, twoNote);
+			}
+			
+			inputBronze.banknoteAdded(stub, twoNote);
+			inputSilver.banknoteAdded(stub, twoNote);
+			inputGold.banknoteAdded(stub, twoNote);
+			
+			assertFalse(inputBronze.shouldWarnEmpty());
+			assertFalse(inputSilver.shouldWarnEmpty());
+			assertFalse(inputGold.shouldWarnEmpty());
+			
+		}
+		
+		@Test
+		public void shouldWarnEmptyTest() {
+			// should not warn if dispenser banknote <= 200 
+			
+			
+			
+			inputBronze.banknoteAdded(stub, twoNote);
+			inputSilver.banknoteAdded(stub, twoNote);
+			inputGold.banknoteAdded(stub, twoNote);
+			
+			assertTrue(inputBronze.shouldWarnEmpty());
+			assertTrue(inputSilver.shouldWarnEmpty());
+			assertTrue(inputGold.shouldWarnEmpty());
+			
+		}
+		@Test
+		public void shouldNotWarnFullTest() {
+			// should  not warn if dispenser banknote < 800 
+			
+			for (int i = 0; i < 799; i++) {
+				inputBronze.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 799; i++) {
+				inputSilver.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 799; i++) {
+				inputGold.banknoteAdded(stub, twoNote);
+			}
+			
+			assertFalse(inputBronze.shouldWarnFull());
+			assertFalse(inputSilver.shouldWarnFull());
+			assertFalse(inputGold.shouldWarnFull());
+		}
+		@Test
+		public void shouldWarnFullTest() {
+			
+			// should  warn if dispenser banknote >= 800 
+			
+			for (int i = 0; i < 800; i++) {
+				inputBronze.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 800; i++) {
+				inputSilver.banknoteAdded(stub, twoNote);
+			}
+			for (int i = 0; i < 800; i++) {
+				inputGold.banknoteAdded(stub, twoNote);
+			}
+			
+			assertTrue(inputBronze.shouldWarnFull());
+			assertTrue(inputSilver.shouldWarnFull());
+			assertTrue(inputGold.shouldWarnFull());
+		}
+		
 }
