@@ -254,6 +254,7 @@ public class CartLogic {
    */
   public void modifyBalance(BigDecimal amount) {
     this.balanceOwed = this.balanceOwed.add(amount);
+    System.out.println(amount + " " + this.balanceOwed + "<- balance owed");
     if (this.balanceOwed.compareTo(BigDecimal.ZERO) < 0) {
       this.balanceOwed = BigDecimal.ZERO;
     }

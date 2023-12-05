@@ -1,6 +1,8 @@
 package com.thelocalmarketplace.software.controllers;
 
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
@@ -17,6 +19,7 @@ import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
+import com.thelocalmarketplace.software.logic.CentralStationLogic.PaymentMethods;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 /**
@@ -49,6 +52,7 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 	String duplicateReceipt;
 	private Boolean lowInk = false;
 	private Boolean lowPaper = false;
+	private HashMap<PaymentMethods, BigDecimal> methods;
 
 	/**
 	 * Base constructor
@@ -58,84 +62,101 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 
 		this.duplicateReceipt = "";
 		this.logic.hardware.getPrinter().register(this);
-    	//this.logic.hardware.printer.register(this);
-    }
-    
-    /**
-     * Generates a string that represents a receipt to be printed
-     * @return The receipt as a string.
-     */
-    public String createPaymentRecord(BigDecimal change) {
-        StringBuilder paymentRecord = new StringBuilder();
-        Map<Item, Integer> cartItems = this.logic.cartLogic.getCart();
-        BigDecimal totalCost = BigDecimal.ZERO; 
-        //Begin the receipt.
-        paymentRecord.append("Customer Receipt\n");
-      	if (logic.membershipLogic.getCardHolder() != null) {
-			    paymentRecord.append("Member Name: " + logic.membershipLogic.getCardHolder() + "\n" + "Member Number: "
-					    + logic.membershipLogic.getNumber() + "\n");
-		    }
-        paymentRecord.append("=========================\n");
-        
-        int i = 0;
-        // Iterate through each item in the cart, adding printing them on the receipt.
-        for (Entry<Item, Integer> entry : cartItems.entrySet()) {
-            Item item = entry.getKey();
-            Integer quantity = entry.getValue();
-            BigDecimal price = new BigDecimal(logic.cartLogic.getReusableBagPrice());
-            
-            if (item instanceof BarcodedItem) {
-            	BarcodedItem barcodedItem = (BarcodedItem) item;
-            	BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode());
-            	price = new BigDecimal(product.getPrice());
-            } else if (item instanceof PLUCodedItem) {
-            	PLUCodedItem barcodedItem = (PLUCodedItem) item;
-            	price = new BigDecimal(this.logic.addPLUCodedProductController.getPLUCodedItemPrice(barcodedItem));
-            } 
-            
-            BigDecimal totalItemCost = price.multiply(new BigDecimal(quantity));
-            totalCost.add(totalItemCost);
-            paymentRecord.append("Item " + ++i + ":\n");
-            paymentRecord.append(" - Qty: ");
-            paymentRecord.append(quantity);
-            paymentRecord.append(", Unit Price: $");
-            paymentRecord.append(price);
-            paymentRecord.append(", Total: $");
-            paymentRecord.append(totalItemCost);
-            paymentRecord.append("\n");
-        }
+		
+		this.methods = new HashMap<>();
+		for (PaymentMethods pm : PaymentMethods.values()) {
+			methods.put(pm, BigDecimal.ZERO);
+		}
+		// this.logic.hardware.printer.register(this);
+	}
 
-        paymentRecord.append("=========================\n");
-        paymentRecord.append("Total Cost: $").append(totalCost).append("\n");
-        paymentRecord.append("Change Given: $").append(change.toString()).append("\n");
-        
-        System.out.print(paymentRecord);
-        
-        return paymentRecord.toString();
-    }
-    
-    /**Generates receipt and calls receipt printing hardware to print it.
-     * @param change
-     */
-    public void handlePrintReceipt(BigDecimal change) {
-        String receiptText = createPaymentRecord(change);
-        try {        	
-        	this.printReceipt(receiptText);
-        	this.finish();
-        } catch (Exception e) {
-        	this.onPrintingFail();
-        	this.duplicateReceipt = receiptText;
-        	
-        }
-    }
-    
+	/**
+	 * Generates a string that represents a receipt to be printed
+	 * 
+	 * @return The receipt as a string.
+	 */
+	public String createPaymentRecord(BigDecimal change) {
+		StringBuilder paymentRecord = new StringBuilder();
+		Map<Item, Integer> cartItems = this.logic.cartLogic.getCart();
+		// Begin the receipt.
+		paymentRecord.append("The Local Marketplace\n");
+		paymentRecord.append("(403) - 123 - 456\n");
+		paymentRecord.append("Customer Receipt\n");
+		if (logic.membershipLogic.getCardHolder() != null) {
+			paymentRecord.append("Member Name: " + logic.membershipLogic.getCardHolder() + "\n" + "Member Number: "
+					+ logic.membershipLogic.getNumber() + "\n");
+		}
+		paymentRecord.append("=========================\n");
 
-  /**
-   * Helper method for printing receipt
-   * @param receiptText Is the string to print
-   * @throws OverloadedDevice 
-   * @throws EmptyDevice 
-   */
+		// Iterate through each item in the cart, adding printing them on the receipt.
+		for (Entry<Item, Integer> entry : cartItems.entrySet()) {
+			Item item = entry.getKey();
+			Integer quantity = entry.getValue();
+			BigDecimal price = new BigDecimal(logic.cartLogic.getReusableBagPrice());
+			if (item instanceof BarcodedItem) {
+				BarcodedItem barcodedItem = (BarcodedItem) item;
+				BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode());
+				price = new BigDecimal(product.getPrice());
+			} else if (item instanceof PLUCodedItem) {
+				PLUCodedItem barcodedItem = (PLUCodedItem) item;
+				price = new BigDecimal(this.logic.addPLUCodedProductController.getPLUCodedItemPrice(barcodedItem));
+			}
+
+			BigDecimal totalItemCost = price.multiply(new BigDecimal(quantity));
+			paymentRecord.append(logic.getMainGUI().getDescriptionOfItem(item).split("\\s+")[0]
+ + "\n");
+			paymentRecord.append(" - Qty: ");
+			paymentRecord.append(quantity);
+			paymentRecord.append(", Unit Price: $");
+			paymentRecord.append(price);
+			paymentRecord.append(", Total: $");
+			paymentRecord.append(totalItemCost);
+			paymentRecord.append("\n");
+		}
+
+		paymentRecord.append("=========================\n");
+		paymentRecord.append("Total Cost: $").append(logic.cartLogic.calculateTotalCost()).append("\n");
+		if (!change.equals(BigDecimal.ZERO))
+		paymentRecord.append("Change Given: $").append(change.toString()).append("\n");
+		
+		for (PaymentMethods pm : PaymentMethods.values()) {
+			BigDecimal paidAmt = methods.get(pm);
+			if(!paidAmt.equals(BigDecimal.ZERO))
+			paymentRecord.append(pm.name()+ ": $" + paidAmt + "\n");
+		}
+		
+		if (!change.equals(BigDecimal.ZERO))
+			paymentRecord.append("Change Given: $").append(change.toString()).append("\n");
+		
+		System.out.print(paymentRecord);
+
+		return paymentRecord.toString();
+	}
+
+	/**
+	 * Generates receipt and calls receipt printing hardware to print it.
+	 * 
+	 * @param change
+	 */
+	public void handlePrintReceipt(BigDecimal change) {
+		String receiptText = createPaymentRecord(change);
+		try {
+			this.printReceipt(receiptText);
+			this.finish();
+		} catch (Exception e) {
+			this.onPrintingFail();
+			this.duplicateReceipt = receiptText;
+
+		}
+	}
+
+	/**
+	 * Helper method for printing receipt
+	 * 
+	 * @param receiptText Is the string to print
+	 * @throws OverloadedDevice
+	 * @throws EmptyDevice
+	 */
 	private void printReceipt(String receiptText) throws EmptyDevice, OverloadedDevice {
 		for (char c : receiptText.toCharArray()) {
 
@@ -166,7 +187,7 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 			this.onPrintingFail();
 		}
 	}
-    
+
 	/**
 	 * Executes after a receipt is successfully printed
 	 */
@@ -188,6 +209,10 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 
 		// Suspend station
 		this.logic.stateLogic.gotoState(States.SUSPENDED);
+	}
+	
+	public void addAmountPaid(PaymentMethods pm, BigDecimal amountPaid) {
+		methods.replace(pm, BigDecimal.ZERO, amountPaid);
 	}
 
 	@Override
