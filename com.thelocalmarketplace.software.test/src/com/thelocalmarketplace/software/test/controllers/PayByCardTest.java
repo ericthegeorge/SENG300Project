@@ -52,7 +52,6 @@ import static org.junit.Assert.assertEquals;
  * @author Ryan Korsrud (30173204)
  */
 
- */
 public class PayByCardTest {
 
     SelfCheckoutStationGold station;

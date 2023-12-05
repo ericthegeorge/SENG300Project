@@ -1,12 +1,14 @@
 package com.thelocalmarketplace.software.logic;
 import java.util.Scanner;
 
+import com.jjjwelectronics.EmptyDevice;
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.bag.ReusableBag;
 import com.jjjwelectronics.bag.ReusableBagDispenserBronze;
 import com.jjjwelectronics.scanner.Barcode;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.external.ProductDatabases;
 import com.thelocalmarketplace.software.AbstractLogicDependant;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
@@ -59,19 +61,19 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 		super(logic);
 	}
 	
-	public void startPurchaseBags(int numberOfBags) {
-		//TODO GUI: please place bags on scale and asks how many bags does the user need. 
+
+	public void purchaseBags(int bagsToPurchase) throws EmptyDevice {
 		if (!logic.isSessionStarted()) throw new InvalidStateSimulationException("Session has not started");
-		
-		this.logic.stateLogic.gotoState(States.ADDBAGS);
-        	this.numberOfBags = numberOfBags;
-        	bagInstance = new ReusableBag();
-		//ReusableBag bagInstance = new ReusableBagDispenserBronze(numberOfBags);
-		//Adding the number of bags to the cart
-        	for (int i = 0;i<numberOfBags;i++ )
-        		logic.cartLogic.addProductToCart(bagInstance);
-        //TODO in GUI 
-		System.out.println("Bag added to order please place bags on the scale");
+
+        for (int i = 0; i < bagsToPurchase; i++) {
+            bagInstance = new ReusableBag();
+        	logic.cartLogic.addProductToCart(bagInstance);
+        	try {
+				logic.hardware.getReusableBagDispenser().dispense();
+			} catch (EmptyDevice e) {
+				throw new EmptyDevice("test");
+			}
+        }
 	}
 	
 	/**When user has finished adding the bags to the scale
@@ -94,13 +96,11 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 			this.logic.weightLogic.overrideDiscrepancy();
 			this.approvedBagging = true;
 			this.logic.attendantLogic.setBaggingDiscrepency(false);
-			
-			// TODO GUI: 
+
 			System.out.println("Bags added successfully");
 			this.logic.stateLogic.gotoState(States.NORMAL);
 		} else {
 			//bags are too heavy 
-			//TODO GUI: display waiting for attendant approval
 			this.logic.attendantLogic.baggingDiscrepencyDetected();
 		}
 	}

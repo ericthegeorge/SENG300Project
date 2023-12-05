@@ -66,6 +66,10 @@ public class CartLogic {
 	private BigDecimal balanceOwed;
 	private CentralStationLogic logic;
 	
+	/**Can be configured
+	 */
+	private int reusableBagPrice = 1;
+	
 	/**
 	 * Constructor for a new CartLogic instance
 	 */
@@ -76,7 +80,7 @@ public class CartLogic {
 		
 		this.balanceOwed = BigDecimal.ZERO;
 	}
-	
+
 	/**
 	 * Adds a Barcoded item to the cart, and updates balance using the price
 	 * @param item - barcoded item to add to the cart
@@ -90,14 +94,15 @@ public class CartLogic {
 		this.updateBalance(newPrice);
 	}
 	/**
-	 * Adds a Reusable bag to the cart, and updates the weight of the cart
+	 * Adds a Reusable bag to the cart, and updates the weight of the cart. 
+	 * 
 	 */
 	public void addProductToCart(ReusableBag item) {
-		Utilities.modifyCountMapping(cart, item, 1);
-		
-		// Reusable Bags have no price as of now
-//		BigDecimal newPrice = this.balanceOwed.add(new BigDecimal(itemPrice));
-//		this.updateBalance(newPrice);
+		Utilities.modifyCountMapping(cart, item, reusableBagPrice);
+		logic.weightLogic.addExpectedWeight(item.getMass());
+	
+		BigDecimal newPrice = this.balanceOwed.add(new BigDecimal(reusableBagPrice));
+		this.updateBalance(newPrice);
 	}
 	
 	/**
@@ -221,6 +226,8 @@ public class CartLogic {
 				double itemPrice = product.getPrice() * (item.getMass().inGrams().doubleValue()/1000);
 				itemPrice = new BigDecimal(itemPrice).setScale(2, RoundingMode.HALF_UP).doubleValue();
 				balance += itemPrice * count;
+			} else { // item is a reusable bag
+				balance += getReusableBagPrice() * count;
 			}
 		}
 		return new BigDecimal(balance);
@@ -261,4 +268,14 @@ public class CartLogic {
 		String balanceToShow = String.format("%.2f", balanceRounded);
 		if(logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getCostTextArea().setText("$"+balanceToShow);
 	}
+	
+	
+	public int getReusableBagPrice() {
+		return reusableBagPrice;
+	}
+
+	public void setReusableBagPrice(int reusableBagPrice) {
+		this.reusableBagPrice = reusableBagPrice;
+	}
+
 }
