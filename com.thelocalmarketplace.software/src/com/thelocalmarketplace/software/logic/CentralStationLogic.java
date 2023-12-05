@@ -1,11 +1,13 @@
 package com.thelocalmarketplace.software.logic;
 
+import java.awt.Color;
 import java.math.BigDecimal;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import javax.swing.JFrame;
 import javax.swing.SwingUtilities;
 
 import com.jjjwelectronics.Mass;
@@ -18,7 +20,9 @@ import com.thelocalmarketplace.software.controllers.pay.cash.BanknoteDispenserCo
 import com.thelocalmarketplace.software.controllers.pay.cash.CashPaymentController;
 import com.thelocalmarketplace.software.controllers.pay.cash.CoinDispenserController;
 import com.thelocalmarketplace.software.controllers.pay.cash.CoinPaymentController;
+import com.thelocalmarketplace.software.gui.AttendantStationGUI;
 import com.thelocalmarketplace.software.gui.MainGUI;
+//import com.thelocalmarketplace.software.gui.AttendantStationGUI.StationObject;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 import com.thelocalmarketplace.software.controllers.item.*;
 
@@ -57,8 +61,7 @@ import powerutility.PowerGrid;
  * @author Atique Muhammad (30038650)
  * @author Ryan Korsrud (30173204)
  */
-public class CentralStationLogic {
-	
+public class CentralStationLogic {	
 	/*
 	 * Enumeration of possible payment methods
 	 */
@@ -67,140 +70,125 @@ public class CentralStationLogic {
 		CREDIT,
 		DEBIT,
 		CASH
-	}
-	
+	}	
 	public enum CardMethods {
 		NONE, // Default
 		TAP,
 		INSERT,
 		SWIPE
 	}
+
+	public JFrame frame = new JFrame();	
 	
+	public CentralStationLogic logic;
 	
+	/**
+	 * Reference to AttendantStationGUI
+	 */
+	public AttendantStationGUI attendantStationGUI = logic.getMainGUI().getAttendantScreen();    //check
 	/**
 	 * Reference to physical hardware
 	 */
 	public AbstractSelfCheckoutStation hardware;
-	
 	/**
 	 * Instance of the cart logic
 	 */
 	public CartLogic cartLogic;
-	
 	/**
 	 * Instance of the currency logic for coin denominations
 	 */
 	public CurrencyLogic coinCurrencyLogic;
-	
 	/**
 	 * Instance of the currency logic for banknote denominations
 	 */
 	public CurrencyLogic banknoteCurrencyLogic;
-	
 	/**
 	 * Instance of the controller that handles payment with coin
 	 */
 	public CoinPaymentController coinPaymentController;
-	
 	/**
 	 * Instance of the controller that handles payment with cash
 	 */
 	public CashPaymentController cashPaymentController;
-	
 	/**
 	 * Instances of the controllers that handle coin dispensing indexed by their corresponding coin denomination
 	 */
 	public Map<BigDecimal, CoinDispenserController> coinDispenserControllers = new HashMap<>();
-	
 	/**
 	 * Instances of the controllers that handle banknote dispensing indexed by their corresponding banknote denomination
 	 */
 	public Map<BigDecimal, BanknoteDispenserController> banknoteDispenserControllers = new HashMap<>();
-	
 	/**
 	 * Instance of the controller that handles adding barcoded product
 	 */
 	public AddBarcodedItemController addBarcodedProductController;
-	
 	/**
 	 * Instance of the controller that handles adding PLU coded product
 	 */
 	public AddPLUCodedItemController addPLUCodedProductController;
-	
 	/** 
 	 * Instance of weight logic 
 	 */
 	public WeightLogic weightLogic;
-	
 	/**
 	 * Instance of add bags logic 
 	 */
 	public AddBagsLogic addBagsLogic;
-	
 	/*
 	 * Instance of logic that handles item removal
 	 */
 	public RemoveItemLogic removeItemLogic;
+<<<<<<< HEAD
+=======
 	/**
 	 * Instance of logic that handles purchasing bags
 	 */
 	public PurchaseBagsLogic purchaseBagsLogic;
+>>>>>>> c058c9f84f8ffb05a215c8fc7cffb26fe69a6893
 	/**
 	 * Instance of the controller that handles weight discrepancy detected
 	 */
 	public WeightDiscrepancyController weightDiscrepancyController;
-
 	/**
 	 * Instance of controller that handles swiping a card
 	 */
 	public CardReaderController cardReaderController;
-	
 	/**
 	 * Instance of the controller that handles receipt printing
 	 */
 	public ReceiptPrintingController receiptPrintingController;
-	
 	/**
 	 * Instance of logic for attendant
 	 */
 	public AttendantLogic attendantLogic;
-	
 	/**
 	 * Instance of signaling attendant logic
 	 */
 	public SignalAttendantLogic signalAttendantLogic;
-
 	/**
 	 * Instance of logic for card payment via swipe
 	 */
 	public CardPaymentLogic cardPaymentLogic;
-	
 	/**
 	 * Instance of logic for states
 	 */
 	public StateLogic stateLogic;
-	
 	/**
 	 * Current selected payment method
 	 */
 	private PaymentMethods paymentMethod;
-	
 	/**
 	 * Current selected payment method
 	 */
 	private CardMethods cardMethod;
-	
 	/**
      * Instance of logic for selecting a language
      */
     public SelectLanguageLogic selectLanguageLogic;
-    
     /**
      * Instance of logic for handling memberships
      */
     public MembershipLogic membershipLogic;
-	
-    
 	/**
 	 * Tracks if the customer session is active
 	 */
@@ -212,7 +200,76 @@ public class CentralStationLogic {
 	 */
 	private BigDecimal maximumBagMass = new BigDecimal(1000); //default
 
+	
+	//________________________________________________
+	
+    private int stationNumber;
+    private Map<Character, Color> circleColors; // Map to store colors for circles
+    private boolean isEnabled;
+    private double weight;
 
+    private void initializeCircleColors() {
+        // Initialize default colors for circles
+        circleColors.put('I', Color.YELLOW);
+        circleColors.put('P', Color.YELLOW);
+        circleColors.put('C', Color.YELLOW);
+        circleColors.put('B', Color.YELLOW);
+        circleColors.put('S', Color.YELLOW);
+        circleColors.put('H', Color.YELLOW);
+    }
+
+    public int getStationNumber() {
+        return stationNumber;
+    }
+
+    public Color getCircleColor(char label) {
+        return circleColors.get(label);
+    }
+
+    public void setCircleColor(char label, Color color) {
+        circleColors.put(label, color);
+    }
+    
+    public void setCircleColorYellow(char label) {
+        setCircleColor(label, Color.YELLOW);
+    }
+
+    public void setCircleColorRed(char label) {
+        setCircleColor(label, Color.RED);
+    }
+
+    public void setCircleColorGreen(char label) {
+        setCircleColor(label, Color.GREEN);
+    }
+
+
+
+
+    @Override
+    public String toString() {
+        return "Station #" + stationNumber;
+    }
+
+    // Add a getter and setter for isEnabled
+    public boolean isEnabled() {
+        return isEnabled;
+    }
+
+    public void setEnabled(boolean enabled) {
+        isEnabled = enabled;
+    }
+
+    public double getWeight() {
+        return weight;
+    }
+
+    public void setWeight(double weight) {
+        this.weight = weight;
+    }
+
+    //______________________________________________
+    
+	
 	/**
 	 * Base constructor for a new CentralStationLogic instance
 	 * @throws NullPointerException If hardware is null
@@ -225,7 +282,6 @@ public class CentralStationLogic {
 
 		this.sessionStarted = false;
 		this.paymentMethod = PaymentMethods.NONE;
-		
 		
 		
 		// Initialize SelectLanguageLogic
@@ -260,6 +316,13 @@ public class CentralStationLogic {
 		this.setupCoinDispenserControllers(this.coinCurrencyLogic.getDenominationsAsList());
 		this.setupBanknoteDispenserControllers(this.banknoteCurrencyLogic.getDenominationsAsList());
 	
+		//_________________________________---
+		
+		//this.stationNumber = stationNumber;
+		this.circleColors = new HashMap<>();
+        initializeCircleColors();
+		
+		//______________________________________---
 		initializeMembershipDatabase();
 	}
 	
@@ -270,7 +333,6 @@ public class CentralStationLogic {
 	public PaymentMethods getSelectedPaymentMethod() {
 		return this.paymentMethod;
 	}
-	
 	public CardMethods getSelectedCardPaymentMethod() {
 		return this.cardMethod;
 	}
@@ -281,8 +343,7 @@ public class CentralStationLogic {
 	 */
 	public void selectPaymentMethod(PaymentMethods method) {
 		this.paymentMethod = method;
-	}
-	
+	}	
 	public void selectCardMethod(CardMethods method) {
 		this.cardMethod = method;
 	}
@@ -303,7 +364,6 @@ public class CentralStationLogic {
 	public void setupBankDetails(CardIssuer bank) {
 		this.cardPaymentLogic = new CardPaymentLogic(this, bank);
 	}
-	
 	/**
 	 * Helper method to setup banknote dispenser controllers
 	 * @param denominations Is the list of coin denominations supported by the hardware
@@ -395,45 +455,52 @@ public class CentralStationLogic {
 	public boolean issuePredicted() {
 		if (bypassIssuePrediction) return false;
 		boolean issueExists = false;
-		
+
 		boolean lowInk = receiptPrintingController.getLowInk();
 		if (lowInk) {
-                	// TODO: interact with attendant station UI for  for low ink warning
+			attendantStationGUI.logic.setCircleColorYellow('I');
 			issueExists = true;
 		}
-		
 		boolean lowPaper = receiptPrintingController.getLowPaper();
 		if (lowPaper) {
-			//TODO: interact with attendant station UI for low paper warning
-	        	issueExists = true;
-	  	  }
-		
+			attendantStationGUI.logic.setCircleColorYellow('P');
+			issueExists = true;
+		}
+
 		//Banknote dispenser checks
-	    for (Entry<BigDecimal, BanknoteDispenserController> entry : this.banknoteDispenserControllers.entrySet()) {
-	        final BanknoteDispenserController controller = entry.getValue();
-	        if(controller.shouldWarnEmpty()) {
-		        //TODO interact with attendant station UI
-	        	issueExists = true;
-	        } 
-	        if(controller.shouldWarnFull()) {
-	        	//TODO interact with attendant station UI
-	        	issueExists = true;
-	        }
-	    }
-	    
-	    //Coin dispenser checks
-	    for (Entry<BigDecimal, CoinDispenserController> entry : this.coinDispenserControllers.entrySet()) {
-	        final CoinDispenserController controller = entry.getValue();
-	        if(controller.shouldWarnEmpty()) {
-		        //TODO interact with attendant station UI
-	        	issueExists = true;
-	        }
-	        if(controller.shouldWarnFull()) {
-	        	//TODO interact with attendant station UI
-	        	issueExists = true;
-	        }
-	    }
-	    return issueExists;
+		for (Entry<BigDecimal, BanknoteDispenserController> entry : this.banknoteDispenserControllers.entrySet()) {
+			final BanknoteDispenserController controller = entry.getValue();
+			if(controller.shouldWarnEmpty()) {
+				attendantStationGUI.logic.setCircleColorRed('B');
+				issueExists = true;
+			}
+			if(controller.shouldWarnFull()) {
+				attendantStationGUI.logic.setCircleColorGreen('B');
+				issueExists = true;
+			}
+		}
+
+		//Coin dispenser checks
+		for (Entry<BigDecimal, CoinDispenserController> entry : this.coinDispenserControllers.entrySet()) {
+			final CoinDispenserController controller = entry.getValue();
+			if(controller.shouldWarnEmpty()) {
+				attendantStationGUI.logic.setCircleColorRed('C');
+				issueExists = true;
+			}
+			if(controller.shouldWarnFull()) {
+				attendantStationGUI.logic.setCircleColorGreen('C');
+				issueExists = true;
+			}
+			else {
+				attendantStationGUI.logic.setCircleColorYellow('I');
+				attendantStationGUI.logic.setCircleColorYellow('P');
+				attendantStationGUI.logic.setCircleColorYellow('S');
+				attendantStationGUI.logic.setCircleColorYellow('C');
+				attendantStationGUI.logic.setCircleColorYellow('H');
+				attendantStationGUI.logic.setCircleColorYellow('B');
+			}
+		}
+		return issueExists;
 	}
 	
 	/**Toggles checking of issuePrediction, allowing legacy test cases to perform
@@ -446,18 +513,15 @@ public class CentralStationLogic {
 	public void setGUI(MainGUI g) {
 		mainGUI = g;
 	}
-
 	public MainGUI getMainGUI() {
 		return mainGUI;
 	}
-
 	/**
 	 * @return the maximumBagMass
 	 */
 	public BigDecimal getMaximumBagMass() {
 		return maximumBagMass;
 	}
-
 	/**
 	 * @param maximumBagMass the maximumBagMass to set
 	 */

@@ -1,7 +1,6 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
-
 import com.jjjwelectronics.Item;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
@@ -45,14 +44,16 @@ import java.util.Map;
  */
 
 public class AttendantStationGUI {
-	CentralStationLogic logic;
-	MainGUI mainGUI;
-	JPanel mainPanel;
+	//public CentralStationLogic logic;
+	public MainGUI mainGUI;
+	public JPanel mainPanel;
     private String[] data;
     private DefaultListModel searchList = new DefaultListModel();
 
     private static JComboBox<StationObject> comboBox;
-
+    public CentralStationLogic logic;
+    
+    
     // Fake class to represent Station objects
     class StationObject {
         private int stationNumber;
@@ -103,6 +104,7 @@ public class AttendantStationGUI {
             setCircleColor(label, Color.GREEN);
         }
 
+     
         @Override
         public String toString() {
             return "Station #" + stationNumber;
@@ -140,13 +142,6 @@ public class AttendantStationGUI {
         SwingUtilities.invokeLater(() -> comboBox.repaint());
     }
     
-    private void solveWeightDiscrepancy() {
-        // Add your logic to solve the weight discrepancy for the given station
-        // You can access the station object and perform necessary actions
-        // For demonstration purposes, print a message
-        //System.out.println("Solving weight discrepancy for Station #" + station.getStationNumber());
-    }
-
     private void createFrame(StationObject[] stationObjects) {
 
         JFrame frame = new JFrame("Attendant Station");
@@ -205,7 +200,7 @@ public class AttendantStationGUI {
                 "Maintain Ink",
                 "Maintain Paper",
                 "Maintain Coins",
-                "Maintain Banknotes"
+                "Maintain Banknotes"						
         };
 
         // Set fixed size for all buttons
@@ -645,6 +640,12 @@ public class AttendantStationGUI {
         textSearchWindow.setVisible(true);
     }
 
+    private static void solveWeightDiscrepancy() {
+        // Add your logic to solve the weight discrepancy for the given station
+        // You can access the station object and perform necessary actions
+        // For demonstration purposes, print a message
+        //System.out.println("Solving weight discrepancy for Station #" + station.getStationNumber());
+    }
 
     // Method to handle button click events
     private void handleButtonClick(String buttonLabel, JFrame frame) {
@@ -667,7 +668,6 @@ public class AttendantStationGUI {
 
             createMaintainPaperWindow(frame);
         }
-
     }
 
     // Method to handle entered quantities for coins or banknotes
