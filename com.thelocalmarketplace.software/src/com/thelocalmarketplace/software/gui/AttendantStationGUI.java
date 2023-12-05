@@ -1,16 +1,12 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
-
-<<<<<<< HEAD
-=======
 import com.jjjwelectronics.Item;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.PLUCodedItem;
 import com.thelocalmarketplace.hardware.PLUCodedProduct;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
->>>>>>> 563eb0024882a2cfc1b738eb142f4e63621bd2ec
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 
 import java.awt.*;
@@ -48,9 +44,9 @@ import java.util.Map;
  */
 
 public class AttendantStationGUI {
-	CentralStationLogic logic;
-	MainGUI mainGUI;
-	JPanel mainPanel;
+	//public CentralStationLogic logic;
+	public MainGUI mainGUI;
+	public JPanel mainPanel;
     private String[] data;
     private DefaultListModel searchList = new DefaultListModel();
 
@@ -146,13 +142,6 @@ public class AttendantStationGUI {
         SwingUtilities.invokeLater(() -> comboBox.repaint());
     }
     
-    private void solveWeightDiscrepancy() {
-        // Add your logic to solve the weight discrepancy for the given station
-        // You can access the station object and perform necessary actions
-        // For demonstration purposes, print a message
-        //System.out.println("Solving weight discrepancy for Station #" + station.getStationNumber());
-    }
-
     private void createFrame(StationObject[] stationObjects) {
 
         JFrame frame = new JFrame("Attendant Station");
@@ -650,17 +639,14 @@ public class AttendantStationGUI {
 
         textSearchWindow.setVisible(true);
     }
-<<<<<<< HEAD
+
     private static void solveWeightDiscrepancy() {
         // Add your logic to solve the weight discrepancy for the given station
         // You can access the station object and perform necessary actions
         // For demonstration purposes, print a message
         //System.out.println("Solving weight discrepancy for Station #" + station.getStationNumber());
     }
-=======
 
-
->>>>>>> 563eb0024882a2cfc1b738eb142f4e63621bd2ec
     // Method to handle button click events
     private void handleButtonClick(String buttonLabel, JFrame frame) {
 
