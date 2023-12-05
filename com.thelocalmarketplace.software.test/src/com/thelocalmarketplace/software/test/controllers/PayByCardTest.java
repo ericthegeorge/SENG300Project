@@ -23,6 +23,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /** 
  * Added for personal testing, can be modified or deleted by testing team
@@ -71,17 +72,16 @@ public class PayByCardTest {
 
         AbstractSelfCheckoutStation.resetConfigurationToDefaults();
 
-        station=new SelfCheckoutStationGold();
+        station = new SelfCheckoutStationGold();
         station.plugIn(PowerGrid.instance());
         station.turnOn();
-
 
         session = new CentralStationLogic(station);
         session.setBypassIssuePrediction(true);
         session.startSession();
 
         //set up bank details
-        CardIssuer bank= new CardIssuer("Scotia Bank",3);
+        CardIssuer bank= new CardIssuer("Scotia Bank",10);
         session.setupBankDetails(bank);
         this.debit = new Card("DEBIT", "123456789", "John", "329", "1234", true, true);
         Calendar expiry = Calendar.getInstance();
@@ -97,7 +97,16 @@ public class PayByCardTest {
 
         this.session.selectPaymentMethod(PaymentMethods.DEBIT);
     }
-
+  
+    @Test
+    public void testTapTransaction() throws IOException {
+        session.cartLogic.updateBalance(BigDecimal.valueOf(10.00));
+        session.hardware.getCardReader().enable();
+        session.stateLogic.gotoState(States.CHECKOUT);
+        session.hardware.getCardReader().tap(this.debit);
+        
+        assertEquals(BigDecimal.valueOf(0.0),session.cartLogic.getBalanceOwed());
+    }
 
 	@Test
 	public void testInsertTransaction() throws IOException {
