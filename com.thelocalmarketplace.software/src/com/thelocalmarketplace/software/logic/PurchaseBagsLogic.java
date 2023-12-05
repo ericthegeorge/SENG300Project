@@ -59,23 +59,17 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 		super(logic);
 	}
 	
-	public void startPurchaseBags() {
+	public void startPurchaseBags(int numberOfBags) {
 		//TODO GUI: please place bags on scale and asks how many bags does the user need. 
 		if (!logic.isSessionStarted()) throw new InvalidStateSimulationException("Session has not started");
 		
 		this.logic.stateLogic.gotoState(States.ADDBAGS);
-		Scanner scanner = new Scanner(System.in);
-		
-		//TODO in GUI 
-	    System.out.println("Enter the number of bags you need: ");
-	        
-        numberOfBags = scanner.nextInt();
-        scanner.close();
-        bagInstance = new ReusableBag();
-//        ReusableBag bagInstance = new ReusableBagDispenserBronze(numberOfBags);
-        //Adding the number of bags to the cart
-        for (int i = 0;i<numberOfBags;i++ )
-        	logic.cartLogic.addProductToCart(bagInstance);
+        	this.numberOfBags = numberOfBags;
+        	bagInstance = new ReusableBag();
+		//ReusableBag bagInstance = new ReusableBagDispenserBronze(numberOfBags);
+		//Adding the number of bags to the cart
+        	for (int i = 0;i<numberOfBags;i++ )
+        		logic.cartLogic.addProductToCart(bagInstance);
         //TODO in GUI 
 		System.out.println("Bag added to order please place bags on the scale");
 	}
