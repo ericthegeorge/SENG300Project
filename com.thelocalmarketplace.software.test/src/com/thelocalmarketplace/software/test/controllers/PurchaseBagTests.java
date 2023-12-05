@@ -94,6 +94,7 @@ public class PurchaseBagTests {
 		
 		assertTrue(session.stateLogic.getState().equals(States.NORMAL));
 		assertTrue(session.cartLogic.getCart().size() == 4);
+		assertEquals(new Mass(BigInteger.valueOf(20_000_000)), session.weightLogic.getTotalBagMass());
 
 	}
 	
