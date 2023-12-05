@@ -48,6 +48,7 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 //	public String bagDescription = "Reusable bags for purchase";
 //	public long price = 1;
 	public int numberOfBags;
+	public Mass totalBagMass= new Mass(0);
 	// sample barcode for bags
 //	Numeral[] barcodeDigits = {Numeral.one, Numeral.two, Numeral.three, Numeral.four};
 //	Barcode bagBarcode = new Barcode(barcodeDigits);
@@ -64,7 +65,7 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 
 	public void purchaseBags(int bagsToPurchase) throws EmptyDevice {
 		if (!logic.isSessionStarted()) throw new InvalidStateSimulationException("Session has not started");
-
+		numberOfBags = bagsToPurchase;
         for (int i = 0; i < bagsToPurchase; i++) {
             bagInstance = new ReusableBag();
         	logic.cartLogic.addProductToCart(bagInstance);
@@ -86,9 +87,11 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 		if (!logic.isSessionStarted()) throw new InvalidStateSimulationException("Session has not started");
 		if (!logic.stateLogic.inState(States.ADDBAGS)) throw new InvalidStateSimulationException("Cannot end ADDBAGS state when not in ADDBAGS state");
 		
-		Mass totalBagMass= new Mass(0);  
 		for (int i = 0;i<numberOfBags;i++ )
-			totalBagMass.sum(bagInstance.getMass());
+			totalBagMass = totalBagMass.sum(bagInstance.getMass());
+		
+		System.out.print(totalBagMass);
+		
 		
 		logic.weightLogic.updateTotalBagMass(totalBagMass);
 		if (logic.weightLogic.getTotalBagMass().compareTo(totalBagMass) <= 0 || this.approvedBagging) {
