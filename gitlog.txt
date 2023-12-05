@@ -1,3 +1,54 @@
+commit 33e552a529b48aa98681d58eb95e8d7aa42fca84
+Merge: 40f7cec b0592ef
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 23:27:42 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit 40f7cec035a65448e8d40db56d06665cddebac2d
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 23:27:36 2023 -0700
+
+    danny's oustanding changes
+
+commit b0592ef8b9e66c11f37f54f02c8f1d9d3dc529c7
+Merge: a3c0dc1 c670941
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 23:24:05 2023 -0700
+
+    Merge pull request #47 from Jamieren/shanzatestingSignalAttendant
+    
+    Shanzatesting signal attendant
+
+commit a3c0dc154f466b52cd4d3a8b83893dad2ccb3086
+Merge: ba655b6 b118724
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 23:11:22 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/
+    into main
+    
+    Conflicts:
+            com.thelocalmarketplace.software.test/src/com/thelocalmarketplace/software/test/logic/HeavyBagsTest.java
+
+commit ba655b6430d62b051fc7ed1c4b2c4c510f32a247
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 23:09:21 2023 -0700
+
+    fixed the rest
+
+commit b118724c9cc8b28c68866e1b9a3527c7afd01bb6
+Author: atique <atique@atiques-air-2.ucalgary.ca>
+Date:   Mon Dec 4 23:04:15 2023 -0700
+
+    Added testNotifyAttendant
+
+commit 42b35caf95d6191942727396e98942eec5b509a0
+Author: atique <atique@atiques-air-2.ucalgary.ca>
+Date:   Mon Dec 4 22:38:20 2023 -0700
+
+    Initial Commit
+
 commit be180c4b560cdda928e6f911974624830741d206
 Author: Atique6 <muhammadatique3@gmail.com>
 Date:   Mon Dec 4 22:31:47 2023 -0700
@@ -1047,6 +1098,12 @@ Date:   Sun Dec 3 20:38:10 2023 -0700
 
     connected backend to add by PLU, visual catalogue, attendant search
 
+commit c670941da7ffb2fe80cb90123ff67582532b6e0c
+Author: razashanza <shanzaraza0@gmail.com>
+Date:   Sun Dec 3 16:45:15 2023 -0700
+
+    shanza-select language tests added
+
 commit 2817b19f542b6da75d31c7ba138fae587a180f4a
 Merge: 3968e93 37f0821
 Author: alanyongy <nosforever12@gmail.com>
@@ -1278,6 +1335,12 @@ Author: alanyongy <nosforever12@gmail.com>
 Date:   Sat Dec 2 23:35:19 2023 -0700
 
     started on back-front connect, fixed various things
+
+commit 86c535873d76091cd875c9971b3c649531df9e98
+Author: razashanza <shanzaraza0@gmail.com>
+Date:   Sat Dec 2 22:05:02 2023 -0700
+
+    shanza signalattendantlogic tests
 
 commit c19e2104e4b10a92032814c6ca63c0f7a5564707
 Merge: fcc7aad 1dc4b6b

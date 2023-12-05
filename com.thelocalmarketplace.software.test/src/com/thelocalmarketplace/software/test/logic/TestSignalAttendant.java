@@ -4,6 +4,7 @@ package com.thelocalmarketplace.software.test.logic;
 
 import com.thelocalmarketplace.hardware.AttendantStation;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
+import com.thelocalmarketplace.software.gui.MainGUI;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 import com.thelocalmarketplace.software.logic.SignalAttendantLogic;
 
@@ -15,13 +16,15 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 import static org.junit.Assert.assertTrue;
 
+import org.junit.Before;
+
 public class TestSignalAttendant {
 	
 	@Test
 	public void testGetAssistance() {
 	SelfCheckoutStationBronze scsb = new SelfCheckoutStationBronze();
 	CentralStationLogic csl = new CentralStationLogic(scsb); 
-	SignalAttendantLogic sat = new SignalAttendantLogic(csl);    
+	SignalAttendantLogic sat = new SignalAttendantLogic(csl);  
 	sat.getAssistance(scsb);
 	assertTrue(sat.isHelpNeeded());
 } 
