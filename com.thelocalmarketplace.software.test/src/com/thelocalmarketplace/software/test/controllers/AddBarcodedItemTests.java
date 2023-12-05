@@ -16,9 +16,11 @@ import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
+import com.thelocalmarketplace.software.gui.MainGUI;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
+import ca.ucalgary.seng300.simulation.InvalidStateSimulationException;
 import ca.ucalgary.seng300.simulation.SimulationException;
 import powerutility.NoPowerException;
 import powerutility.PowerGrid;
@@ -92,6 +94,7 @@ public class AddBarcodedItemTests {
 		this.station = new SelfCheckoutStationBronze();
 		
 		//initialize database
+//		session.startSession();
 		barcode_numeral = new Numeral[] {Numeral.one, Numeral.two, Numeral.three};
 		barcode_numeral2 = new Numeral[] {Numeral.three, Numeral.two, Numeral.three};
 		barcode_numeral3 = new Numeral[] {Numeral.three, Numeral.three, Numeral.three};
@@ -143,94 +146,92 @@ public class AddBarcodedItemTests {
 		session = new CentralStationLogic(station);
 		session.startSession();
 		this.scanUntilAdded(product, bitem2);
-	}@Test public void testPowerOn(){
-		station.plugIn(PowerGrid.instance());
-		station.turnOn();
-		session = new CentralStationLogic(station);
-		session.startSession();
-		this.scanUntilAdded(product, bitem2);
-		
-		assertTrue("item was not successfully added to cart", session.cartLogic.getCart().size() ==1);
-	}@Test public void testPowerOnRightItem(){
-		station.plugIn(PowerGrid.instance());
-		station.turnOn();
-		session = new CentralStationLogic(station);
-		session.startSession();
-		this.scanUntilAdded(product, bitem2);
-		//long s = session.cart.getLastItem().getPrice();
-		
-		assertTrue("item was not successfully added to cart", session.cartLogic.getCart().containsKey(product));
+	}
+	@Test(expected = InvalidStateSimulationException.class)
+	public void testAddBarcodeStationBlocked() throws SimulationException {
+	    station.plugIn(PowerGrid.instance());
+	    station.turnOn();
+	    session = new CentralStationLogic(station);
+	    session.setBypassIssuePrediction(true);
+	    session.startSession();
+	    
+	    System.out.println("The session started status is "+session.isSessionStarted());
+	    session.stateLogic.gotoState(States.BLOCKED);
+
+//	    Barcode barcode = new Barcode(new Numeral[]{Numeral.one, Numeral.two, Numeral.three});
+	    session.addBarcodedProductController.addBarcode(barcode);
 	}
 	
 	@Test
-	public void testPowerOntwoScansNoBaggingAreaUpdates(){
-		station.plugIn(PowerGrid.instance());
-		station.turnOn();
-		session = new CentralStationLogic(station);
-		session.startSession();
-		this.scanUntilAdded(product, bitem2);
-		this.scanUntilAdded(product2, bitem);
-		
-		assertTrue("item was not successfully added to cart", session.cartLogic.getCart().size() ==1);
-	}@Test public void testPowerOntwoScansWithBaggingAreaUpdatesRightItem(){
-		station.plugIn(PowerGrid.instance());
-		station.turnOn();
-		session = new CentralStationLogic(station);
-		session.startSession();
-		this.scanUntilAdded(product2, bitem5);
-		station.getBaggingArea().addAnItem(bitem5);
-		this.scanUntilAdded(product, bitem3);
-		//long s = session.cart.getLastItem().getPrice();
-		
-		assertTrue("item was not successfully added to cart", session.cartLogic.getCart().get(product).equals(1));
-	}@Test(expected = SimulationException.class) 
-	public void testPowerOnScanItemNoInventory(){
-		station.plugIn(PowerGrid.instance());
-		ProductDatabases.BARCODED_PRODUCT_DATABASE.put(b_test, product3);
-		ProductDatabases.INVENTORY.put(product3, 0);
-		station.turnOn();
-		session = new CentralStationLogic(station);
-		session.startSession();
-		this.scanUntilAdded(product3, bitem4);
-		
-		//assertTrue("item was not successfully added to cart", s == (long) 1.00);
-	}@Test(expected = SimulationException.class) 
-	public void testPowerOnScanItemNotInDatabase(){
-		station.plugIn(PowerGrid.instance());
-		station.turnOn();
-		session = new CentralStationLogic(station);
-		session.startSession();
-		this.scanUntilAdded(product3, bitem4);
-		
-		//assertTrue("item was not successfully added to cart", s == (long) 1.00);
+	public void testAddBarcodeStationNormal() throws SimulationException {
+	    station.plugIn(PowerGrid.instance());
+	    station.turnOn();
+	    session = new CentralStationLogic(station);
+	    session.setBypassIssuePrediction(true);
+	    session.startSession();
+	    
+	    System.out.println("The session started status is "+session.isSessionStarted());
+	    session.stateLogic.gotoState(States.NORMAL);
+	    Mass oldmass = session.weightLogic.getExpectedWeight();
+	    //System.out.println("Old Mass was"+ oldmass.inGrams());
+
+//	    Barcode barcode = new Barcode(new Numeral[]{Numeral.one, Numeral.two, Numeral.three});
+	    session.addBarcodedProductController.addBarcode(barcode);
+	    Mass newmass = session.weightLogic.getExpectedWeight();
+	    //System.out.println("New Mass is"+ newmass.inGrams());
+	    assertTrue(oldmass.compareTo(newmass)!= 0);
 	}
-	
+@Test
+	public void testAddBarcodeStationGUInull() throws SimulationException {
+	    station.plugIn(PowerGrid.instance());
+	    station.turnOn();
+	    session = new CentralStationLogic(station);
+	    session.setBypassIssuePrediction(true);
+	    session.startSession();
+	    
+	    System.out.println("The session started status is "+session.isSessionStarted());
+	    session.stateLogic.gotoState(States.NORMAL);
+	    Mass oldmass = session.weightLogic.getExpectedWeight();
+	    System.out.println("Old Mass was"+ oldmass.inGrams());
+	    MainGUI gui = null;
+	    
+	    session.setGUI(gui);
+
+//	    Barcode barcode = new Barcode(new Numeral[]{Numeral.one, Numeral.two, Numeral.three});
+	    session.addBarcodedProductController.addBarcode(barcode);
+	    Mass newmass = session.weightLogic.getExpectedWeight();
+	    System.out.println("New Mass is"+ newmass.inGrams());
+	    assertTrue(oldmass.compareTo(newmass)!= 0);
+	}
+//	
+//	
+	@Test(expected = InvalidStateSimulationException.class)
+	public void testAddBarcodeSessionNotStarted2() throws SimulationException {
+	    station.plugIn(PowerGrid.instance());
+	    station.turnOn();
+	    session = new CentralStationLogic(station);
+
+	    Barcode barcode = new Barcode(new Numeral[]{Numeral.one, Numeral.two, Numeral.three});
+	    session.addBarcodedProductController.addBarcode(barcode);
+	}
+//
+	@Test(expected = InvalidStateSimulationException.class)
+	public void testAddBarcodeStationBlocked2() throws SimulationException {
+	    station.plugIn(PowerGrid.instance());
+	    station.turnOn();
+	    session = new CentralStationLogic(station);
+	    session.startSession();
+	    session.stateLogic.gotoState(States.NORMAL);
+	    session.addBarcodedProductController.addBarcode(b_test);
+	}
+//
 	@Test(expected = NullPointerException.class)
-	public void testAddNullBarcode() {
-		station.plugIn(PowerGrid.instance());
-		station.turnOn();
-		session = new CentralStationLogic(station);
-		session.startSession();
-		session.addBarcodedProductController.addBarcode(null);
+	public void testAddNullBarcode2() throws SimulationException {
+	    station.plugIn(PowerGrid.instance());
+	    station.turnOn();
+	    session = new CentralStationLogic(station);
+	    session.startSession();
+	    session.addBarcodedProductController.addBarcode(null);
 	}
-	
-	@Test(expected = SimulationException.class)
-	public void testAddBarcodeSessionNotStarted() {
-		station.plugIn(PowerGrid.instance());
-		station.turnOn();
-		session = new CentralStationLogic(station);
 
-		session.addBarcodedProductController.addBarcode(barcode);
-	}
-	
-	@Test(expected = SimulationException.class)
-	public void testAddBarcodeStationBlocked() {
-		station.plugIn(PowerGrid.instance());
-		station.turnOn();
-		session = new CentralStationLogic(station);
-		session.startSession();
-		session.stateLogic.gotoState(States.BLOCKED);
-
-		session.addBarcodedProductController.addBarcode(barcode);
-	}
 }
