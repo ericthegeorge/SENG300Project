@@ -1,6 +1,7 @@
 package com.thelocalmarketplace.software.logic;
 import java.util.Scanner;
 
+import com.jjjwelectronics.EmptyDevice;
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
 import com.jjjwelectronics.bag.ReusableBag;
@@ -61,15 +62,17 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 	}
 	
 
-	public void purchaseBags(int bagsToPurchase) {
+	public void purchaseBags(int bagsToPurchase) throws EmptyDevice {
 		if (!logic.isSessionStarted()) throw new InvalidStateSimulationException("Session has not started");
-		
-		this.logic.stateLogic.gotoState(States.ADDBAGS);
-
 
         for (int i = 0; i < bagsToPurchase; i++) {
             bagInstance = new ReusableBag();
         	logic.cartLogic.addProductToCart(bagInstance);
+        	try {
+				logic.hardware.getReusableBagDispenser().dispense();
+			} catch (EmptyDevice e) {
+				throw new EmptyDevice("test");
+			}
         }
 	}
 	
