@@ -1,29 +1,5 @@
-package com.thelocalmarketplace.software.test.logic;
 
-/**
- * @author Alan Yong (30105707)
- * @author Andrew Matti (30182547)
- * @author Olivia Crosby (30099224)
- * @author Rico Manalastas (30164386)
- * @author Shanza Raza (30192765)
- * @author Danny Ly (30127144)
- * @author Maheen Nizmani (30172615)
- * @author Christopher Lo (30113400)
- * @author Michael Svoboda (30039040)
- * @author Sukhnaaz Sidhu (30161587)
- * @author Ian Beler (30174903)
- * @author Gareth Jenkins (30102127)
- * @author Jahnissi Nwakanma (30174827)
- * @author Camila Hernandez (30134911)
- * @author Ananya Jain (30196069)
- * @author Zhenhui Ren (30139966)
- * @author Eric George (30173268)
- * @author Jenny Dang (30153821)
- * @author Tanmay Mishra (30127407)
- * @author Adrian Brisebois (30170764)
- * @author Atique Muhammad (30038650)
- * @author Ryan Korsrud (30173204)
- */
+package com.thelocalmarketplace.software.test.logic;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
@@ -44,6 +20,7 @@ import com.thelocalmarketplace.hardware.BarcodedProduct;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
+import com.thelocalmarketplace.software.logic.AttendantLogic;
 import com.thelocalmarketplace.software.logic.CentralStationLogic;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
@@ -218,7 +195,36 @@ public class HeavyBagsTest {
 		
 		assertTrue(this.session.stateLogic.inState(States.BLOCKED));
 	}
+	
+	@Test
+	public void testNotifyAttendant() {
+		AttendantLogicStub attendantLogic = new AttendantLogicStub(session);
+		session.attendantLogic = attendantLogic;
+			
+		Mass sensitivity = station.getBaggingArea().getSensitivityLimit();
+		Mass currentItemMass = sensitivity.sum(itemMass5);
+		
+		BarcodedItem currentItem= new BarcodedItem(barcode, currentItemMass);
+		
+		this.putTestBarcodedItemInCart(currentItem);
+		station.getBaggingArea().addAnItem(currentItem);
+		
+		session.weightLogic.skipBaggingRequest(currentItem.getBarcode());
+		assertTrue(attendantLogic.requestApprovalCalled);
+		
+	}
+	
+	//the following stub was taken from HandleBulkyItemTests
+	public class AttendantLogicStub extends AttendantLogic {
+		public boolean requestApprovalCalled = false;
+		
+		public AttendantLogicStub(CentralStationLogic l) {super(l);}
+		@Override 
+		public void requestApprovalSkipBagging(Barcode barcode) {
+			requestApprovalCalled = true;
+		}
+		
+	}
 
-	
-	
+
 }

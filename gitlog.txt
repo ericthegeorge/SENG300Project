@@ -1,0 +1,2625 @@
+commit be180c4b560cdda928e6f911974624830741d206
+Author: Atique6 <muhammadatique3@gmail.com>
+Date:   Mon Dec 4 22:31:47 2023 -0700
+
+    Add files via upload
+    
+    Initial Commit
+
+commit 7fcc20247a3fc37e1fca046b18f35a0ccd8bae21
+Merge: 09a03b7 567f86a
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 21:51:44 2023 -0700
+
+    Merge pull request #46 from Jamieren/Danny_Purchase_Bag_Test_V2
+    
+    fixed the logic for the weight of the bags in the PUrchaseBagsLogic
+
+commit 567f86a9f5f731e424a784982e91bed2ecc23532
+Author: Danny Ly <danny.ly1@ucalgary.ca>
+Date:   Mon Dec 4 21:50:44 2023 -0700
+
+    fixed the logic for the weight of the bags in the PUrchaseBagsLogic
+
+commit 09a03b76a3e0a5be025bf282c04c835fa3a96cf3
+Merge: 2ff74d6 122921f
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 21:46:07 2023 -0700
+
+    Merge pull request #45 from Jamieren/Danny_Purchase_Bag_Test_V2
+    
+    Danny purchase bag test v2
+
+commit 122921f1231f6ba0154aafd375cf6495e0e74b6a
+Author: Danny Ly <danny.ly1@ucalgary.ca>
+Date:   Mon Dec 4 21:33:59 2023 -0700
+
+    more test cases added, there seems to be a problem in logic of purchase?
+
+commit 2ff74d654d4eb431283f5228e34070a6493a4d5b
+Merge: e1cdc09 ddec905
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 21:21:53 2023 -0700
+
+    Merge pull request #44 from Jamieren/work_on_card_tests
+    
+    fixed test
+
+commit ddec9051e1f176b670bb42e657f2e2cb6a0d16a2
+Merge: 492b426 e1cdc09
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 21:21:42 2023 -0700
+
+    Merge branch 'main' into work_on_card_tests
+
+commit e1cdc09a3391544d602f11f2257975b18fa3c99a
+Merge: 8b850fd 3adcd7c
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 21:16:46 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit 8b850fd3bb078dc792e5da4898f6c030b96e4c62
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 21:16:40 2023 -0700
+
+    improved coverage, added missing names
+
+commit 3adcd7c96a8737b979c7639ab88e39a83d6d77c8
+Merge: 144d3a1 579bc63
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Mon Dec 4 21:06:18 2023 -0700
+
+    Merge pull request #43 from Jamieren/cart-logic-tests
+    
+    update
+
+commit 492b42639d98719fa28a145a6c7906eed97a335d
+Author: Eric George <erickurian@gmail.com>
+Date:   Mon Dec 4 21:05:54 2023 -0700
+
+    fixed test
+
+commit 579bc63496b1e0d0de49db6f1c8aaecbacfa41c3
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Mon Dec 4 21:05:01 2023 -0700
+
+    update
+
+commit 144d3a1b684cdc31865141e4f5559418a1fa2660
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 20:34:45 2023 -0700
+
+    fixed test cases
+
+commit 77e90d7c35d8b8e1c536b0789a60795fbe32249a
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 20:30:17 2023 -0700
+
+    fixed receipt printing for test cases
+
+commit 0ef86d399fc150e29b7295b3c9e8e45127a71f16
+Merge: e5ae6bc c5f3d5b
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Mon Dec 4 20:19:46 2023 -0700
+
+    Merge pull request #42 from Jamieren/remove-plu-item-tests
+    
+    remove plu item tests done
+
+commit c5f3d5b26b6b18cb53c06576eca253cedff2023f
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Mon Dec 4 20:14:43 2023 -0700
+
+    remove plu item tests done
+
+commit e5ae6bc314645d2ae21da14dc8159d79d8b9124b
+Merge: 81c3b04 f756f49
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 20:10:37 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit 81c3b040e249cb7b84e80ee3346696abc1c74402
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 20:10:32 2023 -0700
+
+    finalized project state
+
+commit f756f490b5387111384fbcd5848b12cce1dc6d68
+Merge: a8522aa 6753234
+Author: Eric George <80136343+ericthegeorge@users.noreply.github.com>
+Date:   Mon Dec 4 20:10:15 2023 -0700
+
+    Merge pull request #41 from Jamieren/eric_receipt
+    
+    add proper receipt printing
+
+commit 57d86bdc70a6a32062f8146c026808393ce83d25
+Author: Danny Ly <danny.ly1@ucalgary.ca>
+Date:   Mon Dec 4 20:08:57 2023 -0700
+
+    added test cases to purchaseBagTest test suite
+
+commit 67532341aa7438493514583ab64a4f7c1b429412
+Author: Eric George <erickurian@gmail.com>
+Date:   Mon Dec 4 20:07:15 2023 -0700
+
+    add proper receipt printing
+
+commit a8522aadbeb74c3551d1c4209e9e7367c89cbfd3
+Author: tanmayMishra17 <119141252+tanmayMishra17@users.noreply.github.com>
+Date:   Mon Dec 4 19:43:12 2023 -0700
+
+    Updated AddBarcodedItemTests.java with increased coverage
+
+commit 4929e04036265750f4748b3875444b0955947e1e
+Merge: 4725c2d 53711a6
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Mon Dec 4 19:17:52 2023 -0700
+
+    Merge pull request #40 from Jamieren/Jenko-receiptscreen
+    
+    Receipt Screen
+
+commit 53711a679b8e7448875594135776ab7070133461
+Merge: 285193f 4725c2d
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Mon Dec 4 19:17:04 2023 -0700
+
+    Merge branch 'main' into Jenko-receiptscreen
+
+commit 285193fde308297b17930ee04a8562c7aab6c5e0
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Mon Dec 4 19:16:49 2023 -0700
+
+    Added Receipt Window
+
+commit 4725c2d8d486bbc8fd02e725cc740972e13770ae
+Merge: 9b20fe7 90f4135
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 19:16:39 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/
+    into main
+    
+    Conflicts:
+            com.thelocalmarketplace.software/src/com/thelocalmarketplace/software/gui/AttendantStationGUI.java
+
+commit 9b20fe7f326de40238e3d8accc411cc44300d97d
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 19:12:03 2023 -0700
+
+    implemented regeneration of maingui after checkout
+
+commit 90f413547d68486e9a88967055528e5a54000161
+Merge: a33f680 a3db016
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 19:11:31 2023 -0700
+
+    Merge pull request #38 from Jamieren/Signal-Attendant
+    
+    Signal attendant
+
+commit a33f680b09493e3bd7045589b00c95010e329d9a
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 18:22:48 2023 -0700
+
+    finished implementing purchase bags
+
+commit a3db0163dc290c06501db93c5f17226dc5508d66
+Merge: 3a229e4 c058c9f
+Author: Back Office <backoffice@NHFA.local>
+Date:   Mon Dec 4 18:21:15 2023 -0700
+
+    attempt to fix conflicts
+
+commit 3a229e4a918ce4c58997355696325229c22a80fd
+Author: Back Office <backoffice@NHFA.local>
+Date:   Mon Dec 4 18:13:15 2023 -0700
+
+    fixed duplicate issues
+
+commit c058c9f84f8ffb05a215c8fc7cffb26fe69a6893
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 18:08:26 2023 -0700
+
+    finished implemented purchasebags
+
+commit 5957b6c0d63bb8bc9830493143aa62ca6cb55bb2
+Author: Back Office <backoffice@NHFA.local>
+Date:   Mon Dec 4 18:03:52 2023 -0700
+
+    removed halting line
+
+commit 11fb85f85101334d9449ce97394bb20483bf27b2
+Merge: 68cd128 563eb00
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 18:01:00 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/
+    into main
+    
+    Conflicts:
+            com.thelocalmarketplace.software/src/com/thelocalmarketplace/software/logic/PurchaseBagsLogic.java
+
+commit 68cd1289ff3b1bae2bc90c1bfcf9bdfcce1ec44c
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 18:00:08 2023 -0700
+
+    partial implemenetation of purchase bags
+
+commit 2d866da6e448dd62de63175b0b68b2858efa3ec8
+Merge: cdb9919 563eb00
+Author: Back Office <backoffice@NHFA.local>
+Date:   Mon Dec 4 17:57:59 2023 -0700
+
+    TODO done
+
+commit cdb99198ba5287fa1642def3e365e4fb7b03a2c7
+Author: Back Office <backoffice@NHFA.local>
+Date:   Mon Dec 4 17:56:06 2023 -0700
+
+    TODO Done
+
+commit 563eb0024882a2cfc1b738eb142f4e63621bd2ec
+Author: tanmayMishra17 <119141252+tanmayMishra17@users.noreply.github.com>
+Date:   Mon Dec 4 17:29:09 2023 -0700
+
+    Updated PurchaseBagsLogic.java removed scanner
+
+commit fa894681fdbf5e86ead8f98c6bfd12af106f935e
+Author: Back Office <backoffice@NHFA.local>
+Date:   Mon Dec 4 17:13:42 2023 -0700
+
+    todo in progress
+
+commit baa72534104b00ed4965c65ab98fce8da845f502
+Merge: 25bf544 e7386fd
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 16:52:47 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit 25bf544acd764254622bb7b13938e04d044f5f6e
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 16:52:43 2023 -0700
+
+    fixed bug with receipt total in gui
+
+commit e7386fdf362d6973d57e7dd8b1c49e786bf9c140
+Merge: 2adff51 483297c
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 16:52:09 2023 -0700
+
+    Merge pull request #37 from Jamieren/ananya_printer_branchpredict_testing
+    
+    suhknaaz's tests
+
+commit 483297c6c5558c6737e44e173a668cfc9102d525
+Merge: 956742f 2adff51
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 16:52:01 2023 -0700
+
+    Merge branch 'main' into ananya_printer_branchpredict_testing
+
+commit 2adff516540588c87109fc93045aa64629ad539e
+Merge: 452baa7 6fdeefc
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 16:48:52 2023 -0700
+
+    Merge pull request #36 from Jamieren/Author_updates
+    
+    Author updates
+
+commit 452baa70ab90c395f682889afb8526e82d4dd382
+Merge: e1fc8c2 77c3b18
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 16:23:20 2023 -0700
+
+    Merge pull request #35 from Jamieren/ryansbranch
+    
+    test cases
+
+commit 77c3b18fc59e1cade8e23d8f16456d89bdd03742
+Merge: 90a393a e1fc8c2
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 16:23:13 2023 -0700
+
+    Merge branch 'main' into ryansbranch
+
+commit e1fc8c20abcd02ae7025ffa371174720b680fe86
+Merge: fbdcd95 825fcd1
+Author: michael-svoboda <michael.svoboda1@ucalgary.ca>
+Date:   Mon Dec 4 16:08:53 2023 -0700
+
+    changes to AddItem page and Payment to update receipt GUI on payment screen
+
+commit fbdcd9579758e63d353a9e18e3150af9175251c1
+Author: michael-svoboda <michael.svoboda1@ucalgary.ca>
+Date:   Mon Dec 4 15:51:26 2023 -0700
+
+    Updated Payment Reciept
+
+commit 6fdeefcc73678be61a72bbb79deff1408d96b6cb
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:49:57 2023 -0700
+
+    Update UtilitiesTests.java
+
+commit 0e5aa80f0c650c47373fc83c8621923ba57c324b
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:49:35 2023 -0700
+
+    Update StateTransitionTests.java
+
+commit 2a7f0e923fd3e5c72e134f6dddb0a7f38774b767
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:48:58 2023 -0700
+
+    Update StateLogicTests.java
+
+commit fb59f0448fffcdb7ee052ed75704e4d1912d96fa
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:46:50 2023 -0700
+
+    Update AbstractStateTransitionListenerTests.java
+
+commit 8bdeafe947b69a88ef049c9b76e02eb195cf7de0
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:46:17 2023 -0700
+
+    Update RemoveItemTests.java
+
+commit 825fcd11b2cbd732183ae16fef29ffdb0e7b0f00
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 15:45:02 2023 -0700
+
+    removed duplicate listener
+
+commit 7e6437d579a6685c9e40afc3412b2bc49a7f4760
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:43:46 2023 -0700
+
+    Update MembershipTests.java
+
+commit 49afed924623a4131733325db4803df3faf81e1b
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:42:55 2023 -0700
+
+    Update HeavyBagsTest.java
+
+commit a6d45b9b1e85a025ecdfea0f4ec0e96822afb318
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:42:33 2023 -0700
+
+    Update CurrencyLogicTest.java
+
+commit 4fc2aa1a19ad07271b390ebb516b21c255a63c9f
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:42:09 2023 -0700
+
+    Update CentralStationLogicTest.java
+
+commit 9500b6dc4838860cc7ce016c295ffbde25bc3675
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:41:33 2023 -0700
+
+    Update CartLogicTests.java
+
+commit b7b409d7537d49f7ea66b333b2ca7a4b219ba717
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 15:41:07 2023 -0700
+
+    fixed barcode item removal, added checks to gui calls for test cases
+
+commit 9ccbca164b1c5bb326d2673d79d98d67f2dfcddd
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:40:56 2023 -0700
+
+    Update WeightDiscrepencyTests.java
+
+commit 10b1e4e1343c4635fcc71d862575628520228c92
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:40:27 2023 -0700
+
+    Update ReceiptPrintingTests.java
+
+commit 907ecd2d61543ec70a3e92dc6b13d2302663ce7b
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:39:14 2023 -0700
+
+    Update PayBySwipeTests.java
+
+commit adbe3401dbb65040b77901d4db0746a4081e834e
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:38:40 2023 -0700
+
+    Update PayByCoinTests.java
+
+commit 27b7ffc1ec99a64e9de0b945681251b45e067c30
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:35:03 2023 -0700
+
+    Update PayByCashTests.java
+
+commit cf3c8ec3c6e5257eb7c4a1ba510381fd23f1c38e
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:33:22 2023 -0700
+
+    Update PayByCardTest.java
+
+commit 719e13b1193b022e4711263e58b7d5f41be173d8
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:32:13 2023 -0700
+
+    Update ICoinDispenserStub.java
+
+commit b4d756f8ad008654a4c98af5c34b6c4d1dd00c27
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:31:31 2023 -0700
+
+    Update IBanknoteDispenserStub.java
+
+commit ed906c33f6d8c14d6c3b3f689d25361eb8d1435f
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:31:04 2023 -0700
+
+    Update HandleBulkyItemTests.java
+
+commit 6dfe671044dbe6412fb381f7cac1a170dd95ebe8
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:30:04 2023 -0700
+
+    Update CoinDispenserControllerTest.java
+
+commit d00c06cdd0cde33d7e951665a95e696481739a2a
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:28:40 2023 -0700
+
+    Update BanknoteDispenserControllerTest.java
+
+commit 1c29e23ba41c747a21cc71836458346c601477af
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:27:30 2023 -0700
+
+    Update AddOwnBagsTests.java
+
+commit d7f61c2686349e68289509f41847304b4b0d3299
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:26:40 2023 -0700
+
+    Update AddBarcodedItemTests.java
+
+commit 9c01827c07de7e7e96ea5bbd06161675d90a282f
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:25:43 2023 -0700
+
+    Update Utilities.java
+
+commit ed53d2505557b6aca54e22152e0671c41a76edec
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:25:18 2023 -0700
+
+    Update StateTransition.java
+
+commit 722fb65865629dc3dac0cc1b2e80f082808c720c
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:24:25 2023 -0700
+
+    Update AbstractStateTransitionListener.java
+
+commit 2f0df169598e8ec8b00c9435358e41402d8f5c97
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:24:05 2023 -0700
+
+    Update AbstractLogicDependant.java
+
+commit 901f70b896a132acbf587d7a04dff610646e928f
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 15:22:55 2023 -0700
+
+    Update WeightLogic.java
+
+commit e45c0001e7ed46398eaa5d0075502366e7b2eebd
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 14:25:52 2023 -0700
+
+    Update StateLogic.java
+
+commit 2696f170968abe2e6af15bf5960806a7ed646ba6
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 14:22:45 2023 -0700
+
+    remerged ian's remove item tests
+
+commit d2dd6903555402fa6dafc5917382581104419729
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 14:22:09 2023 -0700
+
+    Update SignalAttendantLogic.java
+
+commit edf30457a5891355c18d90bbf2aa32584d815838
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 14:21:21 2023 -0700
+
+    Update SelectLanguageLogic.java
+
+commit e1e41dc9f2425d9ec1e06f10c7def6e80576866e
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 14:09:23 2023 -0700
+
+    reimplemented fix for removing plu
+
+commit a467b45294e09a7ad59cc55d77f25a9a2a766cae
+Merge: e9fc28b c6d7232
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 14:06:37 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/
+    into main
+    
+    Conflicts:
+            com.thelocalmarketplace.software/src/com/thelocalmarketplace/software/gui/AttendantStationGUI.java
+
+commit e9fc28b7d1100b8b3844008e6b2e8055e09fd663
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 14:04:57 2023 -0700
+
+    implemented remove item on GUI, fixed bug with remove PLUitems
+
+commit 1a9b6a126d01c4cce28efd30293936e691613a62
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:59:20 2023 -0700
+
+    Update RemoveItemLogic.java
+
+commit 25cff085fe41a4bebbcff9bad9263d7a553b0ea1
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:58:27 2023 -0700
+
+    Update PurchaseBagsLogic.java
+
+commit b58d72239e1fdeae52b85a5e0600e755f1a25590
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:57:14 2023 -0700
+
+    Update MembershipLogic.java
+
+commit 7c0e9cebc59af83cf0fc72871c7004aa751d9bbd
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:56:37 2023 -0700
+
+    Update MembershipDatabase.java
+
+commit 51291d94b038adce2c202338f87a12b42649e4db
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:55:19 2023 -0700
+
+    Update MaintainCoinsLogic.java
+
+commit ad97a956108e973378ed5bebdffbbdc2906674e3
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:54:35 2023 -0700
+
+    Update MaintainBanknotesLogic.java
+
+commit eae505b7a7eb6a6a0ca3975e0a6b1eedc9ea64a5
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:53:34 2023 -0700
+
+    Update CurrencyLogic.java
+
+commit 7ad5ff99aa393e2c354860541da4a1255f403603
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:53:01 2023 -0700
+
+    Update CentralStationLogic.java
+
+commit d9f8023f69d9ce844ac000b9f7d13ce9ecf4972b
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:51:49 2023 -0700
+
+    Update CartLogic.java
+
+commit d75cf4cc33be7e0fa3364da922572177e23fe0b4
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:50:15 2023 -0700
+
+    Update CardPaymentLogic.java
+
+commit 956742feaf583b0620db776f49b5202b554d9d59
+Author: sukhn <sukhn@DESKTOP-JUSAFHO>
+Date:   Mon Dec 4 13:49:44 2023 -0700
+
+    com.thelocalmarketplace.software.test.logic.EnableStationTests
+
+commit 910a59b83f03b15d7720dee92147834e6cbcaaa4
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:48:51 2023 -0700
+
+    Update AttendantLogic.java
+
+commit 6aaa4633e4a9aae58c978ac7340eea7c9c1798c1
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:48:12 2023 -0700
+
+    Update AddBagsLogic.java
+
+commit feb0393d4fda7bdc1336972257d3ec861b1a78eb
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:47:24 2023 -0700
+
+    Update SuspendedListener.java
+
+commit f689e0c43c5129a0bd98040d69dec56fe76f2384
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:46:20 2023 -0700
+
+    Update NormalListener.java
+
+commit 050ae03dc46636136370444f9e523d738c7e96dc
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:45:28 2023 -0700
+
+    Update CheckoutListener.java
+
+commit e14009b25a6c69e96ad48092a9d1cb0203bd858a
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:44:52 2023 -0700
+
+    Update BlockedListener.java
+
+commit dfb69213334915ef21cf38a398fe0e9ab1490a04
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:44:26 2023 -0700
+
+    Update AddBagsListener.java
+
+commit 56da72f414a14419f95da08b5560f4970b9392ec
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:43:39 2023 -0700
+
+    Update VisualCatalogueScreenGUI.java
+
+commit 75846c683643659db2a2e5f34ff7ba7e796adacd
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:43:09 2023 -0700
+
+    Update StartScreenGUI.java
+
+commit 49baa13d3ec7a56e0fbb609b0a4e8fd7c1232ffc
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:41:53 2023 -0700
+
+    Update SimulatedItems.java
+
+commit 4561d55f150f6223f642824f2decdcfeee751d48
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:41:15 2023 -0700
+
+    Update PaymentScreenGUI.java
+
+commit 50a87ff80799f631f103bf1b09130898b74549e6
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:39:04 2023 -0700
+
+    Update MainGUI.java
+
+commit 2c5be1aaf60d0346884413136f22a1160d82c5f8
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:38:22 2023 -0700
+
+    Update KeypadScreenGUI.java
+
+commit 2db4839cf93ec1939883c8238937ccc6c5603876
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:37:33 2023 -0700
+
+    Update KeyboardScreenGUI.java
+
+commit e2ff6e51b1dbf31d4f8e4f6abd81e6c5a5e08a36
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:36:37 2023 -0700
+
+    Update DebitScreenGUI.java
+
+commit 48665c095357a247a77b9e475baba8dcff38cb9b
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:35:32 2023 -0700
+
+    Update CreditScreenGUI.java
+
+commit c6d7232e8c77fa31877b0529efef76edbf4d623e
+Merge: 5e22e5f 45ea050
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 13:34:37 2023 -0700
+
+    Merge pull request #34 from Jamieren/fix-remove-item-tests
+    
+    re-merge of remove item test fixes
+
+commit 45ea05092ad5101daa89da775ef973e1172d8140
+Merge: e6f870e 5e22e5f
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 13:34:30 2023 -0700
+
+    Merge branch 'main' into fix-remove-item-tests
+
+commit b05d20d21c15c91f659bc8ba3532cc9bc5cdfe06
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:33:50 2023 -0700
+
+    Update CompletionScreenGUI.java
+
+commit 2b256057006416036239984035d841b9cebf5bf3
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:32:15 2023 -0700
+
+    Update CashScreenGUI.java
+
+commit e6f870ec5747a6698d8bec0ebf4708f58bcbe29e
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 13:30:49 2023 -0700
+
+    update of prev.
+
+commit 394fa0d37ea4da9889c416fdc96de99ef4cfe4e7
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 13:28:19 2023 -0700
+
+    reintegrated matti's changes
+
+commit 0232ea1b29ae78a42c2d84ceb65ec5c163a015ba
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:28:02 2023 -0700
+
+    Update AttendantStationGUI.java
+
+commit 4ac17ee6ea8b3c5a30ea3751947a668143261c78
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:18:28 2023 -0700
+
+    Update AddItemGUI.java
+
+commit 159b5712f274883115f39458c029091573dc0724
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:16:11 2023 -0700
+
+    Update InvalidStateTransitionException.java
+
+commit 48b9f458bec848df0bc93cb05b813a7f6151dd0e
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:15:15 2023 -0700
+
+    Update WeightDiscrepancyController.java
+
+commit 026c0f4938ff11d7ffcf7d76258997a9c7d1750b
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:14:31 2023 -0700
+
+    Update ReceiptPrintingController.java
+
+commit 90a393ab09ee9b2b1ae7deb8542dcab3122daf1a
+Author: rkors <rkors@DESKTOP-GEDHR7B.ucalgary.ca>
+Date:   Mon Dec 4 13:14:03 2023 -0700
+
+    - Added:
+    MaintainCoinsTests.java
+    MaintainBanknotesTests.java
+    MaintainInkTests.java
+    MaintainPaperTests.java
+    DisableStationsTests.java
+    
+    All test cases for these should pass.
+
+commit 653d3c66e3af6d0a9019e2d4c6374d8783693a39
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:12:00 2023 -0700
+
+    Update CoinPaymentController.java
+
+commit 4b4f0faea6f227e85d46dcdbf37dc34f88590ac0
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:11:10 2023 -0700
+
+    Update CoinDispenserController.java
+
+commit 617f31ce7ca5d8d54ca68a7ae2931fbbcd37dff8
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:10:33 2023 -0700
+
+    Update CashPaymentController.java
+
+commit 859cf73129300cae5e9d0ebb90e674acdc78c2c1
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 13:09:57 2023 -0700
+
+    insubstantial commit to reopen branch for merging
+
+commit 203610b32042251353dc5191a7616ab7f9d053d7
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:09:24 2023 -0700
+
+    Update BanknoteDispenserController.java
+
+commit e58844fccb3410abc95acd72445a606f74f07e49
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:08:05 2023 -0700
+
+    Update AddPLUCodedItemController.java
+
+commit ba1a8dcb6c44d915c5caa44a3fc800c7a88cae80
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 13:07:13 2023 -0700
+
+    Update AddBarcodedItemController.java
+
+commit 5e22e5ffce2a37be00b774853cafdd7f2c02417b
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 13:06:35 2023 -0700
+
+    removed unused buttons
+
+commit c56933754e0b0a897361926c8661ff44c4168a22
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 12:55:58 2023 -0700
+
+    reverted to 5d32f61
+
+commit c4a8d5cad2f1b6ce5fe0b5ad79c602707c4da0cb
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 12:51:50 2023 -0700
+
+    Update Authors
+
+commit 694d75c1390512cb96e576e3f5a2cfef4eed88f7
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Mon Dec 4 12:50:44 2023 -0700
+
+    Update Authors
+
+commit d7811b421177a5e12968b937af613e00e7eb18ee
+Merge: f8ac338 59334da
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Mon Dec 4 12:45:24 2023 -0700
+
+    Merge pull request #33 from Jamieren/fix-remove-item-tests
+    
+    update
+
+commit f8ac338989dd5fff5a8e91f86b6a4318f43b538c
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Mon Dec 4 12:15:17 2023 -0700
+
+    Update AttendantStationGUI.java
+
+commit 5d32f613228e98be4cde18bb243ec269339cd6dd
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 12:04:47 2023 -0700
+
+    commented out halting code
+
+commit 8cad719feb210a24dac72c6078b6f69343c78771
+Merge: f6fdce2 fda73ec
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 11:45:54 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit f6fdce21138e200423528916a2c3222c2009276b
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 11:45:45 2023 -0700
+
+    fixed merged conflicts with attendantStationGUI
+
+commit 2118791cced88aa9ca512b1137f9af0b8c04696b
+Merge: c8b1984 fda73ec
+Author: Back Office <backoffice@NHFA.local>
+Date:   Mon Dec 4 11:28:39 2023 -0700
+
+    no change
+
+commit c8b198476ad5ba5dad154d938948de58cd63a346
+Author: Back Office <backoffice@NHFA.local>
+Date:   Mon Dec 4 11:26:36 2023 -0700
+
+    no changes made
+
+commit fda73ec8f64199fe217f55f7174338da482798d7
+Merge: d381665 615c8e0
+Author: oliviacrosby7 <149208540+oliviacrosby7@users.noreply.github.com>
+Date:   Mon Dec 4 11:24:11 2023 -0700
+
+    Merge pull request #25 from Jamieren/Signal-Attendant
+    
+    reworked to include central logic
+
+commit d381665f53d52b911d61f45431eafd7e08e53aef
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Mon Dec 4 11:04:34 2023 -0700
+
+    Update AttendantStationGUI.java
+
+commit 59334dad7f1a12a2f5ace2f93f7102276bd178e5
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Mon Dec 4 11:01:24 2023 -0700
+
+    update
+
+commit c1a7925b227374fb0ff6a420a08ea6220ed8a38c
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Mon Dec 4 10:54:55 2023 -0700
+
+    Update AttendantStationGUI.java
+
+commit e18e5c9b903eee1354ab9367f77028fc5420e14e
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Mon Dec 4 10:37:10 2023 -0700
+
+    Update AttendantStationGUI.java
+
+commit ea83d6b462e11c174e6f4961d00796cef5869016
+Merge: 99d3c4b 6f1e0e8
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 02:28:07 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit 99d3c4b84ca1d648a94cad63d3bdce6018716e78
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 02:28:00 2023 -0700
+
+    implemented UI for updated addItem screen
+
+commit 6f1e0e851e7daf0850c25f36973b00d69e514651
+Author: tanmayMishra17 <119141252+tanmayMishra17@users.noreply.github.com>
+Date:   Mon Dec 4 01:24:47 2023 -0700
+
+    Fixed bags PurchaseBagsLogic.java
+
+commit 16cf264ee1987b2e73212e0b723418bf5f8d45bd
+Merge: 81f2a1b c9ed8d9
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 01:18:04 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/
+    into main
+    
+    Conflicts:
+            com.thelocalmarketplace.software/src/com/thelocalmarketplace/software/gui/AddItemGUI.java
+
+commit 81f2a1b93d25895187bd6451f08aeae364d7853f
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 01:17:27 2023 -0700
+
+    implemented front-backend for payment system
+
+commit c9ed8d9890bc83a0aec8e6c1be0b38990c212409
+Author: tanmayMishra17 <119141252+tanmayMishra17@users.noreply.github.com>
+Date:   Mon Dec 4 01:08:42 2023 -0700
+
+    Updated PurchaseBagsLogic.java and fixed Bugs
+
+commit b9a68c6915cb8ce2be0d82a7cf01b5e81dc3a960
+Author: michael-svoboda <michael.svoboda1@ucalgary.ca>
+Date:   Mon Dec 4 00:47:44 2023 -0700
+
+    Moved the bagging area in the UI
+
+commit 71d62b8f510cdbdf1ca9123644209aefedc558f9
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Dec 4 00:17:12 2023 -0700
+
+    continued implementing back-frontend
+
+commit d90ce6d2dac810f5e394d805d70128628da96a0b
+Merge: b15b816 1d2e029
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 21:20:08 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit b15b816855d2dc2166ac2068e7c579e2737ccc07
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 21:20:03 2023 -0700
+
+    implemented bags too heavy, implemented customer ui signals
+
+commit 1d2e029efa0bbe1f91ac968b438c447a20da3700
+Merge: d449c4a db6174b
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Sun Dec 3 21:19:10 2023 -0700
+
+    Merge pull request #32 from Jamieren/fix-remove-item-tests
+    
+    remove plu item rework
+
+commit db6174b91d5ef1321f6ae90a6391d8d37deea2c0
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Sun Dec 3 21:07:35 2023 -0700
+
+    update 1
+
+commit d449c4aead285b9747abaa0ed2912ad4b29ce2d3
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 20:38:10 2023 -0700
+
+    connected backend to add by PLU, visual catalogue, attendant search
+
+commit 2817b19f542b6da75d31c7ba138fae587a180f4a
+Merge: 3968e93 37f0821
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 16:42:42 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit 3968e93435b3362e1aa046e89b925ca1e741e5a9
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 16:42:37 2023 -0700
+
+    implemented scan button
+
+commit 37f0821e19f4a667e6d5062c2b40fe4c10f5d4ce
+Merge: 8bb882a 5902185
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Sun Dec 3 16:40:32 2023 -0700
+
+    Merge pull request #31 from Jamieren/Jenko-PLUCodes
+    
+    Jenko plu codes
+
+commit 5902185136432f684076c25b8949d700ea878698
+Merge: dbbcc47 8bb882a
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Sun Dec 3 16:38:31 2023 -0700
+
+    Merge branch 'main' into Jenko-PLUCodes
+
+commit dbbcc476571fb862a3d6d6c2a413093eaeae8d5f
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Sun Dec 3 16:38:21 2023 -0700
+
+    added products to database
+
+commit 8bb882a95f410b3b1e729b38bdcb7fc201f1fd9a
+Author: tanmayMishra17 <119141252+tanmayMishra17@users.noreply.github.com>
+Date:   Sun Dec 3 16:22:38 2023 -0700
+
+    Updated fixed bugs MaintainBanknotesLogic.java
+
+commit 3f544f5900c740536f585c0220dff5e01c362267
+Author: tanmayMishra17 <119141252+tanmayMishra17@users.noreply.github.com>
+Date:   Sun Dec 3 16:22:15 2023 -0700
+
+    Updated fixed bugs MaintainCoinsLogic.java
+
+commit 86732fa639eeaaa2de80533e40c4fc92850d89d5
+Merge: 0f76025 5f78261
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 16:06:46 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit 0f760255a0ccf9dc7231a7ddbc83270ca52dbd49
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 16:06:40 2023 -0700
+
+    wrote backend to populate additemGUI with items
+
+commit 5f78261a5cdbf1044a470b9920eaac170678a5d8
+Merge: 0b837b8 6f55f3b
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Sun Dec 3 16:05:42 2023 -0700
+
+    Merge pull request #30 from Jamieren/Jenko-PLUCodes
+    
+    added simulated PLU items
+
+commit 6f55f3b6bb943bc59a500fd5980285c7f203d7d3
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Sun Dec 3 16:04:50 2023 -0700
+
+    added simulated PLU items
+
+commit 0b837b86d86f824e9e5d5f7599d49d1d55b59b5d
+Merge: 7b2070f aeea39a
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 15:21:46 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit 7b2070ff23467593d586742218e485e28518cbb6
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 15:21:40 2023 -0700
+
+    implemented simulated items list structure
+
+commit 5558a1569b37d8a4e27601a0d5feb1fc92f29c65
+Author: sukhn <sukhn@DESKTOP-JUSAFHO>
+Date:   Sun Dec 3 14:45:11 2023 -0700
+
+    some predict issue tests
+
+commit aeea39ac321e8351b38af9a5fffd4d1b2d5a5647
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Sun Dec 3 14:41:37 2023 -0700
+
+    fix the right panel
+
+commit 9a9edb590216081df0978d71662df387ed35b978
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 14:35:19 2023 -0700
+
+    made attendant gui visible in parallel with customer gui
+
+commit 202e4a2ca51410e2c6e9466918ed5441abb3a5f4
+Merge: bdd2ef4 34ff9ed
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 14:19:53 2023 -0700
+
+    fixed conflicts
+    
+    Conflicts:
+            com.thelocalmarketplace.software/src/com/thelocalmarketplace/software/gui/AttendantStationGUI.java
+
+commit bdd2ef48b73c6bfdded436837d41819cd54cf815
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 14:19:09 2023 -0700
+
+    set up gui structure
+
+commit 34ff9ed5022ba55304f93a845591a56d95254af8
+Merge: ca9aa16 556aed8
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Sun Dec 3 14:15:01 2023 -0700
+
+    Merge pull request #29 from Jamieren/Jenko-SearchText
+    
+    search text added to Attendant
+
+commit 556aed825bbff5e515ed4f2b51acafc60751705e
+Merge: 8b0c3d3 ca9aa16
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Sun Dec 3 14:13:57 2023 -0700
+
+    Merge branch 'main' into Jenko-SearchText
+
+commit 8b0c3d3f30570e46ac24d14a1d6f90d3df14683a
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Sun Dec 3 14:13:27 2023 -0700
+
+    Add search to AttendantAddItem
+
+commit ca9aa165f5a2cd1863da2a14ee136b7907380aa8
+Merge: d536e06 e4882c1
+Author: michael-svoboda <52898497+michael-svoboda@users.noreply.github.com>
+Date:   Sun Dec 3 13:22:02 2023 -0700
+
+    Merge pull request #28 from Jamieren/Michael-Checkout-GUI
+    
+    Modifying buttons. Added and Add to bagging area button.
+
+commit e4882c101875a3bcaa0992a58f070d4548e0141c
+Author: michael-svoboda <michael.svoboda1@ucalgary.ca>
+Date:   Sun Dec 3 13:19:45 2023 -0700
+
+    Modifying buttons. Added and Add to bagging area button.
+
+commit e138fa20faeb6ac2cb84c6d735ce57e4af8e4854
+Merge: 615c8e0 d536e06
+Author: Back Office <backoffice@NHFA.local>
+Date:   Sun Dec 3 12:54:53 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3 into Signal-Attendant
+
+commit d536e06996f283d4c7863cc30f2f59a144701a08
+Merge: 78c10f5 55dc486
+Author: michael-svoboda <52898497+michael-svoboda@users.noreply.github.com>
+Date:   Sun Dec 3 12:21:04 2023 -0700
+
+    Merge pull request #27 from Jamieren/Michael-Checkout-GUI
+    
+    adding AddItemGUI
+
+commit 55dc486dd996b09fef37c6db6e74872430bdd850
+Author: michael-svoboda <michael.svoboda1@ucalgary.ca>
+Date:   Sun Dec 3 12:19:57 2023 -0700
+
+    adding AddItemGUI
+
+commit 615c8e0b315994fe3c35ab94a128ead8bcd003d9
+Author: Back Office <backoffice@NHFA.local>
+Date:   Sun Dec 3 11:36:16 2023 -0700
+
+    b
+
+commit c0b67e65e053227497d7814193073045dd6db6f7
+Merge: 695c2b5 78c10f5
+Author: Back Office <backoffice@NHFA.local>
+Date:   Sun Dec 3 11:35:19 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3 into Signal-Attendant
+
+commit 78c10f5371fed835c8764f791a248374f9587512
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Sun Dec 3 11:34:27 2023 -0700
+
+    use getCoinDispensers instead of getBanknoteDispensers
+
+commit 695c2b5019bee063aa94a7e61c78f0166d412d55
+Merge: c807322 63479ec
+Author: Back Office <backoffice@NHFA.local>
+Date:   Sun Dec 3 11:32:12 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3 into Signal-Attendant
+
+commit 63479ec40f54b22c7e09fb236065eae61f91c75a
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sun Dec 3 01:02:28 2023 -0700
+
+    fixed more test cases and bugs
+
+commit 9e1078537aa97a6b0ce2ec08c014b85f8e1f1ede
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sat Dec 2 23:36:11 2023 -0700
+
+    started connected front-back, fixed various things
+
+commit 219b20492b13414194623b6dc6b09efe30354902
+Merge: 577880e c19e210
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sat Dec 2 23:35:28 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit 577880e9bd7b0243a11de01417bf4bc332b470e3
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Sat Dec 2 23:35:19 2023 -0700
+
+    started on back-front connect, fixed various things
+
+commit c19e2104e4b10a92032814c6ca63c0f7a5564707
+Merge: fcc7aad 1dc4b6b
+Author: Eric George <80136343+ericthegeorge@users.noreply.github.com>
+Date:   Sat Dec 2 21:47:41 2023 -0700
+
+    Merge pull request #26 from Jamieren/Danny-Testing_of_membership_and_heavy_bags
+    
+    Danny testing of membership and heavy bags
+
+commit 1dc4b6bf86c1ad9b23dde65f7f76101d18b09680
+Author: Eric George <erickurian@gmail.com>
+Date:   Sat Dec 2 20:54:06 2023 -0700
+
+    adjusted more
+
+commit a50153f0eb6a870856ea0937641c7d37075eff29
+Author: Eric George <erickurian@gmail.com>
+Date:   Sat Dec 2 20:49:40 2023 -0700
+
+    fixed issues in membership logic and adjusted tests
+
+commit 260bb9abe4bea5677e4d08e0d29424811d81a4ef
+Author: Danny Ly <danny.ly1@ucalgary.ca>
+Date:   Sat Dec 2 20:43:05 2023 -0700
+
+    some small changes
+
+commit fcc7aadcef1e85463977ce7b9bd84d41d4887afc
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Sat Dec 2 18:22:38 2023 -0700
+
+    Update CashScreenGUI.java
+
+commit 6974c5354bffd1ebbb9f4f39985bc8063edcd49b
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Sat Dec 2 18:17:51 2023 -0700
+
+    Update DebitScreenGUI.java
+
+commit 2d4f31f62c91f7314daa0b2e7d020e365873d6f9
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Sat Dec 2 18:17:16 2023 -0700
+
+    Update CreditScreenGUI.java
+
+commit c807322f521b50ea28791261afb4aa9b041775ef
+Author: Back Office <backoffice@NHFA.local>
+Date:   Sat Dec 2 17:05:07 2023 -0700
+
+    reworked to include central logic
+
+commit 39128db889d6deb6d39354d0a1973226e9ade334
+Author: Danny Ly <danny.ly1@ucalgary.ca>
+Date:   Sat Dec 2 16:27:14 2023 -0700
+
+    new empty class and edits for membership tests
+
+commit 898c4a915f00019f63777998014790d01c059b83
+Author: Danny Ly <danny.ly1@ucalgary.ca>
+Date:   Sat Dec 2 16:04:03 2023 -0700
+
+    minor fixes
+
+commit a7b6ceb296457787ac2b6196b9279d6f84f7ffa0
+Merge: 160ade9 73e7aee
+Author: Danny Ly <danny.ly1@ucalgary.ca>
+Date:   Sat Dec 2 16:00:15 2023 -0700
+
+    Merge branch 'Danny-Testing_of_membership_and_heavy_bags' of https://github.com/Jamieren/SENG300ProjectI3 into Danny-Testing_of_membership_and_heavy_bags
+
+commit 160ade967b286e5af26886e2190705719aae432c
+Author: Danny-Ly <danny.ly1@ucalgary.ca>
+Date:   Sat Dec 2 15:42:28 2023 -0700
+
+    Membership tests (WIP) need to ask backend some questions
+
+commit 73e7aee8a9eee8414e9215c2e94825d64d992314
+Author: Danny-Ly <danny.ly1@ucalgary.ca>
+Date:   Sat Dec 2 15:42:28 2023 -0700
+
+    Membership tests (WIP) need to ask backend some questions
+
+commit fd8cc29513fe38698696a3b3ae108ad94c4badf0
+Merge: 7a7ac87 b49651f
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Sat Dec 2 14:20:15 2023 -0700
+
+    Merge pull request #24 from Jamieren/Jenko-Keyboard
+    
+    keyboard
+
+commit b49651f1bbfc18f3ffe2654094c148647f5e1d8e
+Merge: ef6d7af 7a7ac87
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Sat Dec 2 14:04:20 2023 -0700
+
+    Merge branch 'main' into Jenko-Keyboard
+
+commit ef6d7afd75c03e118c5fccff0af12fa36fd88900
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Sat Dec 2 14:04:05 2023 -0700
+
+    small update
+
+commit 7a7ac8750863c237e85f76fbe1d3996c8cb56eb1
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Fri Dec 1 23:37:18 2023 -0700
+
+    Added initialization of control software to startSessionButton (temp)
+
+commit 0d180b0926a27f5b9b5256447ec6e9b3ebc7cb55
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 21:22:31 2023 -0700
+
+    Update CashScreenGUI.java
+
+commit 3ad0928520318a562f6f320e7ca9dd43b7e79485
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 21:21:21 2023 -0700
+
+    Update DebitScreenGUI.java
+
+commit 3050dc2a8af6dcb148fbce0aeccf1d0c164875ae
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 21:21:08 2023 -0700
+
+    Update CreditScreenGUI.java
+
+commit 1686d5ecb344b2f5b0f2d35d7b8f7cd9171a90d6
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 21:19:20 2023 -0700
+
+    Update DebitScreenGUI.java
+
+commit 302b63a0099d9463d7286e08a5e56429f361b7c3
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 21:18:53 2023 -0700
+
+    Update CreditScreenGUI.java
+
+commit 5cf9629b2b7e19c02b5a3bb09e8349df0976c72e
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 21:18:26 2023 -0700
+
+    Update PaymentScreenGUI.java
+
+commit 6d73360ac2d403b30b4782406f5d9c9f7d8395db
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 21:17:44 2023 -0700
+
+    Update CashScreenGUI.java
+
+commit 1e351f53d465befa6fc6fa9ec0313d128ce3c2c3
+Merge: 216e631 b09f70f
+Author: Jahnissi1 <80489070+Jahnissi1@users.noreply.github.com>
+Date:   Fri Dec 1 20:43:49 2023 -0700
+
+    Merge pull request #23 from Jamieren/Alan-predictissues-cash-test
+    
+    Alan predictissues cash test
+
+commit 29619c3e9605d3350c8f36fa5e8e1b07237b42f3
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Fri Dec 1 20:14:21 2023 -0700
+
+    added bag item button
+
+commit 216e63197e04425a9e2627f71174bf66305cc1e6
+Author: Eric George <erickurian@gmail.com>
+Date:   Fri Dec 1 19:34:05 2023 -0700
+
+    Documentation additions and missing semicolons
+
+commit 611fefec45141751e625da660e6e9f3754273696
+Merge: 21d1d9b 765466e
+Author: Eric George <80136343+ericthegeorge@users.noreply.github.com>
+Date:   Fri Dec 1 19:18:01 2023 -0700
+
+    Merge pull request #21 from Jamieren/ananya_printer_branch
+    
+    Low ink and Low paper use cases
+
+commit 21d1d9bb279bf9fd12e9c57532990b24b6c1b339
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 19:03:41 2023 -0700
+
+    fix size
+
+commit 806e89782f86b1eff151ac5a1658dd31d1886062
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 19:03:05 2023 -0700
+
+    fix size
+
+commit 1268b054a1b603f403ea1d6a73b65443e9532369
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 19:00:44 2023 -0700
+
+    Create DebitScreenGUI.java
+
+commit dc5beaac16d9617805ce0884f4b962cf29ce1f7c
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 19:00:18 2023 -0700
+
+    Create CreditScreenGUI.java
+
+commit 8035ab2ae9fa701899f45490cdfb446f61069119
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 18:59:20 2023 -0700
+
+    Update PaymentScreenGUI.java
+
+commit 8668a1bbb832a3bbdee9e9c7f8ae8e7b6801988e
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 18:43:29 2023 -0700
+
+    Update CashScreenGUI.java
+
+commit 23ed3baee26cd9abd005d9562d6554917e801a85
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 18:43:16 2023 -0700
+
+    Update PaymentScreenGUI.java
+
+commit 5ec6e5f56aea7daab4001b5b7d9d4c8a7630e9f6
+Merge: 3180f4b c71bb2c
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Fri Dec 1 18:26:29 2023 -0700
+
+    Merge pull request #22 from Jamieren/Jenko-Keyboard
+    
+    Merge keyboard
+
+commit c71bb2c769cd1bcd58d1eb47715db9e7daecde4a
+Merge: cd725e8 3180f4b
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Fri Dec 1 18:25:26 2023 -0700
+
+    Merge branch 'main' into Jenko-Keyboard
+
+commit cd725e827fe0f1a1089b67c441f09303166aff4d
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Fri Dec 1 18:25:00 2023 -0700
+
+    Added action listeners
+
+commit 3180f4b1a34ffa3fc1a50d8589a9366bc7998a60
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Fri Dec 1 17:33:08 2023 -0700
+
+    Update PaymentScreenGUI.java
+
+commit 1b5002f92ceb6f5738b5e3abe5c9ff6971c51941
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Fri Dec 1 16:57:24 2023 -0700
+
+    Update AttendantStationGUI.java
+
+commit 765466e72372f68b3c447633921b51a18a92b263
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Fri Dec 1 15:59:38 2023 -0700
+
+    Updating issuePredicted()
+
+commit 4be9ee530308a4b74a31f38195a4945292fcc13f
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Fri Dec 1 15:34:31 2023 -0700
+
+    Update ReceiptPrintingController.java
+
+commit cf5f48f1ec039124d0e634fae45da6e1d13c83f3
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Fri Dec 1 15:28:09 2023 -0700
+
+    tests for low ink and low paper
+
+commit d58a27b9603c663341bb2b3a94526b2838220311
+Author: Toto <109338896+goldentoto@users.noreply.github.com>
+Date:   Fri Dec 1 14:55:25 2023 -0700
+
+    adding low paper and low ink use cases
+
+commit 61db00a25ad19d14d15eef85d0271a45b8698af0
+Merge: 24b0295 09515c0
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Fri Dec 1 13:22:08 2023 -0700
+
+    Merge pull request #19 from Jamieren/attendant-station-gui
+    
+    Attendant station gui
+
+commit 24b0295bfb04f423a344cd6b7f7ec9010c3a0afd
+Author: tanmayMishra17 <119141252+tanmayMishra17@users.noreply.github.com>
+Date:   Fri Dec 1 11:32:23 2023 -0700
+
+    Update CartLogic.java Fixed Bugs
+
+commit 570bc662e91d8db5b69d28f6323131dd8736a8bf
+Author: tanmayMishra17 <119141252+tanmayMishra17@users.noreply.github.com>
+Date:   Fri Dec 1 11:02:53 2023 -0700
+
+    Created and added MaintainCoinsLogic.java
+
+commit a395f2a3c98b17b521d98c8b79b8f96c9ba9e500
+Author: tanmayMishra17 <119141252+tanmayMishra17@users.noreply.github.com>
+Date:   Fri Dec 1 11:01:19 2023 -0700
+
+    Created and added MaintainBanknotesLogic.java
+
+commit 3fa3cb74742e0e38e700c79d6713bb88773b0917
+Author: tanmayMishra17 <119141252+tanmayMishra17@users.noreply.github.com>
+Date:   Fri Dec 1 11:00:15 2023 -0700
+
+    Created and added PurchaseBagsLogic.java
+
+commit 15a23b00093e23812b4d6f2860dc216aabb79410
+Author: tanmayMishra17 <119141252+tanmayMishra17@users.noreply.github.com>
+Date:   Fri Dec 1 10:58:17 2023 -0700
+
+    Updated CartLogic.java Added ReusableBags
+
+commit ff5686035322441c8a815a75e273f6406557ef90
+Merge: 309caac 0288a4a
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Fri Dec 1 09:51:08 2023 -0700
+
+    Merge pull request #17 from Jamieren/maheen_attendant_maintain
+    
+    Maheen attendant maintain
+
+commit 309caac6a72fdba9f7bd82cd623258a9bf25fcf5
+Merge: 17e708a c1c857c
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Fri Dec 1 09:36:17 2023 -0700
+
+    Merge pull request #18 from Jamieren/Jenko-Keyboard
+    
+    keyboard gui
+
+commit c1c857cbbdf6c3de6ad52ada9d236b8d2de64246
+Merge: ee6141f 17e708a
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Fri Dec 1 09:34:45 2023 -0700
+
+    Merge branch 'main' into Jenko-Keyboard
+
+commit ee6141f07ee4714b05e11b2d2f8b610c448dac0b
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Fri Dec 1 09:34:17 2023 -0700
+
+    added attendant button
+
+commit 0288a4a0f26febb9e7dfdf332f038d73db83f2d1
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Fri Dec 1 09:27:27 2023 -0700
+
+    updated use case for disable/enable
+
+commit 17e708a656b079c59b451ca793403b23cbfb86fc
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Fri Dec 1 08:51:02 2023 -0700
+
+    Delete com.thelocalmarketplace.software/bin directory
+
+commit 9c8a6fe7347d611486b421fbeafa86a839fc3168
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Fri Dec 1 08:50:54 2023 -0700
+
+    Delete com.thelocalmarketplace.software.test/bin directory
+
+commit d648d3b83637f9d4da4811b442b6a3b5606672f4
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Fri Dec 1 08:50:44 2023 -0700
+
+    Delete com.thelocalmarketplace.hardware_0.3.3/bin directory
+
+commit 40531aa1bdd98a8d9a3728c2de783504422eb248
+Merge: 3c143e4 159f856
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Fri Dec 1 08:50:05 2023 -0700
+
+    Merge pull request #16 from Jamieren/Jenko-Keyboard
+    
+    keyboard GUI
+
+commit 3c143e408c2a7e3225e07559365e8ea5b4fb99f3
+Merge: 0091e64 5adb8b3
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Fri Dec 1 08:49:17 2023 -0700
+
+    Merge pull request #7 from Jamieren/Olivia-Signal-Attendant
+    
+    Olivia signal attendant
+
+commit 159f8565cb50e8d0171240698d33bc405c256771
+Merge: f3113c8 0091e64
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Fri Dec 1 08:46:45 2023 -0700
+
+    Merge branch 'main' into Jenko-Keyboard
+
+commit 0091e64694f3528fbb3c3e4bd599a1afeb379b6f
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Thu Nov 30 22:37:33 2023 -0700
+
+    Update CashScreenGUI.java
+
+commit c632023bd44a44fb11d233c70080a29b4e6d7c88
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Thu Nov 30 22:37:18 2023 -0700
+
+    Update PaymentScreenGUI.java
+
+commit 62bf7b60e5b23ac2327a4cb4d7ad30ab1c1847c8
+Merge: 3d751d6 fd62611
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Thu Nov 30 22:35:54 2023 -0700
+
+    Merge pull request #15 from Jamieren/payment-screen-gui
+    
+    payment and cash gui
+
+commit fd62611a5741ece24064018a35615994a7bc6af1
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Thu Nov 30 22:33:00 2023 -0700
+
+    Update PaymentScreenGUI.java
+
+commit 4b6219463e9c34f1024883955c2916e3af825024
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Thu Nov 30 22:32:49 2023 -0700
+
+    Update CashScreenGUI.java
+
+commit 8c1bfa355253ebb1a0b5d0327672594305cc58bf
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Thu Nov 30 22:32:39 2023 -0700
+
+    Update KeyboardScreenGUI.java
+
+commit 9e5380930f169ba38899e07dc156a3629833ceff
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Thu Nov 30 22:32:35 2023 -0700
+
+    updated use case for add ink and paper
+
+commit 544e9d638234ce4d50eee7375644beda9ba897ee
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Thu Nov 30 22:32:24 2023 -0700
+
+    Update KeyboardScreenGUI.java
+
+commit 5adb8b3428c7a2d95b1cbfab5a189922a669a93e
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Thu Nov 30 22:30:50 2023 -0700
+
+    Delete PaymentScreenGUI.java
+
+commit 8c15ce5c04a0cce0a04455f87412f8b39a468be1
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Thu Nov 30 22:21:46 2023 -0700
+
+    updated use case for add ink and paper
+
+commit f3113c81b9b0d7bbc35d6bb9125186eb8849d1a7
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Thu Nov 30 22:13:25 2023 -0700
+
+    Minor fixes
+
+commit 254c0c48fb1c712fc971055fbe8c3c4fa3a7e8ea
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Thu Nov 30 22:03:27 2023 -0700
+
+    Finished Keyboard
+
+commit 3d751d6361ba3420fd563b213719747145f00e4d
+Merge: 100f655 764cf2b
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Thu Nov 30 20:47:30 2023 -0700
+
+    Merge pull request #13 from Jamieren/add-item-by-PLU-code
+    
+    Add item by plu code
+
+commit 764cf2b64495770b6ed41245cce24112e06e9791
+Merge: cd7e9ae 100f655
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Thu Nov 30 20:47:18 2023 -0700
+
+    Merge branch 'main' into add-item-by-PLU-code
+
+commit 100f6558df4f62ccc87ecc1bf2eb81cfaf9b5bcd
+Merge: 2fe9df3 6531a1e
+Author: Eric George <80136343+ericthegeorge@users.noreply.github.com>
+Date:   Thu Nov 30 19:48:06 2023 -0700
+
+    Merge pull request #14 from Jamieren/Chris'_Branch
+    
+    Added one more statement that was forgotten
+
+commit 6531a1ebc852a6818fee6a7fa4331d9feb236be6
+Author: reoli <reoli@DESKTOP-U9HCAA0>
+Date:   Thu Nov 30 19:46:20 2023 -0700
+
+    Added one more statement that was forgotten
+
+commit 2fe9df33ae13374496c2e99848d27f8e0421e262
+Merge: 49bbe68 ae52a64
+Author: Eric George <80136343+ericthegeorge@users.noreply.github.com>
+Date:   Thu Nov 30 19:38:26 2023 -0700
+
+    Merge pull request #12 from Jamieren/Chris'_Branch
+    
+    Chris' branch
+
+commit ae52a64803b69b855b4bdd41fa47faff83e89ebf
+Merge: eaddf85 49bbe68
+Author: Eric George <80136343+ericthegeorge@users.noreply.github.com>
+Date:   Thu Nov 30 19:38:20 2023 -0700
+
+    Merge branch 'main' into Chris'_Branch
+
+commit cd7e9aec6473cf8f19ee95d08e4f3523ada5105f
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Thu Nov 30 19:28:06 2023 -0700
+
+    update 4
+
+commit eaddf855cb431197943bc2e4a46d1335c78cd988
+Author: reoli <reoli@DESKTOP-U9HCAA0>
+Date:   Thu Nov 30 19:16:46 2023 -0700
+
+    Added some documentations for general info on changes
+
+commit 9702023705cf3dcb051a22db1ed17e1e74bdac0c
+Author: Chris <reoli@DESKTOP-U9HCAA0>
+Date:   Thu Nov 30 19:04:37 2023 -0700
+
+    Added signature input implementation
+
+commit 49bbe681ec6d2f6b5d55a1ea41f62f941cfafee7
+Merge: af92e1e df93206
+Author: Eric George <80136343+ericthegeorge@users.noreply.github.com>
+Date:   Thu Nov 30 17:47:04 2023 -0700
+
+    Merge pull request #11 from Jamieren/membership
+    
+    fixed minor printing receipt with member formatting
+
+commit df93206c5f7d130a2cc09e45573dda17cfc88e2b
+Author: Eric George <erickurian@gmail.com>
+Date:   Thu Nov 30 17:45:48 2023 -0700
+
+    fixed minor printing receipt with member formatting
+
+commit af92e1e4f6363ad1ccb27c3d502135e679abed73
+Merge: b3f1226 ad7aee0
+Author: Eric George <80136343+ericthegeorge@users.noreply.github.com>
+Date:   Thu Nov 30 17:40:44 2023 -0700
+
+    Merge pull request #10 from Jamieren/membership
+    
+    Membership
+
+commit ad7aee0b363f280c813e3dd2c3ac064f1d27a0f9
+Author: Eric George <erickurian@gmail.com>
+Date:   Thu Nov 30 17:38:09 2023 -0700
+
+    Implemented changes in rest of project to support adding a membership
+
+commit 5be989fb6331eca59516ff9d28770f0d98a751c5
+Author: reoli <reoli@DESKTOP-U9HCAA0>
+Date:   Thu Nov 30 17:36:05 2023 -0700
+
+    Changed Card Logics naming scheme and implemented Card Payment Type
+    enumeration alongside tap and insert compatibility, also created a
+    PayWithCard Test for personal use
+
+commit b0f0b6dc75685dc0de0da3206df05e84d5205817
+Author: Eric George <erickurian@gmail.com>
+Date:   Thu Nov 30 16:56:46 2023 -0700
+
+    implemented error codes when adding members, proper verification at database, validation of member card
+
+commit 451a631ce3749f649f432979d5e186198fe25f8e
+Author: Eric George <erickurian@gmail.com>
+Date:   Thu Nov 30 16:31:06 2023 -0700
+
+    Implemented a basic membership database to use, initialized with a demo member in CentralStationLogic
+
+commit b09f70f311d9e86950f066c156b534e50a903890
+Author: jahnissinwakanma <jahnissinwakanma@localhost>
+Date:   Thu Nov 30 16:09:33 2023 -0700
+
+    Created ICoinDispenserStub
+
+commit 2b4230f792f51641e4e20be94377cd269a3b09c1
+Author: jahnissinwakanma <jahnissinwakanma@localhost>
+Date:   Thu Nov 30 16:09:11 2023 -0700
+
+    Created CoinDespenserControllerTesr
+
+commit b69fbca11c73758c154048e9d6cfa36e28ffb060
+Author: jahnissinwakanma <jahnissinwakanma@localhost>
+Date:   Thu Nov 30 16:08:44 2023 -0700
+
+    updated BanknoteDispenserControllerTest
+
+commit 4be2d99331951992d7df0e7cbea332c7825465cc
+Author: jahnissinwakanma <jahnissinwakanma@localhost>
+Date:   Thu Nov 30 16:08:19 2023 -0700
+
+    updated centralStationLogicTest
+
+commit 6f606f11384cb0414b9842ab6a3973c77762d364
+Author: jahnissinwakanma <jahnissinwakanma@localhost>
+Date:   Thu Nov 30 16:07:50 2023 -0700
+
+    fixed logical error in CoinDispenserController
+
+commit c47a3a991d3b7f7edad4febc713b62449d74134f
+Author: jahnissinwakanma <jahnissinwakanma@localhost>
+Date:   Thu Nov 30 16:07:21 2023 -0700
+
+    fixed logical errors in BanknoteDispenserController
+
+commit 99be7867653133b4d116f14bc8ecf228d96d7ff5
+Author: Eric George <erickurian@gmail.com>
+Date:   Thu Nov 30 14:33:58 2023 -0700
+
+    fix issue where attempted membership data reading with cards that are not membership cards
+
+commit 183cf7f4b0d09678f4d37c281bb9f48a34adc007
+Author: Eric George <erickurian@gmail.com>
+Date:   Thu Nov 30 14:31:43 2023 -0700
+
+    created getter for cardData
+
+commit 387f6173fd324a3f6fc1c6c9b5200583304fad90
+Author: Eric George <erickurian@gmail.com>
+Date:   Thu Nov 30 14:19:46 2023 -0700
+
+    Created membership logic class
+
+commit 2af03817c6dbca8e76c5bce94ee0a4f1ed882e89
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Thu Nov 30 13:26:04 2023 -0700
+
+    update 3
+
+commit 3b050c0b9ee6b2e39e6b353d3988c7df6f8c45ed
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Wed Nov 29 22:59:47 2023 -0700
+
+    update 2
+
+commit b3f1226916291fcc829a183a33369b8ec5c8ad31
+Merge: 8199da2 ec5d1e8
+Author: Jamie Ren <116605795+Jamieren@users.noreply.github.com>
+Date:   Wed Nov 29 22:23:51 2023 -0700
+
+    Merge pull request #9 from Jamieren/JamieR-selectLanguage
+    
+    Jamie r select language
+
+commit f25da2d76efffdd09ccaf7624388705f977d2b53
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Wed Nov 29 20:57:54 2023 -0700
+
+    text field finished
+
+commit d602528efbbd140a812b71f4a992cd4857de789b
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Wed Nov 29 20:18:21 2023 -0700
+
+    updated text size
+
+commit 735b26f3f4e92901e095d79998f0543484556cad
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Wed Nov 29 20:07:01 2023 -0700
+
+    Update PaymentScreenGUI.java
+
+commit 60473bc1dd44e82f3059031065e3d21cccb883a0
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Wed Nov 29 20:04:42 2023 -0700
+
+    Create CashScreenGUI.java
+
+commit 80f7ada935f8ff03a6d171ddf283e917974f6dec
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Wed Nov 29 20:03:40 2023 -0700
+
+    Create PaymentScreenGUI.java
+
+commit 1dd3ee878de389c1c6b2014955c9ea79f7576969
+Merge: 2a31593 8199da2
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Wed Nov 29 17:28:35 2023 -0700
+
+    Merge remote-tracking branch 'origin/main' into maheen_attendant_maintain
+
+commit 2a31593a6d0ed3561c4fb960567bc075ce3976b5
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Wed Nov 29 17:27:11 2023 -0700
+
+    use case for enable and disable station
+
+commit b53f2d3200ca86db089e6826fd23ca14c70ecd27
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Wed Nov 29 17:25:25 2023 -0700
+
+    added use case for enable and disable station
+
+commit 52ae4589a5e4e5dec9c156f451e853f17520d9e0
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Wed Nov 29 17:14:40 2023 -0700
+
+    added use case for enable and disable station
+
+commit eff610bd7f5d4327c599afbf71216628f0d718f1
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Wed Nov 29 17:11:44 2023 -0700
+
+    added use case for add ink and add paper
+
+commit 2a296f209c9b81e44d702e8a2225758d2e907c2c
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Wed Nov 29 16:12:11 2023 -0700
+
+    Create PaymentScreenGUI.java
+
+commit 09515c056656262282fa0662e375c4c66bc63063
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Wed Nov 29 12:44:01 2023 -0700
+
+    Update AttendantStationGUI.java
+
+commit 67ab6488822ae208c5eb99aa4aa824b9c53b074a
+Author: Back Office <backoffice@NHFA.local>
+Date:   Wed Nov 29 12:43:58 2023 -0700
+
+    added concurrency exception
+
+commit a1512e232677f78f57b07a1e3eabd867c7e4b626
+Author: Back Office <backoffice@NHFA.local>
+Date:   Wed Nov 29 12:31:03 2023 -0700
+
+    added get method
+
+commit ad5400e7eba49c59e158d9cadfa1f0ac041ee393
+Merge: b9b7e05 8199da2
+Author: Back Office <backoffice@NHFA.local>
+Date:   Wed Nov 29 12:17:16 2023 -0700
+
+    attmpt to resolve merge conflicts
+
+commit b9b7e059d693dc34dc65ed082bbb09aa85bda107
+Author: Back Office <backoffice@NHFA.local>
+Date:   Wed Nov 29 12:14:30 2023 -0700
+
+    signal-Attendant
+
+commit f2776e70bdf6fbd3d82f221234bea77405b9c5b7
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Wed Nov 29 11:26:21 2023 -0700
+
+    Update AttendantStationGUI.java
+
+commit 008233311524ac8e000fff95fdb0011ffdc360bb
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Wed Nov 29 11:17:26 2023 -0700
+
+    Update AttendantStationGUI.java
+
+commit a0d9b59d767b005e8af7f889b1823b566b853f11
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Wed Nov 29 10:45:17 2023 -0700
+
+    Update AttendantStationGUI.java
+
+commit 7fa0c32db9d64bf436f30805bd09aacc4fe96377
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Wed Nov 29 10:36:01 2023 -0700
+
+    Update AttendantStationGUI.java
+
+commit e3777feb93196facc8a0317f90b613ef7e269518
+Author: amatti-12 <147675650+amatti-12@users.noreply.github.com>
+Date:   Wed Nov 29 10:27:32 2023 -0700
+
+    Add files via upload
+
+commit efcb7e1e79277077ac7980731e7e1a484a61af15
+Author: IBeler7 <149531179+IBeler7@users.noreply.github.com>
+Date:   Wed Nov 29 02:28:12 2023 -0700
+
+    update
+
+commit ec5d1e884b3b2357eac72f56dd82e8264e2fd987
+Author: Jamieren <jamie.ren16@gmail.com>
+Date:   Wed Nov 29 00:15:41 2023 -0700
+
+    first attemt to implement select language
+    
+    few things need to be fix still
+
+commit b28d045910011da120e613fad67e89ebf21d63c0
+Author: Jamieren <jamie.ren16@gmail.com>
+Date:   Tue Nov 28 23:38:32 2023 -0700
+
+    create select language logic
+
+commit a10a84444336f5fd84c5f79a14888be5b3050d14
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Tue Nov 28 22:34:44 2023 -0700
+
+    Keyboard built
+
+commit 8199da20218e13f275d01cac44da77bbe733ba43
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Tue Nov 28 21:42:40 2023 -0700
+
+    Delete com.thelocalmarketplace.software.test/bin directory
+
+commit 4681e82c1ce2ef22905b527930c16b098fb1e414
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Tue Nov 28 21:42:33 2023 -0700
+
+    Delete com.thelocalmarketplace.software/bin directory
+
+commit dcea310609ad971eb22c202b80ddf7b2492de1b7
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Tue Nov 28 21:42:13 2023 -0700
+
+    Delete com.thelocalmarketplace.hardware_0.3.3/bin directory
+
+commit 0e88f7f3829c182b23b9aba3bbb5b8472c20470b
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Tue Nov 28 21:41:20 2023 -0700
+
+    removed class files
+
+commit e1442c83ab0782f556583116dc4fea738669f7d3
+Merge: c9a2667 4bc7f73
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Tue Nov 28 21:33:13 2023 -0700
+
+    Merge pull request #5 from Jamieren/Keyboard-Screen
+    
+    Keyboard screen
+
+commit 4bc7f731a0f711800dd6461150677e8191205656
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Tue Nov 28 21:29:49 2023 -0700
+
+    Keyboard update
+    
+    update before merge
+
+commit c9a2667adbef296e27edf4db906573088e63795e
+Merge: 0d154cc a0b9fa6
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Tue Nov 28 21:28:32 2023 -0700
+
+    Merge pull request #4 from Jamieren/Camila-Hernandez
+    
+    Camila hernandez
+
+commit a0b9fa65ba8353d3380d69f6f6000db2350432d7
+Merge: eced889 2b2b674
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 21:03:47 2023 -0700
+
+    Merge branch 'camila_local' into camila_pushing_branch
+
+commit 2b2b6744ef83d27126a5a0abd826377c9efff2d4
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 21:02:29 2023 -0700
+
+    .class files
+
+commit eced889372ac8f7f4ab0350cbae6f871b122450d
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 21:02:04 2023 -0700
+
+    Merge remote-tracking branch 'origin/main' into camila_pushing_branch
+
+commit d456ef071c2afd99b4889bf7b53071e7b2458c9b
+Merge: 298e8db 0d154cc
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 21:01:52 2023 -0700
+
+    Merge remote-tracking branch 'origin/main' into camila_pushing_branch
+
+commit 298e8db183189f45dd535cd46eeb7ad635f73a06
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 21:00:14 2023 -0700
+
+    .gitignore file
+
+commit 6c58ca1abbc08828e1d490f66df70ea848d4b5d4
+Merge: e9da3c7 f0709a0
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 20:59:32 2023 -0700
+
+    Merge remote-tracking branch 'origin/Camila-Hernandez' into camila_local
+
+commit a83dc3dc720411b620fce392f4b04f32f689e1c9
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 20:55:39 2023 -0700
+
+    .class files
+
+commit e9da3c78b50aa793d00050dac91c9ec1a3ac4012
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 20:55:18 2023 -0700
+
+    .class files
+
+commit 29cf677bd67597f0af7021e26b3683bd81fcc30e
+Merge: 97ca4e1 bc68931
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 20:52:41 2023 -0700
+
+    Merge branch 'camila_local' into camila_pushing_branch
+
+commit 97ca4e142f0643c799094ac52d43329561a82aef
+Merge: 292a57c 62e4f32
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 20:51:01 2023 -0700
+
+    Merge remote-tracking branch 'origin/main' into camila_pushing_branch
+
+commit 0f27cf87f92ffe6b47f05dfbc9676cb996bc1892
+Merge: 3644c8a 0d154cc
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Tue Nov 28 20:42:48 2023 -0700
+
+    Merge remote-tracking branch 'origin/main' into maheen_attendant_maintain
+
+commit 3b16970770217638199dd01ad4e209db615f2a11
+Merge: c756d24 e942c79
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Tue Nov 28 20:28:09 2023 -0700
+
+    Merge branch 'Camila-Hernandez' into Keyboard-Screen
+
+commit 3644c8a349c00de1ae27ed995a942f9a920460ca
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Tue Nov 28 20:25:15 2023 -0700
+
+    added methods to add ink and paper
+
+commit f0709a07b1d9b38113c64422411ad23e20640279
+Author: michael-svoboda <michael.svoboda1@ucalgary.ca>
+Date:   Tue Nov 28 20:22:08 2023 -0700
+
+    Trying to add the gitignore file
+
+commit c756d2446794c641f12d5b7998fe091e23d86782
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Tue Nov 28 20:17:09 2023 -0700
+
+    Update KeyboardScreenGUI.java
+    
+    Early build
+
+commit e942c7925cbb29cee48226908f39e90a74c3df63
+Author: michael-svoboda <michael.svoboda1@ucalgary.ca>
+Date:   Tue Nov 28 20:03:51 2023 -0700
+
+    Praying I have the right gitignore file....
+
+commit 0d154ccf8fcf339ea6916f8a7923ad0d4008cef6
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Tue Nov 28 19:49:38 2023 -0700
+
+    implemented issuePrediction bypass for legacy test cases
+
+commit 0c4a941a2c88bc514234eb6569fdb57c78c2345a
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Tue Nov 28 18:48:40 2023 -0700
+
+    added methods to add ink and paper
+
+commit 59198cada1e2f009d050277986a511aff5e25c29
+Merge: 334203c 7cefc70
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Tue Nov 28 18:34:06 2023 -0700
+
+    Merge pull request #3 from Jamieren/Alan-predictissues-cash
+    
+    Alan predictissues cash
+
+commit 7cefc706097d6fce874dc2da94403a907550c22e
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Tue Nov 28 18:32:10 2023 -0700
+
+    implemented cash issue prediction
+
+commit 9520263058802bb5c2838ca486e0b999f540790f
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Tue Nov 28 18:03:44 2023 -0700
+
+    removed cached .class files and added gitignore
+
+commit 334203cce28497647be003d6b79a2ef2b7835002
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Tue Nov 28 17:54:05 2023 -0700
+
+    added gitignore
+
+commit 5e0a65ccc7966a5b43d79c8a9fc2029bd9563b95
+Merge: 1239c1d 62e4f32
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Tue Nov 28 17:40:25 2023 -0700
+
+    Merge branch 'main' of https://github.com/Jamieren/SENG300ProjectI3/ into main
+
+commit 1239c1dabdf1294a9bc57d81e4174840670337b1
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Tue Nov 28 17:39:31 2023 -0700
+
+    added .gitignore to repo
+
+commit bc6893143953b9d61f4cd5faf9873eecd59fd46a
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 16:10:09 2023 -0700
+
+    Fixed most errors in test classes
+
+commit 62e4f32d7dfa017f54baaede0be06a2bf1fe1097
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Tue Nov 28 15:53:10 2023 -0700
+
+    Deleted old hardware bin
+
+commit 4abe35a01c6b3d9cbe121e918fa65c882f638c8c
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Tue Nov 28 15:09:46 2023 -0700
+
+    deleted test commit class
+
+commit f9b85b01deb99eeea42232145324f994113077d4
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Tue Nov 28 14:36:44 2023 -0700
+
+    fixed access method of hardware (direct -> getters) in test cases
+
+commit 92b040e6f87ab74b8c5aae710f685b900e5f6d26
+Merge: 17d3bb2 12dfe34
+Author: Alan Yong <nosforever12@gmail.com>
+Date:   Tue Nov 28 14:13:52 2023 -0700
+
+    Merge pull request #1 from Jamieren/fixed_protected_error_branch
+    
+    fixed protected error using get methods
+
+commit fd01da08e45e4c4981aef3cd7380e1dd6e37dbbb
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 11:18:35 2023 -0700
+
+    Added author names to both GUI classes
+
+commit 8bcf90f63c78ed4f3937568111bb85a4dd966bec
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Tue Nov 28 11:14:56 2023 -0700
+
+    added methods to add ink and paper
+
+commit 292a57cce6fb0899338fb8cf9940681705cb0fe9
+Merge: 439ab24 ba0582a
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 11:07:27 2023 -0700
+
+    Merge branch 'camila_local' into camila_pushing_branch
+
+commit ba0582a39038f7bfbaf51d0df069aa4d4a110d79
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 11:06:41 2023 -0700
+
+    Created addWidgets() method so that the labels appear on the screen
+
+commit 3f476f2c56f863c6e94535e78fdae37fb29577e0
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 10:51:45 2023 -0700
+
+    Created CompletionScreenGUI class and added constructor and fields
+
+commit ca49641ddd574d778c400f87d97d35c1e993cbb4
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 10:46:25 2023 -0700
+
+    Encapsulated all fields
+
+commit 439ab24bd90518fee650d6a0e62e07551eca93d9
+Merge: 8da44c9 63752c0
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 10:43:05 2023 -0700
+
+    Merge branch 'camila_local' into camila_pushing_branch
+
+commit 63752c02642bcec8e16e58bee8be789f838ca38f
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 10:41:55 2023 -0700
+
+    Added some spacing between the two combo boxes
+
+commit 47f7a72bf15b1b96fecc0a78385b5b465cdb865c
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 10:40:44 2023 -0700
+
+    Added comments
+
+commit 88aa0c50a75ad6d6ba2ba6cb29f6ea308aa1805a
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 10:37:50 2023 -0700
+
+    Added combo boxes and added labels to them and fixed alignment
+
+commit ab431123a687650e5b428fa099150f6483954a7e
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:59:13 2023 -0700
+
+    Added a vertical and a horizontal panel
+
+commit d58c60957f95e0b9889f162a7fe7365320906b35
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Tue Nov 28 09:55:06 2023 -0700
+
+    Create KeyboardScreenGUI.java
+    
+    Created keyboard screen  class
+
+commit 796f4e71c093a9a609a8f31e4faa5ad92d4b26fd
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:33:46 2023 -0700
+
+    Resized startSessionButton
+
+commit 01c339c1e56ea18a8a7ee299778a0fabfc28c970
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:30:42 2023 -0700
+
+    Resized labels and start session button
+
+commit e982c209da0c71c910313836f01a1dd740ec119d
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:26:45 2023 -0700
+
+    Added spacing between the JLabels
+
+commit 11152da13955f9bb1ad73759d5ad56a277eeef62
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:25:27 2023 -0700
+
+    Aligned JLabels to the middle of the frame
+
+commit 8da44c9f397833a8a2b26e07865895ec4311d892
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:24:54 2023 -0700
+
+    Aligned JLabels in the middle of the screen
+
+commit 77965846c7a2e0989a30be13c06acc86d815785d
+Merge: 41e09b4 c574fd2
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:18:40 2023 -0700
+
+    Merge branch 'camila_local' into camila_pushing_branch
+
+commit 41e09b44bde90498059176a82b37ff33c74f144c
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:18:34 2023 -0700
+
+    From merging
+
+commit c574fd261ac00d2841b6d93548c879246f43cd16
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:17:45 2023 -0700
+
+    Commented out some buttons while I figured out alignment
+
+commit 1da277e1c32e7494f76d4080131b587c7a149ab9
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:10:07 2023 -0700
+
+    Changed font size of labels
+
+commit c67a9d8f9d88ca362abd3bbc787d0d0d0d9ad45c
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:02:01 2023 -0700
+
+    Made the frame fit the whole screen
+
+commit e44c10e8c8ffaa06ad248732530bf5e2b63eadfa
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 09:00:02 2023 -0700
+
+    Added welcome and start labels
+
+commit 41db18fdcbacd74e737803ef5da3df9dbe428301
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 08:53:03 2023 -0700
+
+    Aligned the buttons in the middle of the pane
+
+commit 48f681de560408dd62c567050bbbc6bcc3b0ce86
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 08:46:14 2023 -0700
+
+    Added buttons to panel
+
+commit 0a148c4110520c8c74d5b40d729be2b89c344777
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 08:44:14 2023 -0700
+
+    Added buttons for each functionality on the starting page
+
+commit 7b9a87fe80cc8855ae67a928c39c9ab054f4c408
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 08:39:55 2023 -0700
+
+    Added constructor
+
+commit e5b41e0c4667cadc0e38b124a7d3a4ea5d40f333
+Author: camila-hernandez <114267949+camila-hernandez@users.noreply.github.com>
+Date:   Tue Nov 28 08:32:00 2023 -0700
+
+    Created a package for GUI and added empty StartScreenGUI class
+
+commit 12dfe346272312da8c36b2e4948809198a2c6ea3
+Author: MaheenNizamani <maheennizamani2004@gmail.com>
+Date:   Tue Nov 28 08:05:16 2023 -0700
+
+    fixed protected error using get methods
+
+commit 17d3bb2ec42486891453bae2086bd2589fb9b329
+Author: Jamieren <jamie.ren16@gmail.com>
+Date:   Tue Nov 28 00:13:22 2023 -0700
+
+    create branch for working on selecting language
+
+commit 674bbea9c4543ab18285ca46976ff3f15eee1b04
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Nov 27 21:30:37 2023 -0700
+
+    test commit
+
+commit e5018e9f34e0e6e12ca6c1dbf8943ad9f91a65e2
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Nov 27 21:28:20 2023 -0700
+
+    added files
+
+commit 707f7fb985597569903a23bde6ab0548eb03c4d8
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Nov 27 21:26:41 2023 -0700
+
+    attempted fix of duplicate files
+
+commit 8e93e798f36c027f408f5767242143cf45fed9a1
+Author: alanyongy <nosforever12@gmail.com>
+Date:   Mon Nov 27 21:07:38 2023 -0700
+
+    testing fix of master
+
+commit 4a6c8b52d55af8612d97d3387573fe087987b79f
+Author: Gareth Jenkins <65422175+jenkoman@users.noreply.github.com>
+Date:   Mon Nov 27 20:57:04 2023 -0700
+
+    gui packaged added
+
+commit c07037467aa3b61964cc2207f6d16a86773dfb4c
+Author: jennydang61 <140567101+jennydang61@users.noreply.github.com>
+Date:   Mon Nov 27 18:55:00 2023 -0700
+
+    Update README.md
+
+commit 33a457d2dbfd86867c4137784e2e12baeed2789f
+Author: Jamieren <jamie.ren16@gmail.com>
+Date:   Mon Nov 27 11:02:50 2023 -0700
+
+    build path done with hardware version 03.02
+
+commit 16f7f89d27a9d05a2069657738a491a50a921a24
+Author: Jamieren <jamie.ren16@gmail.com>
+Date:   Mon Nov 27 11:01:06 2023 -0700
+
+    update to 03.02 version hardware
+
+commit 194f603df77bd13cf3359682a2c9436f21cdfefd
+Author: Jamie Ren <116605795+Jamieren@users.noreply.github.com>
+Date:   Sun Nov 26 22:36:32 2023 -0700
+
+    Update README.md
+
+commit f3e61fe9ebc402f99a23a71fafa4dae68dcecc6a
+Author: Jamie Ren <116605795+Jamieren@users.noreply.github.com>
+Date:   Sun Nov 26 22:36:13 2023 -0700
+
+    Update README.md
+    
+    please add your name and UCID here
+
+commit 34de565835bbe6113b9e03686bac0ed26c3ba650
+Author: Jamieren <jamie.ren16@gmail.com>
+Date:   Sun Nov 26 22:33:40 2023 -0700
+
+    build path done
+
+commit 68a150fd7511fdf642a63c3a6b8be9c0c4c1f9ec
+Author: Jamieren <jamie.ren16@gmail.com>
+Date:   Sun Nov 26 22:31:33 2023 -0700
+
+    upload i2
+
+commit 7fbe5e679e39e582a89094c34e9022698dbd3afb
+Author: Jamieren <jamie.ren16@gmail.com>
+Date:   Sun Nov 26 22:31:14 2023 -0700
+
+    Update README.md
+
+commit 2b5d74577648f2e200c4c52dda80d9bf1ab0a53d
+Author: Jamieren <jamie.ren16@gmail.com>
+Date:   Sun Nov 26 21:28:31 2023 -0700
+
+    upload iteration 2 software and software.test
+    
+    code provided by Maheen Nizmani
+
+commit aa5acf7f8446a19ac33986fa2651a23009098aa4
+Author: Jamieren <jamie.ren16@gmail.com>
+Date:   Tue Nov 21 21:39:25 2023 -0700
+
+    add hardware
+
+commit 779c5c93e15dd86473d3e6f0819a9b5e25185c0f
+Author: Jamie Ren <116605795+Jamieren@users.noreply.github.com>
+Date:   Tue Nov 21 21:36:23 2023 -0700
+
+    Initial commit
