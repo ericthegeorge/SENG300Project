@@ -76,6 +76,7 @@ public class StartScreenGUI {
 		frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		frame.pack();
 		frame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+	
 	}
 
 	private void addWidgets() {
@@ -183,6 +184,11 @@ public class StartScreenGUI {
 		getStartSessionButton().addActionListener(e -> {
 			logic.startSession();
 			mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "addItem");
+		});
+		
+       //Initializing action listeners for all buttons
+		membershipButton.addActionListener(e -> {
+			logic.membershipLogic.enterMembershipByNumber(MainGUI.membershipCard.number);
 		});
 	}
 	

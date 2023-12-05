@@ -81,7 +81,17 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 		this.logic.stateLogic.gotoState(States.BLOCKED);
 		isAwaitingPLUMeasurement = true;
 		if(logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Please place PLU item ("+priceLookUpCode+") in the bagging area.");
+		new java.util.Timer().schedule( 
+		        new java.util.TimerTask() {
+		            @Override
+		            public void run() {
+		            	logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Weight discrepancy detected. Place PLU ("+priceLookUpCode+") in bagging area.");
+		            }
+		        }, 
+		        5000 
+		);
 	}
+
 	
 	/**
 	 * is called when the mass of the scale changes and isAwaitingPLUMeasurement == true

@@ -15,6 +15,9 @@ import com.thelocalmarketplace.software.logic.CentralStationLogic;
 import com.thelocalmarketplace.software.logic.StateLogic.States;
 
 import java.awt.*;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
+import java.text.NumberFormat;
 import java.util.List;
 import java.util.ArrayList;
 
@@ -386,6 +389,7 @@ public class AddItemGUI extends JFrame {
     		leftReceiptModel.addElement(mainGUI.getDescriptionOfItem(i));
     		
     		double price = 0;
+    		String formattedPrice ="";
     		if(i instanceof BarcodedItem) {
     			BarcodedItem bitem = (BarcodedItem) i;
     			price = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(bitem.getBarcode()).getPrice();
@@ -395,7 +399,8 @@ public class AddItemGUI extends JFrame {
     			PLUCodedProduct pproduct = ProductDatabases.PLU_PRODUCT_DATABASE.get(pitem.getPLUCode());
     			price = logic.cartLogic.calculatePriceOfPLU(pproduct.getPrice(), pitem.getMass());
     		}
-    		rightReceiptModel.addElement("$"+price);
+    		formattedPrice = String.format("$%.2f", price);
+    		rightReceiptModel.addElement(formattedPrice);
     	}
     }
 

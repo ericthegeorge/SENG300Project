@@ -27,7 +27,6 @@ package com.thelocalmarketplace.software.test.controllers;
 
 import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
-import static org.junit.Assert.assertThrows;
 import static org.junit.Assert.assertTrue;
 
 import java.math.BigInteger;
@@ -65,41 +64,32 @@ public class PurchaseBagTests {
 	@Test
 	public void zeroBagTest() throws EmptyDevice, OverloadedDevice {
 		station.getReusableBagDispenser().load(new ReusableBag());
-		session.stateLogic.gotoState(States.ADDBAGS);
 		session.purchaseBagsLogic.purchaseBags(0);
 		station.getBaggingArea().addAnItem(new ReusableBag());
 		
-	    session.purchaseBagsLogic.purchaseBags();
-		
-		assertTrue(session.stateLogic.getState().equals(States.NORMAL));
+		assertTrue(session.stateLogic.getState().equals(States.BLOCKED));
 		assertTrue(session.cartLogic.getCart().isEmpty());
 	}
 	
 	@Test
 	public void normalUseOneBagTest() throws EmptyDevice, OverloadedDevice {
 		station.getReusableBagDispenser().load(new ReusableBag());
-		session.stateLogic.gotoState(States.ADDBAGS);
 		session.purchaseBagsLogic.purchaseBags(1);
-		station.getBaggingArea().addAnItem(new ReusableBag());
-		
-		session.purchaseBagsLogic.purchaseBags();
+		station.getBaggingArea().addAnItem(new ReusableBag());	
 		 
 		assertTrue(session.stateLogic.getState().equals(States.NORMAL));
 		assertTrue(session.cartLogic.getCart().size() == 1);
 		// Checking weight 
-		assertEquals(new Mass(BigInteger.valueOf(5_000_000)), session.weightLogic.getTotalBagMass());
+		assertEquals(new Mass(BigInteger.valueOf(5_000_000)), session.weightLogic.getActualWeight());
 	}
 	
 	@Test
 	public void negativeBagsTest() throws EmptyDevice, OverloadedDevice {
 		station.getReusableBagDispenser().load(new ReusableBag());
-		session.stateLogic.gotoState(States.ADDBAGS);
 		session.purchaseBagsLogic.purchaseBags(-1);
 		station.getBaggingArea().addAnItem(new ReusableBag());
-		
-	    session.purchaseBagsLogic.purchaseBags();
 	    
-		assertTrue(session.stateLogic.getState().equals(States.NORMAL));
+		assertTrue(session.stateLogic.getState().equals(States.BLOCKED));
 		assertTrue(session.cartLogic.getCart().isEmpty());
 	}
 	
@@ -111,19 +101,19 @@ public class PurchaseBagTests {
 			station.getReusableBagDispenser().load(new ReusableBag());
 		}
 		
-		session.stateLogic.gotoState(States.ADDBAGS);
 		session.purchaseBagsLogic.purchaseBags(4);
 		station.getBaggingArea().addAnItem(new ReusableBag());
-		
-	    session.purchaseBagsLogic.purchaseBags();
+		station.getBaggingArea().addAnItem(new ReusableBag());
+		station.getBaggingArea().addAnItem(new ReusableBag());
+		station.getBaggingArea().addAnItem(new ReusableBag());
 		
 		assertTrue(session.stateLogic.getState().equals(States.NORMAL));
 		assertTrue(session.cartLogic.getCart().size() == 4);
-		assertEquals(new Mass(BigInteger.valueOf(20_000_000)), session.weightLogic.getTotalBagMass());
+		assertEquals(new Mass(BigInteger.valueOf(20_000_000)), session.weightLogic.getActualWeight());
 
 	}
 	
-	@Test
+	@Test(expected = EmptyDevice.class)
 	public void moreBagsRequiredThanHaveTest() throws EmptyDevice, OverloadedDevice {
 		int bagsLoaded = 2;
 
@@ -132,7 +122,7 @@ public class PurchaseBagTests {
 		}
 		
 		session.stateLogic.gotoState(States.ADDBAGS);
-		assertThrows(EmptyDevice.class, () -> session.purchaseBagsLogic.purchaseBags(4));	
+		session.purchaseBagsLogic.purchaseBags(4);	
 	}
 	
 	@Test
@@ -141,40 +131,31 @@ public class PurchaseBagTests {
 		session.stateLogic.gotoState(States.ADDBAGS);
 		session.purchaseBagsLogic.purchaseBags(1);
 		station.getBaggingArea().addAnItem(new ReusableBag());
-       
-        session.purchaseBagsLogic.purchaseBags();
 
     }
 	
-	@Test
+	@Test(expected = InvalidStateSimulationException.class)
 	public void sessionNotStarted() throws OverloadedDevice, EmptyDevice {
 		session.stopSession();
 		station.getReusableBagDispenser().load(new ReusableBag());
 		session.stateLogic.gotoState(States.ADDBAGS);
-		
-		assertThrows(InvalidStateSimulationException.class, () ->
-		session.purchaseBagsLogic.purchaseBags(1));
-		
-		assertThrows(InvalidStateSimulationException.class, () ->
-		session.purchaseBagsLogic.purchaseBags());
-		
+		session.purchaseBagsLogic.purchaseBags(1);
 	}
 	
-	@Test 
-	public void tooManyBagsInDispenserTest(){
+	@Test(expected = OverloadedDevice.class)
+	public void tooManyBagsInDispenserTest() throws OverloadedDevice{
 		int bagsLoaded = 99999;
-		assertThrows(OverloadedDevice.class, () ->{
 		for (int j = 0; j < bagsLoaded +1; j++) {
 			station.getReusableBagDispenser().load(new ReusableBag());
-			}	});
+		}
 	}
 	
 	
-	@Test 
-	public void EmptyBagDispenserTest() throws OverloadedDevice {
+	@Test(expected = EmptyDevice.class)
+	public void EmptyBagDispenserTest() throws OverloadedDevice, EmptyDevice {
 		station.getReusableBagDispenser().load(new ReusableBag());
 		station.getReusableBagDispenser().unload();
-		assertThrows(EmptyDevice.class, () -> session.purchaseBagsLogic.purchaseBags(1));
+		session.purchaseBagsLogic.purchaseBags(1);
 	}
 	
 	// do a test for no power

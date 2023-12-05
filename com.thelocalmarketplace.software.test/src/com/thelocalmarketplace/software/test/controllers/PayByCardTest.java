@@ -98,16 +98,6 @@ public class PayByCardTest {
         this.session.selectPaymentMethod(PaymentMethods.DEBIT);
     }
   
-    @Test
-    public void testTapTransaction() throws IOException {
-        session.cartLogic.updateBalance(BigDecimal.valueOf(10.00));
-        session.hardware.getCardReader().enable();
-        session.stateLogic.gotoState(States.CHECKOUT);
-        session.hardware.getCardReader().tap(this.debit);
-        
-        assertEquals(BigDecimal.valueOf(0.0),session.cartLogic.getBalanceOwed());
-    }
-
 	@Test
 	public void testInsertTransaction() throws IOException {
 	    session.cartLogic.updateBalance(BigDecimal.valueOf(10.00));

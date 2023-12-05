@@ -63,6 +63,10 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 	}
 	
 
+	/**allows the customer to purchase a bag
+	 * @param bagsToPurchase
+	 * @throws EmptyDevice
+	 */
 	public void purchaseBags(int bagsToPurchase) throws EmptyDevice {
 		if (!logic.isSessionStarted()) throw new InvalidStateSimulationException("Session has not started");
 		numberOfBags = bagsToPurchase;
@@ -75,36 +79,5 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 				throw new EmptyDevice("Bag dispenser is empty");
 			}
         }
-	}
-	
-	/**When user has finished adding the bags to the scale
-	 * Requires attendant verification if bags are too heavy (indicated by this.approvedBagging = true)
-	 * Sets expected weight to the current weight of the bags on the scale 
-	 * @throws Exception - when adding bags causes a weight discrepancy 
-	 * @throws InvalidStateSimulationException if called when CentralStationLogic is not in ADDINGBAGS state 
-	 * @throws InvalidStateSimulationException if session is not started */
-	public void purchaseBags() {
-		if (!logic.isSessionStarted()) throw new InvalidStateSimulationException("Session has not started");
-		if (!logic.stateLogic.inState(States.ADDBAGS)) throw new InvalidStateSimulationException("Cannot end ADDBAGS state when not in ADDBAGS state");
-		
-		for (int i = 0;i<numberOfBags;i++ )
-			totalBagMass = totalBagMass.sum(bagInstance.getMass());
-		
-		System.out.print(totalBagMass);
-		
-		
-		logic.weightLogic.updateTotalBagMass(totalBagMass);
-		if (logic.weightLogic.getTotalBagMass().compareTo(totalBagMass) <= 0 || this.approvedBagging) {
-			// If bag weight is under the allowed weight
-			this.logic.weightLogic.overrideDiscrepancy();
-			this.approvedBagging = true;
-			this.logic.attendantLogic.setBaggingDiscrepency(false);
-
-			System.out.println("Bags added successfully");
-			this.logic.stateLogic.gotoState(States.NORMAL);
-		} else {
-			//bags are too heavy 
-			this.logic.attendantLogic.baggingDiscrepencyDetected();
-		}
 	}
 }

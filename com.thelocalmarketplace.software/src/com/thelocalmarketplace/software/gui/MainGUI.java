@@ -55,7 +55,6 @@ import java.util.Currency;
  * @author Ryan Korsrud (30173204)
  */
 
-
 public class MainGUI {
     private JFrame mainFrame;
     private JFrame attendantFrame;
@@ -63,6 +62,7 @@ public class MainGUI {
     private JPanel attendantPanel;
     private CardLayout mainCardLayout;
     private CardLayout attendantCardLayout;
+	public static Card membershipCard;
     
     private ArrayList<Item> itemsInCart = new ArrayList<Item>();
     private ArrayList<Item> itemsInBaggingArea = new ArrayList<Item>();
@@ -91,7 +91,6 @@ public class MainGUI {
         configureCurrency();
         AbstractSelfCheckoutStation station = new SelfCheckoutStationGold();
 
-        
 		PowerGrid.engageUninterruptiblePowerSource();
 		PowerGrid.instance().forcePowerRestore();
 		station.plugIn(PowerGrid.instance());
@@ -104,6 +103,7 @@ public class MainGUI {
             public void run() {
                 MainGUI gui = new MainGUI(station);
                 gui.logic.setBypassIssuePrediction(true);
+                membershipCard = new Card("Membership", "111222333", "Demo Member", null, null, false, false);
             }
         });
     }
