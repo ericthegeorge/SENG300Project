@@ -48,6 +48,7 @@ public class AttendantStationGUI {
 	CentralStationLogic logic;
 	MainGUI mainGUI;
 	JPanel mainPanel;
+	private JFrame mainFrame;
     private String[] data;
     private DefaultListModel searchList = new DefaultListModel();
 

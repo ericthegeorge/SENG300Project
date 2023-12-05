@@ -55,6 +55,7 @@ public class CompletionScreenGUI {
 		completionScreenFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 		completionScreenFrame.pack();
 		completionScreenFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
+
 	}
 	
 	private void addWidgets() {

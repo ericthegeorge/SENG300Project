@@ -83,6 +83,10 @@ public class MainGUI {
 
     
     public static void main(String[] args) {
+    	restartGUI();
+    }
+    
+    public static void restartGUI() {
     	AbstractSelfCheckoutStation.resetConfigurationToDefaults();
         configureCurrency();
         AbstractSelfCheckoutStation station = new SelfCheckoutStationGold();
@@ -102,7 +106,6 @@ public class MainGUI {
                 gui.logic.setBypassIssuePrediction(true);
             }
         });
-        
     }
 
     public MainGUI(AbstractSelfCheckoutStation s) {
@@ -162,8 +165,8 @@ public class MainGUI {
         mainFrame.setExtendedState(JFrame.MAXIMIZED_BOTH);
         mainFrame.setVisible(true);
     }
-    
-    static public void configureCurrency() {
+
+	static public void configureCurrency() {
 		BigDecimal twoDollar = new BigDecimal(2);
 		BigDecimal dollar = new BigDecimal(1);
 		BigDecimal halfDollar = new BigDecimal(0.50);
@@ -273,8 +276,6 @@ public class MainGUI {
 		return itemsInBaggingArea;
 	}
 
-
-
 	// Getter for paymentScreen
     public PaymentScreenGUI getPaymentScreen() {
         return paymentScreen;
@@ -284,5 +285,13 @@ public class MainGUI {
     public void setPaymentScreen(PaymentScreenGUI paymentScreen) {
         this.paymentScreen = paymentScreen;
     }
+    
+    public JFrame getMainFrame() {
+		return mainFrame;
+	}
+
+	public JFrame getAttendantFrame() {
+		return attendantFrame;
+	}
 
 }
