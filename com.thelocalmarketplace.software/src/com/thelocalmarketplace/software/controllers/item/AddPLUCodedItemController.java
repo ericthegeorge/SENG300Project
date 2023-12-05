@@ -80,7 +80,7 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 		// blocks the station
 		this.logic.stateLogic.gotoState(States.BLOCKED);
 		isAwaitingPLUMeasurement = true;
-		logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Please place PLU item ("+priceLookUpCode+") in the bagging area.");
+		if(logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getErrorTextArea().setText("Please place PLU item ("+priceLookUpCode+") in the bagging area.");
 	}
 	
 	/**
@@ -105,7 +105,7 @@ public class AddPLUCodedItemController extends AbstractLogicDependant {
 		
 		double itemPrice = getPLUCodedItemPrice(item);
 		this.logic.cartLogic.addPLUCodedItemToCart(item, itemPrice);
-		logic.getMainGUI().getAddItemScreen().getWeightTextArea().setText("Weight of added PLU Item ("+priceLookUpCode+"): "+itemMass.inGrams()+"g");
+		if(logic.getMainGUI() != null) logic.getMainGUI().getAddItemScreen().getWeightTextArea().setText("Weight of added PLU Item ("+priceLookUpCode+"): "+itemMass.inGrams()+"g");
 		
 		// expected weight is updated so that checkWeightDiscrepancy() in WeightLogic does not incorrectly return true
 		this.logic.weightLogic.addExpectedWeight(itemMass);
