@@ -1,6 +1,9 @@
 package com.thelocalmarketplace.software.gui;
 
 import javax.swing.*;
+
+import com.thelocalmarketplace.software.logic.CentralStationLogic;
+
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -11,7 +14,8 @@ import java.util.Map;
 public class AttendantStationGUI {
 
     private static JComboBox<StationObject> comboBox;
-
+    
+    
     // Fake class to represent Station objects
     static class StationObject {
         private int stationNumber;
@@ -567,19 +571,12 @@ public class AttendantStationGUI {
 
         textSearchWindow.setVisible(true);
     }
-
-<<<<<<< HEAD
-    
-=======
     private static void solveWeightDiscrepancy() {
         // Add your logic to solve the weight discrepancy for the given station
         // You can access the station object and perform necessary actions
         // For demonstration purposes, print a message
         //System.out.println("Solving weight discrepancy for Station #" + station.getStationNumber());
     }
-
-
->>>>>>> fda73ec8f64199fe217f55f7174338da482798d7
     // Method to handle button click events
     private static void handleButtonClick(String buttonLabel, JFrame frame) {
 

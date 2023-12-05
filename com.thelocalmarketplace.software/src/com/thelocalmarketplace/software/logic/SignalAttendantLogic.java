@@ -64,7 +64,7 @@ public class SignalAttendantLogic extends AbstractLogicDependant{
 	 */ 
 	public SignalAttendantLogic(CentralStationLogic logic) {
 		super(logic);
-		this.attendantStation = new AttendantStation();
+		//this.attendantStation = new AttendantStation();
 	    this.helpNeeded = false;
 	}
 	/** Method signals to the system that help is needed at a customer station
@@ -77,11 +77,12 @@ public class SignalAttendantLogic extends AbstractLogicDependant{
 	               throw new IllegalStateException("Concurrent request: Help is already called.");
 	        }
 			getAssistance(station);
+			//TODO : logic.getMainGUI().getAttendantScreen(); // function in GUI, change colour.
 		}
 		else {
 			throw new InvalidArgumentSimulationException("This customer station is not supervised by this attendant station.");
 		}
-	}
+	}//this.getmaingui().attendescreengui  //initialize panels if needed // getters for panels // colour change
 	/** Method for the attendant to clear the customer's request once they have been helped
 	 * @param station should belong to superviseStations list
 	 * @exception InvalidArggumentSimulationException thrown if station not supervised by an attendee
@@ -90,6 +91,7 @@ public class SignalAttendantLogic extends AbstractLogicDependant{
         if (attendantStation.supervisedStations().contains(station)) {
         	if (isHelpNeeded()) {
         		clearAssistanceRequest(station);
+        		//TODO: connect to GUI
         	}
         } else {
             throw new InvalidArgumentSimulationException("The provided customer station is not supervised by this attendant station.");
