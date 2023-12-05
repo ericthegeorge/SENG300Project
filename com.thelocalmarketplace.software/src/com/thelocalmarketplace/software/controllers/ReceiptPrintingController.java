@@ -88,6 +88,10 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 		}
 		paymentRecord.append("=========================\n");
 
+		
+		//only used if no gui, for testing
+		int itemNumber = 0;
+		
 		// Iterate through each item in the cart, adding printing them on the receipt.
 		for (Entry<Item, Integer> entry : cartItems.entrySet()) {
 			Item item = entry.getKey();
@@ -103,8 +107,11 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
 			}
 
 			BigDecimal totalItemCost = price.multiply(new BigDecimal(quantity));
-			paymentRecord.append(logic.getMainGUI().getDescriptionOfItem(item).split("\\s+")[0]
- + "\n");
+			if (logic.getMainGUI() != null) paymentRecord.append(logic.getMainGUI().getDescriptionOfItem(item).split("\\s+")[0] + "\n");
+			else {
+				paymentRecord.append("Item "+itemNumber+":");
+				itemNumber++;
+			}
 			paymentRecord.append(" - Qty: ");
 			paymentRecord.append(quantity);
 			paymentRecord.append(", Unit Price: $");

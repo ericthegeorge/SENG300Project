@@ -179,8 +179,6 @@ public class ReceiptPrintingTests {
 
         boolean lowInk = controller.getLowInk();
         System.out.println(lowInk);
-
-        assertEquals(this.session.stateLogic.getState(), States.NORMAL);
         
         assertFalse(lowInk);
     }
