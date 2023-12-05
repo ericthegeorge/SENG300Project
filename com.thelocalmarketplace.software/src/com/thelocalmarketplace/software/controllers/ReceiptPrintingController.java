@@ -82,17 +82,16 @@ public class ReceiptPrintingController extends AbstractLogicDependant implements
         for (Entry<Item, Integer> entry : cartItems.entrySet()) {
             Item item = entry.getKey();
             Integer quantity = entry.getValue();
-            BigDecimal price = BigDecimal.ZERO;
+            BigDecimal price = new BigDecimal(logic.cartLogic.getReusableBagPrice());
             
             if (item instanceof BarcodedItem) {
             	BarcodedItem barcodedItem = (BarcodedItem) item;
             	BarcodedProduct product = ProductDatabases.BARCODED_PRODUCT_DATABASE.get(barcodedItem.getBarcode());
             	price = new BigDecimal(product.getPrice());
-            }
-            if (item instanceof PLUCodedItem) {
+            } else if (item instanceof PLUCodedItem) {
             	PLUCodedItem barcodedItem = (PLUCodedItem) item;
             	price = new BigDecimal(this.logic.addPLUCodedProductController.getPLUCodedItemPrice(barcodedItem));
-            }
+            } 
             
             BigDecimal totalItemCost = price.multiply(new BigDecimal(quantity));
             totalCost.add(totalItemCost);

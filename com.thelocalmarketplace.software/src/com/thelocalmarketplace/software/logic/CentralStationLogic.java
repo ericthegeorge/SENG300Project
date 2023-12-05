@@ -141,7 +141,10 @@ public class CentralStationLogic {
 	 * Instance of logic that handles item removal
 	 */
 	public RemoveItemLogic removeItemLogic;
-	
+	/**
+	 * Instance of logic that handles purchasing bags
+	 */
+	public PurchaseBagsLogic purchaseBagsLogic;
 	/**
 	 * Instance of the controller that handles weight discrepancy detected
 	 */
@@ -232,6 +235,7 @@ public class CentralStationLogic {
 		this.cartLogic = new CartLogic(this);
 		this.weightLogic = new WeightLogic(this);
 		this.stateLogic = new StateLogic(this);
+		this.purchaseBagsLogic = new PurchaseBagsLogic(this);
 
 		// Instantiate each controller
 		this.coinPaymentController = new CoinPaymentController(this);

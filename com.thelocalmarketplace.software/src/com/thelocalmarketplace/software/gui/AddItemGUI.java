@@ -349,6 +349,8 @@ public class AddItemGUI extends JFrame {
 	            updateReceipt();
  			}
  		});
+ 	   
+ 	   
         
         // Add the button panel to the upper box
         upperInnerBox.add(buttonPanel);
