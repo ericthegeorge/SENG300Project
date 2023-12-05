@@ -64,7 +64,7 @@ public class SignalAttendantLogic extends AbstractLogicDependant{
 	 */ 
 	public SignalAttendantLogic(CentralStationLogic logic) {
 		super(logic);
-		//TODO ?CAUSES PROJECT TO HALT this.attendantStation = new AttendantStation();
+		//this.attendantStation = new AttendantStation();
 	    this.helpNeeded = false;
 	}
 	/** Method signals to the system that help is needed at a customer station
