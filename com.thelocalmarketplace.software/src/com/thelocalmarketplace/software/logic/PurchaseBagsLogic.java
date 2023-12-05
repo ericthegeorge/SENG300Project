@@ -60,10 +60,12 @@ public class PurchaseBagsLogic extends AbstractLogicDependant{
 		super(logic);
 	}
 	
+
 	public void purchaseBags(int bagsToPurchase) {
 		if (!logic.isSessionStarted()) throw new InvalidStateSimulationException("Session has not started");
 		
 		this.logic.stateLogic.gotoState(States.ADDBAGS);
+
 
         for (int i = 0; i < bagsToPurchase; i++) {
             bagInstance = new ReusableBag();
