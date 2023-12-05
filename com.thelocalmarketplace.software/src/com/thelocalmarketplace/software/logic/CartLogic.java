@@ -100,6 +100,7 @@ public class CartLogic {
 	public void addProductToCart(ReusableBag item) {
 		Utilities.modifyCountMapping(cart, item, reusableBagPrice);
 		logic.weightLogic.addExpectedWeight(item.getMass());
+		System.out.println("added a bag, added expected weight:" +  item.getMass());
 	
 		BigDecimal newPrice = this.balanceOwed.add(new BigDecimal(reusableBagPrice));
 		this.updateBalance(newPrice);
