@@ -455,12 +455,12 @@ public class CentralStationLogic {
 
 		boolean lowInk = receiptPrintingController.getLowInk();
 		if (lowInk) {
-			attendantStationGUI.logic.setCircleColorYellow('I');
+			if(attendantStationGUI != null) attendantStationGUI.logic.setCircleColorYellow('I');
 			issueExists = true;
 		}
 		boolean lowPaper = receiptPrintingController.getLowPaper();
 		if (lowPaper) {
-			attendantStationGUI.logic.setCircleColorYellow('P');
+			if(attendantStationGUI != null) attendantStationGUI.logic.setCircleColorYellow('P');
 			issueExists = true;
 		}
 
@@ -468,11 +468,11 @@ public class CentralStationLogic {
 		for (Entry<BigDecimal, BanknoteDispenserController> entry : this.banknoteDispenserControllers.entrySet()) {
 			final BanknoteDispenserController controller = entry.getValue();
 			if(controller.shouldWarnEmpty()) {
-				attendantStationGUI.logic.setCircleColorRed('B');
+				if(attendantStationGUI != null) attendantStationGUI.logic.setCircleColorRed('B');
 				issueExists = true;
 			}
 			if(controller.shouldWarnFull()) {
-				attendantStationGUI.logic.setCircleColorGreen('B');
+				if(attendantStationGUI != null) attendantStationGUI.logic.setCircleColorGreen('B');
 				issueExists = true;
 			}
 		}
@@ -481,21 +481,24 @@ public class CentralStationLogic {
 		for (Entry<BigDecimal, CoinDispenserController> entry : this.coinDispenserControllers.entrySet()) {
 			final CoinDispenserController controller = entry.getValue();
 			if(controller.shouldWarnEmpty()) {
-				attendantStationGUI.logic.setCircleColorRed('C');
+				if(attendantStationGUI != null) attendantStationGUI.logic.setCircleColorRed('C');
 				issueExists = true;
 			}
 			if(controller.shouldWarnFull()) {
-				attendantStationGUI.logic.setCircleColorGreen('C');
+				if(attendantStationGUI != null) attendantStationGUI.logic.setCircleColorGreen('C');
 				issueExists = true;
 			}
 			else {
-				attendantStationGUI.logic.setCircleColorYellow('I');
-				attendantStationGUI.logic.setCircleColorYellow('P');
-				attendantStationGUI.logic.setCircleColorYellow('S');
-				attendantStationGUI.logic.setCircleColorYellow('C');
-				attendantStationGUI.logic.setCircleColorYellow('H');
-				attendantStationGUI.logic.setCircleColorYellow('B');
+				if(attendantStationGUI != null) {
+					attendantStationGUI.logic.setCircleColorYellow('I');
+					attendantStationGUI.logic.setCircleColorYellow('P');
+					attendantStationGUI.logic.setCircleColorYellow('S');
+					attendantStationGUI.logic.setCircleColorYellow('C');
+					attendantStationGUI.logic.setCircleColorYellow('H');
+					attendantStationGUI.logic.setCircleColorYellow('B');
+				}
 			}
+
 		}
 		return issueExists;
 	}
@@ -508,7 +511,7 @@ public class CentralStationLogic {
 	}
 	
 	public void setGUI(MainGUI g) {
-		attendantStationGUI = g.getAttendantScreen();    //check
+		attendantStationGUI = g.getAttendantScreen();
 		mainGUI = g;
 	}
 	public MainGUI getMainGUI() {

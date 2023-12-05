@@ -42,7 +42,7 @@ public class MaintainBanknotesLogic extends AbstractLogicDependant {
 	public void maintainBanknotesAttendant() {
 		this.logic.stateLogic.gotoState(States.SUSPENDED);
 		//Turn off the machine for Attendant to open the Hardware and adjust the needed requirements
-		this.logic.hardware.turnOff();
+		//this.logic.hardware.turnOff();
 		
 	}
 	
@@ -61,7 +61,4 @@ public class MaintainBanknotesLogic extends AbstractLogicDependant {
 			this.logic.stateLogic.gotoState(States.SUSPENDED);
 			}
 	}
-	
-	
-
 }

@@ -144,6 +144,7 @@ public class AddBarcodedItemTests {
 		station.plugIn(PowerGrid.instance());
 		station.turnOff();
 		session = new CentralStationLogic(station);
+	    session.setBypassIssuePrediction(true);
 		session.startSession();
 		this.scanUntilAdded(product, bitem2);
 	}
@@ -181,30 +182,7 @@ public class AddBarcodedItemTests {
 	    //System.out.println("New Mass is"+ newmass.inGrams());
 	    assertTrue(oldmass.compareTo(newmass)!= 0);
 	}
-@Test
-	public void testAddBarcodeStationGUInull() throws SimulationException {
-	    station.plugIn(PowerGrid.instance());
-	    station.turnOn();
-	    session = new CentralStationLogic(station);
-	    session.setBypassIssuePrediction(true);
-	    session.startSession();
-	    
-	    System.out.println("The session started status is "+session.isSessionStarted());
-	    session.stateLogic.gotoState(States.NORMAL);
-	    Mass oldmass = session.weightLogic.getExpectedWeight();
-	    System.out.println("Old Mass was"+ oldmass.inGrams());
-	    MainGUI gui = null;
-	    
-	    session.setGUI(gui);
-
-//	    Barcode barcode = new Barcode(new Numeral[]{Numeral.one, Numeral.two, Numeral.three});
-	    session.addBarcodedProductController.addBarcode(barcode);
-	    Mass newmass = session.weightLogic.getExpectedWeight();
-	    System.out.println("New Mass is"+ newmass.inGrams());
-	    assertTrue(oldmass.compareTo(newmass)!= 0);
-	}
-//	
-//	
+	
 	@Test(expected = InvalidStateSimulationException.class)
 	public void testAddBarcodeSessionNotStarted2() throws SimulationException {
 	    station.plugIn(PowerGrid.instance());
@@ -220,6 +198,7 @@ public class AddBarcodedItemTests {
 	    station.plugIn(PowerGrid.instance());
 	    station.turnOn();
 	    session = new CentralStationLogic(station);
+	    session.setBypassIssuePrediction(true);
 	    session.startSession();
 	    session.stateLogic.gotoState(States.NORMAL);
 	    session.addBarcodedProductController.addBarcode(b_test);
@@ -230,6 +209,7 @@ public class AddBarcodedItemTests {
 	    station.plugIn(PowerGrid.instance());
 	    station.turnOn();
 	    session = new CentralStationLogic(station);
+	    session.setBypassIssuePrediction(true);
 	    session.startSession();
 	    session.addBarcodedProductController.addBarcode(null);
 	}

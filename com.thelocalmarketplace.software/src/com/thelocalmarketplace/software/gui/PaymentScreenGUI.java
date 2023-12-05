@@ -192,7 +192,32 @@ public class PaymentScreenGUI {
             	if(logic.cartLogic.getBalanceOwed().intValue() == 0) {
                 	BigDecimal missed = logic.coinPaymentController.getMissed().add(logic.cashPaymentController.getMissed());
                 	logic.receiptPrintingController.handlePrintReceipt(missed);
-                    paymentPageFrame.dispose();
+                    
+                	// TODO: Implement Receipt popup
+                	JFrame receiptWindow = new JFrame("Customer Receipt");
+                    receiptWindow.setSize(400, 300); // Increased window size
+                    receiptWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
+                	
+                    JPanel receiptPanel = new JPanel();
+                    receiptPanel.setLayout(new BoxLayout(receiptPanel, BoxLayout.Y_AXIS));
+                	receiptPanel.setAlignmentX(Component.CENTER_ALIGNMENT);
+                	receiptPanel.setAlignmentY(Component.CENTER_ALIGNMENT);
+                    
+                    JLabel label = new JLabel(receipt);
+                    label.setAlignmentX(Component.CENTER_ALIGNMENT);
+                    label.setFont(new Font("Arial", Font.BOLD, 24)); // Increased font size
+                   
+                    String receipt = logic.receiptPrintingController.createPaymentRecord(new BigDecimal(0));
+                    String[] splitReceipt = receipt.split("\n");
+                    for(String line : splitReceipt) {
+                    	label = new JLabel(line);
+                        receiptPanel.add(label);
+                    }
+
+                    receiptWindow.add(receiptPanel);
+                    receiptWindow.setVisible(true);
+                	
+                	paymentPageFrame.dispose();
                     mainGUI.getCardLayout().show(mainGUI.getMainPanel(), "completion");
                     
             		new java.util.Timer().schedule( 
@@ -207,24 +232,7 @@ public class PaymentScreenGUI {
             		        7000 
             		);
             	}
-            	// TODO: Implement Receipt popup
-            	JFrame receiptWindow = new JFrame("Customer Receipt");
-                receiptWindow.setSize(400, 300); // Increased window size
-                receiptWindow.setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-            	
-                JPanel receiptPanel = new JPanel();
-                receiptPanel.setLayout(new BoxLayout(receiptPanel, BoxLayout.Y_AXIS));
-            	
-                JLabel label = new JLabel(receipt);
-                label.setAlignmentX(Component.CENTER_ALIGNMENT);
-                label.setFont(new Font("Arial", Font.BOLD, 24)); // Increased font size
-                receiptPanel.add(label);
-                
-                //label.setText(receipt);
-                receiptWindow.add(receiptPanel);
-                centerWindowOnFrame(receiptWindow, paymentPageFrame);
 
-                receiptWindow.setVisible(true);
             	
             }
         });

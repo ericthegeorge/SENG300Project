@@ -113,7 +113,6 @@ public class MainGUI {
         
     	station = s;
     	logic = new CentralStationLogic(station);
-    	logic.setGUI(this);
         mainFrame = new JFrame("Main GUI");
         mainPanel = new JPanel();
         mainCardLayout = new CardLayout();
@@ -144,6 +143,8 @@ public class MainGUI {
         
         attendantScreen = new AttendantStationGUI(this, logic);
         attendantPanel.add(attendantScreen.getPanel(), "attendant");
+        
+    	logic.setGUI(this);
         
         JButton switchButton = new JButton("Switch Screens");
         switchButton.addActionListener(new ActionListener() {
