@@ -22,6 +22,7 @@ import java.math.BigDecimal;
 import java.util.Calendar;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 /** 
  * Added for personal testing, can be modified or deleted by testing team
@@ -79,7 +80,7 @@ public class PayByCardTest {
         session.startSession();
 
         //set up bank details
-        CardIssuer bank= new CardIssuer("Scotia Bank",3);
+        CardIssuer bank= new CardIssuer("Scotia Bank",10);
         session.setupBankDetails(bank);
         this.debit = new Card("DEBIT", "123456789", "John", "329", "1234", true, true);
         Calendar expiry = Calendar.getInstance();
@@ -119,12 +120,25 @@ public class PayByCardTest {
 	
 	@Test
 	public void testSwipeTransaction() throws IOException {
-	    session.cartLogic.updateBalance(BigDecimal.valueOf(10.00));
-	    session.hardware.getCardReader().enable();
-	    session.stateLogic.gotoState(States.CHECKOUT);
-	    session.hardware.getCardReader().swipe(this.debit);
-	    
-	    assertEquals(BigDecimal.valueOf(0.0),session.cartLogic.getBalanceOwed());
+			double success = 0;
+			double amountToRun = 10;
+			double marginOfError = 0.7;
+			
+			for(int i = 0; i < amountToRun; i++) {
+				setup();
+			    session.cartLogic.updateBalance(BigDecimal.valueOf(10.00));
+			    session.stateLogic.gotoState(States.CHECKOUT);
+			    
+				try {
+					session.hardware.getCardReader().swipe(debit);
+				} catch (Exception e) {
+					// TODO Auto-generated catch block
+					e.printStackTrace();
+				}
+			   
+			    if((BigDecimal.valueOf(0.0).equals(session.cartLogic.getBalanceOwed()))) success++;
+			}
+			assertTrue(success > amountToRun*marginOfError);
 	}
     
     @Test

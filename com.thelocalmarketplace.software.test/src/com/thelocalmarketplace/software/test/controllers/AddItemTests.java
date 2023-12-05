@@ -8,11 +8,14 @@ import org.junit.Test;
 
 import com.jjjwelectronics.Mass;
 import com.jjjwelectronics.Numeral;
+import com.jjjwelectronics.bag.ReusableBag;
 import com.jjjwelectronics.scanner.Barcode;
 //import com.jjjwelectronics.scanner.BarcodeScanner;
 import com.jjjwelectronics.scanner.BarcodedItem;
 import com.thelocalmarketplace.hardware.AbstractSelfCheckoutStation;
 import com.thelocalmarketplace.hardware.BarcodedProduct;
+import com.thelocalmarketplace.hardware.PLUCodedProduct;
+import com.thelocalmarketplace.hardware.PriceLookUpCode;
 import com.thelocalmarketplace.hardware.Product;
 import com.thelocalmarketplace.hardware.SelfCheckoutStationBronze;
 import com.thelocalmarketplace.hardware.external.ProductDatabases;
@@ -123,6 +126,12 @@ public class AddItemTests {
 		bitem4 = new BarcodedItem(b_test, itemMass3);
 		itemMass5 = new Mass((double) 300.0);
 		bitem5 = new BarcodedItem(barcode2,itemMass5);
+		
+	    station.plugIn(PowerGrid.instance());
+	    station.turnOn();
+	    session = new CentralStationLogic(station);
+	    session.setBypassIssuePrediction(true);
+	    session.startSession();
 	}
 	
 	@After
@@ -150,13 +159,6 @@ public class AddItemTests {
 	}
 	@Test(expected = InvalidStateSimulationException.class)
 	public void testAddBarcodeStationBlocked() throws SimulationException {
-	    station.plugIn(PowerGrid.instance());
-	    station.turnOn();
-	    session = new CentralStationLogic(station);
-	    session.setBypassIssuePrediction(true);
-	    session.startSession();
-	    
-	    System.out.println("The session started status is "+session.isSessionStarted());
 	    session.stateLogic.gotoState(States.BLOCKED);
 
 //	    Barcode barcode = new Barcode(new Numeral[]{Numeral.one, Numeral.two, Numeral.three});
@@ -165,12 +167,6 @@ public class AddItemTests {
 	
 	@Test
 	public void testAddBarcodeStationNormal() throws SimulationException {
-	    station.plugIn(PowerGrid.instance());
-	    station.turnOn();
-	    session = new CentralStationLogic(station);
-	    session.setBypassIssuePrediction(true);
-	    session.startSession();
-	    
 	    System.out.println("The session started status is "+session.isSessionStarted());
 	    session.stateLogic.gotoState(States.NORMAL);
 	    Mass oldmass = session.weightLogic.getExpectedWeight();
@@ -195,23 +191,55 @@ public class AddItemTests {
 //
 	@Test(expected = InvalidStateSimulationException.class)
 	public void testAddBarcodeStationBlocked2() throws SimulationException {
-	    station.plugIn(PowerGrid.instance());
-	    station.turnOn();
 	    session = new CentralStationLogic(station);
 	    session.setBypassIssuePrediction(true);
 	    session.startSession();
 	    session.stateLogic.gotoState(States.NORMAL);
 	    session.addBarcodedProductController.addBarcode(b_test);
 	}
-//
+
 	@Test(expected = NullPointerException.class)
 	public void testAddNullBarcode2() throws SimulationException {
-	    station.plugIn(PowerGrid.instance());
-	    station.turnOn();
-	    session = new CentralStationLogic(station);
-	    session.setBypassIssuePrediction(true);
-	    session.startSession();
 	    session.addBarcodedProductController.addBarcode(null);
+		//dummy weight
+		station.getBaggingArea().addAnItem(new ReusableBag());
+	}
+	
+	@Test(expected = NullPointerException.class)
+	public void addNullPLU() {
+		session.addPLUCodedProductController.addPLUCode(null);
+		//dummy weight
+		station.getBaggingArea().addAnItem(new ReusableBag());
+	    
+	}
+	@Test(expected = InvalidStateSimulationException.class)
+	public void addPLUSessionNotStarted() {
+	    session = new CentralStationLogic(station);
+		session.addPLUCodedProductController.addPLUCode(new PriceLookUpCode("1111"));
+		//dummy weight
+		station.getBaggingArea().addAnItem(new ReusableBag());
+	}
+	@Test(expected = InvalidStateSimulationException.class)
+	public void addPLUStateBlocked() {
+	    session.stateLogic.gotoState(States.BLOCKED);
+		session.addPLUCodedProductController.addPLUCode(new PriceLookUpCode("1111"));
+		//dummy weight
+		station.getBaggingArea().addAnItem(new ReusableBag());
+	}
+	@Test(expected = InvalidStateSimulationException.class)
+	public void addPLUNotInDatabase() {
+		//PLU1111 does not have an associated product in the database.
+		session.addPLUCodedProductController.addPLUCode(new PriceLookUpCode("1111"));
+		//dummy weight
+		station.getBaggingArea().addAnItem(new ReusableBag());
+	}
+	@Test(expected = InvalidStateSimulationException.class)
+	public void addPLUNoInventory() {
+		//PLU1111 does not have any inventory in the product database.
+		ProductDatabases.PLU_PRODUCT_DATABASE.put(new PriceLookUpCode("1111"), new PLUCodedProduct(new PriceLookUpCode("1111"), "desc", 1));
+		session.addPLUCodedProductController.addPLUCode(new PriceLookUpCode("1111"));
+		//dummy weight
+		station.getBaggingArea().addAnItem(new ReusableBag());
 	}
 
 }

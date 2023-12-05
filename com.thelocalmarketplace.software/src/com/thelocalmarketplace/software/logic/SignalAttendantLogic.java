@@ -7,7 +7,6 @@ import ca.ucalgary.seng300.simulation.InvalidArgumentSimulationException;
 
 /**
  * @author Camila Hernandez (30134911)
- * --------------------------------
  * @author Alan Yong (30105707)
  * @author Andrew Matti (30182547)
  * @author Olivia Crosby (30099224)
