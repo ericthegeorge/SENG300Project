@@ -1,4 +1,4 @@
-Self-Checkout Simulator
+# Self-Checkout Simulator
 ## Abstract
 This project was made for the SENG300 Final Group Project. It attempts to emulate not only the software side involved in a regular self-checkout, but also the hardware side, the attendant side, and of course, the user side. 
 The goal is to emulate a virtual self-checkout system, as a learning proof of concept of the design processes in the 'real-world'. That is, we would receive more info from management and the hardware team as we created the project. We would have to meet the criteria the 
