@@ -19,7 +19,7 @@ Please find below an abridged version of the implemented features:
 
 Note that this was done with the Java Swing GUI framework, as the emphasis was on the logic more so than the UI.
 
-##Images
+## Images
 
 ![image](https://github.com/user-attachments/assets/7d06122f-499c-41b0-a39d-debb4539e408) <br/>
 *Initial welcome screen for customers* <br/>
